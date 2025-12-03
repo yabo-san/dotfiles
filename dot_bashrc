@@ -157,4 +157,3 @@ if [[ "$TERM" == "xterm" ]]; then
 fi
 #yabo edit
 set -o vi
-set -o vi
