@@ -157,3 +157,4 @@ if [[ "$TERM" == "xterm" ]]; then
 fi
 #yabo edit
 set -o vi
+eval "$(mise activate bash)"
