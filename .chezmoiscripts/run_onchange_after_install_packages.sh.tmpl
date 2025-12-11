@@ -1,20 +1,4 @@
 #!/bin/bash
 # packages hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
-
-# Determine which mise binary to use
-if command -v mise &>/dev/null; then
-    # mise is in PATH (likely installed via Homebrew)
-    MISE_BIN="$(command -v mise)"
-    echo "Using mise from: $MISE_BIN"
-elif [ -f "$HOME/.local/bin/mise" ]; then
-    # mise was downloaded to .local/bin
-    MISE_BIN="$HOME/.local/bin/mise"
-    echo "Using mise from: $MISE_BIN"
-else
-    echo "Error: mise not found in PATH or $HOME/.local/bin/mise"
-    exit 1
-fi
-
-# Run mise commands with the determined binary
-$MISE_BIN trust $HOME/.config/mise/config.toml && $MISE_BIN install
+$HOME/.local/bin/mise trust $HOME/.config/mise/config.toml && $HOME/.local/bin/mise install
 
