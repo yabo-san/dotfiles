@@ -39,6 +39,9 @@ export LANG="en_US.UTF-8"
 
 # ~~~~~~~~~~~~~~~ Mise ~~~~~~~~~~~~~~~~~~~~~~~~
 
+# needed to add homebrew mise to the path
+export PATH="/opt/homebrew/bin:$PATH"
+
 
 if command -v mise > /dev/null ; then
   eval "$($HOME/.local/bin/mise activate zsh)"
