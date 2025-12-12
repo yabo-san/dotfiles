@@ -15,6 +15,8 @@ brew install --cask zed
 brew install --cask rancher  
 brew install --cask devpod  
 brew install --cask gamemaker  
+brew install --cask blender  
+brew install --cask tiled  
 brew install --cask beeper  
 brew install --cask openemu  
 brew install --cask nuage  
