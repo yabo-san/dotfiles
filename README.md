@@ -12,6 +12,8 @@ brew install scroll-reverser
 brew install --cask visual-studio-code  
 brew install --cask raycast  
 brew install --cask zed  
+brew install --cask rancher  
+brew install --cask devpod  
 brew install --cask gamemaker  
 brew install --cask beeper  
 brew install --cask openemu  
