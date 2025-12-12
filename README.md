@@ -21,3 +21,6 @@ also a note on .chezmoiexternals/mise.toml.tmpl:
 this is a very linux/devcontainer oriented dotfiles setup so the idea is that chezmoi will skip installing mise on mac. it does this by checking for a hostname on line 1 except hostnames are weird on mac
 - typing 'hostname' in your terminal will append '.local' you dont want this
 - chezmoi execute-template '{{ .chezmoi.hostname }}' -> appends '%' prompt character
+
+heavily based on this [setup](https://www.skool.com/kubecraft/mise-devcontainers-dotfiles-a-developers-setup?p=8785e2d5)  
+also found [here](https://github.com/mischavandenburg/dotfiles-rio)
