@@ -9,6 +9,9 @@ brew install --cask iterm2
 brew install font-hack-nerd-font  
 brew install pure  
 brew install scroll-reverser  
+brew install --cask visual-studio-code  
+brew install --cask raycast  
+brew install --cask zed  
 brew install --cask gamemaker  
 brew install --cask beeper  
 brew install --cask openemu  
@@ -19,11 +22,19 @@ brew install --cask itch
 brew install --cask heroic  
 brew install --cask battle-net  
 brew install --cask discord  
+brew install --cask 8bitdo-ultimate-software  
 brew install --cask obsidian  
+brew install --cask logitech-g-hub  
 brew install --cask raindropio  
 brew install --cask plex  
+brew install --cask iina  
 brew install --cask arc  
 brew install --cask orion  
+brew install --cask ableton-live-suite  
+brew install --cask arturia-software-center  
+brew install --cask fightcade  
+brew install --cask transmission
+brew install --cask slippi-dolphin  
 
 THEN install [chezmoi](https://www.chezmoi.io/install/#one-line-package-install) (ordering is just a suggestion)
 
