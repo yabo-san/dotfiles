@@ -8,6 +8,22 @@ install [mise](https://mise.jdx.dev/getting-started.html) do not install using h
 brew install --cask iterm2  
 brew install font-hack-nerd-font  
 brew install pure  
+brew install scroll-reverser
+brew install --cask gamemaker
+brew install --cask beeper
+brew install --cask openemu
+brew install --cask nuage
+brew install nicotine-plus
+brew install --cask steam
+brew install --cask itch
+brew install --cask heroic
+brew install --cask battle-net
+brew install --cask discord
+brew install --cask obsidian
+brew install --cask raindropio
+brew install --cask plex
+brew install --cask arc
+brew install --cask orion
 
 THEN install [chezmoi](https://www.chezmoi.io/install/#one-line-package-install) (ordering is just a suggestion)
 
