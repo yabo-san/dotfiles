@@ -40,6 +40,8 @@ brew install --cask fightcade
 brew install --cask transmission
 brew install --cask slippi-dolphin  
 brew install --cask jdownloader
+brew install --cask macsyzones
+
 
 THEN install [chezmoi](https://www.chezmoi.io/install/#one-line-package-install) (ordering is just a suggestion)
 
