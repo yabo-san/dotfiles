@@ -5,6 +5,10 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
 
+setopt HIST_IGNORE_SPACE # dont save when prefixed with SPACE
+setopt HIST_IGNORE_DUPS # dont save duplicate lines
+setopt SHARE_HISTORY # share history between sessions
+
 
 # ~~~~~~~~~~~~~~~ Prompt ~~~~~~~~~~~~~~~~~~~~~~~~
 
