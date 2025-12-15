@@ -6,3 +6,5 @@ lsd = "latest"
 neovim = "latest"
 node = "latest"
 ripgrep = "latest"
+fd = "latest"      # better find command
+usage = "latest"   # for mise completion
