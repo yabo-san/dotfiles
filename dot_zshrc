@@ -90,3 +90,4 @@ if command -v lsd > /dev/null ; then
 fi
 alias k='kubectl'
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
+alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
