@@ -89,5 +89,8 @@ if command -v lsd > /dev/null ; then
   alias lt='ls --tree'
 fi
 alias k='kubectl'
+source <(kubectl completion bash)
+
+complete -o default -F __start_kubectl k
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
 alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
