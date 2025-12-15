@@ -58,3 +58,4 @@ this is a very linux/devcontainer oriented dotfiles setup so the idea is that ch
 
 heavily based on this [setup](https://www.skool.com/kubecraft/mise-devcontainers-dotfiles-a-developers-setup?p=8785e2d5)  
 also found [here](https://github.com/mischavandenburg/dotfiles-rio)
+also see: https://www.skool.com/kubecraft/classroom/1c6ab39e?md=a018c921401b4e0394d0971752ec43f8
