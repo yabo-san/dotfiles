@@ -93,4 +93,4 @@ source <(kubectl completion zsh)
 compdef __start_kubectl k
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
 alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
-alias sb='cd ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/sb'
+alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
