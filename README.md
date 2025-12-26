@@ -1,8 +1,8 @@
-The idea:
+# The idea:
 - chezmoi pulls and syncs dot files
 - mise installs whatever global packages you need
 
-notes on mac setup:
+## notes on mac setup:
 install [homebrew](https://brew.sh/)  
 install [mise](https://mise.jdx.dev/getting-started.html) do not install using homebrew !!!  
 brew install --cask iterm2  
@@ -41,6 +41,9 @@ brew install --cask transmission
 brew install --cask slippi-dolphin  
 brew install --cask jdownloader
 brew install --cask macsyzones
+### kubernetes tools 
+brew install --cask rancher
+brew install docker-credential-helper
 
 
 THEN install [chezmoi](https://www.chezmoi.io/install/#one-line-package-install) (ordering is just a suggestion)
@@ -57,5 +60,5 @@ this is a very linux/devcontainer oriented dotfiles setup so the idea is that ch
 - chezmoi execute-template '{{ .chezmoi.hostname }}' -> appends '%' prompt character
 
 heavily based on this [setup](https://www.skool.com/kubecraft/mise-devcontainers-dotfiles-a-developers-setup?p=8785e2d5)  
-also found [here](https://github.com/mischavandenburg/dotfiles-rio)
+also found [here](https://github.com/rio/dotfiles)
 also see: https://www.skool.com/kubecraft/classroom/1c6ab39e?md=a018c921401b4e0394d0971752ec43f8
