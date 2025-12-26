@@ -37,7 +37,7 @@ brew install --cask orion
 brew install --cask ableton-live-suite  
 brew install --cask arturia-software-center  
 brew install --cask fightcade  
-brew install --cask transmission
+brew install --cask transmission  
 brew install --cask slippi-dolphin  
 brew install --cask jdownloader  
 brew install --cask macsyzones  
