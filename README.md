@@ -7,12 +7,12 @@ install [homebrew](https://brew.sh/)
 install [mise](https://mise.jdx.dev/getting-started.html) do not install using homebrew !!!  
 brew install --cask iterm2  
 brew install font-hack-nerd-font  
+brew install --cask arc  
 brew install pure  
 brew install scroll-reverser  
 brew install --cask visual-studio-code  
 brew install --cask raycast  
 brew install --cask zed  
-brew install --cask rancher  
 brew install --cask devpod  
 brew install --cask gamemaker  
 brew install --cask blender  
@@ -39,10 +39,10 @@ brew install --cask arturia-software-center
 brew install --cask fightcade  
 brew install --cask transmission
 brew install --cask slippi-dolphin  
-brew install --cask jdownloader
-brew install --cask macsyzones
+brew install --cask jdownloader  
+brew install --cask macsyzones  
 ### kubernetes tools 
-brew install --cask rancher
+brew install --cask rancher  
 brew install docker-credential-helper
 
 
@@ -62,3 +62,12 @@ this is a very linux/devcontainer oriented dotfiles setup so the idea is that ch
 heavily based on this [setup](https://www.skool.com/kubecraft/mise-devcontainers-dotfiles-a-developers-setup?p=8785e2d5)  
 also found [here](https://github.com/rio/dotfiles)
 also see: https://www.skool.com/kubecraft/classroom/1c6ab39e?md=a018c921401b4e0394d0971752ec43f8
+
+TODO:  
+- figure out windows configuration management (glazewm yasb package manager)  
+- maybe try out a different window management / hotkey solution for mac  
+- backup raycast configuration even if it is encrypted  
+- go through twitter bookmarks and youtube watch later for processing in obsidian  
+- setup retroNAS and gamevault  
+- cleanup steam and playnite installation on desktop pc  
+- organize obsidian vault  
