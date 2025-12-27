@@ -41,6 +41,7 @@ brew install --cask transmission
 brew install --cask slippi-dolphin  
 brew install --cask jdownloader  
 brew install --cask macsyzones  
+brew install --cask alt-tab  
 ### kubernetes tools 
 brew install --cask rancher  
 brew install docker-credential-helper
