@@ -42,6 +42,7 @@ brew install --cask slippi-dolphin
 brew install --cask jdownloader  
 brew install --cask macsyzones  
 brew install --cask alt-tab  
+brew install flashspace  
 ### kubernetes tools 
 brew install --cask rancher  
 brew install docker-credential-helper
