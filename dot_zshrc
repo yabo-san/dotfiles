@@ -89,6 +89,7 @@ if command -v lsd > /dev/null ; then
   alias lt='ls --tree'
 fi
 alias k='kubectl'
+alias kgp='kubectl get pods'
 source <(kubectl completion zsh)
 compdef __start_kubectl k
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
