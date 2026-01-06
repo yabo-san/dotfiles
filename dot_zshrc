@@ -100,3 +100,6 @@ alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" = "iTerm.app" ]; then
     tmux attach -t default || tmux new -s default
 fi
+
+#fix for rdctl
+echo 'export PATH="/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin:$PATH"'
