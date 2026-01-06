@@ -102,4 +102,4 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" = "iTerm.
 fi
 
 #fix for rdctl
-echo 'export PATH="/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin:$PATH"'
+export PATH="/Applications/Rancher Desktop.app/Contents/Resources/resources/darwin/bin:$PATH"
