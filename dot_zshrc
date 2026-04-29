@@ -98,5 +98,5 @@ alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
 alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
 # Auto-start tmux (iTerm only)
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" = "iTerm.app" ]; then
-    tmux attach -t default || tmux new -s default
+    tmux -CC attach -t default || tmux -CC new -s default
 fi
