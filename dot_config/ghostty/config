@@ -29,6 +29,7 @@ keybind = ctrl+b>n=next_tab
 keybind = ctrl+b>p=previous_tab
 
 # Window
+initial-window = false
 window-decoration = false
 background-opacity = 0.92
 background-blur-radius = 20
