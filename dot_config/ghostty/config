@@ -10,6 +10,7 @@ quick-terminal-position = top
 quick-terminal-screen = main
 quick-terminal-animation-duration = 0
 keybind = global:grave_accent=toggle_quick_terminal
+keybind = ctrl+shift+alt+grave_accent=text:\x60
 
 # tmux-style splits (Ctrl+b leader, same as .tmux.conf)
 keybind = ctrl+b>shift+backslash=new_split:right
