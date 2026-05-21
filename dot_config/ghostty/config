@@ -9,7 +9,7 @@ theme = Catppuccin Mocha
 quick-terminal-position = top
 quick-terminal-screen = main
 quick-terminal-animation-duration = 0
-keybind = global:f12=toggle_quick_terminal
+keybind = global:grave_accent=toggle_quick_terminal
 
 # tmux-style splits (Ctrl+b leader, same as .tmux.conf)
 keybind = ctrl+b>shift+backslash=new_split:right
