@@ -7,7 +7,7 @@ theme = Catppuccin Mocha
 
 # Quick terminal (Quake mode) — tilde drops it over every app instantly
 quick-terminal-position = top
-quick-terminal-screen = main
+quick-terminal-screen = cursor
 quick-terminal-animation-duration = 0
 keybind = global:grave_accent=toggle_quick_terminal
 keybind = ctrl+shift+alt+grave_accent=text:\x60
