@@ -1,0 +1,313 @@
+{
+  "profiles" : [
+    {
+      "id" : "513A649F-7318-464C-98DC-931544D30010",
+      "name" : "Default",
+      "workspaces" : [
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "dev.zed.Zed",
+              "iconPath" : "/Applications/Zed.app/Contents/Resources/Zed.icns",
+              "name" : "Zed"
+            },
+            {
+              "bundleIdentifier" : "io.raindrop.macapp",
+              "iconPath" : "/Applications/Raindrop.io.app/Contents/Resources/icon.icns",
+              "name" : "Raindrop.io"
+            },
+            {
+              "bundleIdentifier" : "com.kagi.kagimacOS",
+              "iconPath" : "/Applications/Orion.app/Contents/Resources/AppIcon.icns",
+              "name" : "Orion"
+            },
+            {
+              "bundleIdentifier" : "company.thebrowser.Browser",
+              "iconPath" : "/Applications/Arc.app/Contents/Resources/AppIcon.icns",
+              "name" : "Arc"
+            },
+            {
+              "bundleIdentifier" : "com.anthropic.claudefordesktop",
+              "iconPath" : "/Applications/Claude.app/Contents/Resources/electron.icns",
+              "name" : "Claude"
+            },
+            {
+              "bundleIdentifier" : "com.microsoft.Word",
+              "iconPath" : "/Applications/Microsoft Word.app/Contents/Resources/Word_macOS.icns",
+              "name" : "Microsoft Word"
+            },
+            {
+              "bundleIdentifier" : "com.colliderli.iina",
+              "iconPath" : "/Applications/IINA.app/Contents/Resources/AppIcon.icns",
+              "name" : "IINA"
+            },
+            {
+              "bundleIdentifier" : "md.obsidian",
+              "iconPath" : "/Applications/Obsidian.app/Contents/Resources/icon.icns",
+              "name" : "Obsidian"
+            },
+            {
+              "bundleIdentifier" : "com.apple.Notes",
+              "iconPath" : "/System/Applications/Notes.app/Contents/Resources/AppIcon.icns",
+              "name" : "Notes"
+            },
+            {
+              "bundleIdentifier" : "com.apple.ScreenSharing",
+              "iconPath" : "/System/Applications/Utilities/Screen Sharing.app/Contents/Resources/AppIcon.icns",
+              "name" : "Screen Sharing"
+            },
+            {
+              "bundleIdentifier" : "es.produkt.app.panels",
+              "iconPath" : "/Applications/Panels.app/Contents/Resources/AppIcon.icns",
+              "name" : "Panels"
+            },
+            {
+              "bundleIdentifier" : "net.kovidgoyal.calibre",
+              "iconPath" : "/Applications/calibre.app/Contents/Resources/calibre.icns",
+              "name" : "calibre"
+            },
+            {
+              "bundleIdentifier" : "com.microsoft.teams2",
+              "iconPath" : "/Applications/Microsoft Teams.app/Contents/Resources/AppIcon.icns",
+              "name" : "Microsoft Teams"
+            },
+            {
+              "bundleIdentifier" : "com.hypixel.hytale.client",
+              "iconPath" : "/Users/yabosan/Library/Application Support/Hytale/install/release/package/game/latest/Client/Hytale.app/Contents/Resources/AppIcon.icns",
+              "name" : "Hytale"
+            },
+            {
+              "bundleIdentifier" : "com.mojang.minecraftlauncher",
+              "iconPath" : "/Applications/Minecraft.app/Contents/Resources/favicon.icns",
+              "name" : "Minecraft Launcher"
+            },
+            {
+              "bundleIdentifier" : "",
+              "name" : "java"
+            },
+            {
+              "bundleIdentifier" : "app.zen-browser.zen",
+              "iconPath" : "/Applications/Zen.app/Contents/Resources/firefox.icns",
+              "name" : "Zen"
+            },
+            {
+              "bundleIdentifier" : "com.microsoft.Excel",
+              "iconPath" : "/Applications/Microsoft Excel.app/Contents/Resources/Excel_macOS.icns",
+              "name" : "Microsoft Excel"
+            },
+            {
+              "bundleIdentifier" : "com.apple.finder",
+              "iconPath" : "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
+              "name" : "Finder"
+            }
+          ],
+          "assignAppShortcut" : "opt+shift+1",
+          "display" : "LG HDR WQHD",
+          "id" : "264501CE-AF54-4A1B-B3D9-FBDF1DBA1487",
+          "name" : "main",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+1",
+          "symbolIconName" : "cube.fill"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.tinyspeck.slackmacgap",
+              "iconPath" : "/Applications/Slack.app/Contents/Resources/electron.icns",
+              "name" : "Slack"
+            },
+            {
+              "bundleIdentifier" : "com.automattic.beeper.desktop",
+              "iconPath" : "/Applications/Beeper Desktop.app/Contents/Resources/icon.icns",
+              "name" : "Beeper"
+            },
+            {
+              "bundleIdentifier" : "com.apple.MobileSMS",
+              "iconPath" : "/System/Applications/Messages.app/Contents/Resources/AppIcon.icns",
+              "name" : "Messages"
+            },
+            {
+              "bundleIdentifier" : "com.fightcade2",
+              "iconPath" : "/Applications/FightCade2.app/Contents/Resources/icon.icns",
+              "name" : "Fightcade2"
+            },
+            {
+              "bundleIdentifier" : "com.hnc.Discord",
+              "iconPath" : "/Applications/Discord.app/Contents/Resources/electron.icns",
+              "name" : "Discord"
+            }
+          ],
+          "assignAppShortcut" : "opt+shift+2",
+          "display" : "Built-in Retina Display",
+          "id" : "C68E4EBF-1432-4BE1-9FAE-1781C3AA6141",
+          "name" : "texting",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+2",
+          "symbolIconName" : "message.fill"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "ch.laurinbrandner.nuage",
+              "iconPath" : "/Applications/Nuage.app/Contents/Resources/AppIcon.icns",
+              "name" : "Nuage"
+            },
+            {
+              "bundleIdentifier" : "org.nicotine_plus.Nicotine",
+              "iconPath" : "/Applications/Nicotine+.app/Contents/Resources/icon.icns",
+              "name" : "Nicotine+"
+            },
+            {
+              "bundleIdentifier" : "ru.alexfreud.ReAmp",
+              "iconPath" : "/Applications/Reamp.app/Contents/Resources/AppIcon.icns",
+              "name" : "Reamp"
+            },
+            {
+              "bundleIdentifier" : "com.ableton.live",
+              "iconPath" : "/Applications/Ableton Live 11 Suite.app/Contents/Resources/app.icns",
+              "name" : "Live"
+            },
+            {
+              "bundleIdentifier" : "com.mediahuman.Audio Converter",
+              "iconPath" : "/Applications/MediaHuman Audio Converter.app/Contents/Resources/favicon.icns",
+              "name" : "MediaHuman Audio Converter"
+            },
+            {
+              "bundleIdentifier" : "com.apple.Music",
+              "iconPath" : "/System/Applications/Music.app/Contents/Resources/AppIcon.icns",
+              "name" : "Music"
+            }
+          ],
+          "assignAppShortcut" : "opt+shift+3",
+          "display" : "Built-in Retina Display",
+          "id" : "5CFF26E4-C552-485C-BBAB-18E2C4BB1CB1",
+          "name" : "music",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+3",
+          "symbolIconName" : "music.note"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "org.aseprite.Aseprite",
+              "iconPath" : "/Applications/Aseprite.app/Contents/Resources/Aseprite.icns",
+              "name" : "Aseprite"
+            },
+            {
+              "bundleIdentifier" : "org.blenderfoundation.blender",
+              "iconPath" : "/Applications/Blender.app/Contents/Resources/blender_icon.icns",
+              "name" : "Blender"
+            },
+            {
+              "bundleIdentifier" : "com.electron.microstudio",
+              "iconPath" : "/Applications/microStudio.app/Contents/Resources/electron.icns",
+              "name" : "microStudio"
+            },
+            {
+              "bundleIdentifier" : "org.solarus-games.solarus-editor",
+              "iconPath" : "/Applications/Solarus Editor.app/Contents/Resources/solarus-editor.icns",
+              "name" : "Solarus Editor"
+            },
+            {
+              "bundleIdentifier" : "com.lexaloffle.pico8",
+              "iconPath" : "/Applications/PICO-8.app/Contents/Resources/pico8.icns",
+              "name" : "pico8"
+            },
+            {
+              "bundleIdentifier" : "com.lexaloffle.picotron",
+              "iconPath" : "/Applications/Picotron.app/Contents/Resources/picotron.icns",
+              "name" : "picotron"
+            },
+            {
+              "bundleIdentifier" : "com.lexaloffle.vox",
+              "iconPath" : "/Applications/Voxatron.app/Contents/Resources/vox.icns",
+              "name" : "vox"
+            },
+            {
+              "bundleIdentifier" : "com.yoyogames.gms2-beta",
+              "iconPath" : "/Applications/GameMaker Beta.app/Contents/Resources/icon.icns",
+              "name" : "GameMaker Beta"
+            },
+            {
+              "bundleIdentifier" : "com.yoyogames.gms2",
+              "iconPath" : "/Applications/GameMaker.app/Contents/Resources/icon.icns",
+              "name" : "GameMaker"
+            },
+            {
+              "bundleIdentifier" : "org.godotengine.godot",
+              "iconPath" : "/Applications/Godot_mono.app/Contents/Resources/Godot.icns",
+              "name" : "Godot"
+            },
+            {
+              "bundleIdentifier" : "org.mapeditor.Tiled",
+              "iconPath" : "/Applications/Tiled.app/Contents/Resources/tiled-icon-mac.icns",
+              "name" : "Tiled"
+            },
+            {
+              "bundleIdentifier" : "dev.gbstudio.gbstudio",
+              "iconPath" : "/Applications/GB Studio.app/Contents/Resources/electron.icns",
+              "name" : "gb-studio"
+            },
+            {
+              "bundleIdentifier" : "com.kristianduske.TrenchBroom",
+              "iconPath" : "/Applications/TrenchBroom.app/Contents/Resources/AppIcon.icns",
+              "name" : "TrenchBroom"
+            },
+            {
+              "bundleIdentifier" : "com.pico8_author.picocad",
+              "iconPath" : "/Applications/picocad.app/Contents/Resources/picocad.icns",
+              "name" : "picocad"
+            },
+            {
+              "bundleIdentifier" : "cc.yal.gmedit",
+              "iconPath" : "/Applications/GMEdit.app/Contents/Resources/icon.icns",
+              "name" : "GMEdit"
+            },
+            {
+              "bundleIdentifier" : "com.codeweavers.CrossOverHelper.0E03E4CF6BFCB1C935CCCAA955CDC60C.066DC9CF4ACF3B4C71E646DCCEDE23BA",
+              "iconPath" : "/Users/yabosan/Applications/CrossOver/MagicaVoxel.app/Contents/Resources/CrossOverHelper.icns",
+              "name" : "MagicaVoxel"
+            },
+            {
+              "bundleIdentifier" : "org.python.python",
+              "iconPath" : "/opt/homebrew/Cellar/python@3.14/3.14.2/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/Resources/PythonInterpreter.icns",
+              "name" : "Python"
+            },
+            {
+              "bundleIdentifier" : "com.google.Chrome",
+              "iconPath" : "/Applications/Google Chrome.app/Contents/Resources/app.icns",
+              "name" : "Google Chrome"
+            },
+            {
+              "bundleIdentifier" : "com.deepnight.ldtk",
+              "iconPath" : "/Applications/LDtk.app/Contents/Resources/icon.icns",
+              "name" : "LDtk"
+            },
+            {
+              "bundleIdentifier" : "com.apple.dt.Xcode",
+              "iconPath" : "/Applications/Xcode.app/Contents/Resources/Xcode.icns",
+              "name" : "Xcode"
+            },
+            {
+              "bundleIdentifier" : "org.openemu.OpenEmu.debug",
+              "iconPath" : "/Users/yabosan/Builds/openemu/main/Build/Products/Debug/OpenEmu.app/Contents/Resources/OpenEmu.icns",
+              "name" : "MiSTerMac"
+            },
+            {
+              "bundleIdentifier" : "com.openemu.BitDoPad",
+              "iconPath" : "/Users/yabosan/Applications/BitDoPad.app/Contents/Resources/BitDoPad.icns",
+              "name" : "BitDoPad"
+            }
+          ],
+          "assignAppShortcut" : "opt+shift+4",
+          "display" : "LG HDR WQHD",
+          "id" : "E0D66208-EE53-41A7-9A7A-D1570FE4BBAC",
+          "name" : "gamedev",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+4",
+          "symbolIconName" : "paintbrush.pointed"
+        }
+      ]
+    }
+  ]
+}

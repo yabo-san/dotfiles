@@ -97,6 +97,7 @@ alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
 alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
 alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
 
+unalias dormin 2>/dev/null
 dormin() {
   if [[ $# -eq 0 ]]; then
     claude --dangerously-skip-permissions --resume
