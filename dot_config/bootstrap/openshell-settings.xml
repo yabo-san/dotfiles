@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Settings component="StartMenu" version="4.4.198">
+	<MenuStyle value="Win7"/>
+	<ShiftClick value="Nothing"/>
+	<WinKey value="Nothing"/>
+	<ShiftWin value="ClassicMenu"/>
+	<SkinW7 value="Immersive"/>
+	<SkinVariationW7 value=""/>
+	<SkinOptionsW7>
+		<Line>LIGHT=0</Line>
+		<Line>DARK=0</Line>
+		<Line>AUTO=1</Line>
+		<Line>USER_IMAGE=1</Line>
+		<Line>USER_NAME=1</Line>
+		<Line>CENTER_NAME=1</Line>
+		<Line>SMALL_ICONS=0</Line>
+		<Line>OPAQUE=0</Line>
+		<Line>DISABLE_MASK=0</Line>
+		<Line>BLACK_TEXT=0</Line>
+		<Line>BLACK_FRAMES=0</Line>
+		<Line>TRANSPARENT_LESS=1</Line>
+		<Line>TRANSPARENT_MORE=0</Line>
+	</SkinOptionsW7>
+	<EnableStartButton value="1"/>
+	<StartButtonType value="AeroButton"/>
+	<CustomTaskbar value="0"/>
+	<TaskbarLook value="Transparent"/>
+	<SkipMetro value="1"/>
+</Settings>
