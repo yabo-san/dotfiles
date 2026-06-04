@@ -43,6 +43,51 @@ if (Get-Command zoxide -ErrorAction SilentlyContinue) {
 # history search, which is plenty. Same fast-PS / full-WSL split as starship.
 # fzf: Ctrl+T fuzzy file, Alt+C fuzzy cd (via PSFzf if installed; see below).
 
+# ~~~~~~~~~~~~~~~ yay — unified package manager (the Arch analogy) ~~~~~~~~~~~~~
+# pacman = scoop+winget (official tiers) ; AUR = chocolatey (community) ;
+# yay = this wrapper that hits all three so you forget which has what.
+# Priority: scoop (per-user, freshest, no admin) -> winget (official GUI apps)
+# -> choco (AUR-tier community fallback).
+#   yay <pkg>            install (first manager that has it wins)
+#   yay -S <pkg>         same (explicit install, pacman-style)
+#   yay -Ss <pkg>        search ALL managers
+#   yay -R <pkg>         remove (tries each)
+#   yay -Syu             upgrade everything across all managers
+function yay {
+    $op = $args[0]; $pkg = $args[1]
+    switch -Regex ($op) {
+        '^-Ss$' {  # search all
+            Write-Host "── scoop ──"  -ForegroundColor Cyan;    scoop search $pkg
+            Write-Host "── winget ──" -ForegroundColor Blue;    winget search $pkg
+            Write-Host "── choco (AUR) ──" -ForegroundColor Magenta; choco search $pkg
+            return
+        }
+        '^-Syu$' {  # upgrade everything
+            Write-Host "scoop update *..."  -ForegroundColor Cyan;  scoop update *
+            Write-Host "winget upgrade --all..." -ForegroundColor Blue; winget upgrade --all --silent
+            Write-Host "choco upgrade all..." -ForegroundColor Magenta; gsudo choco upgrade all -y
+            return
+        }
+        '^-R$' {  # remove — try each
+            scoop uninstall $pkg 2>$null; winget uninstall $pkg 2>$null; gsudo choco uninstall $pkg -y 2>$null
+            return
+        }
+        default {  # install: -S <pkg>, or bare `yay <pkg>`
+            $target = if ($op -eq '-S') { $pkg } else { $op }
+            if (-not $target) { Write-Host "usage: yay <pkg> | -Ss <pkg> | -R <pkg> | -Syu"; return }
+            Write-Host "trying scoop..." -ForegroundColor Cyan
+            scoop install $target; if ($?) { return }
+            Write-Host "scoop miss -> winget..." -ForegroundColor Blue
+            winget install --id $target -e --accept-package-agreements --accept-source-agreements
+            if ($?) { return }
+            Write-Host "winget miss -> choco (AUR-tier)..." -ForegroundColor Magenta
+            gsudo choco install $target -y
+        }
+    }
+}
+
+function pacman { yay @args }   # same wrapper, Arch muscle memory either name
+
 # ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function v   { nvim @args }
 function gp  { git pull @args }

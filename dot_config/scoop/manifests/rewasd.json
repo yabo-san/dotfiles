@@ -1,0 +1,56 @@
+{
+  "##": [
+    "MOCK / PERSONAL scoop manifest for reWASD — NOT for the official scoop bucket.",
+    "Every value tagged PLACEHOLDER below must be verified before this will install.",
+    "1) version: PLACEHOLDER — set to the real current reWASD version (check rewasd.com).",
+    "2) url/hash: PLACEHOLDER — reWASD has no openly published stable versioned download URL.",
+    "   Real installer is behind the download button on https://www.rewasd.com/ , historically",
+    "   under https://www.rewasd.com/uploads/... or a CDN host. Replace url, then run:",
+    "   scoop hash <url>  and paste the SHA256 into hash. Until then scoop refuses to install.",
+    "3) installer.args: PLACEHOLDER — likely Inno Setup; /VERYSILENT /SUPPRESSMSGBOXES /NORESTART",
+    "   is the typical Inno set but MUST be verified (NSIS=/S, MSI=/qn).",
+    "4) checkver/autoupdate: best-effort; verify regex + url against the live page.",
+    "License is Commercial / proprietary (paid) — this only automates install, not licensing."
+  ],
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "reWASD — advanced gamepad, keyboard and mouse remapper (commercial, proprietary).",
+  "homepage": "https://www.rewasd.com",
+  "license": {
+    "identifier": "Commercial",
+    "url": "https://www.rewasd.com/eula"
+  },
+  "architecture": {
+    "64bit": {
+      "url": "https://www.rewasd.com/uploads/PLACEHOLDER/rewasd_setup.exe#/dl.exe",
+      "hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "installer": {
+    "file": "dl.exe",
+    "args": ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART"]
+  },
+  "uninstaller": {
+    "file": "$dir\\unins000.exe",
+    "args": ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART"]
+  },
+  "shortcuts": [["reWASD\\reWASD.exe", "reWASD"]],
+  "bin": "reWASD\\reWASD.exe",
+  "persist": ["config", "profiles"],
+  "checkver": {
+    "url": "https://www.rewasd.com/",
+    "regex": "reWASD\\s*v?([\\d.]+)"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://www.rewasd.com/uploads/PLACEHOLDER/rewasd_setup_$version.exe#/dl.exe"
+      }
+    }
+  },
+  "notes": [
+    "reWASD is COMMERCIAL — installing does not license it. Launch reWASD and activate your subscription.",
+    "If install failed on a hash error, the url+hash are still placeholders — fill in the real download URL and its SHA256.",
+    "If reWASD did not appear, verify the silent flags — may be /S (NSIS) or /qn (MSI) instead of Inno /VERYSILENT.",
+    "reWASD installs a driver/service and may require a reboot for controller hiding."
+  ]
+}
