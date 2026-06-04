@@ -1,198 +1,205 @@
 {
     "apps": [
         {
-            "Version": "26.01",
-            "Updated": "2026-06-04T04:31:11.3012741-07:00",
             "Name": "7zip",
+            "Updated": "2026-06-04T04:31:11.3012741-07:00",
+            "Version": "26.01",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "18.16.1",
-            "Updated": "2026-06-04T05:22:32.894933-07:00",
             "Name": "atuin",
+            "Updated": "2026-06-04T05:22:32.894933-07:00",
+            "Version": "18.16.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "2.0.26",
-            "Updated": "2026-06-04T03:06:40.5188889-07:00",
             "Name": "autohotkey",
+            "Updated": "2026-06-04T03:06:40.5188889-07:00",
+            "Version": "2.0.26",
             "Source": "extras",
             "Info": ""
         },
         {
-            "Version": "0.26.1",
-            "Updated": "2026-06-04T02:57:11.9289627-07:00",
             "Name": "bat",
+            "Updated": "2026-06-04T02:57:11.9289627-07:00",
+            "Version": "0.26.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "1.0.5",
-            "Updated": "2026-06-04T05:51:46.2836915-07:00",
             "Name": "btop",
+            "Updated": "2026-06-04T05:51:46.2836915-07:00",
+            "Version": "1.0.5",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "2.70.5",
-            "Updated": "2026-06-04T03:45:28.8788017-07:00",
             "Name": "chezmoi",
+            "Updated": "2026-06-04T03:45:28.8788017-07:00",
+            "Version": "2.70.5",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "0.19.2",
-            "Updated": "2026-06-04T05:51:55.9522336-07:00",
             "Name": "delta",
+            "Updated": "2026-06-04T05:51:55.9522336-07:00",
+            "Version": "0.19.2",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "0.9.1",
-            "Updated": "2026-06-04T05:51:47.7269313-07:00",
             "Name": "duf",
+            "Updated": "2026-06-04T05:51:47.7269313-07:00",
+            "Version": "0.9.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "1.2.4",
-            "Updated": "2026-06-04T05:51:47.0325407-07:00",
             "Name": "dust",
+            "Updated": "2026-06-04T05:51:47.0325407-07:00",
+            "Version": "1.2.4",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "2.64.0",
-            "Updated": "2026-06-04T05:48:43.2373613-07:00",
             "Name": "fastfetch",
+            "Updated": "2026-06-04T05:48:43.2373613-07:00",
+            "Version": "2.64.0",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "10.4.2",
-            "Updated": "2026-06-04T02:57:04.4139736-07:00",
             "Name": "fd",
+            "Updated": "2026-06-04T02:57:04.4139736-07:00",
+            "Version": "10.4.2",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "0.73.1",
-            "Updated": "2026-06-04T02:57:03.88873-07:00",
             "Name": "fzf",
+            "Updated": "2026-06-04T02:57:03.88873-07:00",
+            "Version": "0.73.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "15.2.0",
-            "Updated": "2026-06-04T04:31:44.3074273-07:00",
             "Name": "gcc",
+            "Updated": "2026-06-04T04:31:44.3074273-07:00",
+            "Version": "15.2.0",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "5.36.1",
-            "Updated": "2026-06-04T05:51:56.7303594-07:00",
             "Name": "gdu",
+            "Updated": "2026-06-04T05:51:56.7303594-07:00",
+            "Version": "5.36.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "2.6.1",
-            "Updated": "2026-06-04T05:31:56.9538899-07:00",
             "Name": "gsudo",
+            "Updated": "2026-06-04T05:31:56.9538899-07:00",
+            "Version": "2.6.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "3.4.0",
-            "Updated": "2026-06-04T02:56:28.0204452-07:00",
             "Name": "Hack-NF",
+            "Updated": "2026-06-04T02:56:28.0204452-07:00",
+            "Version": "3.4.0",
             "Source": "nerd-fonts",
             "Info": ""
         },
         {
-            "Version": "1.36.1",
-            "Updated": "2026-06-04T05:31:10.434446-07:00",
             "Name": "kubectl",
+            "Updated": "2026-06-04T05:31:10.434446-07:00",
+            "Version": "1.36.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "0.62.2",
-            "Updated": "2026-06-04T02:57:04.9725646-07:00",
             "Name": "lazygit",
+            "Updated": "2026-06-04T02:57:04.9725646-07:00",
+            "Version": "0.62.2",
             "Source": "extras",
             "Info": ""
         },
         {
-            "Version": "1.2.0",
-            "Updated": "2026-06-04T04:16:26.933562-07:00",
             "Name": "lsd",
+            "Updated": "2026-06-04T04:16:26.933562-07:00",
+            "Version": "1.2.0",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "0.12.2",
-            "Updated": "2026-06-04T02:57:02.4022466-07:00",
             "Name": "neovim",
+            "Updated": "2026-06-04T02:57:02.4022466-07:00",
+            "Version": "0.12.2",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "1.12.7",
-            "Updated": "2026-06-04T05:59:07.3596666-07:00",
             "Name": "obsidian",
+            "Updated": "2026-06-04T05:59:07.3596666-07:00",
+            "Version": "1.12.7",
             "Source": "extras",
             "Info": ""
         },
         {
-            "Version": "0.14.11",
-            "Updated": "2026-06-04T05:51:48.3330507-07:00",
             "Name": "procs",
+            "Updated": "2026-06-04T05:51:48.3330507-07:00",
+            "Version": "0.14.11",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "15.1.0",
-            "Updated": "2026-06-04T02:57:03.3001332-07:00",
             "Name": "ripgrep",
+            "Updated": "2026-06-04T02:57:03.3001332-07:00",
+            "Version": "15.1.0",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "1.25.1",
-            "Updated": "2026-06-04T04:16:42.2878414-07:00",
             "Name": "starship",
+            "Updated": "2026-06-04T04:16:42.2878414-07:00",
+            "Version": "1.25.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "1.8.1",
-            "Updated": "2026-06-04T05:51:55.1160789-07:00",
             "Name": "tealdeer",
+            "Updated": "2026-06-04T05:51:55.1160789-07:00",
+            "Version": "1.8.1",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "0.26.9",
-            "Updated": "2026-06-04T04:33:19.1394006-07:00",
             "Name": "tree-sitter",
+            "Updated": "2026-06-04T04:33:19.1394006-07:00",
+            "Version": "0.26.9",
             "Source": "main",
             "Info": ""
         },
         {
-            "Version": "20240203-110809-5046fc22",
-            "Updated": "2026-06-04T02:56:27.0315474-07:00",
             "Name": "wezterm",
+            "Updated": "2026-06-04T02:56:27.0315474-07:00",
+            "Version": "20240203-110809-5046fc22",
             "Source": "extras",
             "Info": ""
         },
         {
-            "Version": "0.9.9",
-            "Updated": "2026-06-04T05:22:31.4962568-07:00",
+            "Name": "windhawk",
+            "Updated": "2026-06-04T07:01:08.2833846-07:00",
+            "Version": "1.7.3",
+            "Source": "extras",
+            "Info": ""
+        },
+        {
             "Name": "zoxide",
+            "Updated": "2026-06-04T05:22:31.4962568-07:00",
+            "Version": "0.9.9",
             "Source": "main",
             "Info": ""
         }
