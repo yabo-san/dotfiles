@@ -240,8 +240,8 @@ window_rules:
       - window_process: { equals: 'CalculatorApp' }     # Calculator
       - window_process: { equals: 'speedcrunch' }       # SpeedCrunch calculator
       - window_process: { equals: 'SystemInformer' }    # System Informer (Task Mgr replacement)
-      - window_process: { equals: 'i_view64' }          # IrfanView image viewer
       - window_process: { regex: 'NanaZip' }            # NanaZip archive manager
+      - window_process: { equals: 'logioptionsplus' }   # Logi Options+ (mouse/keyboard config)
       # ShareX MAIN window only (title has version, e.g. "ShareX 20.2 Portable");
       # title regex avoids tiling the capture overlay / annotation editor.
       - window_process: { equals: 'ShareX' }
