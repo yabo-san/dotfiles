@@ -1,0 +1,7 @@
+# bat config (read via XDG_CONFIG_HOME=~/.config)
+# Make `cat` (aliased to bat) behave like cat: print and return, never page.
+--paging=never
+# nice default style: line numbers + grid + header (the "prints nice" look)
+--style=numbers,changes,header
+# theme — ansi adapts to the terminal's Catppuccin colors
+--theme=ansi

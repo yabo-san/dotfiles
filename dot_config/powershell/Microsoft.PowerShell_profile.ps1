@@ -28,6 +28,9 @@ $env:LANG = "en_US.UTF-8"
 $env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
 $env:XDG_DATA_HOME   = "$env:USERPROFILE\.local\share"
 $env:XDG_CACHE_HOME  = "$env:USERPROFILE\.cache"
+# bat looks at the scoop app dir by default — point it at our tracked config
+# (so `cat`=bat never pages and uses our style). Without this it hangs on long files.
+$env:BAT_CONFIG_PATH = "$env:USERPROFILE\.config\bat\config"
 
 # ~~~~~~~~~~~~~~~ Shell trio: zoxide + atuin + fzf ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Both init scripts are slow to GENERATE (zoxide ~225ms, atuin ~500ms) but the
@@ -116,7 +119,11 @@ function brew {
 function top    { btop @args }       # gorgeous system monitor
 function du     { dust @args }       # visual disk tree
 function df     { duf @args }        # pretty disk free
-function ps     { procs @args }      # modern process list  (PS's own ps was Get-Process)
+# `ps` is a built-in ALIAS (-> Get-Process) that shadows a function — remove it
+# first so our procs mapping actually wins (same fix as cat/ls).
+Remove-Alias ps -Force -ErrorAction SilentlyContinue
+Remove-Item Alias:ps -Force -ErrorAction SilentlyContinue
+function ps     { procs @args }      # modern process list
 # tldr + delta + gdu used by their own names. delta is wired as git pager below.
 
 # yazi — terminal file manager (the "terminal Finder"). `y` opens it, and on

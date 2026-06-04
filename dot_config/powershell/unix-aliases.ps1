@@ -83,7 +83,13 @@ function wc {
     switch ($mode) { 'l' { $lines } 'w' { $words } 'c' { $chars } default { "$lines $words $chars" } }
 }
 
-# grep → ripgrep (rg), find → fd are installed separately (modern replacements).
+# grep → ripgrep. rg's flags mostly superset grep; recursive + gitignore-aware
+# by default. (find stays as Windows find.exe; use `fd` for unix-style find.)
+if (Get-Command rg -ErrorAction SilentlyContinue) { function grep { rg @args } }
+
+# wget → curl-based download (real wget isn't installed). `wget <url>` saves the
+# file to cwd, like wget's default. For full wget, `scoop install wget`.
+function wget { curl -L -O @args }
 
 # ─────────────────────────────────────────────────────────────────────────────
 # NOTE: for FULL real GNU coreutils (proper `rm -rf`, `cp -a`, `ls --color`, the
