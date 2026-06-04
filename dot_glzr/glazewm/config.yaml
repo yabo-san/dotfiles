@@ -181,10 +181,11 @@ window_rules:
       - window_process: { equals: 'Playnite.DesktopApp' }
       # Media players
       - window_process: { regex: 'vlc|Plex|FreeTube' }
-      # 7-Zip File Manager + File Explorer
+      # 7-Zip File Manager + File Explorer + File Pilot
       - window_process: { equals: '7zFM' }
       - window_process: { equals: 'explorer' }
         window_class: { equals: 'CabinetWClass' }
+      - window_process: { equals: 'FPilot' }   # File Pilot (fast file manager)
       # Office main windows only (helper/tooltip windows float on their own)
       - window_process: { equals: 'EXCEL' }
         window_class: { equals: 'XLMAIN' }

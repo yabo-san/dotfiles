@@ -17,3 +17,8 @@ Windows Registry Editor Version 5.00
 ; cleanly here — toggle it in Settings (see WINDOWS-REGISTRY.md step 1).
 ;
 ; NOTE: EnableAutoTray intentionally NOT set (we don't use the Windows tray).
+
+; Classic (Win10) right-click context menu on Win11 — replaces the Windhawk mod
+; (Windhawk was uninstalled; it crashed File Pilot via DLL injection)
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32]
+@=""
