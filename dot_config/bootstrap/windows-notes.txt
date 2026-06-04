@@ -1,0 +1,79 @@
+================================================================================
+ WINDOWS NOTES — yabo's "coming home to Windows" setup (single reference)
+ One repo (yabo-san/dotfiles), OS-gated via .chezmoiignore. dot_ = a dotfile.
+================================================================================
+
+------------------------------------------------------------------- THE STACK --
+ WM .......... GlazeWM (opt-in tiling)   ~/.glzr/glazewm/config.yaml
+ Bar ......... YASB (taskbar auto-hidden) ~/.config/yasb/{config.yaml,styles.css}
+ Terminal .... WezTerm + AHK quake (`)    ~/.config/wezterm/  + scripts/wezterm/
+ Shell ....... PowerShell (zsh parity)    ~/.config/powershell/{profile,unix-aliases}.ps1
+ Files ....... yazi (y) · File Pilot (GUI) · Win+E (Explorer)
+ Git ......... lazygit (lg) + delta       ~/.config/lazygit/ + ~/.gitconfig
+ Launcher .... Raycast (+ Win+L bridge, see below)
+ Prompt ...... native Pure-style (fast); starship reserved for WSL
+
+------------------------------------------------------ PACKAGE MANAGEMENT -------
+ scoop = DEFAULT (per-user, NO UAC). winget = fallback (UAC for system-wide apps).
+ choco = kept but empty, AUR-tier last resort. NEVER needed gsudo except choco.
+ `brew` wrapper (in profile) = one command over all: scoop -> winget -> msstore -> choco.
+   brew install <x> | brew search <x> | brew upgrade | brew uninstall <x>
+ Buckets (scoop): main, extras, games, nerd-fonts, nonportable.
+ Browse apps:  scoopsearch.app  ·  winstall.app  ·  community.chocolatey.org
+ Manifests (auto-captured, in this folder):
+   scoopfile.json        -> scoop import
+   winget-packages.json  -> winget import
+   msstore-apps.md        (Store IDs: Cider 9PL8WPH0QK9M, iCloud 9PKTQ5699M62,
+                           EarTrumpet 9NBLGGH516XP, TranslucentTB 9PF4KZ2VN4W9)
+ Unix commands: hand-rolled in unix-aliases.ps1. SIDESTEP = `scoop install
+   uutils-coreutils` for real GNU cp/mv/rm/etc. (can shadow PS built-ins).
+
+------------------------------------------------ BOOTSTRAP A FRESH MACHINE ------
+ 1. Log into Microsoft, set the account name to "yabo" (-> C:\Users\yabo).
+ 2. Install scoop, add buckets (extras, games, nerd-fonts, nonportable).
+ 3. scoop import scoopfile.json   +   winget import winget-packages.json
+ 4. MS Store apps: install the IDs in msstore-apps.md (--source msstore).
+ 5. chezmoi init --apply yabo-san/dotfiles
+ 6. Apply windows-tweaks.reg (lock-disable, classic context menu, taskbar).
+ 7. MANUAL (can't script): auto-hide taskbar (Settings), Raycast Win+L binding,
+    app logins, the few non-packaged apps (Ableton, reWASD — rewasd.json manifest).
+
+----------------------------------------------------- REGISTRY / MANUAL STEPS --
+ windows-tweaks.reg applies:
+  - DisableLockWorkstation=1  -> frees Win+L so Raycast can bind it (the bridge).
+  - Classic (Win10) right-click context menu on Win11:
+      HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32
+    (empty value). Revert: delete that CLSID key. This REPLACED Windhawk, which
+    was uninstalled because it crashed File Pilot via DLL injection.
+  - MMTaskbarEnabled etc.
+ Manual: taskbar auto-hide is a binary blob (Settings > Taskbar behaviors).
+
+ WIN+L BRIDGE (move window right):
+  - lwin+shift+l = GlazeWM native move-right (bulletproof fallback, always works).
+  - Win+L = Raycast captures it -> glaze-move-right.ps1 -> GlazeWM CLI.
+  - REQUIRES DisableLockWorkstation=1 (else Win+L just locks). Tested necessary.
+  - Re-add the Win+L binding in Raycast by hand on a fresh machine.
+
+------------------------------------------------------------------ GOTCHAS ------
+ - find.exe HYDRATES OneDrive: Windows find.exe is a *content* search; scanning
+   reads cloud-only files and DOWNLOADS them (fills the disk). FIX: `find` is
+   aliased to `fd` (name-only, no content read). Also avoid recursive scans
+   (Get-ChildItem -Recurse, lastmod) inside ~/OneDrive. Dehydrate to reclaim:
+   attrib +U -P /s /d "D:\OneDrive\*"  (= OneDrive "Free up space", safe/reversible).
+ - PowerShell built-in ALIASES shadow functions: cat/ls/ps had to be Remove-Alias'd
+   before defining the function. If a unix command "doesn't work," check for a
+   built-in alias shadowing it (Get-Command <x> shows the type).
+ - bat (`cat`) PAGES long files and looks hung: fixed via ~/.config/bat/config
+   (--paging=never) + BAT_CONFIG_PATH env (scoop bat ignores ~/.config otherwise).
+   Bare `cat` (no file) waiting on stdin is CORRECT unix behavior (Ctrl+C/Ctrl+D).
+ - GlazeWM: opt-in tiling (float by default, allowlist tiles) because of games.
+   Core native Windows apps (Snipping Tool, Settings, Notepad...) ARE allowlisted.
+ - Identity: "yabo" lives in the prompt + fastfetch; OS account rename happens at
+   the factory reset (C:\Users\senio -> C:\Users\yabo). Dotfiles use ~ / $env vars
+   so they survive the rename.
+
+------------------------------------------------------- CROSS-PLATFORM (mac) ----
+ Same repo serves mac: Brewfile, dot_zshrc, dot_config/aerospace/aerospace.toml
+ (mac tiling, mirrors the glaze keymap). Trio + CLI pack + yazi + lazygit + delta
+ all ported both ways. `open` is native on mac (not aliased there).
+================================================================================

@@ -83,9 +83,14 @@ function wc {
     switch ($mode) { 'l' { $lines } 'w' { $words } 'c' { $chars } default { "$lines $words $chars" } }
 }
 
-# grep → ripgrep. rg's flags mostly superset grep; recursive + gitignore-aware
-# by default. (find stays as Windows find.exe; use `fd` for unix-style find.)
+# grep → ripgrep. rg's flags mostly superset grep; recursive + gitignore-aware.
 if (Get-Command rg -ErrorAction SilentlyContinue) { function grep { rg @args } }
+
+# find → fd. CRITICAL: Windows find.exe is a *content* search (reads every file),
+# which HYDRATES OneDrive cloud-only files (downloads them, fills the disk). fd
+# matches by NAME only — never reads content — so it can't trigger downloads.
+# This both gives unix-find behavior AND stops the OneDrive hydration problem.
+if (Get-Command fd -ErrorAction SilentlyContinue) { function find { fd @args } }
 
 # wget → curl-based download (real wget isn't installed). `wget <url>` saves the
 # file to cwd, like wget's default. For full wget, `scoop install wget`.
