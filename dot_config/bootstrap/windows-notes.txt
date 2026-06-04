@@ -117,3 +117,13 @@ it. The robust fix: AutoHotkey intercepts it (quake-hotkey.ahk: `#+s::` runs Sha
 Also removed the Snip & Sketch app for good measure:
   Get-AppxPackage *ScreenSketch* | Remove-AppxPackage
 ShareX hotkeys otherwise: PrtSc=all screens, Ctrl+PrtSc=region.
+
+--- PowerShell modules must live OFF OneDrive ---
+Documents is OneDrive-redirected, so the default PS module path
+(Documents\PowerShell\Modules) gets sync-LOCKED -> Import-Module fails with
+0x80070020 "file in use" (PSFzf hit this). FIX (already in the profile): it
+prepends $env:LOCALAPPDATA\PowerShell\Modules to $env:PSModulePath. On a fresh
+machine, install user modules THERE, not the default:
+  Save-Module PSFzf -Path "$env:LOCALAPPDATA\PowerShell\Modules"
+(Also: moving files INTO/OUT of OneDrive hydrates them = a one-time download.
+ That is the move reading cloud files, NOT the find.exe issue, which stays fixed.)
