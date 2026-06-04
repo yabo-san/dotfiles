@@ -197,7 +197,7 @@ window_rules:
   # --- Workspace 2: TEXTING (Acer) — chat ---
   - commands: ['set-tiling', 'move --workspace 2']
     match:
-      - window_process: { regex: 'DiscordPTB|Discord|Vesktop|Slack|Telegram|Beeper' }
+      - window_process: { regex: 'DiscordPTB|Discord|Vesktop|Slack|Telegram|Beeper|Proton Mail' }
 
   # --- Workspace 3: MUSIC (Acer) — music + soulseek ---
   - commands: ['set-tiling', 'move --workspace 3']
