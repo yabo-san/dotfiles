@@ -40,9 +40,10 @@ function Initialize-CachedInit($cmd, $args, $cacheName) {
     }
     if ((Get-Item $cache -EA SilentlyContinue).Length -gt 0) { . $cache }
 }
-# zoxide: smart cd. `z wez` jumps to ~/.config/wezterm by frecency; `zi` = pick.
+# zoxide: smart cd. --cmd cd makes `cd` ITSELF frecency-aware: `cd repos` jumps
+# to D:\repos from anywhere, `cd ~/x` still works literally, `cdi` = interactive.
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
-    Initialize-CachedInit 'zoxide' @('init','powershell') 'zoxide-init.ps1'
+    Initialize-CachedInit 'zoxide' @('init','powershell','--cmd','cd') 'zoxide-init.ps1'
 }
 # atuin: magic shell history — Ctrl+R full-screen fuzzy search, synced across
 # machines. (~200ms init cost; you opted to keep it in PowerShell too.)
