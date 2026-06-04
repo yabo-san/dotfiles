@@ -54,10 +54,14 @@ Windows / WSL). Goal: factory reset → one command → fully wired.
 
 ## Files
 - **yazi** (`y`) — terminal file manager, cd-on-quit, previews (poppler/ffmpeg/
-  imagemagick). Cross-platform.
-- **File Pilot** — fast GUI file manager (tiled by glaze, process `FPilot`).
+  imagemagick). Open source, cross-platform. The daily driver.
+- **File Pilot** (`Voidstar.FilePilot`, winget) — fast GUI file manager (tiled by
+  glaze, process `FPilot`). Proprietary but fairly-licensed (pay-for-a-year-of-
+  updates, keep forever) AND winget-managed, so it's reproducible.
 - **Win+E** — stock Explorer. Classic right-click menu via registry
   (see `classic-context-menu-and-windhawk.md` — Windhawk removed, it crashed FilePilot).
+- (Tried `FilesCommunity.Files` — open-source GUI FM — but it's sluggish/UWP-feel,
+  uninstalled. yazi covers the open-source need; File Pilot covers fast-GUI.)
 
 ## Git — lazygit + delta
 - `lg` = lazygit (Catppuccin, `~/.config/lazygit/config.yml`).
