@@ -43,6 +43,12 @@ Windows / WSL). Goal: factory reset → one command → fully wired.
 - **CLI pack**: btop(top) · dust(du) · duf(df) · procs(ps) · gdu · tldr · delta ·
   bat(cat) · lsd(ls) · ripgrep · fd · fastfetch(ff).
 - Aliases: v=nvim, gp/gs, lg=lazygit, k=kubectl (lazy completion).
+- **Unix commands**: `unix-aliases.ps1` hand-rolls the gaps (open/touch/which/
+  head/tail/wc/pbcopy/pbpaste/export/sudo/mkcd). **SIDESTEP:** all of this can be
+  replaced by `scoop install uutils-coreutils` — a Rust GNU-coreutils port that
+  gives real `cp`/`mv`/`rm -rf`/`head`/`ls --color`/etc. with proper unix flags.
+  We hand-rolled instead (it can shadow PowerShell built-ins), but coreutils is
+  the one-command way to get true unix commands if preferred.
 
 ## Package management — scoop-first, `brew` wrapper
 - **scoop** is primary (per-user, no UAC). Manifest: `bootstrap/scoopfile.json`.
