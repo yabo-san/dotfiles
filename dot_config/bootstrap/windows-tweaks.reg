@@ -22,3 +22,10 @@ Windows Registry Editor Version 5.00
 ; (Windhawk was uninstalled; it crashed File Pilot via DLL injection)
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32]
 @=""
+
+; Strip the Notification Center (Win+N panel / action center) + toast popups
+; YASB provides system info; the Win11 notification center is redundant.
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer]
+"DisableNotificationCenter"=dword:00000001
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications]
+"ToastEnabled"=dword:00000000
