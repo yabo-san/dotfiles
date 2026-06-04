@@ -117,6 +117,16 @@ function df     { duf @args }        # pretty disk free
 function ps     { procs @args }      # modern process list  (PS's own ps was Get-Process)
 # tldr + delta + gdu used by their own names. delta is wired as git pager below.
 
+# yazi — terminal file manager (the "terminal Finder"). `y` opens it, and on
+# quit your shell cd's to wherever you browsed (the killer feature).
+function y {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi $args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp -EA SilentlyContinue
+    if ($cwd -and $cwd -ne $PWD.Path) { Set-Location -LiteralPath $cwd }
+    Remove-Item -Path $tmp -EA SilentlyContinue
+}
+
 # ~~~~~~~~~~~~~~~ fetch / greeting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ff  { fastfetch @args }
 function neofetch { fastfetch @args }
