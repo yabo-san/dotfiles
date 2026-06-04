@@ -28,3 +28,7 @@ Windows Registry Editor Version 5.00
 ; (Do NOT set DisableNotificationCenter — it kills the backend YASB reads.)
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications]
 "ToastEnabled"=dword:00000000
+
+; Ctrl+Shift+Esc / all Task Manager invocations -> System Informer (IFEO debugger)
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe]
+"Debugger"="C:\\Users\\senio\\scoop\\apps\\systeminformer\\current\\SystemInformer.exe"

@@ -239,6 +239,9 @@ window_rules:
       - window_process: { equals: 'regedit' }
       - window_process: { equals: 'CalculatorApp' }     # Calculator
       - window_process: { equals: 'speedcrunch' }       # SpeedCrunch calculator
+      - window_process: { equals: 'SystemInformer' }    # System Informer (Task Mgr replacement)
+      - window_process: { equals: 'i_view64' }          # IrfanView image viewer
+      - window_process: { regex: 'NanaZip' }            # NanaZip archive manager
       # Download managers not tied to a workspace. JDownloader caveat: its
       # window is often owned by javaw.exe — if it floats, that's why (we don't
       # allowlist 'java*' or every Java GAME would tile).
