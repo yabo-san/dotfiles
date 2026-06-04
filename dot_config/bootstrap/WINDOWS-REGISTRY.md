@@ -54,4 +54,14 @@ These have no config file and must be redone by hand on a fresh machine:
 - **Raycast hotkey bindings** — stored in Raycast's encrypted SQLite. Re-add: Settings → Extensions → Script Commands → add `~/.config/scripts/raycast` → bind `Win+L` to "Glaze Move Right".
 - **App logins / auth** — Discord, Steam, browsers, etc. Inherently manual.
 - **Windows account / username** — the OS account stays whatever it is; "yabo" identity lives in the shell prompt, not the OS (see prompt config).
-- **Apps with no scoop/winget package** — emudeck, slippi-launcher, aseprite(Steam), gamemaker, elgato utils → install manually (URLs in the bootstrap manifest notes).
+- **Apps with no scoop/winget/choco package — install manually (download + license/auth):**
+  | App | Where | Notes |
+  |-----|-------|-------|
+  | Ableton Live (Suite, current) | ableton.com | winget only has v10; license auth manual anyway |
+  | reWASD | rewasd.com | commercial controller remapper, no pkg manager |
+  | EmuDeck | emudeck.com | |
+  | Slippi Launcher | slippi.gg | |
+  | Aseprite | Steam (or compile) | you own it on Steam |
+  | GameMaker (modern) | gamemaker.io | GMS 1.4 = local installer |
+  | Elgato 4K Capture / Camera Hub | elgato.com | |
+  Everything else: `scoop import scoopfile.json` + `winget import winget-packages.json`.
