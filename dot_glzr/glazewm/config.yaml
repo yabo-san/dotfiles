@@ -227,6 +227,17 @@ window_rules:
       # yabo-ui — your launcher (Tauri). ShaderGlass + games it launches stay
       # floating/ignored; only the launcher UI tiles.
       - window_process: { equals: 'yabo-ui' }
+      # Core native Windows apps — safe to tile (opt-in is for games/junk, not
+      # first-party Windows tools). Tile wherever opened.
+      - window_process: { equals: 'SnippingTool' }      # Snipping Tool
+      - window_process: { equals: 'ScreenSketch' }      # Snip & Sketch (newer)
+      - window_process: { equals: 'notepad' }
+      - window_process: { equals: 'wordpad' }
+      - window_process: { equals: 'mspaint' }
+      - window_process: { equals: 'SystemSettings' }    # Settings app
+      - window_process: { equals: 'Taskmgr' }           # Task Manager
+      - window_process: { equals: 'regedit' }
+      - window_process: { equals: 'CalculatorApp' }     # Calculator
       # Download managers not tied to a workspace. JDownloader caveat: its
       # window is often owned by javaw.exe — if it floats, that's why (we don't
       # allowlist 'java*' or every Java GAME would tile).
