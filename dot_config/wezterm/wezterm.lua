@@ -26,18 +26,28 @@ config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = false
 
--- ── Background image support (ENABLED-ready; uncomment + set a path) ──────
--- WezTerm does static images AND animated gifs, with per-layer opacity/blur.
--- Drop your image path below and bump window_background_opacity above to ~1.0.
--- config.background = {
---   {
---     source = { File = "C:/Users/senio/OneDrive/Pictures/your-bg.png" },
---     hsb = { brightness = 0.04 },      -- dim it so text stays readable
---     opacity = 0.85,
---     horizontal_align = "Center",
---     vertical_align = "Middle",
---   },
--- }
+-- ── Background image (Klonoa) ────────────────────────────────────────────
+-- Two layers: a dark solid base for contrast, then the image dimmed on top so
+-- terminal text stays readable. Image sits bottom-right (where the art is).
+config.background = {
+  { -- base: solid dark so text always has contrast
+    source = { Color = "#1a1a1a" },
+    width = "100%",
+    height = "100%",
+    opacity = 1.0,
+  },
+  { -- the Klonoa art, dimmed + anchored bottom-right
+    source = { File = wezterm.home_dir .. "/.config/wezterm/bg/klonoa.png" },
+    hsb = { brightness = 0.12 },        -- dim so it reads as a subtle backdrop
+    opacity = 0.55,
+    horizontal_align = "Right",
+    vertical_align = "Bottom",
+    repeat_x = "NoRepeat",
+    repeat_y = "NoRepeat",
+  },
+}
+-- with a bg image, drop the system acrylic so the image isn't washed out
+config.window_background_opacity = 1.0
 
 -- ── Mouse / clipboard (ghostty: copy-on-select, hide mouse while typing) ──
 config.hide_mouse_cursor_when_typing = true
