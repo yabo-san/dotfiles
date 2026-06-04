@@ -37,17 +37,27 @@ function Initialize-CachedInit($cmd, $args, $cacheName) {
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Initialize-CachedInit 'zoxide' @('init','powershell') 'zoxide-init.ps1'
 }
-# atuin: DELIBERATELY NOT loaded in PowerShell — its init hooks PSReadLine and
-# costs ~213ms per launch, too heavy. atuin lives in WSL instead (real shell,
-# where it shines + the sync matters). PowerShell keeps PSReadLine's own Ctrl+R
-# history search, which is plenty. Same fast-PS / full-WSL split as starship.
-# fzf: Ctrl+T fuzzy file, Alt+C fuzzy cd (via PSFzf if installed; see below).
+# atuin: magic shell history — Ctrl+R full-screen fuzzy search, synced across
+# machines. (~200ms init cost; you opted to keep it in PowerShell too.)
+# Needs PSReadLine loaded first (done above). Cached init like the others.
+if (Get-Command atuin -ErrorAction SilentlyContinue) {
+    Initialize-CachedInit 'atuin' @('init','powershell') 'atuin-init.ps1'
+}
+# fzf via PSFzf: Ctrl+T = fuzzy file insert, Alt+C = fuzzy cd.
+# (Ctrl+R is left to atuin above — its history search wins.)
+if (Get-Module PSFzf -ListAvailable -ErrorAction SilentlyContinue) {
+    Import-Module PSFzf -ErrorAction SilentlyContinue
+    # only bind the file + cd choords; do NOT take Ctrl+R (atuin owns it)
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -ErrorAction SilentlyContinue
+    Set-PSReadLineKeyHandler -Key 'Alt+c' -ScriptBlock { Invoke-FuzzySetLocation } -ErrorAction SilentlyContinue
+}
 
 # ~~~~~~~~~~~~~~~ brew — unified package manager (child of 3 OSes) ~~~~~~~~~~~~~
 # One command everywhere: real Homebrew on macOS, brew-on-Linux in WSL, and on
 # Windows THIS wrapper masquerades as brew over scoop+winget+choco.
-# Priority: scoop (per-user, freshest, no admin) -> winget (official) ->
-# choco (community/AUR-tier fallback). brew-style verbs so muscle memory carries:
+# Priority: scoop (per-user, freshest, no admin) -> winget community ->
+# winget MS STORE (msstore source — Cider/iCloud/EarTrumpet/TranslucentTB live
+# here) -> choco (community/AUR-tier fallback). brew verbs so muscle memory carries:
 #   brew install <pkg>   (or bare `brew <pkg>`)   first manager that has it wins
 #   brew search <pkg>    search ALL three
 #   brew upgrade         upgrade everything across all three
@@ -56,9 +66,10 @@ function brew {
     $op = $args[0]; $pkg = $args[1]
     switch -Regex ($op) {
         '^(search|se)$' {
-            Write-Host "── scoop ──"  -ForegroundColor Cyan;    scoop search $pkg
-            Write-Host "── winget ──" -ForegroundColor Blue;    winget search $pkg
-            Write-Host "── choco ──"  -ForegroundColor Magenta; choco search $pkg
+            Write-Host "── scoop ──"          -ForegroundColor Cyan;    scoop search $pkg
+            Write-Host "── winget ──"         -ForegroundColor Blue;    winget search $pkg --source winget
+            Write-Host "── MS Store ──"       -ForegroundColor Green;   winget search $pkg --source msstore
+            Write-Host "── choco ──"          -ForegroundColor Magenta; choco search $pkg
             return
         }
         '^(upgrade|up)$' {
@@ -76,10 +87,13 @@ function brew {
             if (-not $target) { Write-Host "usage: brew install <pkg> | search <pkg> | upgrade | uninstall <pkg>"; return }
             Write-Host "trying scoop..." -ForegroundColor Cyan
             scoop install $target; if ($?) { return }
-            Write-Host "scoop miss -> winget..." -ForegroundColor Blue
-            winget install --id $target -e --accept-package-agreements --accept-source-agreements
+            Write-Host "scoop miss -> winget (community)..." -ForegroundColor Blue
+            winget install --id $target -e --source winget --accept-package-agreements --accept-source-agreements
             if ($?) { return }
-            Write-Host "winget miss -> choco..." -ForegroundColor Magenta
+            Write-Host "miss -> winget (MS Store)..." -ForegroundColor Green
+            winget install --id $target -e --source msstore --accept-package-agreements --accept-source-agreements
+            if ($?) { return }
+            Write-Host "miss -> choco..." -ForegroundColor Magenta
             gsudo choco install $target -y
         }
     }
