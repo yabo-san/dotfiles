@@ -1,4 +1,195 @@
 {
+    "apps": [
+        {
+            "Updated": "2026-06-04T04:31:11.3012741-07:00",
+            "Version": "26.01",
+            "Source": "main",
+            "Name": "7zip",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:22:32.894933-07:00",
+            "Version": "18.16.1",
+            "Source": "main",
+            "Name": "atuin",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T03:06:40.5188889-07:00",
+            "Version": "2.0.26",
+            "Source": "extras",
+            "Name": "autohotkey",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:57:11.9289627-07:00",
+            "Version": "0.26.1",
+            "Source": "main",
+            "Name": "bat",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:46.2836915-07:00",
+            "Version": "1.0.5",
+            "Source": "main",
+            "Name": "btop",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T03:45:28.8788017-07:00",
+            "Version": "2.70.5",
+            "Source": "main",
+            "Name": "chezmoi",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:55.9522336-07:00",
+            "Version": "0.19.2",
+            "Source": "main",
+            "Name": "delta",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:47.7269313-07:00",
+            "Version": "0.9.1",
+            "Source": "main",
+            "Name": "duf",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:47.0325407-07:00",
+            "Version": "1.2.4",
+            "Source": "main",
+            "Name": "dust",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:48:43.2373613-07:00",
+            "Version": "2.64.0",
+            "Source": "main",
+            "Name": "fastfetch",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:57:04.4139736-07:00",
+            "Version": "10.4.2",
+            "Source": "main",
+            "Name": "fd",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:57:03.88873-07:00",
+            "Version": "0.73.1",
+            "Source": "main",
+            "Name": "fzf",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T04:31:44.3074273-07:00",
+            "Version": "15.2.0",
+            "Source": "main",
+            "Name": "gcc",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:56.7303594-07:00",
+            "Version": "5.36.1",
+            "Source": "main",
+            "Name": "gdu",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:31:56.9538899-07:00",
+            "Version": "2.6.1",
+            "Source": "main",
+            "Name": "gsudo",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:56:28.0204452-07:00",
+            "Version": "3.4.0",
+            "Source": "nerd-fonts",
+            "Name": "Hack-NF",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:31:10.434446-07:00",
+            "Version": "1.36.1",
+            "Source": "main",
+            "Name": "kubectl",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:57:04.9725646-07:00",
+            "Version": "0.62.2",
+            "Source": "extras",
+            "Name": "lazygit",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T04:16:26.933562-07:00",
+            "Version": "1.2.0",
+            "Source": "main",
+            "Name": "lsd",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:57:02.4022466-07:00",
+            "Version": "0.12.2",
+            "Source": "main",
+            "Name": "neovim",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:48.3330507-07:00",
+            "Version": "0.14.11",
+            "Source": "main",
+            "Name": "procs",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:57:03.3001332-07:00",
+            "Version": "15.1.0",
+            "Source": "main",
+            "Name": "ripgrep",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T04:16:42.2878414-07:00",
+            "Version": "1.25.1",
+            "Source": "main",
+            "Name": "starship",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:51:55.1160789-07:00",
+            "Version": "1.8.1",
+            "Source": "main",
+            "Name": "tealdeer",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T04:33:19.1394006-07:00",
+            "Version": "0.26.9",
+            "Source": "main",
+            "Name": "tree-sitter",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T02:56:27.0315474-07:00",
+            "Version": "20240203-110809-5046fc22",
+            "Source": "extras",
+            "Name": "wezterm",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-04T05:22:31.4962568-07:00",
+            "Version": "0.9.9",
+            "Source": "main",
+            "Name": "zoxide",
+            "Info": ""
+        }
+    ],
     "buckets": [
         {
             "Name": "main",
@@ -17,127 +208,6 @@
             "Source": "https://github.com/matthewjberger/scoop-nerd-fonts",
             "Updated": "2026-06-01T03:25:46-07:00",
             "Manifests": 367
-        }
-    ],
-    "apps": [
-        {
-            "Updated": "2026-06-04T04:31:11.3012741-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "7zip",
-            "Version": "26.01"
-        },
-        {
-            "Updated": "2026-06-04T05:22:32.894933-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "atuin",
-            "Version": "18.16.1"
-        },
-        {
-            "Updated": "2026-06-04T03:06:40.5188889-07:00",
-            "Source": "extras",
-            "Info": "",
-            "Name": "autohotkey",
-            "Version": "2.0.26"
-        },
-        {
-            "Updated": "2026-06-04T02:57:11.9289627-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "bat",
-            "Version": "0.26.1"
-        },
-        {
-            "Updated": "2026-06-04T03:45:28.8788017-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "chezmoi",
-            "Version": "2.70.5"
-        },
-        {
-            "Updated": "2026-06-04T02:57:04.4139736-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "fd",
-            "Version": "10.4.2"
-        },
-        {
-            "Updated": "2026-06-04T02:57:03.88873-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "fzf",
-            "Version": "0.73.1"
-        },
-        {
-            "Updated": "2026-06-04T04:31:44.3074273-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "gcc",
-            "Version": "15.2.0"
-        },
-        {
-            "Updated": "2026-06-04T02:56:28.0204452-07:00",
-            "Source": "nerd-fonts",
-            "Info": "",
-            "Name": "Hack-NF",
-            "Version": "3.4.0"
-        },
-        {
-            "Updated": "2026-06-04T02:57:04.9725646-07:00",
-            "Source": "extras",
-            "Info": "",
-            "Name": "lazygit",
-            "Version": "0.62.2"
-        },
-        {
-            "Updated": "2026-06-04T04:16:26.933562-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "lsd",
-            "Version": "1.2.0"
-        },
-        {
-            "Updated": "2026-06-04T02:57:02.4022466-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "neovim",
-            "Version": "0.12.2"
-        },
-        {
-            "Updated": "2026-06-04T02:57:03.3001332-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "ripgrep",
-            "Version": "15.1.0"
-        },
-        {
-            "Updated": "2026-06-04T04:16:42.2878414-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "starship",
-            "Version": "1.25.1"
-        },
-        {
-            "Updated": "2026-06-04T04:33:19.1394006-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "tree-sitter",
-            "Version": "0.26.9"
-        },
-        {
-            "Updated": "2026-06-04T02:56:27.0315474-07:00",
-            "Source": "extras",
-            "Info": "",
-            "Name": "wezterm",
-            "Version": "20240203-110809-5046fc22"
-        },
-        {
-            "Updated": "2026-06-04T05:22:31.4962568-07:00",
-            "Source": "main",
-            "Info": "",
-            "Name": "zoxide",
-            "Version": "0.9.9"
         }
     ]
 }

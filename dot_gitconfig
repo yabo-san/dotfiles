@@ -1,0 +1,20 @@
+[user]
+	name = yabo
+	email = seniorpepex@gmail.com
+[core]
+	editor = code --wait
+	pager = delta
+[credential "https://github.com"]
+	helper = 
+	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
+[delta]
+	navigate = true
+	line-numbers = true
+	side-by-side = false
+[merge]
+	conflictStyle = zdiff3
+[interactive]
+	diffFilter = delta --color-only

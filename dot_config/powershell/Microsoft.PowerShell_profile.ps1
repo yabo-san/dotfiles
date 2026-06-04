@@ -22,6 +22,13 @@ if (Get-Command nvim -ErrorAction SilentlyContinue) {
 }
 $env:LANG = "en_US.UTF-8"
 
+# XDG: make Windows respect ~/.config like Linux/mac. Many tools (lazygit,
+# fastfetch, etc.) then read from ~/.config instead of %LOCALAPPDATA% — so the
+# SAME config files work across all 3 OSes. Big linuxify win.
+$env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
+$env:XDG_DATA_HOME   = "$env:USERPROFILE\.local\share"
+$env:XDG_CACHE_HOME  = "$env:USERPROFILE\.cache"
+
 # ~~~~~~~~~~~~~~~ Shell trio: zoxide + atuin + fzf ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Both init scripts are slow to GENERATE (zoxide ~225ms, atuin ~500ms) but the
 # output is static — so CACHE the init script and source the cache (refresh
@@ -100,9 +107,25 @@ function brew {
 }
 
 
+# ~~~~~~~~~~~~~~~ Modern CLI replacements (the Linux daily-driver pack) ~~~~~~~~
+# btop=htop, dust=du, duf=df, procs=ps, gdu=disk usage, tldr=man examples,
+# delta=git diffs. Installed via scoop; aliased to their classic names where safe.
+function top    { btop @args }       # gorgeous system monitor
+function du     { dust @args }       # visual disk tree
+function df     { duf @args }        # pretty disk free
+function ps     { procs @args }      # modern process list  (PS's own ps was Get-Process)
+# tldr + delta + gdu used by their own names. delta is wired as git pager below.
+
+# ~~~~~~~~~~~~~~~ fetch / greeting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function ff  { fastfetch @args }
+function neofetch { fastfetch @args }
+# Greet on a top-level interactive shell, but NOT in the quake dropdown or
+# nested shells (keeps quake instant). $env:WT_SESSION-style guard via depth.
+if ($Host.Name -eq 'ConsoleHost' -and -not $env:QUAKE_TERM -and (Get-Command fastfetch -EA SilentlyContinue)) {
+    fastfetch
+}
+
 # ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function ff  { fastfetch @args }   # the neofetch flex (run manually; ~run on open below)
-function neofetch { fastfetch @args }   # muscle-memory alias
 function v   { nvim @args }
 function gp  { git pull @args }
 function gs  { git status @args }

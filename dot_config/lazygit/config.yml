@@ -1,0 +1,21 @@
+# lazygit config — cross-platform (same file on mac/Windows/WSL via ~/.config).
+# Found here because XDG_CONFIG_HOME=~/.config is set in the PowerShell profile.
+gui:
+  theme:
+    # Catppuccin Mocha — matches tmux/nvim/wezterm/starship
+    activeBorderColor: ["#cba6f7", bold]
+    inactiveBorderColor: ["#6c7086"]
+    selectedLineBgColor: ["#313244"]
+    optionsTextColor: ["#89b4fa"]
+  nerdFontsVersion: "3"
+  showFileTree: true
+  showRandomTip: false
+
+git:
+  paging:
+    # use delta inside lazygit too, so its diffs match the CLI git diffs.
+    colorArg: always
+    pager: delta --dark --paging=never
+  parseEmoji: true
+
+# vim keys are lazygit's default; nothing to add.
