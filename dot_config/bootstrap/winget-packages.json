@@ -1,6 +1,6 @@
 {
 	"$schema" : "https://aka.ms/winget-packages.schema.2.0.json",
-	"CreationDate" : "2026-06-04T03:43:16.762-00:00",
+	"CreationDate" : "2026-06-04T08:36:40.852-00:00",
 	"Sources" : 
 	[
 		{
@@ -73,9 +73,6 @@
 					"PackageIdentifier" : "Microsoft.GameInput"
 				},
 				{
-					"PackageIdentifier" : "AmN.yasb"
-				},
-				{
 					"PackageIdentifier" : "Microsoft.VCRedist.2010.x64"
 				},
 				{
@@ -100,6 +97,9 @@
 					"PackageIdentifier" : "Apple.Bonjour"
 				},
 				{
+					"PackageIdentifier" : "AmN.yasb"
+				},
+				{
 					"PackageIdentifier" : "SUSE.RancherDesktop"
 				},
 				{
@@ -122,6 +122,9 @@
 				},
 				{
 					"PackageIdentifier" : "GitHub.cli"
+				},
+				{
+					"PackageIdentifier" : "Open-Shell.Open-Shell-Menu"
 				},
 				{
 					"PackageIdentifier" : "Tailscale.Tailscale"
@@ -268,6 +271,9 @@
 					"PackageIdentifier" : "AutoHotkey.AutoHotkey"
 				},
 				{
+					"PackageIdentifier" : "Voidstar.FilePilot"
+				},
+				{
 					"PackageIdentifier" : "OpenJS.NodeJS.LTS"
 				},
 				{
@@ -308,6 +314,9 @@
 				},
 				{
 					"PackageIdentifier" : "Anthropic.Claude"
+				},
+				{
+					"PackageIdentifier" : "FilesCommunity.Files"
 				},
 				{
 					"PackageIdentifier" : "Microsoft.Teams"
