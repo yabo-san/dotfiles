@@ -36,13 +36,15 @@ config.background = {
     height = "100%",
     opacity = 1.0,
   },
-  { -- dark-red horror silhouette. NATIVE size (no width/height) = pixels render
-    -- 1:1, CANNOT stretch. File pre-resized to 441x560. Bottom-center so the
-    -- figure shows; black edges blend into the black base. (Contain stretches
-    -- in this wezterm version, so we avoid it entirely.)
+  { -- dark-red horror silhouette. EXPLICIT display size (358x400) matching the
+    -- source aspect 0.895 so it can't stretch. File is cropped (bottom dead-black
+    -- removed) so the figure sits at the image bottom; bottom-center anchors it
+    -- low. Shrink width/height together to zoom out, keep the 0.895 ratio.
     source = { File = wezterm.home_dir .. "/.config/wezterm/bg/horror-fit.png" },
     hsb = { brightness = 0.5 },
     opacity = 0.9,
+    width = 720,
+    height = 804,
     horizontal_align = "Center",
     vertical_align = "Bottom",
     repeat_x = "NoRepeat",
