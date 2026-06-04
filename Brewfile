@@ -20,6 +20,11 @@ brew "duf"           # df
 brew "procs"         # ps
 brew "tealdeer"      # tldr
 brew "neovim"        # v
+brew "yazi"          # terminal file manager (y) — cd-on-quit
+brew "poppler"       # yazi PDF previews
+brew "ffmpeg"        # yazi video thumbnails
+brew "imagemagick"   # yazi image handling
+brew "jq"            # json + yazi
 
 # productivity
 cask "raycast"

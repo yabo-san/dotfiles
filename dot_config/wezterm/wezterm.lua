@@ -43,7 +43,7 @@ config.background = {
     hsb = { brightness = 0.45 },
     opacity = 0.85,
     horizontal_align = "Center",
-    vertical_align = "Middle",
+    vertical_align = "Bottom",   -- anchor bottom so the figure isn't cut off
     repeat_x = "NoRepeat",
     repeat_y = "NoRepeat",
   },
