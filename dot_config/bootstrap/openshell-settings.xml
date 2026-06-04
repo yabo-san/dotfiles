@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Settings component="StartMenu" version="4.4.198">
 	<MenuStyle value="Win7"/>
-	<ShiftClick value="Nothing"/>
+	<ShiftClick value="WindowsMenu"/>
 	<WinKey value="Nothing"/>
 	<ShiftWin value="Nothing"/>
 	<SkinW7 value="Immersive"/>
