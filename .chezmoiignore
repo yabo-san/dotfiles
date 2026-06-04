@@ -10,6 +10,7 @@ dot_tmux.conf
 dot_config/flashspace/**
 dot_config/ghostty/**
 dot_config/private_karabiner/**
+dot_config/aerospace/**
 dot_config/mise/**
 .chezmoiexternals/**
 .chezmoiscripts/**
