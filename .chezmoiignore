@@ -1,1 +1,30 @@
 setup
+
+# ── OS gating: each platform only applies its own files ──────────────────
+# On Windows, skip all the mac-only configs:
+{{ if eq .chezmoi.os "windows" }}
+Brewfile
+dot_bashrc
+dot_zshrc
+dot_tmux.conf
+dot_config/flashspace/**
+dot_config/ghostty/**
+dot_config/private_karabiner/**
+dot_config/mise/**
+.chezmoiexternals/**
+.chezmoiscripts/**
+run_onchange_setup-alttab.sh
+{{ end }}
+
+# On mac/Linux, skip all the Windows-only configs:
+{{ if ne .chezmoi.os "windows" }}
+dot_glzr/**
+dot_config/wezterm/**
+dot_config/yasb/**
+dot_config/scripts/**
+dot_config/powershell/**
+dot_config/starship.toml
+dot_config/bootstrap/**
+{{ end }}
+
+# nvim is shared (LazyVim overrides apply on both) — never ignored.

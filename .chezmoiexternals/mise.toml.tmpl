@@ -1,4 +1,6 @@
-{{ if ne .chezmoi.hostname "Kevins-MacBook-Pro-2" }}
+{{/* Only fetch mise on non-Windows (mac/Linux). On Windows, scoop manages tools.
+     Was: gated on a single hardcoded mac hostname, which fired wrong on Windows. */}}
+{{ if ne .chezmoi.os "windows" }}
 [".local/bin/mise"]
 type = "file"
 executable = true

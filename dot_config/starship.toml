@@ -1,0 +1,36 @@
+# starship.toml — Pure prompt preset (mirrors dot_zshrc `prompt pure`)
+# Minimal: dir + git on line 1, prompt char on line 2. Catppuccin-ish accents.
+
+format = "$username$directory$git_branch$git_status$character"
+add_newline = true
+
+[character]
+success_symbol = "[❯](mauve)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](green)"   # shows in vi normal mode
+
+[username]
+show_always = true
+format = "[yabo](cyan) "       # identity = yabo, regardless of OS account
+
+[directory]
+style = "blue"
+truncation_length = 3
+truncate_to_repo = false
+
+[git_branch]
+format = "[$branch](mauve) "
+symbol = " "
+
+[git_status]
+format = "[$all_status$ahead_behind](red) "
+
+# Catppuccin Mocha palette (matches tmux/nvim/ghostty)
+[palettes.catppuccin_mocha]
+mauve = "#cba6f7"
+red   = "#f38ba8"
+green = "#a6e3a1"
+blue  = "#89b4fa"
+cyan  = "#94e2d5"
+
+palette = "catppuccin_mocha"

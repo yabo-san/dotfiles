@@ -1,0 +1,19 @@
+Windows Registry Editor Version 5.00
+
+; ============================================================================
+; windows-tweaks.reg — reproduces the registry state the setup depends on.
+; Double-click on a fresh machine, then restart Explorer. See WINDOWS-REGISTRY.md.
+; ============================================================================
+
+; --- Free Win+L from the lock action (so Raycast can bridge it) ---
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System]
+"DisableLockWorkstation"=dword:00000001
+
+; --- Taskbar on all monitors ---
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"MMTaskbarEnabled"=dword:00000001
+
+; NOTE: taskbar AUTO-HIDE is a binary blob in StuckRects3 and can't be set
+; cleanly here — toggle it in Settings (see WINDOWS-REGISTRY.md step 1).
+;
+; NOTE: EnableAutoTray intentionally NOT set (we don't use the Windows tray).
