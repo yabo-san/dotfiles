@@ -110,3 +110,10 @@ Uses native PrintScreen hotkeys (PrtSc=full, Ctrl+PrtSc=region, Alt+PrtSc=window
 Shift+PrtSc=record, Ctrl+Shift+PrtSc=GIF). Autostarts via the Run key (tracked);
 hotkeys only fire while ShareX is running. PrintScreenKeyForSnippingEnabled=0
 frees PrtSc from Windows snip.
+
+--- MANUAL bootstrap step: free Win+Shift+S for ShareX ---
+ShareX can't use Win+Shift+S until the Snip & Sketch app is removed (it owns that
+key). On a fresh machine, run:
+  Get-AppxPackage *ScreenSketch* | Remove-AppxPackage
+Then in ShareX > Hotkey Settings, bind Win+Shift+S -> region capture.
+(ShareX screenshot hotkeys otherwise: PrtSc=all screens, Ctrl+PrtSc=region.)
