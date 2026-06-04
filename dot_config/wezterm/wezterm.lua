@@ -30,18 +30,18 @@ config.use_fancy_tab_bar = false
 -- Two layers: a dark solid base for contrast, then the image dimmed on top so
 -- terminal text stays readable. Image sits bottom-right (where the art is).
 config.background = {
-  { -- base: solid dark so text always has contrast
-    source = { Color = "#1a1a1a" },
+  { -- base: pure black so the image's dark edges blend seamlessly
+    source = { Color = "#000000" },
     width = "100%",
     height = "100%",
     opacity = 1.0,
   },
-  { -- the Klonoa art, dimmed + anchored bottom-right
-    source = { File = wezterm.home_dir .. "/.config/wezterm/bg/klonoa.png" },
-    hsb = { brightness = 0.12 },        -- dim so it reads as a subtle backdrop
-    opacity = 0.55,
-    horizontal_align = "Right",
-    vertical_align = "Bottom",
+  { -- dark-red horror silhouette, centered (it's already dark → show it brighter)
+    source = { File = wezterm.home_dir .. "/.config/wezterm/bg/horror-sunset.png" },
+    hsb = { brightness = 0.45 },        -- already dark, so let the red glow show
+    opacity = 0.85,
+    horizontal_align = "Center",
+    vertical_align = "Middle",
     repeat_x = "NoRepeat",
     repeat_y = "NoRepeat",
   },
