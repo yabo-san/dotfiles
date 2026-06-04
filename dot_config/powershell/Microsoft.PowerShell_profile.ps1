@@ -137,6 +137,11 @@ if ($Host.Name -eq 'ConsoleHost' -and -not $env:QUAKE_TERM -and (Get-Command fas
 }
 
 # ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# mac `open` parity: open files w/ default app, dirs in the file manager, URLs in
+# browser. `open` alone opens the current dir. (Invoke-Item = the Windows equiv.)
+function open {
+    if ($args.Count -eq 0) { Invoke-Item . } else { Invoke-Item @args }
+}
 function v   { nvim @args }
 function gp  { git pull @args }
 function gs  { git status @args }
