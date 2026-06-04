@@ -127,3 +127,18 @@ machine, install user modules THERE, not the default:
   Save-Module PSFzf -Path "$env:LOCALAPPDATA\PowerShell\Modules"
 (Also: moving files INTO/OUT of OneDrive hydrates them = a one-time download.
  That is the move reading cloud files, NOT the find.exe issue, which stays fixed.)
+
+--- Autostart apps (Startup folder — recreate on bootstrap) ---
+These .lnk files live in %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
+(binary shortcuts, not chezmoi-tracked — recreate them):
+  - GlazeWM.lnk        -> C:\Program Files\glzr.io\GlazeWM\GlazeWM.exe
+  - YASB.lnk           -> C:\Program Files\Yasb\yasb.exe  (else the bar wont start on boot)
+  - quake-hotkey.lnk   -> AutoHotkey64.exe ~\.config\scripts\wezterm\quake-hotkey.ahk
+  - MEGAsync.lnk       -> (MEGAsync)
+ShareX autostarts via the Run key (in windows-tweaks.reg), not here.
+
+--- Open-Shell mechanism (confirmed) ---
+Live settings = registry HKCU\Software\OpenShell (auto-applied by openshell-settings.reg).
+The .xml is Open-Shell's native Backup export (Settings > Backup > Load from XML).
+Bare Win opens the classic menu (WinKey=ClassicMenu); GlazeWM Win+<key> combos still work
+(Open-Shell only takes the bare Win TAP). NOTE: keep Raycast OFF the bare Win key.
