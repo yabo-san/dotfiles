@@ -1,307 +1,4 @@
 {
-    "apps": [
-        {
-            "Source": "main",
-            "Version": "26.01",
-            "Name": "7zip",
-            "Updated": "2026-06-04T04:31:11.3012741-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "18.16.1",
-            "Name": "atuin",
-            "Updated": "2026-06-04T05:22:32.894933-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "2.0.26",
-            "Name": "autohotkey",
-            "Updated": "2026-06-04T03:06:40.5188889-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.26.1",
-            "Name": "bat",
-            "Updated": "2026-06-04T02:57:11.9289627-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.0.5",
-            "Name": "btop",
-            "Updated": "2026-06-04T05:51:46.2836915-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.70.5",
-            "Name": "chezmoi",
-            "Updated": "2026-06-04T03:45:28.8788017-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.19.2",
-            "Name": "delta",
-            "Updated": "2026-06-04T05:51:55.9522336-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.9.1",
-            "Name": "duf",
-            "Updated": "2026-06-04T05:51:47.7269313-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.2.4",
-            "Name": "dust",
-            "Updated": "2026-06-04T05:51:47.0325407-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.64.0",
-            "Name": "fastfetch",
-            "Updated": "2026-06-04T05:48:43.2373613-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "10.4.2",
-            "Name": "fd",
-            "Updated": "2026-06-04T02:57:04.4139736-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "8.1.1",
-            "Name": "ffmpeg",
-            "Updated": "2026-06-04T07:43:13.3565638-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.73.1",
-            "Name": "fzf",
-            "Updated": "2026-06-04T02:57:03.88873-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "15.2.0",
-            "Name": "gcc",
-            "Updated": "2026-06-04T04:31:44.3074273-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "5.36.1",
-            "Name": "gdu",
-            "Updated": "2026-06-04T05:51:56.7303594-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.6.1",
-            "Name": "gsudo",
-            "Updated": "2026-06-04T05:31:56.9538899-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "nerd-fonts",
-            "Version": "3.4.0",
-            "Name": "Hack-NF",
-            "Updated": "2026-06-04T02:56:28.0204452-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "7.1.2-24",
-            "Name": "imagemagick",
-            "Updated": "2026-06-04T07:43:40.449367-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.67.9",
-            "Name": "innounp",
-            "Updated": "2026-06-04T07:43:14.11385-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "4.75",
-            "Name": "irfanview",
-            "Updated": "2026-06-04T13:50:17.9649665-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.8.1",
-            "Name": "jq",
-            "Updated": "2026-06-04T07:43:02.3451486-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.36.1",
-            "Name": "kubectl",
-            "Updated": "2026-06-04T05:31:10.434446-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "0.62.2",
-            "Name": "lazygit",
-            "Updated": "2026-06-04T02:57:04.9725646-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.2.0",
-            "Name": "lsd",
-            "Updated": "2026-06-04T04:16:26.933562-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.38.1",
-            "Name": "minikube",
-            "Updated": "2026-06-04T09:07:05.6952337-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.12.2",
-            "Name": "neovim",
-            "Updated": "2026-06-04T02:57:02.4022466-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "1.12.7",
-            "Name": "obsidian",
-            "Updated": "2026-06-04T05:59:07.3596666-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "nonportable",
-            "Version": "4.4.198",
-            "Name": "open-shell-np",
-            "Updated": "2026-06-04T07:04:49.654779-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "games",
-            "Version": "0.50.0",
-            "Name": "openmw",
-            "Updated": "2026-06-04T09:07:01.3499543-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "26.02.0-0",
-            "Name": "poppler",
-            "Updated": "2026-06-04T07:43:04.2433916-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.14.11",
-            "Name": "procs",
-            "Updated": "2026-06-04T05:51:48.3330507-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "games",
-            "Version": "4.93",
-            "Name": "ps3-system-software",
-            "Updated": "2026-06-04T09:15:25.5489217-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "15.1.0",
-            "Name": "ripgrep",
-            "Updated": "2026-06-04T02:57:03.3001332-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "games",
-            "Version": "0.0.41-19432",
-            "Name": "rpcs3",
-            "Updated": "2026-06-04T09:15:28.7348504-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "20.2.0",
-            "Name": "sharex",
-            "Updated": "2026-06-04T13:41:27.8253402-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "3.53.2",
-            "Name": "sqlite",
-            "Updated": "2026-06-04T12:58:47.0217888-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.25.1",
-            "Name": "starship",
-            "Updated": "2026-06-04T04:16:42.2878414-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "3.2.25011.2103",
-            "Name": "systeminformer",
-            "Updated": "2026-06-04T13:47:13.4806153-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.8.1",
-            "Name": "tealdeer",
-            "Updated": "2026-06-04T05:51:55.1160789-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.26.9",
-            "Name": "tree-sitter",
-            "Updated": "2026-06-04T04:33:19.1394006-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "20240203-110809-5046fc22",
-            "Name": "wezterm",
-            "Updated": "2026-06-04T02:56:27.0315474-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "26.5.6",
-            "Name": "yazi",
-            "Updated": "2026-06-04T07:43:01.574408-07:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.9.9",
-            "Name": "zoxide",
-            "Updated": "2026-06-04T05:22:31.4962568-07:00",
-            "Info": ""
-        }
-    ],
     "buckets": [
         {
             "Name": "main",
@@ -332,6 +29,323 @@
             "Source": "https://github.com/Calinou/scoop-games",
             "Updated": "2026-06-04T10:23:07-07:00",
             "Manifests": 407
+        }
+    ],
+    "apps": [
+        {
+            "Info": "",
+            "Version": "26.01",
+            "Source": "main",
+            "Updated": "2026-06-04T04:31:11.3012741-07:00",
+            "Name": "7zip"
+        },
+        {
+            "Info": "",
+            "Version": "18.16.1",
+            "Source": "main",
+            "Updated": "2026-06-04T05:22:32.894933-07:00",
+            "Name": "atuin"
+        },
+        {
+            "Info": "",
+            "Version": "2.0.26",
+            "Source": "extras",
+            "Updated": "2026-06-04T03:06:40.5188889-07:00",
+            "Name": "autohotkey"
+        },
+        {
+            "Info": "",
+            "Version": "0.26.1",
+            "Source": "main",
+            "Updated": "2026-06-04T02:57:11.9289627-07:00",
+            "Name": "bat"
+        },
+        {
+            "Info": "",
+            "Version": "1.0.5",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:46.2836915-07:00",
+            "Name": "btop"
+        },
+        {
+            "Info": "",
+            "Version": "2.70.5",
+            "Source": "main",
+            "Updated": "2026-06-04T03:45:28.8788017-07:00",
+            "Name": "chezmoi"
+        },
+        {
+            "Info": "",
+            "Version": "0.19.2",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:55.9522336-07:00",
+            "Name": "delta"
+        },
+        {
+            "Info": "",
+            "Version": "0.9.1",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:47.7269313-07:00",
+            "Name": "duf"
+        },
+        {
+            "Info": "",
+            "Version": "1.2.4",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:47.0325407-07:00",
+            "Name": "dust"
+        },
+        {
+            "Info": "",
+            "Version": "2.64.0",
+            "Source": "main",
+            "Updated": "2026-06-04T05:48:43.2373613-07:00",
+            "Name": "fastfetch"
+        },
+        {
+            "Info": "",
+            "Version": "10.4.2",
+            "Source": "main",
+            "Updated": "2026-06-04T02:57:04.4139736-07:00",
+            "Name": "fd"
+        },
+        {
+            "Info": "",
+            "Version": "8.1.1",
+            "Source": "main",
+            "Updated": "2026-06-04T07:43:13.3565638-07:00",
+            "Name": "ffmpeg"
+        },
+        {
+            "Info": "",
+            "Version": "0.73.1",
+            "Source": "main",
+            "Updated": "2026-06-04T02:57:03.88873-07:00",
+            "Name": "fzf"
+        },
+        {
+            "Info": "",
+            "Version": "15.2.0",
+            "Source": "main",
+            "Updated": "2026-06-04T04:31:44.3074273-07:00",
+            "Name": "gcc"
+        },
+        {
+            "Info": "",
+            "Version": "5.36.1",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:56.7303594-07:00",
+            "Name": "gdu"
+        },
+        {
+            "Info": "",
+            "Version": "2.6.1",
+            "Source": "main",
+            "Updated": "2026-06-04T05:31:56.9538899-07:00",
+            "Name": "gsudo"
+        },
+        {
+            "Info": "",
+            "Version": "3.4.0",
+            "Source": "nerd-fonts",
+            "Updated": "2026-06-04T02:56:28.0204452-07:00",
+            "Name": "Hack-NF"
+        },
+        {
+            "Info": "",
+            "Version": "7.1.2-24",
+            "Source": "main",
+            "Updated": "2026-06-04T07:43:40.449367-07:00",
+            "Name": "imagemagick"
+        },
+        {
+            "Info": "",
+            "Version": "2.67.9",
+            "Source": "main",
+            "Updated": "2026-06-04T07:43:14.11385-07:00",
+            "Name": "innounp"
+        },
+        {
+            "Info": "",
+            "Version": "4.75",
+            "Source": "extras",
+            "Updated": "2026-06-04T13:50:17.9649665-07:00",
+            "Name": "irfanview"
+        },
+        {
+            "Info": "",
+            "Version": "1.8.1",
+            "Source": "main",
+            "Updated": "2026-06-04T07:43:02.3451486-07:00",
+            "Name": "jq"
+        },
+        {
+            "Info": "",
+            "Version": "1.36.1",
+            "Source": "main",
+            "Updated": "2026-06-04T05:31:10.434446-07:00",
+            "Name": "kubectl"
+        },
+        {
+            "Info": "",
+            "Version": "0.62.2",
+            "Source": "extras",
+            "Updated": "2026-06-04T02:57:04.9725646-07:00",
+            "Name": "lazygit"
+        },
+        {
+            "Info": "",
+            "Version": "1.2.0",
+            "Source": "main",
+            "Updated": "2026-06-04T04:16:26.933562-07:00",
+            "Name": "lsd"
+        },
+        {
+            "Info": "",
+            "Version": "1.38.1",
+            "Source": "main",
+            "Updated": "2026-06-04T09:07:05.6952337-07:00",
+            "Name": "minikube"
+        },
+        {
+            "Info": "",
+            "Version": "0.12.2",
+            "Source": "main",
+            "Updated": "2026-06-04T02:57:02.4022466-07:00",
+            "Name": "neovim"
+        },
+        {
+            "Info": "",
+            "Version": "1.12.7",
+            "Source": "extras",
+            "Updated": "2026-06-04T05:59:07.3596666-07:00",
+            "Name": "obsidian"
+        },
+        {
+            "Info": "",
+            "Version": "4.4.198",
+            "Source": "nonportable",
+            "Updated": "2026-06-04T07:04:49.654779-07:00",
+            "Name": "open-shell-np"
+        },
+        {
+            "Info": "",
+            "Version": "0.50.0",
+            "Source": "games",
+            "Updated": "2026-06-04T09:07:01.3499543-07:00",
+            "Name": "openmw"
+        },
+        {
+            "Info": "",
+            "Version": "26.02.0-0",
+            "Source": "main",
+            "Updated": "2026-06-04T07:43:04.2433916-07:00",
+            "Name": "poppler"
+        },
+        {
+            "Info": "",
+            "Version": "0.14.11",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:48.3330507-07:00",
+            "Name": "procs"
+        },
+        {
+            "Info": "",
+            "Version": "4.93",
+            "Source": "games",
+            "Updated": "2026-06-04T09:15:25.5489217-07:00",
+            "Name": "ps3-system-software"
+        },
+        {
+            "Info": "",
+            "Version": "15.1.0",
+            "Source": "main",
+            "Updated": "2026-06-04T02:57:03.3001332-07:00",
+            "Name": "ripgrep"
+        },
+        {
+            "Info": "",
+            "Version": "0.0.41-19432",
+            "Source": "games",
+            "Updated": "2026-06-04T09:15:28.7348504-07:00",
+            "Name": "rpcs3"
+        },
+        {
+            "Info": "",
+            "Version": "1.4.7",
+            "Source": "extras",
+            "Updated": "2026-06-04T14:51:35.9946413-07:00",
+            "Name": "rustdesk"
+        },
+        {
+            "Info": "Install failed",
+            "Version": null,
+            "Source": null,
+            "Updated": "2026-06-04T13:56:56.5156214-07:00",
+            "Name": "setuserfta"
+        },
+        {
+            "Info": "",
+            "Version": "20.2.0",
+            "Source": "extras",
+            "Updated": "2026-06-04T13:41:27.8253402-07:00",
+            "Name": "sharex"
+        },
+        {
+            "Info": "",
+            "Version": "3.53.2",
+            "Source": "main",
+            "Updated": "2026-06-04T12:58:47.0217888-07:00",
+            "Name": "sqlite"
+        },
+        {
+            "Info": "",
+            "Version": "1.25.1",
+            "Source": "main",
+            "Updated": "2026-06-04T04:16:42.2878414-07:00",
+            "Name": "starship"
+        },
+        {
+            "Info": "",
+            "Version": "3.2.25011.2103",
+            "Source": "extras",
+            "Updated": "2026-06-04T13:47:13.4806153-07:00",
+            "Name": "systeminformer"
+        },
+        {
+            "Info": "",
+            "Version": "1.8.1",
+            "Source": "main",
+            "Updated": "2026-06-04T05:51:55.1160789-07:00",
+            "Name": "tealdeer"
+        },
+        {
+            "Info": "",
+            "Version": "0.26.9",
+            "Source": "main",
+            "Updated": "2026-06-04T04:33:19.1394006-07:00",
+            "Name": "tree-sitter"
+        },
+        {
+            "Info": "",
+            "Version": "20240203-110809-5046fc22",
+            "Source": "extras",
+            "Updated": "2026-06-04T02:56:27.0315474-07:00",
+            "Name": "wezterm"
+        },
+        {
+            "Info": "",
+            "Version": "26.5.6",
+            "Source": "main",
+            "Updated": "2026-06-04T07:43:01.574408-07:00",
+            "Name": "yazi"
+        },
+        {
+            "Info": "",
+            "Version": "0.9.9",
+            "Source": "main",
+            "Updated": "2026-06-04T05:22:31.4962568-07:00",
+            "Name": "zoxide"
         }
     ]
 }
