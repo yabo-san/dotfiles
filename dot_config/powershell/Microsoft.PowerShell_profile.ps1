@@ -9,6 +9,15 @@ if ((Test-Path $scoopShims) -and ($env:Path -notlike "*$scoopShims*")) {
     $env:Path = "$scoopShims;$env:Path"
 }
 
+# --- load PS modules from a LOCAL path, NOT OneDrive ---
+# Documents is OneDrive-redirected, so modules there get sync-LOCKED (PSFzf threw
+# 0x80070020 "file in use"). Prepend a local module dir so imports never touch
+# OneDrive. (Modules moved to $env:LOCALAPPDATA\PowerShell\Modules.)
+$localModules = "$env:LOCALAPPDATA\PowerShell\Modules"
+if ($env:PSModulePath -notlike "*$localModules*") {
+    $env:PSModulePath = "$localModules;$env:PSModulePath"
+}
+
 # ~~~~~~~~~~~~~~~ Vi mode (dot_zshrc: bindkey -v, KEYTIMEOUT=1) ~~~~~~~~~~~~~~~
 Set-PSReadLineOption -EditMode Vi
 Set-PSReadLineOption -ViModeIndicator Cursor      # block/beam cursor shows mode
