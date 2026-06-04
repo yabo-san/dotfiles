@@ -2,8 +2,8 @@
 <Settings component="StartMenu" version="4.4.198">
 	<MenuStyle value="Win7"/>
 	<ShiftClick value="Nothing"/>
-	<WinKey value="Nothing"/>
-	<ShiftWin value="ClassicMenu"/>
+	<WinKey value="ClassicMenu"/>
+	<ShiftWin value="Nothing"/>
 	<SkinW7 value="Immersive"/>
 	<SkinVariationW7 value=""/>
 	<SkinOptionsW7>
