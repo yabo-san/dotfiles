@@ -36,14 +36,15 @@ config.background = {
     height = "100%",
     opacity = 1.0,
   },
-  { -- dark-red horror silhouette. Pre-resized to 551x700 and shown at NATIVE
-    -- size (no width/height) so it can never stretch. Centered; black edges
-    -- blend into the black base. Re-resize the file if it's too big/small.
+  { -- dark-red horror silhouette. height="Contain" fits the whole image to the
+    -- window preserving aspect (no stretch, no crop). Centered; black edges
+    -- blend into the black base so it looks seamless at any window size.
     source = { File = wezterm.home_dir .. "/.config/wezterm/bg/horror-fit.png" },
-    hsb = { brightness = 0.45 },
-    opacity = 0.85,
+    hsb = { brightness = 0.5 },
+    opacity = 0.9,
+    height = "Contain",
     horizontal_align = "Center",
-    vertical_align = "Bottom",   -- anchor bottom so the figure isn't cut off
+    vertical_align = "Bottom",
     repeat_x = "NoRepeat",
     repeat_y = "NoRepeat",
   },
