@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
-  "CreationDate": "2026-06-04T02:44:51.794-07:00",
+  "CreationDate": "2026-06-04T06:46:20.886-07:00",
   "Sources": [
     {
       "Packages": [
@@ -299,6 +299,9 @@
           "PackageIdentifier": "mtkennerly.ludusavi"
         },
         {
+          "PackageIdentifier": "Proton.ProtonMail"
+        },
+        {
           "PackageIdentifier": "Roblox.Roblox"
         },
         {
@@ -312,6 +315,9 @@
         },
         {
           "PackageIdentifier": "CharlesMilette.TranslucentTB"
+        },
+        {
+          "PackageIdentifier": "M2Team.NanaZip"
         },
         {
           "PackageIdentifier": "Anthropic.Claude"
@@ -381,21 +387,6 @@
         },
         {
           "PackageIdentifier": "TheBrowserCompany.Arc"
-        },
-        {
-          "PackageIdentifier": "Discord.Discord.PTB"
-        },
-        {
-          "PackageIdentifier": "OBSProject.OBSStudio"
-        },
-        {
-          "PackageIdentifier": "Plex.Plex"
-        },
-        {
-          "PackageIdentifier": "RustDesk.RustDesk"
-        },
-        {
-          "PackageIdentifier": "MSYS2.MSYS2"
         }
       ],
       "SourceDetails": {

@@ -238,6 +238,7 @@ window_rules:
       - window_process: { equals: 'Taskmgr' }           # Task Manager
       - window_process: { equals: 'regedit' }
       - window_process: { equals: 'CalculatorApp' }     # Calculator
+      - window_process: { equals: 'speedcrunch' }       # SpeedCrunch calculator
       # Download managers not tied to a workspace. JDownloader caveat: its
       # window is often owned by javaw.exe — if it floats, that's why (we don't
       # allowlist 'java*' or every Java GAME would tile).
