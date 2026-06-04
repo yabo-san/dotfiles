@@ -60,6 +60,16 @@ if command -v fzf > /dev/null ; then
   source <(fzf --zsh)
 fi
 
+# zoxide — smart cd (--cmd cd makes `cd <partial>` jump by frecency)
+if command -v zoxide > /dev/null ; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
+
+# atuin — magic shell history (Ctrl+R, synced). Loads after fzf so it owns Ctrl+R.
+if command -v atuin > /dev/null ; then
+  eval "$(atuin init zsh)"
+fi
+
 if command -v flux > /dev/null ; then
   source <(flux completion zsh)
 fi
@@ -89,6 +99,13 @@ if command -v lsd > /dev/null ; then
   alias lla='ls -lgha'
   alias lt='ls --tree'
 fi
+
+# modern CLI pack (parity with Windows) — alias to classic names where present
+command -v fastfetch > /dev/null && alias ff='fastfetch' && alias neofetch='fastfetch'
+command -v btop  > /dev/null && alias top='btop'
+command -v dust  > /dev/null && alias du='dust'
+command -v duf   > /dev/null && alias df='duf'
+command -v procs > /dev/null && alias ps='procs'
 alias k='kubectl'
 alias kgp='kubectl get pods'
 source <(kubectl completion zsh)

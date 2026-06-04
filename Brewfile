@@ -3,6 +3,24 @@ brew "pure"
 cask "ghostty"
 cask "font-hack-nerd-font"
 
+# shell — the trio + modern CLI (parity with the Windows scoop setup)
+brew "zoxide"        # smart cd (z / cd by frecency)
+brew "atuin"         # magic shell history (Ctrl+R, synced across machines)
+brew "fzf"           # fuzzy finder (Ctrl+T files, Alt+C cd)
+brew "lazygit"       # git TUI (lg)
+brew "git-delta"     # pretty git diffs (delta) — used by git + lazygit
+brew "fastfetch"     # system info on shell open (ff)
+brew "bat"           # cat
+brew "lsd"           # ls
+brew "ripgrep"       # rg
+brew "fd"            # find
+brew "btop"          # top
+brew "dust"          # du
+brew "duf"           # df
+brew "procs"         # ps
+brew "tealdeer"      # tldr
+brew "neovim"        # v
+
 # productivity
 cask "raycast"
 cask "obsidian"
