@@ -152,8 +152,13 @@ function lg  { lazygit @args }
 # k / kgp: kubectl shortcuts. NOTE: `k` is defined later (lazy-loads completion).
 function kgp { kubectl get pods @args }
 
-# cat -> bat
-if (Get-Command bat -ErrorAction SilentlyContinue) { function cat { bat @args } }
+# cat -> bat. PowerShell's built-in `cat` ALIAS (-> Get-Content) shadows a
+# function of the same name, so remove it first (same fix as `ls` below).
+if (Get-Command bat -ErrorAction SilentlyContinue) {
+    Remove-Alias cat -Force -ErrorAction SilentlyContinue
+    Remove-Item Alias:cat -Force -ErrorAction SilentlyContinue
+    function cat { bat @args }
+}
 
 # ls -> lsd suite (dot_zshrc: ls/ll/la/lla/lt)
 # PowerShell ships a built-in `ls` ALIAS for Get-ChildItem that shadows our
