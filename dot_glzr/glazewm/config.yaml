@@ -428,7 +428,3 @@ keybindings:
   - commands: ['move-workspace --direction right']
     bindings: ['lwin+shift+l']
 
-  # ShareX region capture — takes over Snipping Tool (lwin+shift+s = the snip
-  # muscle memory; GlazeWM grabs it before Windows' Snip & Sketch).
-  - commands: ['shell-exec C:\Users\senio\scoop\apps\sharex\current\ShareX.exe -RectangleRegion']
-    bindings: ['lwin+shift+s']
