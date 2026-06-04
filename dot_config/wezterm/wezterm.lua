@@ -36,12 +36,12 @@ config.background = {
     height = "100%",
     opacity = 1.0,
   },
-  { -- dark-red horror silhouette — Contain = whole image fits (not cropped/zoomed)
-    source = { File = wezterm.home_dir .. "/.config/wezterm/bg/horror-sunset.png" },
-    hsb = { brightness = 0.45 },        -- already dark, so let the red glow show
+  { -- dark-red horror silhouette. Pre-resized to 551x700 and shown at NATIVE
+    -- size (no width/height) so it can never stretch. Centered; black edges
+    -- blend into the black base. Re-resize the file if it's too big/small.
+    source = { File = wezterm.home_dir .. "/.config/wezterm/bg/horror-fit.png" },
+    hsb = { brightness = 0.45 },
     opacity = 0.85,
-    width = "Contain",
-    height = "Contain",
     horizontal_align = "Center",
     vertical_align = "Middle",
     repeat_x = "NoRepeat",
