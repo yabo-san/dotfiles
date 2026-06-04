@@ -24,7 +24,11 @@ vkC0::
 
 ; Win+Shift+S -> ShareX region capture (AHK swallows it BEFORE Windows snip, so
 ; Snipping Tool never fires; no reboot needed). Replaces the native snip key.
+; KeyWait releases Win+Shift FIRST — else ShareX's region selector sees the held
+; modifiers as mode-changers and the crosshair won't track the mouse (finicky).
 #+s::
 {
+    KeyWait("LWin")
+    KeyWait("Shift")
     Run('"C:\Users\senio\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
 }
