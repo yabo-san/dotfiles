@@ -18,10 +18,10 @@
     "host",
     "kernel",
     "uptime",
-    // winget is OFF by default (slow to count) — enable it so fetch shows
-    // scoop + winget. Note: winget's count includes Store/system apps, so it's
-    // higher than just what you installed.
-    { "type": "packages", "winget": true },
+    // fastfetch only counts scoop on Windows (44 = your real installs). choco is
+    // empty (AUR-tier fallback), winget isn't supported here + its raw count
+    // (~660) is Store/system noise. scoop-only is the honest number.
+    "packages",
     "shell",
     "wm",
     "terminal",
