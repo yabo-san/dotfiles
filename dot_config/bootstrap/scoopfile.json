@@ -1,0 +1,143 @@
+{
+    "buckets": [
+        {
+            "Name": "main",
+            "Source": "https://github.com/ScoopInstaller/Main.git",
+            "Updated": "2026-06-04T02:36:38-07:00",
+            "Manifests": 1556
+        },
+        {
+            "Name": "extras",
+            "Source": "https://github.com/ScoopInstaller/Extras",
+            "Updated": "2026-06-04T02:37:01-07:00",
+            "Manifests": 2300
+        },
+        {
+            "Name": "nerd-fonts",
+            "Source": "https://github.com/matthewjberger/scoop-nerd-fonts",
+            "Updated": "2026-06-01T03:25:46-07:00",
+            "Manifests": 367
+        }
+    ],
+    "apps": [
+        {
+            "Updated": "2026-06-04T04:31:11.3012741-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "7zip",
+            "Version": "26.01"
+        },
+        {
+            "Updated": "2026-06-04T05:22:32.894933-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "atuin",
+            "Version": "18.16.1"
+        },
+        {
+            "Updated": "2026-06-04T03:06:40.5188889-07:00",
+            "Source": "extras",
+            "Info": "",
+            "Name": "autohotkey",
+            "Version": "2.0.26"
+        },
+        {
+            "Updated": "2026-06-04T02:57:11.9289627-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "bat",
+            "Version": "0.26.1"
+        },
+        {
+            "Updated": "2026-06-04T03:45:28.8788017-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "chezmoi",
+            "Version": "2.70.5"
+        },
+        {
+            "Updated": "2026-06-04T02:57:04.4139736-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "fd",
+            "Version": "10.4.2"
+        },
+        {
+            "Updated": "2026-06-04T02:57:03.88873-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "fzf",
+            "Version": "0.73.1"
+        },
+        {
+            "Updated": "2026-06-04T04:31:44.3074273-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "gcc",
+            "Version": "15.2.0"
+        },
+        {
+            "Updated": "2026-06-04T02:56:28.0204452-07:00",
+            "Source": "nerd-fonts",
+            "Info": "",
+            "Name": "Hack-NF",
+            "Version": "3.4.0"
+        },
+        {
+            "Updated": "2026-06-04T02:57:04.9725646-07:00",
+            "Source": "extras",
+            "Info": "",
+            "Name": "lazygit",
+            "Version": "0.62.2"
+        },
+        {
+            "Updated": "2026-06-04T04:16:26.933562-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "lsd",
+            "Version": "1.2.0"
+        },
+        {
+            "Updated": "2026-06-04T02:57:02.4022466-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "neovim",
+            "Version": "0.12.2"
+        },
+        {
+            "Updated": "2026-06-04T02:57:03.3001332-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "ripgrep",
+            "Version": "15.1.0"
+        },
+        {
+            "Updated": "2026-06-04T04:16:42.2878414-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "starship",
+            "Version": "1.25.1"
+        },
+        {
+            "Updated": "2026-06-04T04:33:19.1394006-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "tree-sitter",
+            "Version": "0.26.9"
+        },
+        {
+            "Updated": "2026-06-04T02:56:27.0315474-07:00",
+            "Source": "extras",
+            "Info": "",
+            "Name": "wezterm",
+            "Version": "20240203-110809-5046fc22"
+        },
+        {
+            "Updated": "2026-06-04T05:22:31.4962568-07:00",
+            "Source": "main",
+            "Info": "",
+            "Name": "zoxide",
+            "Version": "0.9.9"
+        }
+    ]
+}

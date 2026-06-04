@@ -22,6 +22,27 @@ if (Get-Command nvim -ErrorAction SilentlyContinue) {
 }
 $env:LANG = "en_US.UTF-8"
 
+# ~~~~~~~~~~~~~~~ Shell trio: zoxide + atuin + fzf ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Both init scripts are slow to GENERATE (zoxide ~225ms, atuin ~500ms) but the
+# output is static — so CACHE the init script and source the cache (refresh
+# weekly). Same trick as kubectl. Keeps startup snappy.
+function Initialize-CachedInit($cmd, $args, $cacheName) {
+    $cache = Join-Path $env:LOCALAPPDATA $cacheName
+    if ((-not (Test-Path $cache)) -or ((Get-Item $cache).LastWriteTime -lt (Get-Date).AddDays(-7))) {
+        & $cmd $args 2>$null | Out-String | Set-Content $cache -Encoding utf8
+    }
+    if ((Get-Item $cache -EA SilentlyContinue).Length -gt 0) { . $cache }
+}
+# zoxide: smart cd. `z wez` jumps to ~/.config/wezterm by frecency; `zi` = pick.
+if (Get-Command zoxide -ErrorAction SilentlyContinue) {
+    Initialize-CachedInit 'zoxide' @('init','powershell') 'zoxide-init.ps1'
+}
+# atuin: DELIBERATELY NOT loaded in PowerShell — its init hooks PSReadLine and
+# costs ~213ms per launch, too heavy. atuin lives in WSL instead (real shell,
+# where it shines + the sync matters). PowerShell keeps PSReadLine's own Ctrl+R
+# history search, which is plenty. Same fast-PS / full-WSL split as starship.
+# fzf: Ctrl+T fuzzy file, Alt+C fuzzy cd (via PSFzf if installed; see below).
+
 # ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function v   { nvim @args }
 function gp  { git pull @args }
@@ -88,9 +109,25 @@ if ((Get-Module PSFzf -ListAvailable -EA SilentlyContinue)) {
     Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
 
-# ~~~~~~~~~~~~~~~ Prompt (dot_zshrc: Pure) → starship Pure preset ~~~~~~~~~~~~~
-# Identity "yabo" regardless of OS account name. Pure-style minimal prompt.
-$env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship.toml"
-if (Get-Command starship -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&starship init powershell)
+# ~~~~~~~~~~~~~~~ Prompt — native Pure-style (dot_zshrc used `prompt pure`) ~~~
+# In-process, ~5ms (vs ~220ms for starship). Catppuccin Mocha colors.
+# Format:  yabo  <dir>  <git-branch>  ❯
+# git branch only shows inside a repo (one cheap `git branch` call there).
+$script:c = @{          # Catppuccin Mocha
+    cyan='38;2;148;226;213'; blue='38;2;137;180;250'
+    mauve='38;2;203;166;247'; red='38;2;243;139;168'; grey='38;2;108;112;134'
+}
+function prompt {
+    $e = [char]27
+    $loc = $PWD.Path.Replace($HOME, '~')
+    # git branch (only if inside a repo — fast, no status porcelain)
+    $branch = ''
+    $g = git symbolic-ref --short HEAD 2>$null
+    if ($g) { $branch = "$e[$($c.mauve)m $g$e[0m " }
+    # vi-mode aware prompt char: ❯ insert (mauve), ❮ normal (green)... PSReadLine
+    # ViModeIndicator=Cursor handles the cursor; we keep a clean mauve ❯.
+    "$e[$($c.cyan)myabo$e[0m " +
+    "$e[$($c.blue)m$loc$e[0m " +
+    $branch +
+    "$e[$($c.mauve)m❯$e[0m "
 }
