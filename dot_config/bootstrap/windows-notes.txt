@@ -77,3 +77,16 @@
  (mac tiling, mirrors the glaze keymap). Trio + CLI pack + yazi + lazygit + delta
  all ported both ways. `open` is native on mac (not aliased there).
 ================================================================================
+
+--- File Pilot caveat (learned the hard way) ---
+- Do NOT enable File Pilot's "set as default file manager" setting. It writes
+  HKCU\Software\Classes\Directory\shell\open\command = FPilot.exe "%1", which
+  hijacks every "open folder" / "Show in File Explorer". But File Pilot beta is
+  single-instance and DISCARDS the %1 path when already running -> every folder
+  open just shows its last location (e.g. Screenshots). Symptom: Raycast "Show in
+  File Explorer" and path-passing look broken.
+- Fix / keep reverted: remove that registry key so real Explorer handles folder
+  opening:  reg delete "HKCU\Software\Classes\Directory\shell\open" /f
+- Use File Pilot as a manual/standalone browser; let Explorer own "show in folder".
+- Also: File Pilot loads Windows shell extensions; MEGAsync's ShellExtX64.dll
+  injected into it was a crash source (0xc0000005). Windhawk injection was another.
