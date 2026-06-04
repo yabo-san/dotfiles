@@ -40,3 +40,57 @@ function mkcd { param($d) New-Item -ItemType Directory -Force -Path $d | Out-Nul
 
 # reload — re-source the profile (like `source ~/.zshrc`)
 function reload { . $PROFILE }
+
+# head — first N lines. `head file`, `head -n 5 file`, `head -5 file`, `... | head`
+function head {
+    $n = 10; $files = @()
+    for ($i = 0; $i -lt $args.Count; $i++) {
+        if ($args[$i] -eq '-n') { $n = [int]$args[++$i] }
+        elseif ($args[$i] -match '^-(\d+)$') { $n = [int]$Matches[1] }
+        else { $files += $args[$i] }
+    }
+    if ($files) { $files | ForEach-Object { Get-Content $_ -TotalCount $n } }
+    else { $input | Select-Object -First $n }
+}
+
+# tail — last N lines. `tail file`, `tail -n 5 file`, `tail -f file` (follow)
+function tail {
+    $n = 10; $follow = $false; $files = @()
+    for ($i = 0; $i -lt $args.Count; $i++) {
+        if ($args[$i] -eq '-n') { $n = [int]$args[++$i] }
+        elseif ($args[$i] -match '^-(\d+)$') { $n = [int]$Matches[1] }
+        elseif ($args[$i] -eq '-f') { $follow = $true }
+        else { $files += $args[$i] }
+    }
+    if ($files) {
+        if ($follow) { Get-Content $files[0] -Tail $n -Wait }
+        else { $files | ForEach-Object { Get-Content $_ -Tail $n } }
+    } else { $input | Select-Object -Last $n }
+}
+
+# wc — count. `wc -l file` (lines), `-w` (words), `-c` (chars), `... | wc -l`
+function wc {
+    $mode = $null; $files = @()
+    foreach ($a in $args) {
+        switch ($a) { '-l' { $mode = 'l' } '-w' { $mode = 'w' } '-c' { $mode = 'c' } default { $files += $a } }
+    }
+    $content = if ($files) { Get-Content $files } else { $input }
+    $arr = @($content)
+    $text = $arr -join "`n"
+    $lines = $arr.Count
+    $words = ($text -split '\s+' | Where-Object { $_ }).Count
+    $chars = $text.Length
+    switch ($mode) { 'l' { $lines } 'w' { $words } 'c' { $chars } default { "$lines $words $chars" } }
+}
+
+# grep → ripgrep (rg), find → fd are installed separately (modern replacements).
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NOTE: for FULL real GNU coreutils (proper `rm -rf`, `cp -a`, `ls --color`, the
+# exact unix flag set), install uutils-coreutils:  scoop install uutils-coreutils
+# It's a Rust reimplementation of GNU coreutils. We did NOT install it because it
+# can shadow PowerShell's built-in cp/mv/rm aliases and surprise scripts that
+# expect PowerShell semantics. These hand-written functions cover the common gaps
+# (head/tail/wc/touch/which/open) without that risk. If you want the real thing,
+# install it and these functions can be removed.
+# ─────────────────────────────────────────────────────────────────────────────
