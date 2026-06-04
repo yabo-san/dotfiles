@@ -95,16 +95,20 @@ function brew {
             scoop uninstall $pkg 2>$null; winget uninstall $pkg 2>$null; sudo choco uninstall $pkg -y 2>$null
             return
         }
-        default {  # install <pkg>, or bare `brew <pkg>`
-            $target = if ($op -eq 'install') { $pkg } else { $op }
+        default {  # install <pkg...>, or bare `brew <pkg...>` (multi-word ok)
+            # join ALL args after the verb so `brew install proton mail` works
+            $rest = if ($op -eq 'install') { $args[1..($args.Count-1)] } else { $args }
+            $target = ($rest -join ' ').Trim()
             if (-not $target) { Write-Host "usage: brew install <pkg> | search <pkg> | upgrade | uninstall <pkg>"; return }
             Write-Host "trying scoop..." -ForegroundColor Cyan
             scoop install $target; if ($?) { return }
+            # winget: NO --id -e (that needs an exact ID). Plain query = fuzzy match
+            # on id/name/moniker, so names like "proton mail" resolve.
             Write-Host "scoop miss -> winget (community)..." -ForegroundColor Blue
-            winget install --id $target -e --source winget --accept-package-agreements --accept-source-agreements
+            winget install $target --source winget --accept-package-agreements --accept-source-agreements
             if ($?) { return }
             Write-Host "miss -> winget (MS Store)..." -ForegroundColor Green
-            winget install --id $target -e --source msstore --accept-package-agreements --accept-source-agreements
+            winget install $target --source msstore --accept-package-agreements --accept-source-agreements
             if ($?) { return }
             Write-Host "miss -> choco..." -ForegroundColor Magenta
             sudo choco install $target -y
