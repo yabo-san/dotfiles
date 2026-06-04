@@ -1,20 +1,29 @@
+/* ── Win7 Aero glass theme ───────────────────────────────────────────────
+   Translucent dark glass + subtle Aero blue glow. Pairs with blur_effect in
+   config.yaml (acrylic). Rounded like Aero. Segoe-ish font for the era feel. */
 * {
 	font-size: 12px;
-	color: #cdd6f4;
+	color: #eaf2ff;                 /* Aero near-white text */
 	font-weight: 500;
-	font-family: "Hack Nerd Font";
+	font-family: "Segoe UI", "Hack Nerd Font";
 	margin: 0;
 	padding: 0;
 }
 .yasb-bar {
 	padding: 0 8px;
 	margin: 0;
-    background-color: #1e1e2e;
-    border-radius: 16px;
+	/* translucent dark glass — the real glass comes from acrylic blur in config */
+	background-color: rgba(20, 28, 45, 0.55);
+	border: 1px solid rgba(120, 170, 255, 0.25);   /* faint Aero blue edge */
+	border-radius: 8px;
 }
 .widget {
 	padding: 0 10px;
 	margin: 0;
+	/* soft Aero "pill" highlight on each widget */
+	background-color: rgba(120, 170, 255, 0.06);
+	border: 1px solid rgba(150, 190, 255, 0.10);
+	border-radius: 6px;
 }
 .widget .label {
 	padding: 2px 2px 1px 2px;
@@ -39,16 +48,15 @@
     color: #95a0ad;
 }
 
-.glazewm-workspaces .ws-btn.active_populated {
-    color: #89b4fa;
-}
-
+.glazewm-workspaces .ws-btn.active_populated,
 .glazewm-workspaces .ws-btn.active_empty {
-    color: #89b4fa;
+    color: #cfe4ff;                              /* bright Aero glow */
+    background-color: rgba(130, 180, 255, 0.20); /* glass highlight on active */
+    border-radius: 5px;
 }
 
 .glazewm-workspaces .ws-btn.populated {
-    color: #74c7ec;
+    color: #8fc4ff;
 }
 
 .glazewm-workspaces .ws-btn.empty {
