@@ -90,3 +90,23 @@
 - Use File Pilot as a manual/standalone browser; let Explorer own "show in folder".
 - Also: File Pilot loads Windows shell extensions; MEGAsync's ShellExtX64.dll
   injected into it was a crash source (0xc0000005). Windhawk injection was another.
+
+--- MANUAL: default apps (Win11 UserChoiceLatest can't be scripted) ---
+Win11's 2025 "UserChoiceLatest" hash protection makes the FINAL default-app
+choice un-scriptable (SetUserFTA no longer reliable). Everything up to the choice
+IS tracked (ProgIDs + OpenWithProgIds in windows-tweaks.reg); only these clicks
+are manual on a fresh machine:
+  - Images -> IrfanView: right-click a .png/.jpg/etc -> Open with -> Choose
+    another app -> IrfanView -> "Always use this app". (IrfanView already shows in
+    the list via the OpenWithProgIds we registered.)
+  - Archives -> NanaZip: same flow on a .zip/.7z/.rar (NanaZip auto-registers via
+    its MSIX install, so it's already in the Open-with list).
+Reproducible parts (auto-applied): IrfanView ProgID + OpenWithProgIds, ShareX
+autostart + freed PrintScreen, System Informer IFEO. Only the "Always use" click
+per type is manual.
+
+--- ShareX ---
+Uses native PrintScreen hotkeys (PrtSc=full, Ctrl+PrtSc=region, Alt+PrtSc=window,
+Shift+PrtSc=record, Ctrl+Shift+PrtSc=GIF). Autostarts via the Run key (tracked);
+hotkeys only fire while ShareX is running. PrintScreenKeyForSnippingEnabled=0
+frees PrtSc from Windows snip.

@@ -67,3 +67,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Classes\.avif\OpenWithProgids]
 "IrfanView.AllImages"=hex(0):
 
+
+; ShareX autostart (its PrtSc hotkeys only work while ShareX is running)
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
+"ShareX"="\"C:\\Users\\senio\\scoop\\apps\\sharex\\current\\ShareX.exe\" -silent"
