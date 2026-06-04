@@ -1,6 +1,6 @@
 {
 	"$schema" : "https://aka.ms/winget-packages.schema.2.0.json",
-	"CreationDate" : "2026-06-04T08:40:37.419-00:00",
+	"CreationDate" : "2026-06-04T09:11:48.200-00:00",
 	"Sources" : 
 	[
 		{
@@ -79,9 +79,6 @@
 					"PackageIdentifier" : "dotPDN.PaintDotNet"
 				},
 				{
-					"PackageIdentifier" : "glzr-io.glazewm"
-				},
-				{
 					"PackageIdentifier" : "Logitech.GHUB"
 				},
 				{
@@ -116,6 +113,9 @@
 				},
 				{
 					"PackageIdentifier" : "PlayStation.PlayStationAccessories"
+				},
+				{
+					"PackageIdentifier" : "glzr-io.glazewm"
 				},
 				{
 					"PackageIdentifier" : "Microsoft.WebDeploy"

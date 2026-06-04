@@ -63,9 +63,11 @@ if (Get-Module PSFzf -ListAvailable -ErrorAction SilentlyContinue) {
 # ~~~~~~~~~~~~~~~ brew — unified package manager (child of 3 OSes) ~~~~~~~~~~~~~
 # One command everywhere: real Homebrew on macOS, brew-on-Linux in WSL, and on
 # Windows THIS wrapper masquerades as brew over scoop+winget+choco.
-# Priority: scoop (per-user, freshest, no admin) -> winget community ->
-# winget MS STORE (msstore source — Cider/iCloud/EarTrumpet/TranslucentTB live
-# here) -> choco (community/AUR-tier fallback). brew verbs so muscle memory carries:
+# Priority: scoop (per-user, NO UAC — the default that "just works") -> winget
+# community -> winget MS STORE (Cider/iCloud/EarTrumpet) -> choco (empty AUR-tier
+# fallback, kept). NOTE: scoop never prompts UAC; winget/choco prompt for apps
+# that install system-wide (unavoidable for those). scoop is preferred for exactly
+# this reason. choco uses the `sudo` (gsudo) shim only when actually hit.
 #   brew install <pkg>   (or bare `brew <pkg>`)   first manager that has it wins
 #   brew search <pkg>    search ALL three
 #   brew upgrade         upgrade everything across all three
@@ -83,11 +85,11 @@ function brew {
         '^(upgrade|up)$' {
             Write-Host "scoop update *..."  -ForegroundColor Cyan;  scoop update *
             Write-Host "winget upgrade --all..." -ForegroundColor Blue; winget upgrade --all --silent
-            Write-Host "choco upgrade all..." -ForegroundColor Magenta; gsudo choco upgrade all -y
+            Write-Host "choco upgrade all..." -ForegroundColor Magenta; sudo choco upgrade all -y
             return
         }
         '^(uninstall|rm|remove)$' {
-            scoop uninstall $pkg 2>$null; winget uninstall $pkg 2>$null; gsudo choco uninstall $pkg -y 2>$null
+            scoop uninstall $pkg 2>$null; winget uninstall $pkg 2>$null; sudo choco uninstall $pkg -y 2>$null
             return
         }
         default {  # install <pkg>, or bare `brew <pkg>`
@@ -102,7 +104,7 @@ function brew {
             winget install --id $target -e --source msstore --accept-package-agreements --accept-source-agreements
             if ($?) { return }
             Write-Host "miss -> choco..." -ForegroundColor Magenta
-            gsudo choco install $target -y
+            sudo choco install $target -y
         }
     }
 }
