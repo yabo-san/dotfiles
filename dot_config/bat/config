@@ -1,7 +1,4 @@
-# bat config (read via XDG_CONFIG_HOME=~/.config)
-# Make `cat` (aliased to bat) behave like cat: print and return, never page.
+# bat config (Windows). Mac has NO bat config (pure defaults), so match that —
+# default style (numbers + grid + header) and default theme (Monokai Extended).
+# ONLY deviation: never page, so `cat` prints+returns instead of hanging in less.
 --paging=never
-# nice default style: line numbers + grid + header (the "prints nice" look)
---style=numbers,changes,header
-# theme — ansi adapts to the terminal's Catppuccin colors
---theme=ansi

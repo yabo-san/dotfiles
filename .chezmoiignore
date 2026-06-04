@@ -26,6 +26,8 @@ dot_config/scripts/**
 dot_config/powershell/**
 dot_config/starship.toml
 dot_config/bootstrap/**
+dot_config/bat/**
+dot_config/fastfetch/**
 {{ end }}
 
 # nvim is shared (LazyVim overrides apply on both) — never ignored.
