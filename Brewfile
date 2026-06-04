@@ -29,6 +29,7 @@ brew "jq"            # json + yazi
 # productivity
 cask "raycast"
 cask "obsidian"
+cask "shottr"        # screenshot tool (mac equivalent of ShareX on Windows)
 cask "raindropio"
 cask "alt-tab"
 brew "flashspace"
