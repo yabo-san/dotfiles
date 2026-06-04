@@ -219,12 +219,8 @@ function k {
     Initialize-KubectlCompletion
     kubectl @args
 }
-# fzf key-bindings via PSFzf — only if the module is actually installed.
-# (Import-Module with -ErrorAction skips the slow -ListAvailable scan when absent.)
-if ((Get-Module PSFzf -ListAvailable -EA SilentlyContinue)) {
-    Import-Module PSFzf
-    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-}
+# (PSFzf is loaded once in the trio section above — no duplicate here. The old
+#  block also grabbed Ctrl+R, which fights atuin; removed.)
 
 # ~~~~~~~~~~~~~~~ Prompt — native Pure-style (dot_zshrc used `prompt pure`) ~~~
 # In-process, ~5ms (vs ~220ms for starship). Catppuccin Mocha colors.

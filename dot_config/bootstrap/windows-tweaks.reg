@@ -33,48 +33,9 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe]
 "Debugger"="C:\\Users\\senio\\scoop\\apps\\systeminformer\\current\\SystemInformer.exe"
 
-; IrfanView ProgID (so it's a clean named image handler). You still must set it
-; as the default per-extension via "Open with > Always" — Win11 UserChoiceLatest
-; protection makes the final default un-scriptable (the one manual bootstrap step).
-[HKEY_CURRENT_USER\Software\Classes\IrfanView.AllImages]
-@="Image File"
-[HKEY_CURRENT_USER\Software\Classes\IrfanView.AllImages\DefaultIcon]
-@="C:\\Users\\senio\\scoop\\apps\\irfanview\\current\\i_view64.exe,0"
-[HKEY_CURRENT_USER\Software\Classes\IrfanView.AllImages\shell\open\command]
-@="\"C:\\Users\\senio\\scoop\\apps\\irfanview\\current\\i_view64.exe\" \"%1\""
-
-; Register IrfanView in 'Open with' for image types (final default set manually per Win11)
-[HKEY_CURRENT_USER\Software\Classes\.png\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.jpg\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.jpeg\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.gif\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.bmp\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.webp\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.tif\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.tiff\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.ico\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.heic\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-[HKEY_CURRENT_USER\Software\Classes\.avif\OpenWithProgids]
-"IrfanView.AllImages"=hex(0):
-
+; (IrfanView image-default experiment removed — it broke File Explorer/File Pilot
+;  thumbnails. Images use the Windows default viewer, which keeps native previews.)
 
 ; ShareX autostart (its PrtSc hotkeys only work while ShareX is running)
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
 "ShareX"="\"C:\\Users\\senio\\scoop\\apps\\sharex\\current\\ShareX.exe\" -silent"
-
-; IrfanView ProgID needs the system photo thumbnail provider, else setting it as
-; the image default kills File Explorer previews (generic icons).
-[HKEY_CURRENT_USER\Software\Classes\IrfanView.AllImages]
-"PerceivedType"="image"
-[HKEY_CURRENT_USER\Software\Classes\IrfanView.AllImages\ShellEx\{e357fccd-a995-4576-b01f-234630154e96}]
-@="{C7657C4A-9F68-40fa-A4DF-96BC08EB3551}"

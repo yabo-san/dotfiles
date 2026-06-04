@@ -21,3 +21,10 @@ vkC0::
 {
     SendText("``")
 }
+
+; Win+Shift+S -> ShareX region capture (AHK swallows it BEFORE Windows snip, so
+; Snipping Tool never fires; no reboot needed). Replaces the native snip key.
+#+s::
+{
+    Run('"C:\Users\senio\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
+}
