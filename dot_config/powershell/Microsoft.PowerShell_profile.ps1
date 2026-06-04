@@ -136,12 +136,13 @@ if ($Host.Name -eq 'ConsoleHost' -and -not $env:QUAKE_TERM -and (Get-Command fas
     fastfetch
 }
 
+# ~~~~~~~~~~~~~~~ Unix/mac muscle-memory commands (separate file) ~~~~~~~~~~~~~~
+# open, touch, which, pbcopy/pbpaste, export, sudo, mkcd, reload — the "this unix
+# command doesn't exist on Windows" gap-fillers. Add new reflexes there.
+$unixAliases = "$env:USERPROFILE\.config\powershell\unix-aliases.ps1"
+if (Test-Path $unixAliases) { . $unixAliases }
+
 # ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# mac `open` parity: open files w/ default app, dirs in the file manager, URLs in
-# browser. `open` alone opens the current dir. (Invoke-Item = the Windows equiv.)
-function open {
-    if ($args.Count -eq 0) { Invoke-Item . } else { Invoke-Item @args }
-}
 function v   { nvim @args }
 function gp  { git pull @args }
 function gs  { git status @args }
