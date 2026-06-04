@@ -101,6 +101,8 @@ function brew {
 
 
 # ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function ff  { fastfetch @args }   # the neofetch flex (run manually; ~run on open below)
+function neofetch { fastfetch @args }   # muscle-memory alias
 function v   { nvim @args }
 function gp  { git pull @args }
 function gs  { git status @args }
