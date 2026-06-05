@@ -76,17 +76,8 @@ config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 local act = wezterm.action
 config.keys = {
   -- ── COPY / PASTE ──────────────────────────────────────────────────────
-  -- Ctrl+C is SMART: copy if text is selected, else pass through as SIGINT
-  -- (so ctrl-C still kills running commands). Ctrl+V pastes.
-  { key = "c", mods = "CTRL", action = wezterm.action_callback(function(win, pane)
-      local sel = win:get_selection_text_for_pane(pane)
-      if sel and sel ~= "" then
-        win:perform_action(act.CopyTo("Clipboard"), pane)
-        win:perform_action(act.ClearSelection, pane)
-      else
-        win:perform_action(act.SendKey({ key = "c", mods = "CTRL" }), pane) -- real SIGINT
-      end
-    end) },
+  -- Ctrl+C = ALWAYS interrupt (SIGINT) — never copies. (No Ctrl+C binding here means
+  -- WezTerm passes it straight to the shell.) Copy is on Alt+C / Ctrl+Shift+C / drag-select.
   { key = "v", mods = "CTRL", action = act.PasteFrom("Clipboard") },
   -- mac muscle memory: on a Windows keyboard, ALT sits where mac's Cmd is, so
   -- Alt+C / Alt+V = your literal Cmd+C / Cmd+V copy/paste. WezTerm-only (games
