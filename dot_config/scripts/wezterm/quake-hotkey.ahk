@@ -39,7 +39,7 @@ vkC0::
 ; Alt+C -> Ctrl+C would be SIGINT, not copy. Alt+Tab / Alt+F4 stay native (not touched).
 ; Games: the Playnite global script (game-mode.ps1) KILLS this whole AHK process,
 ; so in-game everything is raw native input (anti-cheat safe).
-#HotIf !WinActive("ahk_exe wezterm-gui.exe")
+#HotIf !WinActive("ahk_exe wezterm-gui.exe") and !WinActive("ahk_exe RustDesk.exe")
 !c::^c
 !x::^x
 !v::^v
