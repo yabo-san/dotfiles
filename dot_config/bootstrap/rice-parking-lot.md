@@ -16,9 +16,11 @@ is in Claude memory `ricing-todos-next`; this is the browsable checklist.
 - [ ] **G502 productivity mapping** (Logi Options+, per-app) → gist. (Options+ not chezmoi-trackable → document.)
 - [ ] **Window-switcher parity** — Raycast switcher on both / GlazeWM focus (lwin+hjkl). Native Alt+Tab is already window-level.
 
-## 🎮 Playnite dotfilesify — via native Backup (DECIDED)
-- [ ] Settings → Backup: OutputDir = a tracked folder; BackupItems = LEAN (Settings + ExtensionsData + Library DB; EXCLUDE LibraryFiles/media, browsercache, Extensions code). Backup-on-close + rotation. Git the zip → restore = Playnite-native.
-- [ ] Slim the standalone `yabo-playnite-dotfiles` repo to that (drop the ~160 MB vendored ExtensionsData+Themes; keep config + extensions-manifest + capture/restore script).
+## 🎮 Playnite dotfilesify — via DEV-ONLY EXTENSION reference (DECIDED; supersedes the backup idea)
+- [x] `dot_config/bootstrap/setup-playnite.ps1` — installs Playnite (winget) → clones the PRIVATE yabo-launcher repo → builds YaboLibrary → runs the launcher's existing `dev/deploy-playnite-extension.ps1`. Public dotfiles stay generic + secret-free; the private extension owns the library/feed/curation = the real "backup".
+- [ ] **Retire `yabo-san/yabo`** (old standalone backup repo) — the extension + this script ARE the backup now.
+- [ ] Playnite `config.json` (theme/global) doesn't carry — set on first run or document.
+- [ ] (run setup-playnite.ps1 with Playnite CLOSED; needs gh token + .NET SDK on the dev machine.)
 
 ## 🍎 Mac
 - [ ] Ghostty "can't draw art" — switch Mac terminal (kitty/iTerm for inline images) or accept Ghostty.
