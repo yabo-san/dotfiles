@@ -38,7 +38,8 @@
  4. MS Store apps: install the IDs in msstore-apps.md (--source msstore).
  5. chezmoi init --apply yabo-san/dotfiles
  6. Apply windows-tweaks.reg (lock-disable, classic context menu, taskbar).
- 7. MANUAL (can't script): auto-hide taskbar (Settings), Raycast Win+L binding,
+ 7. MANUAL (can't script): auto-hide taskbar (Settings), point Raycast at its
+    script dir + rebind Win+L (see RAYCAST SCRIPT COMMANDS),
     app logins, the few non-packaged apps (Ableton, reWASD — rewasd.json manifest).
 
 ----------------------------------------------------- REGISTRY / MANUAL STEPS --
@@ -51,11 +52,20 @@
   - MMTaskbarEnabled etc.
  Manual: taskbar auto-hide is a binary blob (Settings > Taskbar behaviors).
 
- WIN+L BRIDGE (move window right):
-  - lwin+shift+l = GlazeWM native move-right (bulletproof fallback, always works).
+ RAYCAST SCRIPT COMMANDS (fresh-machine manual setup -- can't be chezmoi'd):
+  - The scripts live in ~/.config/scripts/raycast (chezmoi-deployed, SINGLE source):
+    obsidian-guarded, obsidian-snapshot, classic-start-menu, glaze-move-right.
+    (Old D:\REPOS\scripts\raycast copies were retired -- one source of truth now.)
+  - POINT RAYCAST AT THAT DIR by hand: Settings > Extensions > Script Commands >
+    Add Directory > C:\Users\senio\.config\scripts\raycast. Raycast stores its script
+    directories in a SQLite index (app_index.db), NOT an editable file -> chezmoi
+    can't set it for you; it's a manual step on every fresh machine.
+
+ WIN+L BRIDGE (move window right) -- a Raycast hotkey, also rebind by hand:
   - Win+L = Raycast captures it -> glaze-move-right.ps1 -> GlazeWM CLI.
-  - REQUIRES DisableLockWorkstation=1 (else Win+L just locks). Tested necessary.
-  - Re-add the Win+L binding in Raycast by hand on a fresh machine.
+  - REQUIRES DisableLockWorkstation=1 (windows-tweaks.reg) else Win+L just locks. Tested.
+  - lwin+shift+l = GlazeWM native move-right (bulletproof fallback, always works).
+  - Raycast hotkeys live in Raycast's index, not the dotfiles -> re-bind on fresh machine.
 
 ------------------------------------------------------------------ GOTCHAS ------
  - find.exe HYDRATES OneDrive: Windows find.exe is a *content* search; scanning
@@ -171,7 +181,7 @@ PROBLEM: iCloud-on-Windows clobbers .obsidian config -> plugins/settings vanish.
 FIX: keep a git-backed canonical config OFF iCloud, restore it on every launch.
 - Canonical: ~/.config/obsidian/config-backup/*.json (chezmoi-tracked, WINDOWS-ONLY via
   .chezmoiignore: app/appearance/community-plugins/core-plugins/hotkeys/graph/daily-notes).
-- Raycast commands (D:\REPOS\scripts\raycast + chezmoi copy ~/.config/scripts/raycast):
+- Raycast commands (in ~/.config/scripts/raycast -- see RAYCAST SCRIPT COMMANDS above):
     "Obsidian"                 (obsidian-guarded.ps1)  -> restore canonical, then open vault
     "Snapshot Obsidian Config" (obsidian-snapshot.ps1) -> save current config as canonical
 HOW TO DRIVE:
