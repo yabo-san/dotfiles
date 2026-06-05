@@ -44,5 +44,8 @@ vkC0::
 !x::^x
 !v::^v
 !a::^a
-!t::^t     ; Alt+T -> Ctrl+T = new tab (mac Cmd+T parity). Tools-menu apps are legacy; none you use bind it.
+; ONLY the OS-level copy family lives in AHK — nothing can rebind Ctrl+C/X/V/A, so
+; AHK is the only way to put them on Alt. Everything else (new tab, find, close,
+; address bar, tabs, …) lives in each app's OWN dotfile-able config — e.g. Zen's
+; zen-keyboard-shortcuts.json is Alt-ified. Doing them here too would DOUBLE-bind.
 #HotIf
