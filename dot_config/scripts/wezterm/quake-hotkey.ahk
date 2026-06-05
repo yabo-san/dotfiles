@@ -44,6 +44,14 @@ vkC0::
 !x::^x
 !v::^v
 !a::^a
+; The remaps above use an implicit * (they fire even with EXTRA modifiers held), which
+; hijacks Alt+SHIFT+C/X/V/A — e.g. Zen's Alt+Shift+C = copy URL, Alt+Shift+A = addons.
+; Pass the Shift variants straight through to the app (~ = don't suppress; more-specific
+; than !c so it wins):
+~!+c::return
+~!+x::return
+~!+v::return
+~!+a::return
 ; ONLY the OS-level copy family lives in AHK — nothing can rebind Ctrl+C/X/V/A, so
 ; AHK is the only way to put them on Alt. Everything else (new tab, find, close,
 ; address bar, tabs, …) lives in each app's OWN dotfile-able config — e.g. Zen's
