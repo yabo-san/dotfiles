@@ -29,9 +29,8 @@ brew "ffmpeg"        # yazi video thumbnails
 brew "imagemagick"   # yazi image handling
 brew "jq"            # json + yazi
 
-# window management / status bar
+# window management (tiling + active-window borders; using the default macOS menu bar — sketchybar dropped, no good fit)
 cask "nikitabobko/tap/aerospace"
-brew "FelixKratz/formulae/sketchybar"
 brew "FelixKratz/formulae/borders"
 
 # productivity
