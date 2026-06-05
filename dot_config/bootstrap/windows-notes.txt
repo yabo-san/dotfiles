@@ -59,7 +59,11 @@
   - POINT RAYCAST AT THAT DIR by hand: Settings > Extensions > Script Commands >
     Add Directory > C:\Users\senio\.config\scripts\raycast. Raycast stores its script
     directories in a SQLite index (app_index.db), NOT an editable file -> chezmoi
-    can't set it for you; it's a manual step on every fresh machine.
+    can't set it for you -- but it's a quick "+"/Add Directory click, not a chore.
+    NOTE: that's the SCRIPT COMMANDS setting, NOT "Search Scopes". Search Scopes is for
+    finding Applications (.exe/.lnk, e.g. Start Menu); a .ps1 added THERE won't run as a
+    command. (Search Scopes scanning both Start Menu dirs is also why dup-installed apps
+    like RustDesk/Deskflow/Obsidian show twice -- fixed by removing the duplicate install.)
 
  WIN+L BRIDGE (move window right) -- a Raycast hotkey, also rebind by hand:
   - Win+L = Raycast captures it -> glaze-move-right.ps1 -> GlazeWM CLI.
