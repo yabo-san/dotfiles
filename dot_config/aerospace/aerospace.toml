@@ -68,6 +68,13 @@ run = "move-node-to-workspace 4"
 [on-window-detected.matches]
 app-id = "org.blenderfoundation.blender"
 
+[[on-window-detected]]
+run = "move-node-to-workspace 4"
+[on-window-detected.matches]
+# GMEdit (GML editor). Mac bundle-id not confirmed — matching by name; replace with
+# app-id once known (find it via: osascript -e 'id of app "GMEdit"').
+app-name-regex-substring = "GMEdit"
+
 # ── Keybinds (main mode) ─────────────────────────────────────────────────
 [mode.main.binding]
 

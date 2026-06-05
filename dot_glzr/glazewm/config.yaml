@@ -209,7 +209,7 @@ window_rules:
   - commands: ['set-tiling', 'move --workspace 4']
     match:
       # Code editors / IDEs (devenv = Visual Studio; JetBrains = pycharm64/rider64)
-      - window_process: { regex: 'Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64' }
+      - window_process: { regex: 'Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit' }
       # Creative / gamedev tools. NOTE: blender, HxD, GameMaker, LM Studio,
       # Godot, Tiled, LDtk process names are conventional (not all verified
       # live). If one opens FLOATING, its real process name differs — query
