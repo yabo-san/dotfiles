@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
 # @raycast.schemaVersion 1
-# @raycast.title Obsidian
+# @raycast.title Obsidian (guarded)
 # @raycast.mode silent
 # @raycast.packageName Obsidian
 # @raycast.icon 🪨
