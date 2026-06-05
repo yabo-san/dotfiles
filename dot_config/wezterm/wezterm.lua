@@ -82,10 +82,16 @@ config.keys = {
   -- mac muscle memory: on a Windows keyboard, ALT sits where mac's Cmd is, so
   -- Alt+C / Alt+V = your literal Cmd+C / Cmd+V copy/paste. WezTerm-only (games
   -- never see it). Alt+C copies the selection like mac Cmd+C.
-  { key = "c", mods = "ALT", action = act.CopyTo("Clipboard") },
+  { key = "c", mods = "ALT", action = wezterm.action_callback(function(win, pane)
+      local s = win:get_selection_text_for_pane(pane)
+      if s and s ~= "" then win:perform_action(act.CopyTo("Clipboard"), pane) end  -- copy only if selected; NEVER flush the clipboard on an empty copy
+    end) },
   { key = "v", mods = "ALT", action = act.PasteFrom("Clipboard") },
   -- Linux-terminal convention too, always available:
-  { key = "c", mods = "CTRL|SHIFT", action = act.CopyTo("Clipboard") },
+  { key = "c", mods = "CTRL|SHIFT", action = wezterm.action_callback(function(win, pane)
+      local s = win:get_selection_text_for_pane(pane)
+      if s and s ~= "" then win:perform_action(act.CopyTo("Clipboard"), pane) end  -- copy only if selected; never flush
+    end) },
   { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
 
   -- splits (ghostty: ctrl+b \ and ctrl+b % = right ; ctrl+b - and ctrl+b " = down)
