@@ -122,7 +122,7 @@ widgets:
           on_middle: "do_nothing"
           on_right: "do_nothing"
         max_field_size:
-          label: 50
+          label: 28
           label_alt: 24
         show_thumbnail: false
         controls_only: false
