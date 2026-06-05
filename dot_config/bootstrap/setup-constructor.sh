@@ -5,9 +5,10 @@
 # plugin into GMEdit's user-data plugins folder, which differs per OS. GMEdit itself
 # comes from itch.io (or the Playnite extension on Windows) — not handled here.
 #
-#   macOS:           sh setup-constructor.sh
-#   Windows (git-bash, which ships with git): sh setup-constructor.sh
-#   (Windows-native equivalent also exists: bootstrap/setup-gmedit.ps1)
+#   macOS:    sh setup-constructor.sh
+#   Windows:  sh setup-constructor.sh   (via git-bash — ships with git)
+#   This is THE single cross-platform setup. (The GMEdit binary + Start Menu
+#   shortcuts are handled by Playnite/itch, so no separate Windows script is needed.)
 set -eu
 
 case "$(uname -s)" in
