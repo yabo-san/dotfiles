@@ -9,6 +9,7 @@ theme = Catppuccin Mocha
 quick-terminal-position = top
 quick-terminal-screen = cursor
 quick-terminal-animation-duration = 0
+quick-terminal-space-above-top = 30
 keybind = global:grave_accent=toggle_quick_terminal
 keybind = ctrl+shift+alt+grave_accent=text:\x60
 
