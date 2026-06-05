@@ -15,6 +15,18 @@ case "$(uname -s)" in
   *)       PLUGINS="${APPDATA:-$HOME/AppData/Roaming}/AceGM/GMEdit/plugins" ;;  # Windows
 esac
 
+# macOS: apps downloaded outside the App Store (itch.io GMEdit) get a Gatekeeper
+# quarantine xattr that blocks launch ("damaged / unidentified developer"). Strip it
+# from GMEdit.app wherever it landed so it'll actually open.
+if [ "$(uname -s)" = "Darwin" ]; then
+  for app in /Applications/GMEdit.app "$HOME/Applications/GMEdit.app" "$HOME/Downloads/GMEdit.app"; do
+    if [ -d "$app" ]; then
+      echo "[ok] de-quarantining $app"
+      xattr -cr "$app" 2>/dev/null || true
+    fi
+  done
+fi
+
 mkdir -p "$PLUGINS"
 DIR="$PLUGINS/GMEdit-Constructor"
 
