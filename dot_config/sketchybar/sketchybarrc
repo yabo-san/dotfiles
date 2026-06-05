@@ -1,0 +1,87 @@
+#!/bin/bash
+
+CONFIG_DIR="$HOME/.config/sketchybar"
+
+# Catppuccin Mocha
+BG="#1e1e2e"
+SURFACE="#313244"
+TEXT="#cdd6f4"
+SUBTEXT="#a6adc8"
+MAUVE="#cba6f7"
+GREEN="#a6e3a1"
+RED="#f38ba8"
+YELLOW="#f9e2af"
+BLUE="#89b4fa"
+
+FONT="Hack Nerd Font"
+
+##### Bar ################################################################
+sketchybar --bar \
+  height=32 \
+  blur_radius=0 \
+  position=top \
+  sticky=on \
+  padding_left=12 \
+  padding_right=12 \
+  color=$BG \
+  border_width=0 \
+  shadow=off
+
+##### Defaults ###########################################################
+sketchybar --default \
+  icon.font="$FONT:Regular:13.0" \
+  label.font="$FONT:Regular:13.0" \
+  icon.color=$TEXT \
+  label.color=$TEXT \
+  padding_left=6 \
+  padding_right=6 \
+  label.padding_left=4 \
+  label.padding_right=4 \
+  icon.padding_left=4 \
+  icon.padding_right=2
+
+##### Left — flashspace workspace ########################################
+sketchybar --add event flashspace_workspace_change
+
+sketchybar --add item space left \
+  --set space \
+    icon.drawing=off \
+    label.color=$MAUVE \
+    label.font="$FONT:Bold:13.0" \
+    background.color=$SURFACE \
+    background.corner_radius=6 \
+    background.height=24 \
+    background.drawing=on \
+    update_freq=0 \
+    script="$CONFIG_DIR/plugins/space.sh" \
+  --subscribe space flashspace_workspace_change front_app_switched
+
+##### Right — system stats ###############################################
+sketchybar --add item clock right \
+  --set clock \
+    update_freq=30 \
+    icon= \
+    icon.color=$BLUE \
+    script="$CONFIG_DIR/plugins/clock.sh"
+
+sketchybar --add item battery right \
+  --set battery \
+    update_freq=60 \
+    script="$CONFIG_DIR/plugins/battery.sh"
+
+sketchybar --add item memory right \
+  --set memory \
+    update_freq=10 \
+    icon= \
+    icon.color=$YELLOW \
+    script="$CONFIG_DIR/plugins/memory.sh"
+
+sketchybar --add item cpu right \
+  --set cpu \
+    update_freq=5 \
+    icon= \
+    icon.color=$GREEN \
+    script="$CONFIG_DIR/plugins/cpu.sh"
+
+##### Finalise ###########################################################
+sketchybar --update

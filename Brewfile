@@ -1,3 +1,6 @@
+tap "nikitabobko/tap"
+tap "FelixKratz/formulae"
+
 # terminal
 brew "pure"
 cask "ghostty"
@@ -25,6 +28,11 @@ brew "poppler"       # yazi PDF previews
 brew "ffmpeg"        # yazi video thumbnails
 brew "imagemagick"   # yazi image handling
 brew "jq"            # json + yazi
+
+# window management / status bar
+cask "nikitabobko/tap/aerospace"
+brew "FelixKratz/formulae/sketchybar"
+brew "FelixKratz/formulae/borders"
 
 # productivity
 cask "raycast"

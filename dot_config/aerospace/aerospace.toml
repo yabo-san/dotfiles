@@ -1,21 +1,29 @@
 # aerospace.toml — mac tiling WM, mirrors the Windows GlazeWM setup 1:1.
 # Modifier: alt (option) on mac = lwin on Windows. Same vim layout.
-# i3-style, opt-in feel. Workspaces 1-10; 1-4 are the "named" ones (main/
-# texting/music/gamedev) with apps auto-homed via on-window-detected below.
+# Workspaces 1-10; 1-4 are the "named" ones (main/texting/music/gamedev)
+# with apps auto-homed via on-window-detected below.
 #
-# Parity map (Windows GlazeWM -> here):
-#   lwin+h/j/k/l        -> alt-h/j/k/l       move window (RIGHT works natively
-#                          here; no Win+L/Raycast bridge needed on mac)
-#   lwin+1..0           -> alt-1..0          go to workspace
-#   lwin+shift+1..0     -> alt-shift-1..0    send window to workspace
-#   lwin+shift+h/j/k/l  -> alt-shift-h/j/k/l move workspace to monitor
-#   lwin+t             -> alt-t             toggle float/tile
-#   lwin+m             -> alt-m             fullscreen
-#   lwin+shift+r       -> alt-shift-r       reload config
+# Parity map (GlazeWM -> aerospace):
+#   lwin+h/j/k/l        -> alt-h/j/k/l         focus window
+#   lwin+shift+h/j/k/l  -> alt-shift-h/j/k/l   move window in tree
+#   lwin+1..0           -> alt-1..0             go to workspace
+#   lwin+shift+1..0     -> alt-shift-1..0       send window to workspace
+#   lwin+t              -> alt-t                toggle float/tile
+#   lwin+m              -> alt-m                fullscreen
+#   lwin+shift+r        -> alt-shift-r          reload config
 
 start-at-login = true
 
-# tiling defaults
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
 [gaps]
 inner.horizontal = 10
 inner.vertical   = 10
@@ -25,8 +33,7 @@ outer.top        = 10
 outer.bottom     = 10
 
 # ── App auto-homing (= GlazeWM's move --workspace rules) ─────────────────
-# Apps land on their workspace on launch. Mirrors the Windows allowlist intent.
-[[on-window-detected]]   # browsers -> 1 main
+[[on-window-detected]]
 run = "move-node-to-workspace 1"
 [on-window-detected.matches]
 app-id = "app.zen-browser.zen"
@@ -34,9 +41,9 @@ app-id = "app.zen-browser.zen"
 [[on-window-detected]]
 run = "move-node-to-workspace 1"
 [on-window-detected.matches]
-app-id = "company.thebrowser.Browser"   # Arc
+app-id = "company.thebrowser.Browser"
 
-[[on-window-detected]]   # chat -> 2 texting
+[[on-window-detected]]
 run = "move-node-to-workspace 2"
 [on-window-detected.matches]
 app-id = "com.hnc.Discord"
@@ -46,12 +53,12 @@ run = "move-node-to-workspace 2"
 [on-window-detected.matches]
 app-id = "com.automattic.beeper.desktop"
 
-[[on-window-detected]]   # music -> 3
+[[on-window-detected]]
 run = "move-node-to-workspace 3"
 [on-window-detected.matches]
 app-id = "com.apple.Music"
 
-[[on-window-detected]]   # editors/gamedev -> 4
+[[on-window-detected]]
 run = "move-node-to-workspace 4"
 [on-window-detected.matches]
 app-id = "dev.zed.Zed"
@@ -64,13 +71,25 @@ app-id = "org.blenderfoundation.blender"
 # ── Keybinds (main mode) ─────────────────────────────────────────────────
 [mode.main.binding]
 
-# move window (vim) — right is native here, no bridge
-alt-h = 'move left'
-alt-j = 'move down'
-alt-k = 'move up'
-alt-l = 'move right'
+# Focus (GlazeWM lwin+hjkl)
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
 
-# go to workspace (full number row)
+# Move window in tree (GlazeWM lwin+shift+hjkl)
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Resize
+alt-ctrl-h = 'resize width -50'
+alt-ctrl-l = 'resize width +50'
+alt-ctrl-j = 'resize height +50'
+alt-ctrl-k = 'resize height -50'
+
+# Go to workspace (GlazeWM lwin+1..0)
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
@@ -82,7 +101,7 @@ alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 alt-0 = 'workspace 10'
 
-# send window to workspace
+# Send window to workspace (GlazeWM lwin+shift+1..0)
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
 alt-shift-3 = 'move-node-to-workspace 3'
@@ -94,13 +113,8 @@ alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-0 = 'move-node-to-workspace 10'
 
-# move whole workspace to monitor (vim) — GlazeWM lwin+shift+hjkl
-alt-shift-h = 'move-workspace-to-monitor left'
-alt-shift-j = 'move-workspace-to-monitor down'
-alt-shift-k = 'move-workspace-to-monitor up'
-alt-shift-l = 'move-workspace-to-monitor right'
-
-# window state
-alt-t = 'layout floating tiling'   # float/tile toggle (GlazeWM lwin+t)
-alt-m = 'fullscreen'               # GlazeWM lwin+m
-alt-shift-r = 'reload-config'      # GlazeWM lwin+shift+r
+# Layout
+alt-e     = 'layout tiles horizontal vertical'
+alt-t     = 'layout floating tiling'
+alt-m     = 'fullscreen'
+alt-shift-r = 'reload-config'
