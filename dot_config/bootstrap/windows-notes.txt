@@ -137,8 +137,15 @@ These .lnk files live in %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
   - MEGAsync.lnk       -> (MEGAsync)
 ShareX autostarts via the Run key (in windows-tweaks.reg), not here.
 
---- Open-Shell mechanism (confirmed) ---
+--- Open-Shell mechanism (confirmed via source) ---
 Live settings = registry HKCU\Software\OpenShell (auto-applied by openshell-settings.reg).
 The .xml is Open-Shell's native Backup export (Settings > Backup > Load from XML).
-Bare Win opens the classic menu (WinKey=ClassicMenu); GlazeWM Win+<key> combos still work
-(Open-Shell only takes the bare Win TAP). NOTE: keep Raycast OFF the bare Win key.
+OPEN IT via: (a) click the start button, or (b) Raycast "Classic Start Menu" command
+(scripts/raycast/classic-start-menu.ps1). The script posts Open-Shell's IPC message
+"OpenShellMenu.StartMenuMsg" (MSG_OPEN=2) to Shell_TrayWnd, then force-focuses the
+menu window (OpenShell.CMenuContainer) via AttachThreadInput -> arrows/Enter work
+AND Esc/click-away close it (Open-Shell closes on WM_ACTIVATE/WA_INACTIVE).
+NOTE: Open-Shell IGNORES injected keystrokes (LLKHF_INJECTED), so simulating keys
+(keybd_event/AHK) does NOT work — the IPC message is the ONLY programmatic path.
+Key triggers WinKey/ShiftWin = "Nothing" ON PURPOSE: Shift+Win would clash with
+ShareX's Win+Shift+S. ShiftClick=WindowsMenu (Shift+click start button = Win11 menu).
