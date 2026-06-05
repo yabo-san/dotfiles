@@ -9,6 +9,11 @@ setopt HIST_IGNORE_SPACE # dont save when prefixed with SPACE
 setopt HIST_IGNORE_DUPS # dont save duplicate lines
 setopt SHARE_HISTORY # share history between sessions
 
+# Fastfetch on startup — skip in quake terminal and nested shells (matches PS profile)
+if command -v fastfetch > /dev/null && [[ -z "$QUAKE_TERM" ]] && [[ "$SHLVL" -eq 1 ]]; then
+  fastfetch
+fi
+
 # ~~~~~~~~~~~~~~~ Prompt ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -38,6 +43,14 @@ if command -v nvim > /dev/null ; then
 fi
 
 export LANG="en_US.UTF-8"
+
+# XDG — makes tools read from ~/.config consistently across all 3 OSes
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# bat config path (stops bat hanging on long files, keeps our style)
+export BAT_CONFIG_PATH="$HOME/.config/bat/config"
 
 
 # ~~~~~~~~~~~~~~~ Mise ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,6 +107,21 @@ if command -v mise > /dev/null ; then
 fi
 
 
+# Up/down = prefix history search (matches PSReadLine HistorySearchBackward)
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+# zsh-autosuggestions (gray ghost text, matches PSReadLine PredictionSource)
+[[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && \
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# zsh-syntax-highlighting (red = bad command, green = good, matches PSReadLine)
+[[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -139,6 +167,17 @@ compdef __start_kubectl k
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
 alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
 alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
+
+# grep → rg, find → fd, wget → curl (mirrors unix-aliases.ps1)
+command -v rg   > /dev/null && alias grep='rg'
+command -v fd   > /dev/null && alias find='fd'
+alias wget='curl -L -O'
+
+# mkcd — mkdir + cd (PS: function mkcd)
+mkcd() { mkdir -p "$1" && cd "$1" }
+
+# reload — re-source zshrc (PS: function reload)
+alias reload='source ~/.zshrc'
 
 unalias dormin 2>/dev/null
 dormin() {
