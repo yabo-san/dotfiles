@@ -30,6 +30,8 @@ brew "jq"            # json + yazi
 cask "raycast"
 cask "obsidian"
 cask "shottr"        # screenshot tool (mac equivalent of ShareX on Windows)
+cask "rustdesk"      # remote desktop (parity with scoop rustdesk on Windows)
+cask "deskflow"      # KVM — share one kbd/mouse across mac+windows (ex-Synergy/Barrier)
 cask "raindropio"
 cask "alt-tab"
 brew "flashspace"
