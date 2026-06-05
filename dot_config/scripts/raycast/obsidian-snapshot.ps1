@@ -4,16 +4,42 @@
 # @raycast.mode silent
 # @raycast.packageName Obsidian
 # @raycast.icon 💾
-# @raycast.description Save current .obsidian config as canonical — run AFTER you intentionally change plugins/settings
+# @raycast.description Save your WHOLE Obsidian config (incl per-plugin settings) as canonical
 
-# Captures your current Obsidian config to the off-iCloud canonical store the guard
-# restores from. Run this whenever you deliberately enable a plugin / change a
-# setting, so the guard doesn't revert your intended change.
+# Captures the full .obsidian config to the off-iCloud, git-backed canonical store the
+# guard restores from. Run this whenever you deliberately change plugins/settings.
+# Includes: top-level config JSONs (app/appearance/hotkeys/graph/daily-notes/plugins lists),
+#           EVERY plugin's data.json (Templater, Dataview, etc. — the per-plugin settings),
+#           themes/ and snippets/.
+# Excludes: workspace*.json (ephemeral layout — the conflict-prone junk) and plugin CODE
+#           (main.js/styles.css/manifest.json — re-installable, would bloat the repo).
 $vault = "D:\iCloudDrive\iCloud~md~obsidian\sb\.obsidian"
 $canon = "$env:USERPROFILE\.config\obsidian\config-backup"
-$files = 'community-plugins.json','core-plugins.json','app.json','appearance.json','hotkeys.json','graph.json','daily-notes.json'
+
+# rebuild canonical fresh so removed plugins/settings don't linger
+if (Test-Path $canon) { Remove-Item $canon -Recurse -Force -ErrorAction SilentlyContinue }
 New-Item -ItemType Directory -Force -Path $canon | Out-Null
-foreach ($f in $files) {
-    $src = Join-Path $vault $f
-    if (Test-Path $src) { Copy-Item $src (Join-Path $canon $f) -Force -ErrorAction SilentlyContinue }
+
+# 1) top-level config JSONs, except ephemeral workspace*
+Get-ChildItem $vault -Filter *.json -File -ErrorAction SilentlyContinue |
+    Where-Object { $_.Name -notlike 'workspace*' } |
+    ForEach-Object { Copy-Item $_.FullName (Join-Path $canon $_.Name) -Force }
+
+# 2) per-plugin settings (data.json only — NOT the plugin code)
+if (Test-Path "$vault\plugins") {
+    Get-ChildItem "$vault\plugins" -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        $data = Join-Path $_.FullName 'data.json'
+        if (Test-Path $data) {
+            $dest = Join-Path $canon "plugins\$($_.Name)"
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item $data (Join-Path $dest 'data.json') -Force
+        }
+    }
 }
+
+# 3) appearance customization: themes + snippets
+foreach ($sub in 'themes','snippets') {
+    if (Test-Path "$vault\$sub") { Copy-Item "$vault\$sub" (Join-Path $canon $sub) -Recurse -Force }
+}
+
+Write-Host "[ok] snapshotted full Obsidian config -> $canon (incl per-plugin data.json)"
