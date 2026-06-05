@@ -1,41 +1,25 @@
 # 🅿️ Rice parking lot
-Everything open/parked from the rice marathon (2026-06-04/05). Detailed keybind design
-is in Claude memory `ricing-todos-next`; this is the browsable checklist.
+Open items + durable decisions. Detailed keybind design in Claude memory `ricing-todos-next`.
 
-## ✅ Done this run (context)
-- AHK = OS-level copy family ONLY: Alt+C/X/V/A → copy/cut/paste/select-all (scoped OUT of WezTerm; Alt+Tab/F4/ShareX untouched; live). App shortcuts live in each app's OWN config now.
-- **Zen** = ALL command shortcuts Alt-ified (Cmd/Ctrl→Alt = mac parity) in zen-keyboard-shortcuts.json; private window = Alt+Shift+N; tracked via `setup-zen.ps1` (restore/snapshot, resolves random profile-id). Ctrl+Alt combos + F-keys kept; Alt+R reload is AMD-blocked → use F5. **Model: chezmoi apply → AHK (copy family) + each app's Alt-ified config = full parity.**
-- WezTerm: Ctrl+C = always interrupt · Alt+C/Ctrl+Shift+C guarded so empty copy can't FLUSH the clipboard · WSL tab → Ctrl+B then U (off AMD's Ctrl+Shift+U)
-- RustDesk un-tiled in glaze (transient session window was flashing the layout)
-- `game-mode.ps1` — kills AHK during Playnite games (anti-cheat safe), relaunches after
-- Obsidian config guardian (full config incl Templater) · package/Raycast dedup → single source · `lwin+d` show-desktop toggle · sketchybar dropped (default macOS bar) · `grifting` → private repo · scrubbed ALL Claude attribution from every repo
+## ✅ Model (decided + live)
+**Per-app Alt parity:** AHK = OS copy family ONLY (`Alt+C/X/V/A`→Ctrl, scoped out of WezTerm). Each app's OWN config carries the rest. `chezmoi apply` → AHK + each app's Alt-ified config = parity.
+- ✅ **Zen** fully Alt-ified (Cmd→Alt), private=`Alt+Shift+N`, tracked (`setup-zen.ps1`)
+- ✅ **WezTerm** Ctrl+C=interrupt · Alt+C/V copy/paste (flush-guarded) · WSL=`Ctrl+B,U`
 
-## ⌨️ Keybinds / cross-machine parity
-- [ ] **Wire Playnite global scripts** → OnGameStarting `game-mode.ps1 -On`, OnGameStopped `-Off`. Verify it lands in `config.json`.
-- [ ] **Mac side (Karabiner):** Caps dual-role (tap=Esc, hold=command) + mirror the copy binds so the gesture matches Windows (Windows Alt-remaps already live).
-- [ ] **Finalize modifier model:** Alt-as-command is LIVE on Windows (Alt+C/X/V/A). Reconcile w/ Caps dual-role (Esc tap / Hyper hold). Likely both: Alt = copy-family, Caps = Esc + hyper layer.
-- [ ] **Extend Alt-remaps?** Z/S/F etc. — ⚠️ Alt+F/S/V shadow menu mnemonics (Alt+F=File, Alt+V=View).
-- [ ] **Logitech Flow vs Deskflow** — all-Logitech (MX Mechanical + G502); Flow may beat Deskflow's modifier-shuffle + no anti-cheat. Verify G502 model supports Flow.
-- [ ] **G502 mapping (DEFERRED — remind me):** hybrid = G HUB maps buttons → F13–F20 (OS-neutral, syncs via Logi cloud) → tracked AHK(Win)+Karabiner(Mac) map those → per-OS actions. Desired layout (gist https://gist.github.com/tcg/e7a9f9e9980bba68cda59557fb31d54e + its comment): side btns=copy/paste, sniper=cut, DPI up/down=undo/redo, tilt L/R=desktop switch, profile=overview. I'll scaffold the AHK F13–F20 block when you say go.
-- [ ] **Window-switcher parity** — Raycast switcher on both / GlazeWM focus (lwin+hjkl). Native Alt+Tab is already window-level.
+## ⌨️ Open
+- [ ] **GMEdit Alt-ify needs MANUAL setup first.** `customizedKeybinds` (user-preferences.json) is EMPTY — Ace defaults are hardcoded. Rebind to Alt **by hand** in GMEdit → Preferences → Keyboard → that populates the key → THEN track it. Selective only (Ace uses Alt for word-nav): save/find/replace/comment.
+- [ ] **G502 (remind me).** Hybrid: G HUB maps buttons → F13–F20 (OS-neutral, syncs via Logi cloud) → tracked AHK(Win)+Karabiner(Mac) → actions. Layout (gist tcg/e7a9…): side=copy/paste, sniper=cut, DPI=undo/redo, tilt=desktop, profile=overview.
+- [ ] **Mac standalone (Karabiner):** Caps dual-role (tap=Esc, hold=command) + copy gesture. *(Sitting AT the Mac — separate from KVM below.)*
+- [ ] **KVM crossing (Mac drives THIS pc):** Deskflow/RustDesk modifier-map (Mac Cmd → right Win modifier) — the "moves keys around" finickiness. Chain: Karabiner(Mac) → Deskflow → AHK(Win).
+- [ ] **Logitech Flow vs Deskflow** — all-Logitech; Flow may beat Deskflow's shuffle + no anti-cheat flag. Verify G502 supports Flow.
 
-## 🎮 Playnite — ⏸️ HANDED OFF to another agent (2026-06-05); don't touch from here
-(Prior decision kept for ref. The `game-mode.ps1` Playnite-wiring item above is also that agent's domain now.)
-### (ref) DEV-ONLY EXTENSION reference — DECIDED; supersedes the backup idea
-- [x] `dot_config/bootstrap/setup-playnite.ps1` — installs Playnite (winget) → clones the PRIVATE yabo-launcher repo → builds YaboLibrary → runs the launcher's existing `dev/deploy-playnite-extension.ps1`. Public dotfiles stay generic + secret-free; the private extension owns the library/feed/curation = the real "backup".
-- [ ] **Retire `yabo-san/yabo`** (old standalone backup repo) — the extension + this script ARE the backup now.
-- [ ] Playnite `config.json` (theme/global) doesn't carry — set on first run or document.
-- [ ] (run setup-playnite.ps1 with Playnite CLOSED; needs gh token + .NET SDK on the dev machine.)
+## 🎮 Playnite → folding INTO chezmoi (gamedev agent's handoff)
+- Spec: `D:\REPOS\yabo-playnite-dotfiles\CHEZMOI-HANDOFF.md`. Fold the Playnite config backup in (windows-guarded managed files under `%APPDATA%\Playnite` + a `run_onchange` restore hook). Their `capture/restore-playnite.ps1` have the scrub/de-noise/vendor logic. Retires the standalone `yabo-san/yabo` repo. **AHK kill-on-game = config.json Pre/Post scripts → auto-tracked** (no separate wiring). My old `setup-playnite.ps1` is superseded → remove on fold.
 
 ## 🍎 Mac
-- [x] Ghostty — KEEPING it (decided, not switching). Accept no inline-image rendering.
-- [ ] `borders` (FelixKratz) — keep (active-window highlight for aerospace) or drop.
+- [x] Ghostty — KEEPING (decided).
+- [ ] `borders` (FelixKratz) — keep or drop.
 
 ## 🅿️ Parked / decided
-- **Arch:** NO — "Arch at home" (homelab). Optional: weave the "don't need Arch" closer into the coming-home LinkedIn post.
-- **rustdesk:** kept in scoop + Program Files (both, your call).
-
-## 🧠 Obsidian
-- Only the **iCloud-clobber FIX (the guardian)** is documented — in `windows-notes`. That's it.
-- Vault **content** cleanup is a PERSONAL task → deliberately **NOT** tracked in the dotfiles.
-- [ ] **Alt-ify hotkeys (same as Zen) = PAUSED** — later, do Cmd/Ctrl→Alt in `hotkeys.json` + track it. Obsidian's been the troublemaker, so not now.
+- **Obsidian** — do NOT Alt-ify (hotkeys.json is iCloud-synced w/ Mac → would break it). Keep `Mod`. Mod+T dup deferred. Guardian (iCloud fix) is in `windows-notes`; vault CONTENT cleanup = personal, NOT tracked.
+- **Arch:** NO ("Arch at home"). · **rustdesk:** both scoop+PF (your call).
