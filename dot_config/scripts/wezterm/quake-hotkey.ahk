@@ -57,3 +57,15 @@ vkC0::
 ; address bar, tabs, …) lives in each app's OWN dotfile-able config — e.g. Zen's
 ; zen-keyboard-shortcuts.json is Alt-ified. Doing them here too would DOUBLE-bind.
 #HotIf
+
+; ── Obsidian: Alt-ify its OWN shortcuts HERE, not in hotkeys.json (which iCloud-syncs to the
+; Mac and would break it). Program-specific via WinActive — live only while Obsidian is focused,
+; auto-off when you switch away (no trigger, no timeout). Mac stays native Cmd, untouched.
+; (Copy family Alt+C/X/V/A is already handled by the global block above.)
+#HotIf WinActive("ahk_exe Obsidian.exe")
+!y::^y   ; quick-explorer: browse vault
+!m::^m   ; file: move
+!i::^i   ; templater: Zettel
+!n::^n   ; new tab
+!t::^t   ; daily note (your Mod+T)
+#HotIf
