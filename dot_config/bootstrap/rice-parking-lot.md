@@ -23,7 +23,7 @@ is in Claude memory `ricing-todos-next`; this is the browsable checklist.
 - [ ] (run setup-playnite.ps1 with Playnite CLOSED; needs gh token + .NET SDK on the dev machine.)
 
 ## 🍎 Mac
-- [ ] Ghostty "can't draw art" — switch Mac terminal (kitty/iTerm for inline images) or accept Ghostty.
+- [x] Ghostty — KEEPING it (decided, not switching). Accept no inline-image rendering.
 - [ ] `borders` (FelixKratz) — keep (active-window highlight for aerospace) or drop.
 
 ## 🅿️ Parked / decided
