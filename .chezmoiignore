@@ -1,4 +1,5 @@
 setup
+bootstrap.ps1   # entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
 
 # ── OS gating: each platform only applies its own files ──────────────────
 # On Windows, skip all the mac-only configs:
