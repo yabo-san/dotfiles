@@ -152,3 +152,16 @@ NOTE: Open-Shell IGNORES injected keystrokes (LLKHF_INJECTED), so simulating key
 (keybd_event/AHK) does NOT work — the IPC message is the ONLY programmatic path.
 Key triggers WinKey/ShiftWin = "Nothing" ON PURPOSE: Shift+Win would clash with
 ShareX's Win+Shift+S. ShiftClick=WindowsMenu (Shift+click start button = Win11 menu).
+
+--- GMEdit + Constructor (GameMaker editor, manual install — not in scoop/winget) ---
+GMEdit = a fast GML code editor (alt to the GameMaker IDE). Constructor = a plugin
+that compiles/runs GM projects from GMEdit via Igor (needs your GameMaker runtime).
+Reproduce on a fresh machine:
+  1. Download GMEdit beta (windows zip) from github.com/YellowAfterlife/GMEdit releases
+  2. Extract to %LOCALAPPDATA%\Programs\GMEdit ; make a Start Menu shortcut to GMEdit.exe
+  3. git clone https://github.com/thennothinghappened/GMEdit-Constructor `
+       "%APPDATA%\AceGM\GMEdit\plugins\GMEdit-Constructor"
+  4. In GMEdit: Constructor Control Panel (Ctrl+`) -> point at your GameMaker runtime.
+Constructor keys: F5 run, Ctrl+` panel, Ctrl+F7 clean, F6 stop, Ctrl+F5 package.
+(If the BETA build doesn't see the plugin, it may use a different appdata folder than
+ AceGM\GMEdit — check where GMEdit creates its config on first run and move it there.)
