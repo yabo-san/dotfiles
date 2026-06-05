@@ -165,3 +165,25 @@ Reproduce on a fresh machine:
 Constructor keys: F5 run, Ctrl+` panel, Ctrl+F7 clean, F6 stop, Ctrl+F5 package.
 (If the BETA build doesn't see the plugin, it may use a different appdata folder than
  AceGM\GMEdit — check where GMEdit creates its config on first run and move it there.)
+
+--- OBSIDIAN CONFIG GUARDIAN (Windows iCloud self-heal) ---
+PROBLEM: iCloud-on-Windows clobbers .obsidian config -> plugins/settings vanish.
+FIX: keep a git-backed canonical config OFF iCloud, restore it on every launch.
+- Canonical: ~/.config/obsidian/config-backup/*.json (chezmoi-tracked, WINDOWS-ONLY via
+  .chezmoiignore: app/appearance/community-plugins/core-plugins/hotkeys/graph/daily-notes).
+- Raycast commands (D:\REPOS\scripts\raycast + chezmoi copy ~/.config/scripts/raycast):
+    "Obsidian"                 (obsidian-guarded.ps1)  -> restore canonical, then open vault
+    "Snapshot Obsidian Config" (obsidian-snapshot.ps1) -> save current config as canonical
+HOW TO DRIVE:
+  1. ALWAYS open Obsidian via the "Obsidian" Raycast command (the guard) — not the icon.
+     It restores good config each launch, so iCloud clobbering self-heals.
+  2. After you intentionally change a plugin/setting -> run "Snapshot Obsidian Config"
+     (else the guard reverts it next launch).
+  3. Notes: write normally — iCloud syncs notes fine (never the problem).
+SCOPE / CAVEATS:
+  - Makes WINDOWS authoritative for config. Change config on Mac/iPhone -> the Windows guard
+    overwrites it. Fine for Windows-primary; tinker on Mac/phone a lot -> use Obsidian Sync.
+  - WINDOWS-ONLY (OS-gated): guardian scripts + canonical never deploy to Mac = zero trouble
+    there. iPhone runs no scripts; it just syncs the vault.
+  - Does NOT stop iCloud conflict copies; makes the CONFIG immune to the damage. workspace.json
+    conflict copies are harmless junk -> sweep occasionally.

@@ -27,6 +27,7 @@ dot_config/powershell/**
 dot_config/starship.toml
 dot_config/bootstrap/**
 dot_config/fastfetch/**
+dot_config/obsidian/**
 {{ end }}
 # NOTE: dot_config/bat IS shared (mac + Windows) — the preferred bat style.
 
