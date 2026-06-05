@@ -21,10 +21,10 @@ function Have($c){ [bool](Get-Command $c -ErrorAction SilentlyContinue) }
 #   GMEdit:      https://yellowafterlife.itch.io/gmedit   (YAL; src: github.com/YAL-GameMaker)
 #   Constructor: git clone https://github.com/thennothinghappened/GMEdit-Constructor
 #                -> %APPDATA%\AceGM\GMEdit\plugins\GMEdit-Constructor   (git pull to update)
-Step 'GMEdit + Constructor (delegates to setup-gmedit.ps1)'
-$gmedit = Join-Path $PSScriptRoot 'setup-gmedit.ps1'
-if (Test-Path $gmedit) { & $gmedit }
-else { Write-Host '  setup-gmedit.ps1 not found — get GMEdit at https://yellowafterlife.itch.io/gmedit' -ForegroundColor Yellow }
+Step 'GMEdit + Constructor (delegates to setup-constructor.sh)'
+$gmedit = Join-Path $PSScriptRoot 'setup-constructor.sh'
+if (Test-Path $gmedit) { sh $gmedit }   # cross-platform Constructor installer (git-bash on Windows)
+else { Write-Host '  setup-constructor.sh not found — get GMEdit at https://yellowafterlife.itch.io/gmedit' -ForegroundColor Yellow }
 
 # --- gamedev: gm-cli (YoYo headless build CLI — GMEdit + CLI replaces the GM IDE)
 #   https://github.com/YoYoGames/gm-cli   (needs a licensed GM runtime; account-gated)
