@@ -14,8 +14,11 @@
  Prompt ...... native Pure-style (fast); starship reserved for WSL
 
 ------------------------------------------------------ PACKAGE MANAGEMENT -------
- scoop = DEFAULT (per-user, NO UAC). winget = fallback (UAC for system-wide apps).
- choco = kept but empty, AUR-tier last resort. NEVER needed gsudo except choco.
+ scoop = DEFAULT (per-user, NO UAC *for portable apps* = ~all of them). winget =
+   fallback (UAC for system-wide apps). choco = kept but empty, AUR-tier last resort.
+ UAC EXCEPTION: a few scoop pkgs wrap Microsoft SYSTEM RUNTIMES (vcredist, .NET
+   runtimes) — those DO prompt UAC because they install system-wide by nature, not a
+   scoop quirk. Daily-driver apps never prompt; system runtimes inherently do.
  `brew` wrapper (in profile) = one command over all: scoop -> winget -> msstore -> choco.
    brew install <x> | brew search <x> | brew upgrade | brew uninstall <x>
  Buckets (scoop): main, extras, games, nerd-fonts, nonportable.
