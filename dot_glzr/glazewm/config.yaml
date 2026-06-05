@@ -242,8 +242,10 @@ window_rules:
       - window_process: { equals: 'SystemInformer' }    # System Informer (Task Mgr replacement)
       - window_process: { regex: 'NanaZip' }            # NanaZip archive manager
       - window_process: { equals: 'logioptionsplus' }   # Logi Options+ (mouse/keyboard config)
-      - window_process: { regex: '[Rr]ust[Dd]esk' }     # RustDesk (remote desktop)
       - window_process: { equals: 'deskflow' }          # Deskflow (KVM, share kbd/mouse)
+      # RustDesk intentionally NOT tiled: it spawns a transient SESSION window (the
+      # "connected-to" view, not the control pane) that glaze would tile then drop,
+      # flashing + disrupting the layout. Left out of the allowlist so it floats.
       # ShareX MAIN window only (title has version, e.g. "ShareX 20.2 Portable");
       # title regex avoids tiling the capture overlay / annotation editor.
       - window_process: { equals: 'ShareX' }
