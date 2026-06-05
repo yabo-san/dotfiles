@@ -116,8 +116,10 @@ config.keys = {
 -- ── Default shell: PowerShell 7 ; WSL one keybind away ───────────────────
 if is_windows then
   config.default_prog = { "pwsh.exe", "-NoLogo" }
+  -- WSL tab: was Ctrl+Shift+U, but AMD Radeon Software grabs that globally.
+  -- Moved under the Ctrl+B leader (internal to WezTerm -> AMD can't intercept).
   table.insert(config.keys, {
-    key = "u", mods = "CTRL|SHIFT",
+    key = "u", mods = "LEADER",
     action = act.SpawnCommandInNewTab({ args = { "wsl.exe", "~", "-d", "Ubuntu" } }),
   })
 end
