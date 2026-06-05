@@ -44,4 +44,5 @@ vkC0::
 !x::^x
 !v::^v
 !a::^a
+!t::^t     ; Alt+T -> Ctrl+T = new tab (mac Cmd+T parity). Tools-menu apps are legacy; none you use bind it.
 #HotIf

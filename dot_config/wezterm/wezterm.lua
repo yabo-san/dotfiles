@@ -87,6 +87,7 @@ config.keys = {
       if s and s ~= "" then win:perform_action(act.CopyTo("Clipboard"), pane) end  -- copy only if selected; NEVER flush the clipboard on an empty copy
     end) },
   { key = "v", mods = "ALT", action = act.PasteFrom("Clipboard") },
+  { key = "t", mods = "ALT", action = act.SpawnTab("CurrentPaneDomain") },  -- Alt+T = new tab (mac Cmd+T parity)
   -- Linux-terminal convention too, always available:
   { key = "c", mods = "CTRL|SHIFT", action = wezterm.action_callback(function(win, pane)
       local s = win:get_selection_text_for_pane(pane)
