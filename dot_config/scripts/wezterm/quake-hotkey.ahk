@@ -32,3 +32,16 @@ vkC0::
     KeyWait("Shift")
     Run('"C:\Users\senio\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
 }
+
+; ── Mac-style copy/cut/paste on Alt ──────────────────────────────────────────
+; On a Windows keyboard ALT sits where mac's Cmd is, so Alt+C/X/V == Cmd+C/X/V.
+; Scoped OUT of WezTerm: the terminal binds Alt+C/V itself (wezterm.lua), else
+; Alt+C -> Ctrl+C would be SIGINT, not copy. Alt+Tab / Alt+F4 stay native (not touched).
+; Games: the Playnite global script (game-mode.ps1) KILLS this whole AHK process,
+; so in-game everything is raw native input (anti-cheat safe).
+#HotIf !WinActive("ahk_exe wezterm-gui.exe")
+!c::^c
+!x::^x
+!v::^v
+!a::^a
+#HotIf
