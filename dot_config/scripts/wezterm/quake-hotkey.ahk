@@ -30,7 +30,7 @@ vkC0::
 {
     KeyWait("LWin")
     KeyWait("Shift")
-    Run('"C:\Users\senio\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
+    Run('"' . EnvGet("USERPROFILE") . '\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
 }
 
 ; ── Mac-style copy/cut/paste on Alt ──────────────────────────────────────────
