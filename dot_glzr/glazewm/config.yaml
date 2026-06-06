@@ -406,11 +406,8 @@ keybindings:
     bindings: ['lwin+d']
   - commands: ['focus --workspace 10']
     bindings: ['lwin+0']
-  # SHOW DESKTOP toggle: lwin+d -> empty workspace 9 (keep 9 empty); with
-  # toggle_workspace_on_refocus, tapping lwin+d again snaps back where you were.
-  # Replaces the janky native Win+D (no minimize/re-tile).
-  - commands: ['focus --workspace 9']
-    bindings: ['lwin+d']
+  # (Removed the old lwin+d->ws9 show-desktop attempt — ws9 is a real overflow workspace that can
+  #  hold windows, so it wasn't reliably "empty". Replaced above by the dedicated empty '0' workspace.)
 
   # ── SEND WINDOW TO WORKSPACE (1-10) ───────────────────────────────────
   - commands: ['move --workspace 1', 'focus --workspace 1']
