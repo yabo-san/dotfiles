@@ -40,6 +40,14 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
 "ShareX"="\"{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\scoop\\apps\\sharex\\current\\ShareX.exe\" -silent"
 
+; --- XDG_CONFIG_HOME system-wide: makes Windows behave Unix-like for config PATHS, so XDG-aware
+;     apps (nvim, bat, ...) read ~/.config — exactly where the dotfiles deploy. Templated so it
+;     survives the yabo reset. Needs a relog to take effect. (nvim also wants ~/.config/nvim to
+;     exist — on this machine it's a junction to %LOCALAPPDATA%\nvim; the LazyVim external should
+;     populate it on a fresh box once it's un-broken.)
+[HKEY_CURRENT_USER\Environment]
+"XDG_CONFIG_HOME"="{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.config"
+
 ; --- Disable Copilot (inerts Win+C, removes its taskbar button). Win+G/Game Bar left ON. ---
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsCopilot]
 "TurnOffWindowsCopilot"=dword:00000001
