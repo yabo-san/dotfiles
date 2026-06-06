@@ -60,18 +60,23 @@ function Get-PMWindow {
 $m=[PQ]::CursorMonitor(); $mx=$m[0]; $my=$m[1]; $mw=$m[2]; $mh=$m[3]
 $qx=$mx; $qy=$my+$yasbHeight; $qw=[int]($mw*$widthFrac); $qh=$mh-$yasbHeight
 
+$L = Join-Path $env:TEMP 'qpm.log'
 $h = Get-PMWindow
+"$(Get-Date -Format 'HH:mm:ss') [script] found=$h vis=$(if($h -ne [IntPtr]::Zero){[PQ]::IsWindowVisible($h)}else{'-'})" | Add-Content $L
 if ($h -ne [IntPtr]::Zero) {
   $fg=[PQ]::GetForegroundWindow()
   if ([PQ]::IsWindowVisible($h) -and $fg -eq $h) {
+    "  -> HIDE" | Add-Content $L
     [PQ]::ShowWindow($h,0) | Out-Null                                  # hide
   } else {
+    "  -> SHOW at $qx,$qy ${qw}x${qh}" | Add-Content $L
     [PQ]::HideFromAltTab($h)
     [PQ]::MoveWindow($h,$qx,$qy,$qw,$qh,$true) | Out-Null              # left edge
     [PQ]::ShowWindow($h,5) | Out-Null
     [PQ]::SetForegroundWindow($h) | Out-Null
   }
 } else {
+  "  -> LAUNCH (no window found)" | Add-Content $L
   if (Test-Path $launch) { Start-Process $launch }
   for ($i=0;$i -lt 30;$i++){ Start-Sleep -Milliseconds 200; $h=Get-PMWindow; if ($h -ne [IntPtr]::Zero){break} }
   if ($h -ne [IntPtr]::Zero) { [PQ]::HideFromAltTab($h); [PQ]::MoveWindow($h,$qx,$qy,$qw,$qh,$true)|Out-Null; [PQ]::ShowWindow($h,5)|Out-Null; [PQ]::SetForegroundWindow($h)|Out-Null }

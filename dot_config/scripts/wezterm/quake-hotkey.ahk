@@ -37,6 +37,7 @@ vkC0::
 ; panel) directly — no regedit needed. Toggle: show the left-edge panel / hide it.
 #w::
 {
+    FileAppend(A_Now . "  [AHK] win+w hotkey FIRED`n", A_Temp . "\qpm.log")
     Run('pwsh -NoProfile -WindowStyle Hidden -File "' . A_ScriptDir . '\quake-protonmail.ps1"', , "Hide")
 }
 
@@ -51,6 +52,7 @@ vkC0::
 !x::^x
 !v::^v
 !a::^a
+!z::^z   ; Cmd+Z = undo (AMD overlay hotkeys now off, so Alt+Z is free). Alt+Shift+Z -> Ctrl+Shift+Z = redo (free via the implicit *).
 ; The remaps above use an implicit * (they fire even with EXTRA modifiers held), which
 ; hijacks Alt+SHIFT+C/X/V/A — e.g. Zen's Alt+Shift+C = copy URL, Alt+Shift+A = addons.
 ; Pass the Shift variants straight through to the app (~ = don't suppress; more-specific
