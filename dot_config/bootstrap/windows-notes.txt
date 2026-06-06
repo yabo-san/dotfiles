@@ -154,6 +154,15 @@ These .lnk files live in %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
   - MEGAsync.lnk       -> (MEGAsync)
 ShareX autostarts via the Run key (in windows-tweaks.reg), not here.
 
+--- Alt-remaps (mac-style) + AMD dependency (REQUIRED bootstrap step on AMD) ---
+quake-hotkey.ahk remaps Alt+C/X/V/A -> Ctrl (copy/cut/paste/select-all) and Alt+Z -> Ctrl+Z (undo),
+mac-style (Alt sits where Cmd is). Scoped OUT of WezTerm + RustDesk (they need raw Ctrl). Per-app
+shortcuts (Zen, Obsidian) live in each app's own config or a #HotIf WinActive block.
+** ON ANY AMD MACHINE: turn OFF all AMD Radeon Software hotkeys ** (Radeon Software -> Settings ->
+Hotkeys). Radeon grabs Alt+Z (overlay), Alt+R, Ctrl+Shift+U etc. GLOBALLY, BEFORE AHK sees them ->
+the remaps silently fail and the Radeon panel flashes. With them off: Alt+Z=undo, Zen's Alt+R=reload
+all work, Ctrl+Shift+U is freed. (Win+W = Proton Mail sideways-quake, also via this AHK.)
+
 --- Open-Shell mechanism (confirmed via source) ---
 Live settings = registry HKCU\Software\OpenShell (auto-applied by openshell-settings.reg).
 The .xml is Open-Shell's native Backup export (Settings > Backup > Load from XML).
