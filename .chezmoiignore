@@ -1,35 +1,38 @@
 setup
-bootstrap.ps1   # entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
+# entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
+bootstrap.ps1
 
 # ── OS gating: each platform only applies its own files ──────────────────
+# Patterns below match TARGET paths (post dot_/private_ rename), not source names.
 # On Windows, skip all the mac-only configs:
 {{ if eq .chezmoi.os "windows" }}
 Brewfile
-dot_bashrc
-dot_zshrc
-dot_tmux.conf
-dot_config/flashspace/**
-dot_config/ghostty/**
-dot_config/private_karabiner/**
-dot_config/aerospace/**
-dot_config/mise/**
+.bashrc
+.zshrc
+.tmux.conf
+.config/aerospace/**
+.config/flashspace/**
+.config/ghostty/**
+.config/karabiner/**
+.config/mise/**
+.config/sketchybar/**
 .chezmoiexternals/**
 .chezmoiscripts/**
-run_onchange_setup-alttab.sh
+setup-alttab.sh
 {{ end }}
 
 # On mac/Linux, skip all the Windows-only configs:
 {{ if ne .chezmoi.os "windows" }}
-dot_glzr/**
-dot_config/wezterm/**
-dot_config/yasb/**
-dot_config/scripts/**
-dot_config/powershell/**
-dot_config/starship.toml
-dot_config/bootstrap/**
-dot_config/fastfetch/**
-dot_config/obsidian/**
+.glzr/**
+.config/wezterm/**
+.config/yasb/**
+.config/scripts/**
+.config/powershell/**
+.config/starship.toml
+.config/bootstrap/**
+.config/fastfetch/**
+.config/obsidian/**
 {{ end }}
-# NOTE: dot_config/bat IS shared (mac + Windows) — the preferred bat style.
+# NOTE: .config/bat IS shared (mac + Windows) — the preferred bat style.
 
 # nvim is shared (LazyVim overrides apply on both) — never ignored.
