@@ -33,13 +33,8 @@ vkC0::
     Run('"' . EnvGet("USERPROFILE") . '\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
 }
 
-; Win+W -> Proton Mail sideways-quake (slides from the LEFT). AHK overrides Win+W (the Widgets
-; panel) directly — no regedit needed. Toggle: show the left-edge panel / hide it.
-#w::
-{
-    FileAppend(A_Now . "  [AHK] win+w hotkey FIRED`n", A_Temp . "\qpm.log")
-    Run('pwsh -NoProfile -WindowStyle Hidden -File "' . A_ScriptDir . '\quake-protonmail.ps1"', , "Hide")
-}
+; (Win+W intentionally NOT bound — the Proton Mail quake was reverted. The Windows Widgets app
+; itself is removed [Get-AppxPackage *WebExperience*], so Win+W just does nothing now.)
 
 ; ── Mac-style copy/cut/paste on Alt ──────────────────────────────────────────
 ; On a Windows keyboard ALT sits where mac's Cmd is, so Alt+C/X/V == Cmd+C/X/V.
