@@ -67,10 +67,12 @@ vkC0::
 ; zen-keyboard-shortcuts.json is Alt-ified. Doing them here too would DOUBLE-bind.
 #HotIf
 
-; ── Obsidian: Alt-ify its OWN shortcuts HERE, not in hotkeys.json (which iCloud-syncs to the
-; Mac and would break it). Program-specific via WinActive — live only while Obsidian is focused,
-; auto-off when you switch away (no trigger, no timeout). Mac stays native Cmd, untouched.
-; (Copy family Alt+C/X/V/A is already handled by the global block above.)
+; ── Obsidian: PARITY WITH THE MAC keybinds (Alt sits where mac's Cmd is, so Alt+T here == Cmd+T
+; on the Mac). Done HERE in AHK, NOT in hotkeys.json — that file iCloud-syncs to the Mac, so
+; Alt-ifying it would break the Mac's native Cmd shortcuts. AHK is Windows-only -> Mac untouched.
+; (Contrast: Zen was Alt-ified in its OWN config because Zen's config is NOT cloud-synced.)
+; Program-specific via WinActive — live only while Obsidian is focused, auto-off when you leave.
+; (Copy family Alt+C/X/V/A + Alt+Z undo are already handled by the global block above.)
 #HotIf WinActive("ahk_exe Obsidian.exe")
 !y::^y   ; quick-explorer: browse vault
 !m::^m   ; file: move
