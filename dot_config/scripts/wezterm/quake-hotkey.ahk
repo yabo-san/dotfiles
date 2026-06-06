@@ -33,6 +33,13 @@ vkC0::
     Run('"' . EnvGet("USERPROFILE") . '\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
 }
 
+; Win+W -> Proton Mail sideways-quake (slides from the LEFT). AHK overrides Win+W (the Widgets
+; panel) directly — no regedit needed. Toggle: show the left-edge panel / hide it.
+#w::
+{
+    Run('pwsh -NoProfile -WindowStyle Hidden -File "' . A_ScriptDir . '\quake-protonmail.ps1"', , "Hide")
+}
+
 ; ── Mac-style copy/cut/paste on Alt ──────────────────────────────────────────
 ; On a Windows keyboard ALT sits where mac's Cmd is, so Alt+C/X/V == Cmd+C/X/V.
 ; Scoped OUT of WezTerm: the terminal binds Alt+C/V itself (wezterm.lua), else
