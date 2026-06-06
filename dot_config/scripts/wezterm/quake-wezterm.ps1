@@ -107,6 +107,10 @@ if ($h -ne [IntPtr]::Zero) {
     [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null
     [Q]::ShowWindow($h, 5) | Out-Null
     [Q]::SetForegroundWindow($h) | Out-Null
+    # crossing to a different-DPI monitor fires WM_DPICHANGED, which WezTerm handles by RESIZING
+    # the window AFTER our move (the "first tap wrong, second tap right" race). Re-apply the size
+    # a few times so it lands correctly on the FIRST tap regardless of the monitor it came from.
+    for ($k=0; $k -lt 6; $k++) { Start-Sleep -Milliseconds 30; [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null }
   }
 } else {
   Start-Process $wezterm -ArgumentList @("start","--class",$class)
@@ -114,7 +118,9 @@ if ($h -ne [IntPtr]::Zero) {
   if ($h -ne [IntPtr]::Zero) {
     $qh = (Read-Heights)[$monKey]; if (-not $qh) { $qh = $default }
     [Q]::HideFromAltTab($h)                            # keep it out of Alt-Tab
-    [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null
+    # a freshly-launched WezTerm is still initializing its size/DPI and clobbers a single move;
+    # re-apply until it settles so even the FIRST launch lands at the right monitor size.
+    for ($k=0; $k -lt 8; $k++) { Start-Sleep -Milliseconds 50; [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null }
     [Q]::SetForegroundWindow($h) | Out-Null
   }
 }
