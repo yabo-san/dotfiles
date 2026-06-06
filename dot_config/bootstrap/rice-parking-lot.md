@@ -20,7 +20,7 @@ Open items + durable decisions. Detailed keybind design in Claude memory `ricing
 ## 🎮 Playnite → folding INTO chezmoi (gamedev agent's handoff)
 - Spec: `D:\REPOS\yabo-playnite-dotfiles\CHEZMOI-HANDOFF.md`. Fold the Playnite config backup in (windows-guarded managed files under `%APPDATA%\Playnite` + a `run_onchange` restore hook). Their `capture/restore-playnite.ps1` have the scrub/de-noise/vendor logic. Retires the standalone `yabo-san/yabo` repo. **AHK kill-on-game = config.json Pre/Post scripts → auto-tracked** (no separate wiring). My old `setup-playnite.ps1` is superseded → remove on fold.
 
-## 🎮 AHK game-pause — focus-aware (PARKED 2026-06; current toggle is FINE for now)
+## 🎮 AHK game-pause — focus-aware (ABANDONED 2026-06 — manual Raycast "AHK On/Off" + the whole-session toggle are enough; do NOT build the watcher)
 **Current (KEEP — verified e2e):** whole-session kill via `game-mode.ps1 -On` (OnGameStarting → kill AHK = raw input, anti-cheat safe) / `-Off` (OnGameStopped → relaunch). Gap: alt-tabbing OUT of a game mid-session leaves AHK dead until you fully quit. **The "global pause" goal = AHK `Suspend` so a game's `Alt+C` stays raw (not remapped to Ctrl+C).**
 **TODO — make it focus-aware so alt-tab-OUT restores copy/paste** (design validated vs Playnite source):
 - Playnite **`GameStartedScript`** ("during" slot, currently `null`) exposes **`$StartedProcessId`** + **`$Game.InstallDirectory`** ([docs](https://api.playnite.link/docs/manual/gameScripts.html)).
