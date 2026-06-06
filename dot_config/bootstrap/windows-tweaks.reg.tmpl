@@ -46,8 +46,11 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 "ShowCopilotButton"=dword:00000000
-; Win+I and Win+X disabled — Settings via Raycast; every Win+X item is in Open-Shell or Raycast.
-; DisabledHotkeys = letters of Win+<key> combos to kill; needs an Explorer restart / relogin.
-"DisabledHotkeys"="IX"
+; Disabled Win+<key> combos — all redundant (Raycast / Open-Shell / YASB cover them):
+;   I=Settings  X=power-menu  N=notifications(YASB)  Q,S=search(Raycast)  B=taskbar-focus  O=orientation
+; (Win+K=cast and Win+H=dictation are already dead — GlazeWM eats lwin+k / lwin+h.)
+; Kept: Win+A quick-settings, Win+R Run, Win+E/P/V/G/D + glaze's h/j/k/t/m/d/1-9.
+; DisabledHotkeys = the letters; needs an Explorer restart / relogin to take effect.
+"DisabledHotkeys"="IXNQSBO"
 
 ; --- Widgets (Win+W) is removed at the app level, not here: Get-AppxPackage *WebExperience* | Remove-AppxPackage ---
