@@ -1,10 +1,14 @@
 # quake-wezterm.ps1 — Guake-style dropdown for WezTerm.
-# Follows the monitor UNDER THE CURSOR (mirrors mac ghostty quick-terminal-screen=cursor),
-# NOT GlazeWM's focused monitor (which is unreliable while bind_to_monitor is mismapped).
+# Follows the monitor UNDER THE CURSOR (mirrors mac ghostty quick-terminal-screen=cursor).
 # Drops BELOW the YASB bar so it never covers it.
 #
 # Launched with `--class quake-term` (sets WINDOW CLASS, found by class via Win32).
 #   bare `  -> toggle (AutoHotkey)      ctrl+`  -> literal backtick (AutoHotkey)
+#
+# FIXES (2026-06): (1) PER-MONITOR-DPI-AWARE thread so GetMonitorInfo/MoveWindow use real
+# physical pixels on every monitor regardless of scaling (no mis-size on mixed-DPI/aspect).
+# (2) Remembered height is keyed PER MONITOR — switching monitors no longer reuses another
+# monitor's height (that was the "learn once / gets overwritten" race).
 
 $ErrorActionPreference = 'SilentlyContinue'
 $wezterm    = "$env:USERPROFILE\scoop\shims\wezterm-gui.exe"
@@ -31,6 +35,9 @@ public class Q {
   [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
   [DllImport("user32.dll", SetLastError=true)] public static extern int GetWindowLong(IntPtr h, int idx);
   [DllImport("user32.dll", SetLastError=true)] public static extern int SetWindowLong(IntPtr h, int idx, int val);
+  // make THIS thread per-monitor-DPI-aware v2 (runtime, overrides pwsh's system-aware manifest)
+  [DllImport("user32.dll")] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr c);
+  public static void DpiAware() { SetThreadDpiAwarenessContext((IntPtr)(-4)); } // PER_MONITOR_AWARE_V2
   // hide a window from Alt-Tab: add WS_EX_TOOLWINDOW, remove WS_EX_APPWINDOW
   public static void HideFromAltTab(IntPtr h) {
     int GWL_EXSTYLE = -20, WS_EX_TOOLWINDOW = 0x80, WS_EX_APPWINDOW = 0x40000;
@@ -61,33 +68,41 @@ public class Q {
 }
 '@
 
-# remembered height persists here (survives toggles + restarts)
-$stateFile = Join-Path $env:LOCALAPPDATA "quake-wezterm-height.txt"
-function Get-SavedHeight {
-  if (Test-Path $stateFile) { $v = [int](Get-Content $stateFile -ErrorAction SilentlyContinue); if ($v -gt 100) { return $v } }
-  return $null
+# per-monitor-DPI-aware BEFORE any monitor/window math, so dimensions are real physical pixels
+[Q]::DpiAware()
+
+# remembered height PER MONITOR (keyed by geometry) — survives toggles + restarts
+$stateFile = Join-Path $env:LOCALAPPDATA "quake-wezterm-heights.json"
+function Read-Heights {
+  if (Test-Path $stateFile) { try { return (Get-Content $stateFile -Raw -EA Stop | ConvertFrom-Json -AsHashtable) } catch {} }
+  return @{}
+}
+function Save-Height($key, $h) {
+  $d = Read-Heights; $d[$key] = $h
+  ($d | ConvertTo-Json -Compress) | Set-Content -Path $stateFile -Force
 }
 
 # monitor under the cursor
 $m  = [Q]::CursorMonitor()
 $mx = $m[0]; $my = $m[1]; $mw = $m[2]; $mh = $m[3]
+$monKey  = "$($mw)x$($mh)@$($mx),$($my)"             # this exact monitor
 $qy = $my + $yasbHeight                              # below the YASB bar
-$default = [int]($mh * $heightFrac) - $yasbHeight    # default height if none saved
+$default = [int]($mh * $heightFrac) - $yasbHeight    # autosize height for THIS monitor
 
 $h = [Q]::FindByClass($class)
 if ($h -ne [IntPtr]::Zero) {
   $fg = [Q]::GetForegroundWindow()
   if ([Q]::IsWindowVisible($h) -and $fg -eq $h) {
-    # HIDING — remember the current height first (so a manual resize sticks)
+    # HIDING — remember THIS monitor's current height (so a manual resize sticks, per-monitor)
     $r = New-Object Q+RECT
     if ([Q]::GetWindowRect($h, [ref]$r)) {
       $curH = $r.bottom - $r.top
-      if ($curH -gt 100) { Set-Content -Path $stateFile -Value $curH -Force }
+      if ($curH -gt 100) { Save-Height $monKey $curH }
     }
     [Q]::ShowWindow($h, 0) | Out-Null                # SW_HIDE
   } else {
-    # SHOWING — use saved height if we have one, else default
-    $qh = Get-SavedHeight; if (-not $qh) { $qh = $default }
+    # SHOWING — this monitor's saved height, else the autosize default
+    $qh = (Read-Heights)[$monKey]; if (-not $qh) { $qh = $default }
     [Q]::HideFromAltTab($h)                            # keep it out of Alt-Tab
     [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null
     [Q]::ShowWindow($h, 5) | Out-Null
@@ -97,7 +112,7 @@ if ($h -ne [IntPtr]::Zero) {
   Start-Process $wezterm -ArgumentList @("start","--class",$class)
   for ($i=0; $i -lt 20; $i++) { Start-Sleep -Milliseconds 150; $h = [Q]::FindByClass($class); if ($h -ne [IntPtr]::Zero) { break } }
   if ($h -ne [IntPtr]::Zero) {
-    $qh = Get-SavedHeight; if (-not $qh) { $qh = $default }
+    $qh = (Read-Heights)[$monKey]; if (-not $qh) { $qh = $default }
     [Q]::HideFromAltTab($h)                            # keep it out of Alt-Tab
     [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null
     [Q]::SetForegroundWindow($h) | Out-Null

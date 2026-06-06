@@ -39,3 +39,12 @@ Windows Registry Editor Version 5.00
 ; ShareX autostart (its PrtSc hotkeys only work while ShareX is running)
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
 "ShareX"="\"{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\scoop\\apps\\sharex\\current\\ShareX.exe\" -silent"
+
+; --- Disable Copilot (inerts Win+C, removes its taskbar button). Win+G/Game Bar left ON. ---
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsCopilot]
+"TurnOffWindowsCopilot"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"ShowCopilotButton"=dword:00000000
+
+; --- Widgets (Win+W) is removed at the app level, not here: Get-AppxPackage *WebExperience* | Remove-AppxPackage ---
