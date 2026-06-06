@@ -1,4 +1,4 @@
-# disabled.lua
+-- disabled.lua
 return {
 	{ "echasnovski/mini.pairs", enabled = false },
 	{ "folke/noice.nvim", enabled = false },

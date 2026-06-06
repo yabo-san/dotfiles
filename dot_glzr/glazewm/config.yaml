@@ -125,29 +125,29 @@ window_behavior:
       shown_on_top: false
 
 workspaces:
-  # UNBOUND / ROAMING (2026-06-04) — no bind_to_monitor on purpose. Workspaces
-  # follow the focused monitor, so unplugging/replugging a monitor (esp. the
-  # EDID-less CRT) never scrambles a fragile index map. You tile on Acer +
-  # ultrawide simply by being focused there; you just don't tile on the CRT.
-  # Names are kept for the YASB bar + muscle memory.
-  # display_name carries a purpose ICON (Font Awesome glyphs, present in Hack NF).
-  # The icon belongs to the WORKSPACE, so it follows the workspace when moved to
-  # another monitor (lwin+shift+hjkl). YASB shows {display_name} = icon + name.
+  # 7-BUCKET LAYOUT (2026-06-06) — consolidated from 10 buckets.
+  # display_name carries a purpose ICON (Font Awesome glyphs in Hack NF).
   - name: '1'
-    display_name: ""          # main (home icon only)
+    display_name: ""          # main (home)
     keep_alive: true
   - name: '2'
-    display_name: ""          # texting (chat icon only)
+    display_name: ""          # comms (comments)
     keep_alive: true
   - name: '3'
-    display_name: ""          # music (note icon only)
+    display_name: ""          # music (note)
     keep_alive: true
   - name: '4'
-    display_name: ""          # gamedev (gamepad icon only)
+    display_name: ""          # gamedev (paintbrush)
     keep_alive: true
   - name: '5'
+    display_name: ""          # play (gamepad)
+    keep_alive: true
   - name: '6'
+    display_name: ""          # media (film)
+    keep_alive: true
   - name: '7'
+    display_name: ""          # utils (wrench)
+    keep_alive: true
   - name: '8'
   - name: '9'
   - name: '10'
@@ -178,10 +178,10 @@ window_rules:
       # Browsers
       - window_process: { regex: 'msedge|chrome|brave|[Aa]rc|[Zz]en|firefox|librewolf' }
       # Notes / reference / AI (Claude desktop process unverified — fix if it floats)
-      - window_process: { regex: 'Obsidian|Claude|calibre' }
+      - window_process: { regex: 'Obsidian|calibre' }
       # Playnite launcher (WPF, process 'Playnite.DesktopApp')
       - window_process: { equals: 'Playnite.DesktopApp' }
-      # Media players
+      # Media players (Plex XP9CDQW6ML4NQN)
       - window_process: { regex: 'vlc|Plex|FreeTube' }
       # 7-Zip File Manager + File Explorer + File Pilot
       - window_process: { equals: '7zFM' }
@@ -196,10 +196,10 @@ window_rules:
       - window_process: { equals: 'POWERPNT' }
         window_class: { equals: 'PPTFrameClass' }
 
-  # --- Workspace 2: TEXTING (Acer) — chat ---
+  # --- Workspace 2: COMMS (Acer) — chat ---
   - commands: ['set-tiling', 'move --workspace 2']
     match:
-      - window_process: { regex: 'DiscordPTB|Discord|Vesktop|Slack|Telegram|Beeper|Proton Mail' }
+      - window_process: { regex: 'DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Proton Mail' }
 
   # --- Workspace 3: MUSIC (Acer) — music + soulseek ---
   - commands: ['set-tiling', 'move --workspace 3']
@@ -212,14 +212,38 @@ window_rules:
     match:
       # Code editors / IDEs (devenv = Visual Studio; JetBrains = pycharm64/rider64)
       - window_process: { regex: 'Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit' }
-      # Creative / gamedev tools. NOTE: blender, HxD, GameMaker, LM Studio,
-      # Godot, Tiled, LDtk process names are conventional (not all verified
-      # live). If one opens FLOATING, its real process name differs — query
-      # the window and fix the token. Verified live: Aseprite, paintdotnet.
-      # NOTE: GameMaker Studio 1.4 (5piceIDE) is intentionally NOT here — it
-      # spawns two co-equal top-level windows that tile awkwardly; let it float.
-      - window_process: { regex: 'Aseprite|paintdotnet|blender|HxD|Godot|Tiled|LDtk' }
-      - window_process: { regex: 'LM Studio' }
+      # Creative / gamedev tools — MIRRORED from flashspace/profiles.json's
+      # "gamedev" profile (the Mac source of truth). 'GameMaker' matches
+      # GameMaker-LTS2026 + GMS2 (verified live).
+      - window_process: { regex: 'Aseprite|paintdotnet|blender|HxD|Godot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus' }
+      # AI Tools
+      - window_process: { regex: 'Claude|LM Studio' }
+
+  # --- Workspace 5: PLAY — games (float by default) + Playnite (tiles) ---
+  - commands: ['set-tiling', 'move --workspace 5']
+    match:
+      - window_process: { equals: 'Playnite.DesktopApp' }
+
+  # --- Workspace 6: MEDIA — capture / downloaders ---
+  - commands: ['set-tiling', 'move --workspace 6']
+    match:
+      # OBS (XPFFH613W8V6LV) + Elgato + ShareX
+      - window_process: { regex: 'obs64|OBS|Elgato' }
+      - window_process: { equals: 'ShareX' }
+        window_title: { regex: 'ShareX \d' }
+      # Downloaders
+      - window_process: { regex: 'qbittorrent|JDownloader' }
+
+  # --- Workspace 7: UTILS — system / hardware ---
+  - commands: ['set-tiling', 'move --workspace 7']
+    match:
+      - window_process: { equals: 'logioptionsplus' }
+      - window_process: { equals: 'SystemSettings' }
+      - window_process: { equals: 'Taskmgr' }
+      - window_process: { equals: 'regedit' }
+      - window_process: { equals: 'SystemInformer' }
+      - window_process: { regex: 'Hotspot Shield' }   # VPN (XPDNLRV08ZCH53)
+      - window_process: { equals: 'deskflow' }
 
   # --- TILING but UNHOMED (open where you are; no fixed workspace) ---
   - commands: ['set-tiling']
@@ -372,6 +396,23 @@ keybindings:
   - commands: ['toggle-fullscreen']
     bindings: ['lwin+m']
 
+  # ── CLOSE WINDOW (Cmd+Q parity — Alt sits where mac's Cmd is) ──────────
+  # Graceful WM_CLOSE of the focused window (the app's own close path; can
+  # prompt to save). NOT an Alt+F4 keystroke remap — Alt+F4 stays native.
+  - commands: ['close']
+    bindings: ['alt+q']
+
+  # ── CYCLE WORKSPACES (mac Cmd+Tab / FlashSpace style — Alt = Cmd) ──────
+  # Alt+Tab steps through your ACTIVE (non-empty) workspaces instead of native
+  # window-switching; Alt+Shift+Tab goes back. Mirrors the Mac FlashSpace flow
+  # (workspaces ARE apps here, so you cycle spaces, not windows).
+  # NOTE: Alt+Tab is OS-reserved — GlazeWM intercepts it via its keyboard hook.
+  # If Windows ever wins the race, swap these to a non-reserved combo.
+  - commands: ['focus --next-active-workspace']
+    bindings: ['alt+tab']
+  - commands: ['focus --prev-active-workspace']
+    bindings: ['alt+shift+tab']
+
   # ── WM CONTROL ────────────────────────────────────────────────────────
   - commands: ['wm-toggle-pause']      # freeze all binds (safety)
     bindings: ['lwin+shift+p']
@@ -381,7 +422,7 @@ keybindings:
   # NOTE: WezTerm quake dropdown is bound via AutoHotkey (quake-hotkey.ahk),
   # NOT GlazeWM — AHK owns the backtick key (bare ` toggles, ctrl+` = literal).
 
-  # ── GO TO WORKSPACE (1-4 named, 5-9 overflow) ─────────────────────────
+  # ── GO TO WORKSPACE (1-7 named, 8-10 overflow) ─────────────────────────
   - commands: ['focus --workspace 1']
     bindings: ['lwin+1']
   - commands: ['focus --workspace 2']

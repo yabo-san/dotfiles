@@ -33,8 +33,33 @@ vkC0::
     Run('"' . EnvGet("USERPROFILE") . '\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
 }
 
-; (Win+W intentionally NOT bound — the Proton Mail quake was reverted. The Windows Widgets app
-; itself is removed [Get-AppxPackage *WebExperience*], so Win+W just does nothing now.)
+; Win+W -> focus the Zen window WHEREVER it is — even cloaked on another glaze
+; workspace, or minimized. DetectHiddenWindows lets us see it when glaze cloaks
+; it; we pick the window with a real TITLE (the browser, not a hidden helper).
+; We use GlazeWM's CLI to handle the workspace switch, then native activation
+; to ensure it's in front. Only launches if Zen truly isn't running.
+#w::
+{
+    DetectHiddenWindows true
+    target := 0
+    for idx, hwnd in WinGetList("ahk_exe zen.exe") {
+        if (WinGetTitle("ahk_id " hwnd) != "") {
+            target := hwnd
+            break
+        }
+    }
+    if (target) {
+        ; Use GlazeWM CLI to focus the window, which handles workspace switching
+        Run("glazewm.exe command 'focus --window-id " . target . "'", , "Hide")
+        ; Native activation as fallback/ensure
+        WinShow("ahk_id " target)
+        if (WinGetMinMax("ahk_id " target) = -1)
+            WinRestore("ahk_id " target)
+        WinActivate("ahk_id " target)
+    } else {
+        Run('"C:\Program Files\Zen Browser\zen.exe"')
+    }
+}
 
 ; ── Mac-style copy/cut/paste on Alt ──────────────────────────────────────────
 ; On a Windows keyboard ALT sits where mac's Cmd is, so Alt+C/X/V == Cmd+C/X/V.
