@@ -151,6 +151,8 @@ workspaces:
   - name: '8'
   - name: '9'
   - name: '10'
+  - name: '0'   # SHOW-DESKTOP scratch: nothing homes here, so it's always empty = wallpaper +
+                # desktop icons. lwin+d flips to it; lwin+d again flips back (toggle_workspace_on_refocus).
 
 window_rules:
   # =====================================================================
@@ -398,6 +400,10 @@ keybindings:
     bindings: ['lwin+8']
   - commands: ['focus --workspace 9']
     bindings: ['lwin+9']
+  # SHOW DESKTOP (what native Win+D can't do under tiling): flip to the empty '0' workspace =
+  # wallpaper + desktop icons; lwin+d again flips back (toggle_workspace_on_refocus).
+  - commands: ['focus --workspace 0']
+    bindings: ['lwin+d']
   - commands: ['focus --workspace 10']
     bindings: ['lwin+0']
   # SHOW DESKTOP toggle: lwin+d -> empty workspace 9 (keep 9 empty); with
