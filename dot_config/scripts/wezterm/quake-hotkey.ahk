@@ -100,3 +100,13 @@ vkC0::
 !n::^n   ; new tab
 !t::^t   ; daily note (your Mod+T)
 #HotIf
+
+; Zen: Win+click → Alt+click (split tab — parity with mac Cmd+click)
+#HotIf WinActive("ahk_exe zen.exe")
+#LButton::
+{
+    Send("{LWin up}{Alt down}")
+    Click
+    Send("{Alt up}")
+}
+#HotIf

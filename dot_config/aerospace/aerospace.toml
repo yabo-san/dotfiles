@@ -30,29 +30,17 @@ app-id = "com.mitchellh.ghostty"
 # ── Keybinds ──────────────────────────────────────────────────────────────────
 [mode.main.binding]
 
-# Focus window
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
-
-# Move window
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
+# Move window (GlazeWM lwin+hjkl parity)
+alt-h = 'move left'
+alt-j = 'move down'
+alt-k = 'move up'
+alt-l = 'move right'
 
 # Move workspace to monitor (GlazeWM lwin+shift+hjkl parity)
-alt-ctrl-shift-h = 'move-workspace-to-monitor --wrap-around left'
-alt-ctrl-shift-l = 'move-workspace-to-monitor --wrap-around right'
-alt-ctrl-shift-j = 'move-workspace-to-monitor --wrap-around down'
-alt-ctrl-shift-k = 'move-workspace-to-monitor --wrap-around up'
-
-# Resize
-alt-ctrl-h = 'resize width -50'
-alt-ctrl-l = 'resize width +50'
-alt-ctrl-j = 'resize height +50'
-alt-ctrl-k = 'resize height -50'
+alt-shift-h = 'move-workspace-to-monitor --wrap-around left'
+alt-shift-j = 'move-workspace-to-monitor --wrap-around down'
+alt-shift-k = 'move-workspace-to-monitor --wrap-around up'
+alt-shift-l = 'move-workspace-to-monitor --wrap-around right'
 
 # Layout
 alt-e       = 'layout tiles horizontal vertical'

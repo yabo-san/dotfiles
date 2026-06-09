@@ -4,7 +4,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Zen: Cmd+click → Option+click (split tab parity with Windows Alt+click)",
+                        "description": "Zen: Cmd+click → Option+click (split tab)",
                         "manipulators": [
                             {
                                 "type": "basic",
