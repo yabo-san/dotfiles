@@ -176,8 +176,6 @@ window_rules:
   # --- Workspace 1: MAIN (ultrawide) — browse / read / write / watch ---
   - commands: ["set-tiling", "move --workspace 1"]
     match:
-      # Playnite launcher (WPF, process 'Playnite.DesktopApp')
-      - window_process: { equals: "Playnite.DesktopApp" }
       # Media players (Plex XP9CDQW6ML4NQN)
       - window_process: { regex: "vlc|Plex|FreeTube" }
       # 7-Zip File Manager + File Explorer + File Pilot

@@ -54,7 +54,7 @@
 
  RAYCAST SCRIPT COMMANDS (fresh-machine manual setup -- can't be chezmoi'd):
   - The scripts live in ~/.config/scripts/raycast (chezmoi-deployed, SINGLE source):
-    obsidian-guarded, obsidian-snapshot, classic-start-menu, glaze-move-right.
+    obsidian-launch, ahk-on, ahk-off, classic-start-menu, glaze-move-right.
     (Old D:\REPOS\scripts\raycast copies were retired -- one source of truth now.)
   - POINT RAYCAST AT THAT DIR by hand: Settings > Extensions > Script Commands >
     Add Directory > C:\Users\senio\.config\scripts\raycast. Raycast stores its script
@@ -161,7 +161,7 @@ shortcuts (Zen, Obsidian) live in each app's own config or a #HotIf WinActive bl
 ** ON ANY AMD MACHINE: turn OFF all AMD Radeon Software hotkeys ** (Radeon Software -> Settings ->
 Hotkeys). Radeon grabs Alt+Z (overlay), Alt+R, Ctrl+Shift+U etc. GLOBALLY, BEFORE AHK sees them ->
 the remaps silently fail and the Radeon panel flashes. With them off: Alt+Z=undo, Zen's Alt+R=reload
-all work, Ctrl+Shift+U is freed. (Win+W = Proton Mail sideways-quake, also via this AHK.)
+all work, Ctrl+Shift+U is freed. (Win+W = focus Zen browser / launch if not running, via this AHK.)
 
 --- Open-Shell mechanism (confirmed via source) ---
 Live settings = registry HKCU\Software\OpenShell (auto-applied by openshell-settings.reg).
@@ -189,24 +189,6 @@ Constructor keys: F5 run, Ctrl+` panel, Ctrl+F7 clean, F6 stop, Ctrl+F5 package.
 (If the BETA build doesn't see the plugin, it may use a different appdata folder than
  AceGM\GMEdit — check where GMEdit creates its config on first run and move it there.)
 
---- OBSIDIAN CONFIG GUARDIAN (Windows iCloud self-heal) ---
-PROBLEM: iCloud-on-Windows clobbers .obsidian config -> plugins/settings vanish.
-FIX: keep a git-backed canonical config OFF iCloud, restore it on every launch.
-- Canonical: ~/.config/obsidian/config-backup/*.json (chezmoi-tracked, WINDOWS-ONLY via
-  .chezmoiignore: app/appearance/community-plugins/core-plugins/hotkeys/graph/daily-notes).
-- Raycast commands (in ~/.config/scripts/raycast -- see RAYCAST SCRIPT COMMANDS above):
-    "Obsidian"                 (obsidian-guarded.ps1)  -> restore canonical, then open vault
-    "Snapshot Obsidian Config" (obsidian-snapshot.ps1) -> save current config as canonical
-HOW TO DRIVE:
-  1. ALWAYS open Obsidian via the "Obsidian" Raycast command (the guard) — not the icon.
-     It restores good config each launch, so iCloud clobbering self-heals.
-  2. After you intentionally change a plugin/setting -> run "Snapshot Obsidian Config"
-     (else the guard reverts it next launch).
-  3. Notes: write normally — iCloud syncs notes fine (never the problem).
-SCOPE / CAVEATS:
-  - Makes WINDOWS authoritative for config. Change config on Mac/iPhone -> the Windows guard
-    overwrites it. Fine for Windows-primary; tinker on Mac/phone a lot -> use Obsidian Sync.
-  - WINDOWS-ONLY (OS-gated): guardian scripts + canonical never deploy to Mac = zero trouble
-    there. iPhone runs no scripts; it just syncs the vault.
-  - Does NOT stop iCloud conflict copies; makes the CONFIG immune to the damage. workspace.json
-    conflict copies are harmless junk -> sweep occasionally.
+--- OBSIDIAN ---
+Open via Raycast "Obsidian" command (obsidian-launch.ps1) — launches the vault directly.
+Notes sync via iCloud; .obsidian config also syncs (no guardian needed).

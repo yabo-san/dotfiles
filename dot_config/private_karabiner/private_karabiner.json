@@ -4,6 +4,32 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Zen: Cmd+click → Option+click (split tab — parity with Windows Alt+click)",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": ["^app\\.zen-browser\\.zen$"]
+                                    }
+                                ],
+                                "from": {
+                                    "pointing_button": "button1",
+                                    "modifiers": {
+                                        "mandatory": ["command"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "pointing_button": "button1",
+                                        "modifiers": ["option"]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "ctrl+backtick → backtick (type literal backtick in Ghostty quick terminal)",
                         "manipulators": [
                             {
