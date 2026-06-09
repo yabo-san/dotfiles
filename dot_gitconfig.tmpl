@@ -5,11 +5,19 @@
 	editor = code --wait
 	pager = delta
 [credential "https://github.com"]
-	helper = 
+	helper =
+{{ if eq .chezmoi.os "windows" -}}
 	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
+{{ else -}}
+	helper = !gh auth git-credential
+{{ end -}}
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
+{{ if eq .chezmoi.os "windows" -}}
 	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
+{{ else -}}
+	helper = !gh auth git-credential
+{{ end -}}
 [delta]
 	navigate = true
 	line-numbers = true
