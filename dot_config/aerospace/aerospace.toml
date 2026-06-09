@@ -45,6 +45,8 @@ alt-shift-l = 'move right'
 # Move workspace to monitor (GlazeWM lwin+shift+hjkl parity)
 alt-ctrl-shift-h = 'move-workspace-to-monitor --wrap-around left'
 alt-ctrl-shift-l = 'move-workspace-to-monitor --wrap-around right'
+alt-ctrl-shift-j = 'move-workspace-to-monitor --wrap-around down'
+alt-ctrl-shift-k = 'move-workspace-to-monitor --wrap-around up'
 
 # Resize
 alt-ctrl-h = 'resize width -50'
