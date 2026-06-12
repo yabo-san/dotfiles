@@ -10,7 +10,7 @@ setopt HIST_IGNORE_DUPS # dont save duplicate lines
 setopt SHARE_HISTORY # share history between sessions
 
 # Fastfetch on startup — skip in quake terminal and nested shells (matches PS profile)
-if command -v fastfetch > /dev/null && [[ -z "$QUAKE_TERM" ]] && [[ "$SHLVL" -eq 1 ]]; then
+if command -v fastfetch > /dev/null && [[ "$SHLVL" -eq 1 ]]; then
   fastfetch
 fi
 

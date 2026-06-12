@@ -1,0 +1,13 @@
+Host *
+    # Keep connections alive (stops ssh dying mid-session on idle servers)
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+
+    # Auto-accept new host keys, never prompt on first connect
+    StrictHostKeyChecking accept-new
+
+    # Add keys to agent on first use
+    AddKeysToAgent yes
+
+    # Belt-and-suspenders: old servers won't choke if ghostty terminfo is missing
+    SetEnv TERM=xterm-256color

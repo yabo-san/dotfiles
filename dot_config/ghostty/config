@@ -1,3 +1,6 @@
+# Report as xterm-256color so remote servers don't choke on missing ghostty terminfo
+term = xterm-256color
+
 # Font — matches current iTerm setup
 font-family = Hack Nerd Font
 font-size = 13
@@ -7,10 +10,8 @@ theme = Catppuccin Mocha
 
 # Quick terminal (Quake mode) — tilde drops it over every app instantly
 quick-terminal-position = top
-quick-terminal-screen = cursor
+quick-terminal-screen = mouse
 quick-terminal-animation-duration = 0
-quick-terminal-space-above-top = 30
-quick-terminal-env = QUAKE_TERM=1
 keybind = global:grave_accent=toggle_quick_terminal
 keybind = ctrl+shift+alt+grave_accent=text:\x60
 
