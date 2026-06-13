@@ -3,7 +3,8 @@
 
 defaults write com.lwouis.alt-tab-macos appearanceSize -int 2
 defaults write com.lwouis.alt-tab-macos appsToShow -int 0
-defaults write com.lwouis.alt-tab-macos spacesToShow -int 0
+defaults write com.lwouis.alt-tab-macos spacesToShow -int 1
+defaults write com.lwouis.alt-tab-macos showWindowlessApps -int 1
 defaults write com.lwouis.alt-tab-macos showHiddenWindows -int 1
 defaults write com.lwouis.alt-tab-macos showMinimizedWindows -int 0
 defaults write com.lwouis.alt-tab-macos previewFocusedWindow -bool true

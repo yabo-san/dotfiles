@@ -13,6 +13,15 @@ default-root-container-orientation = 'auto'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 
+[workspace-to-monitor-force-assignment]
+1 = 'LG HDR WQHD'
+2 = 'Built-in Retina Display'
+3 = 'Built-in Retina Display'
+4 = 'LG HDR WQHD'
+5 = 'LG HDR WQHD'
+6 = 'LG HDR WQHD'
+7 = 'LG HDR WQHD'
+
 [gaps]
 inner.horizontal = 10
 inner.vertical   = 10
@@ -26,6 +35,156 @@ outer.bottom     = 10
 run = "layout floating"
 [on-window-detected.if]
 app-id = "com.mitchellh.ghostty"
+
+# ── App homing (ported from FlashSpace) ───────────────────────────────────────
+
+# Workspace 2 — texting (built-in)
+[[on-window-detected]]
+run = ['move-node-to-workspace 2']
+[on-window-detected.if]
+app-id = "com.tinyspeck.slackmacgap"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 2']
+[on-window-detected.if]
+app-id = "com.automattic.beeper.desktop"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 2']
+[on-window-detected.if]
+app-id = "com.apple.MobileSMS"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 2']
+[on-window-detected.if]
+app-id = "com.fightcade2"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 2']
+[on-window-detected.if]
+app-id = "com.hnc.Discord"
+
+# Workspace 3 — music (built-in)
+[[on-window-detected]]
+run = ['move-node-to-workspace 3']
+[on-window-detected.if]
+app-id = "ch.laurinbrandner.nuage"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 3']
+[on-window-detected.if]
+app-id = "org.nicotine_plus.Nicotine"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 3']
+[on-window-detected.if]
+app-id = "ru.alexfreud.ReAmp"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 3']
+[on-window-detected.if]
+app-id = "com.ableton.live"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 3']
+[on-window-detected.if]
+app-id = "com.mediahuman.Audio Converter"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 3']
+[on-window-detected.if]
+app-id = "com.apple.Music"
+
+# Workspace 4 — gamedev (ultrawide)
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "org.aseprite.Aseprite"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "org.blenderfoundation.blender"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.electron.microstudio"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "org.solarus-games.solarus-editor"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.lexaloffle.pico8"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.lexaloffle.picotron"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.lexaloffle.vox"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.yoyogames.gms2-beta"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.yoyogames.gms2"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "org.godotengine.godot"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "org.mapeditor.Tiled"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "dev.gbstudio.gbstudio"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.kristianduske.TrenchBroom"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.pico8_author.picocad"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "cc.yal.gmedit"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.deepnight.ldtk"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "com.apple.dt.Xcode"
+
+[[on-window-detected]]
+run = ['move-node-to-workspace 4']
+[on-window-detected.if]
+app-id = "org.godotengine.godot"
 
 # ── Keybinds ──────────────────────────────────────────────────────────────────
 [mode.main.binding]

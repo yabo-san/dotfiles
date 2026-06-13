@@ -102,7 +102,7 @@
             }
           ],
           "assignAppShortcut": "opt+shift+1",
-          "display": "",
+          "display": "LG HDR WQHD",
           "id": "264501CE-AF54-4A1B-B3D9-FBDF1DBA1487",
           "name": "main",
           "openAppsOnActivation": false,
@@ -138,7 +138,7 @@
             }
           ],
           "assignAppShortcut": "opt+shift+2",
-          "display": "",
+          "display": "Built-in Retina Display",
           "id": "C68E4EBF-1432-4BE1-9FAE-1781C3AA6141",
           "name": "texting",
           "openAppsOnActivation": false,
@@ -179,7 +179,7 @@
             }
           ],
           "assignAppShortcut": "opt+shift+3",
-          "display": "",
+          "display": "Built-in Retina Display",
           "id": "5CFF26E4-C552-485C-BBAB-18E2C4BB1CB1",
           "name": "music",
           "openAppsOnActivation": false,
@@ -300,7 +300,7 @@
             }
           ],
           "assignAppShortcut": "opt+shift+4",
-          "display": "",
+          "display": "LG HDR WQHD",
           "id": "E0D66208-EE53-41A7-9A7A-D1570FE4BBAC",
           "name": "gamedev",
           "openAppsOnActivation": false,
