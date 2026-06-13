@@ -306,6 +306,36 @@
           "openAppsOnActivation": false,
           "shortcut": "opt+4",
           "symbolIconName": "paintbrush.pointed"
+        },
+        {
+          "apps": [],
+          "assignAppShortcut": "opt+shift+5",
+          "display": "",
+          "id": "3EA22B4C-B1B7-4BF4-898E-86E9791FD616",
+          "name": "scratch",
+          "openAppsOnActivation": false,
+          "shortcut": "opt+5",
+          "symbolIconName": "terminal.fill"
+        },
+        {
+          "apps": [],
+          "assignAppShortcut": "opt+shift+6",
+          "display": "",
+          "id": "8D260FC4-C801-44A1-B3B1-F9F31A0B3EA5",
+          "name": "media",
+          "openAppsOnActivation": false,
+          "shortcut": "opt+6",
+          "symbolIconName": "film.fill"
+        },
+        {
+          "apps": [],
+          "assignAppShortcut": "opt+shift+7",
+          "display": "",
+          "id": "395D651F-1469-4A80-8966-A8F89D61811C",
+          "name": "sys",
+          "openAppsOnActivation": false,
+          "shortcut": "opt+7",
+          "symbolIconName": "gearshape.fill"
         }
       ]
     }
