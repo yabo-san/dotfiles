@@ -33,7 +33,7 @@ keybind = ctrl+b>n=next_tab
 keybind = ctrl+b>p=previous_tab
 
 # Window (matches wezterm window_padding left=8 right=8 top=6 bottom=6)
-initial-window = true
+initial-window = false
 quit-after-last-window-closed = false
 window-decoration = false
 background-opacity = 0.92
