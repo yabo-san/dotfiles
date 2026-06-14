@@ -32,6 +32,7 @@ brew "jq"            # json + yazi
 # window management (tiling + active-window borders; using the default macOS menu bar — sketchybar dropped, no good fit)
 cask "nikitabobko/tap/aerospace"
 brew "FelixKratz/formulae/borders"
+cask "hammerspoon"     # global hotkey daemon — Ghostty quick terminal workaround for AeroSpace
 
 # productivity
 cask "raycast"
