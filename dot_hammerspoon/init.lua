@@ -1,29 +1,34 @@
 local GHOSTTY = "com.mitchellh.ghostty"
 
--- Ghostty quick terminal global toggle
--- Ghostty's built-in global: keybind stops working when AeroSpace moves all
--- Ghostty windows off-screen. This eventtap intercepts backtick at the OS level,
--- activates Ghostty briefly, sends the key, then restores the AeroSpace workspace.
--- The quick terminal is unmanaged by AeroSpace so it stays visible after the restore.
 local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
     if event:getKeyCode() ~= 50 then return false end
     local f = event:getFlags()
     if f.cmd or f.ctrl or f.alt or f.shift then return false end
 
     local front = hs.application.frontmostApplication()
-    if front and front:bundleID() == GHOSTTY then return false end
+    if front and front:bundleID() == GHOSTTY then
+        print("backtick: Ghostty already front, passing through")
+        return false
+    end
 
     local ghostty = hs.application.get(GHOSTTY)
-    if not ghostty then return true end
+    if not ghostty then
+        print("backtick: Ghostty not running")
+        return true
+    end
 
     local currentWS = hs.execute("aerospace list-workspaces --focused"):gsub("%s+", "")
+    print("backtick: activating Ghostty from ws=" .. currentWS .. " front=" .. (front and front:name() or "none"))
 
     ghostty:activate()
-    hs.timer.doAfter(0.03, function()
+    hs.timer.doAfter(0.05, function()
+        local nowFront = hs.application.frontmostApplication()
+        print("backtick: 50ms later, front=" .. (nowFront and nowFront:name() or "none"))
         hs.eventtap.event.newKeyEvent(50, true):post()
         hs.eventtap.event.newKeyEvent(50, false):post()
         if currentWS ~= "" then
-            hs.timer.doAfter(0.08, function()
+            hs.timer.doAfter(0.1, function()
+                print("backtick: restoring ws=" .. currentWS)
                 hs.execute("aerospace workspace " .. currentWS)
             end)
         end
@@ -33,3 +38,4 @@ local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, func
 end)
 
 backtapWatcher:start()
+print("Ghostty quick terminal watcher started")
