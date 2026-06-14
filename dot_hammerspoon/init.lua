@@ -20,7 +20,8 @@ local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, func
 
     ghostty:activate()
     hs.timer.doAfter(0.03, function()
-        hs.eventtap.keyStroke({}, "grave")
+        hs.eventtap.event.newKeyEvent(50, true):post()
+        hs.eventtap.event.newKeyEvent(50, false):post()
         if currentWS ~= "" then
             hs.timer.doAfter(0.08, function()
                 hs.execute("aerospace workspace " .. currentWS)
