@@ -11,6 +11,17 @@ local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, func
         return false
     end
 
+    -- Don't intercept if a game/fullscreen app is running
+    local gameApps = { "com.yoyogames.GameMaker-Mac", "YoYo Runner" }
+    if front then
+        for _, gameApp in ipairs(gameApps) do
+            if front:name():find(gameApp) or front:bundleID() == gameApp then
+                print("backtick: game running (" .. front:name() .. "), passing through")
+                return false
+            end
+        end
+    end
+
     local ghostty = hs.application.get(GHOSTTY)
     if not ghostty then
         print("backtick: Ghostty not running")
