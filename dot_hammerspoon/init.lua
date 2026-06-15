@@ -24,7 +24,12 @@ local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, func
 
     local ghostty = hs.application.get(GHOSTTY)
     if not ghostty then
-        print("backtick: Ghostty not running")
+        print("backtick: Ghostty not running, launching...")
+        hs.application.launchOrFocusByBundleID(GHOSTTY)
+        hs.timer.doAfter(0.5, function()
+            hs.eventtap.event.newKeyEvent(50, true):post()
+            hs.eventtap.event.newKeyEvent(50, false):post()
+        end)
         return true
     end
 
