@@ -3,5 +3,9 @@
 [".local/bin/mise"]
 type = "file"
 executable = true
-url = "https://mise.run/mise-latest-{{.chezmoi.os}}-{{.chezmoi.arch}}"
+{{ if eq .chezmoi.os "darwin" }}
+url = "https://github.com/jdx/mise/releases/download/v2026.6.11/mise-v2026.6.11-macos-{{.chezmoi.arch}}"
+{{ else }}
+url = "https://github.com/jdx/mise/releases/download/v2026.6.11/mise-v2026.6.11-{{.chezmoi.os}}-{{.chezmoi.arch}}"
+{{ end }}
 {{ end }}
