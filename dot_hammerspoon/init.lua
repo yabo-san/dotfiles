@@ -15,8 +15,8 @@ hs.hotkey.bind({}, "grave", function()
         return
     end
 
-    -- If Ghostty is focused, forward the keystroke to it (for toggle_quick_terminal)
+    -- If Ghostty is focused, forward the keystroke using keycode (grave = 50)
     if ghostty == hs.application.frontmostApplication() then
-        hs.eventtap.keyStroke({}, "grave")
+        hs.eventtap.keyStroke({}, 50)
     end
 end)
