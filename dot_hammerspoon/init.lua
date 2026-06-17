@@ -1,22 +1,37 @@
 local GHOSTTY = "com.mitchellh.ghostty"
 
-hs.hotkey.bind({}, "grave", function()
-    local ghostty = hs.application.get(GHOSTTY)
+local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+    if event:getKeyCode() ~= 50 then return false end  -- grave key
+    local f = event:getFlags()
+    if f.cmd or f.ctrl or f.alt or f.shift then return false end
 
-    -- If Ghostty is running but not focused, activate it
-    if ghostty and ghostty ~= hs.application.frontmostApplication() then
-        ghostty:activate()
-        return
+    local front = hs.application.frontmostApplication()
+    if front and front:bundleID() == GHOSTTY then
+        -- Ghostty is focused, let toggle_quick_terminal handle the keystroke
+        return false
+    end
+
+    -- Don't intercept for games
+    local gameApps = { "com.yoyogames.GameMaker-Mac", "YoYo Runner" }
+    if front then
+        for _, gameApp in ipairs(gameApps) do
+            if front:name():find(gameApp) or front:bundleID() == gameApp then
+                return false
+            end
+        end
     end
 
     -- If Ghostty isn't running, launch it
+    local ghostty = hs.application.get(GHOSTTY)
     if not ghostty then
         hs.application.launchOrFocusByBundleID(GHOSTTY)
-        return
+        return true  -- consume the key
     end
 
-    -- If Ghostty is focused, forward the keystroke using keycode (grave = 50)
-    if ghostty == hs.application.frontmostApplication() then
-        hs.eventtap.keyStroke({}, 50)
-    end
+    -- Ghostty is running but not focused, activate it
+    ghostty:activate()
+    return true  -- consume the key
 end)
+
+backtapWatcher:start()
+print("Ghostty quick terminal watcher started (grave key)")
