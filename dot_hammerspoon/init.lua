@@ -1,47 +1,57 @@
 local GHOSTTY = "com.mitchellh.ghostty"
 
 local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
-    print("BACKTICK: keyCode=" .. event:getKeyCode())
-    if event:getKeyCode() ~= 50 then return false end  -- grave key
-
+    if event:getKeyCode() ~= 50 then return false end
     local f = event:getFlags()
-    if f.cmd or f.ctrl or f.alt or f.shift then
-        print("BACKTICK: modifier key detected, passing through")
-        return false
-    end
+    if f.cmd or f.ctrl or f.alt or f.shift then return false end
 
     local front = hs.application.frontmostApplication()
-    print("BACKTICK: front app = " .. (front and front:name() or "nil"))
-
     if front and front:bundleID() == GHOSTTY then
-        print("BACKTICK: Ghostty is focused, passing through for toggle")
+        print("backtick: Ghostty already front, passing through")
         return false
     end
 
-    -- Don't intercept for games
+    -- Don't intercept if a game/fullscreen app is running
     local gameApps = { "com.yoyogames.GameMaker-Mac", "YoYo Runner" }
     if front then
         for _, gameApp in ipairs(gameApps) do
             if front:name():find(gameApp) or front:bundleID() == gameApp then
-                print("BACKTICK: game running, passing through")
+                print("backtick: game running (" .. front:name() .. "), passing through")
                 return false
             end
         end
     end
 
-    -- If Ghostty isn't running, launch it
     local ghostty = hs.application.get(GHOSTTY)
     if not ghostty then
-        print("BACKTICK: Ghostty not running, launching...")
+        print("backtick: Ghostty not running, launching...")
         hs.application.launchOrFocusByBundleID(GHOSTTY)
+        hs.timer.doAfter(0.5, function()
+            hs.eventtap.event.newKeyEvent(50, true):post()
+            hs.eventtap.event.newKeyEvent(50, false):post()
+        end)
         return true
     end
 
-    -- Ghostty is running but not focused, activate it
-    print("BACKTICK: activating Ghostty")
+    local currentWS = hs.execute("aerospace list-workspaces --focused"):gsub("%s+", "")
+    print("backtick: activating Ghostty from ws=" .. currentWS .. " front=" .. (front and front:name() or "none"))
+
     ghostty:activate()
+    hs.timer.doAfter(0.05, function()
+        local nowFront = hs.application.frontmostApplication()
+        print("backtick: 50ms later, front=" .. (nowFront and nowFront:name() or "none"))
+        hs.eventtap.event.newKeyEvent(50, true):post()
+        hs.eventtap.event.newKeyEvent(50, false):post()
+        if currentWS ~= "" then
+            hs.timer.doAfter(0.1, function()
+                print("backtick: restoring ws=" .. currentWS)
+                hs.execute("aerospace workspace " .. currentWS)
+            end)
+        end
+    end)
+
     return true
 end)
 
 backtapWatcher:start()
-print("Ghostty quick terminal watcher started (grave key)")
+print("Ghostty quick terminal watcher started")
