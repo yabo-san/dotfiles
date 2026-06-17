@@ -87,11 +87,6 @@ if command -v fzf > /dev/null ; then
   export FZF_ALT_C_OPTS='--preview "ls -la {}" --preview-window=right:50%'
 fi
 
-# zoxide — smart cd (--cmd cd makes `cd <partial>` jump by frecency)
-if command -v zoxide > /dev/null ; then
-  eval "$(zoxide init zsh --cmd cd)"
-fi
-
 # atuin — magic shell history (Ctrl+R, synced). Loads after fzf so it owns Ctrl+R.
 if command -v atuin > /dev/null ; then
   eval "$(atuin init zsh)"
@@ -187,3 +182,9 @@ dormin() {
     claude --dangerously-skip-permissions "$@"
   fi
 }
+
+# zoxide — smart cd (--cmd cd makes `cd <partial>` jump by frecency)
+# Must be last to properly override cd builtin
+if command -v zoxide > /dev/null ; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
