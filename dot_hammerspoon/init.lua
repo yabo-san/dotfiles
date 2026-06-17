@@ -1,5 +1,3 @@
-require("hs.ipc").cliInstall()
-
 local GHOSTTY = "com.mitchellh.ghostty"
 
 local function toggleGhostty()
