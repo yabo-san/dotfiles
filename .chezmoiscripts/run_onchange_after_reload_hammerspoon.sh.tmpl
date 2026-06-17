@@ -1,7 +1,0 @@
-#!/bin/bash
-# Reload Hammerspoon when config changes
-# hammerspoon config hash: {{ include "dot_hammerspoon/init.lua" | sha256sum }}
-
-if command -v hs &> /dev/null; then
-    hs -c "hs.reload()" 2>/dev/null && echo "Hammerspoon reloaded" || echo "Hammerspoon reload failed (may not be running)"
-fi
