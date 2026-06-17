@@ -1,8 +1,7 @@
-{{/* mise URL is broken (404), install manually if needed
+{{/* Only fetch mise on non-Windows (mac/Linux). On Windows, scoop manages tools. */}}
 {{ if ne .chezmoi.os "windows" }}
 [".local/bin/mise"]
 type = "file"
 executable = true
-url = "https://mise.jdx.dev/mise-latest-{{.chezmoi.os}}-{{.chezmoi.arch}}"
+url = "https://mise.run/mise-latest-{{.chezmoi.os}}-{{.chezmoi.arch}}"
 {{ end }}
-*/}}
