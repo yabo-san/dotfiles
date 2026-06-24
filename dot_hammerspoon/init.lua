@@ -1,4 +1,5 @@
 local GHOSTTY = "com.mitchellh.ghostty"
+local previousApp = nil
 
 local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
     if event:getKeyCode() ~= 50 then return false end
@@ -7,7 +8,14 @@ local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, func
 
     local front = hs.application.frontmostApplication()
     if front and front:bundleID() == GHOSTTY then
-        print("backtick: Ghostty already front, passing through")
+        print("backtick: Ghostty front, toggle quake")
+        hs.timer.doAfter(0.15, function()
+            local ghostty = hs.application.get(GHOSTTY)
+            if ghostty and #ghostty:allWindows() == 0 and previousApp then
+                print("backtick: quake hidden, restoring " .. previousApp:name())
+                previousApp:activate()
+            end
+        end)
         return false
     end
 
@@ -36,6 +44,7 @@ local backtapWatcher = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, func
     local currentWS = hs.execute("aerospace list-workspaces --focused"):gsub("%s+", "")
     print("backtick: activating Ghostty from ws=" .. currentWS .. " front=" .. (front and front:name() or "none"))
 
+    previousApp = front
     ghostty:activate()
     hs.timer.doAfter(0.05, function()
         local nowFront = hs.application.frontmostApplication()
