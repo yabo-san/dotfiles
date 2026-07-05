@@ -100,7 +100,7 @@ window_behavior:
   # DEFAULT TILING — everything tiles unless explicitly floated or ignored below.
   # Games are all fullscreen special cases so they float via the deny rules.
   # Use lwin+t to toggle any edge-case window manually.
-  initial_state: "tiling"
+  initial_state: "floating"
 
   # Sets the default options for when a new window is created. This also
   # changes the defaults for when the state change commands, like
@@ -162,11 +162,11 @@ window_rules:
   # =====================================================================
   # ALLOWLIST — the ONLY windows that tile. Everything else floats (see
   # DEFAULT TILING MODEL — everything tiles unless floated or ignored below.
-  # Rules here only need to HOME windows to workspaces (set-tiling is implicit).
+  # OPT-IN TILING — only listed apps tile. Everything else floats (games, unknown exes).
   # Games go fullscreen and are fine; use lwin+t to float any edge case.
 
   # --- Workspace 1: MAIN (ultrawide) ---
-  - commands: ["move --workspace 1"]
+  - commands: ["set-tiling", "move --workspace 1"]
     match:
       - window_process: { regex: "Proton Mail" }
       - window_process: { regex: "zen" }
@@ -182,35 +182,35 @@ window_rules:
         window_class: { equals: "PPTFrameClass" }
 
   # --- Workspace 2: COMMS (Acer) ---
-  - commands: ["move --workspace 2"]
+  - commands: ["set-tiling", "move --workspace 2"]
     match:
       - window_process: { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
 
   # --- Workspace 3: MUSIC (Acer) ---
-  - commands: ["move --workspace 3"]
+  - commands: ["set-tiling", "move --workspace 3"]
     match:
       - window_process: { regex: "Cider|[sS]potify|SoulseekQt" }
 
   # --- Workspace 4: GAMEDEV (ultrawide) ---
-  - commands: ["move --workspace 4"]
+  - commands: ["set-tiling", "move --workspace 4"]
     match:
       - window_process: { regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit" }
       - window_process: { regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus" }
       - window_process: { regex: "Claude|LM Studio" }
 
   # --- Workspace 5: PLAY — Playnite homes here, games go fullscreen ---
-  - commands: ["move --workspace 5"]
+  - commands: ["set-tiling", "move --workspace 5"]
     match:
       - window_process: { equals: "Playnite" }
 
   # --- Workspace 6: MEDIA — Fladder (fullscreen wherever) ---
-  - commands: ["move --workspace 6"]
+  - commands: ["set-tiling", "move --workspace 6"]
     match:
       - window_process: { equals: "fladder" }
       - window_process: { regex: "vlc|FreeTube" }
 
   # --- Workspace 7: UTILS ---
-  - commands: ["move --workspace 7"]
+  - commands: ["set-tiling", "move --workspace 7"]
     match:
       - window_process: { equals: "logioptionsplus" }
       - window_process: { equals: "SystemSettings" }
