@@ -215,6 +215,13 @@
             "Version": "4.4.198"
         },
         {
+            "Source": "extras",
+            "Info": "",
+            "Updated": "2026-06-08T12:00:00.0000000-07:00",
+            "Name": "playnite",
+            "Version": "10.43"
+        },
+        {
             "Source": "main",
             "Info": "",
             "Updated": "2026-06-04T07:43:04.2433916-07:00",

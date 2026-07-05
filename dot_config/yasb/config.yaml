@@ -11,7 +11,7 @@ komorebi:
 bars:
   primary-bar:
     enabled: true
-    screens: ["LG HDR WQHD", "XG270HU"]   # ultrawide + Acer gaming (NOT the CRT)
+    screens: ["LG HDR WQHD", "XG270HU"]   # ultrawide + Acer (NOT the CRT)
     class_name: "yasb-bar"
     alignment:
       position: "top"

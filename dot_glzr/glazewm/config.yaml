@@ -97,13 +97,10 @@ window_behavior:
   # New windows are created in this state whenever possible.
   # Allowed values: 'tiling', 'floating'.
   #
-  # OPT-IN TILING MODEL: default is 'floating' so that NOTHING tiles unless it's
-  # explicitly allowlisted in window_rules below (the `set-tiling` block). Games,
-  # launchers, emulators, recomp/port exes, and unknown apps all float by default
-  # and never create phantom gaps. Adding an app to the allowlist is the only way
-  # to make it tile. This replaces the old denylist (endless per-app `ignore`
-  # rules) which couldn't keep up with a Playnite library of ~50+ unique exes.
-  initial_state: "floating"
+  # DEFAULT TILING — everything tiles unless explicitly floated or ignored below.
+  # Games are all fullscreen special cases so they float via the deny rules.
+  # Use lwin+t to toggle any edge-case window manually.
+  initial_state: "tiling"
 
   # Sets the default options for when a new window is created. This also
   # changes the defaults for when the state change commands, like
@@ -133,21 +130,27 @@ workspaces:
   - name: "2"
     display_name: "" # comms (comments)
     keep_alive: true
+    bind_to_monitor: 1  # Acer (XG270HU, ACR0414)
   - name: "3"
     display_name: "" # music (note)
     keep_alive: true
+    bind_to_monitor: 1  # Acer
   - name: "4"
     display_name: "" # gamedev (paintbrush)
     keep_alive: true
+    bind_to_monitor: 2  # ultrawide
   - name: "5"
     display_name: "" # play (gamepad)
     keep_alive: true
+    bind_to_monitor: 2  # ultrawide
   - name: "6"
     display_name: "" # media (film)
     keep_alive: true
+
   - name: "7"
     display_name: "" # utils (wrench)
     keep_alive: true
+    bind_to_monitor: 2  # ultrawide
   - name: "8"
   - name: "9"
   - name: "10"
@@ -158,32 +161,19 @@ workspaces:
 window_rules:
   # =====================================================================
   # ALLOWLIST — the ONLY windows that tile. Everything else floats (see
-  # window_behavior.initial_state: 'floating'). To make a new app tile,
-  # add its window_process here. Process names verified live via Win32
-  # enumeration on this machine; regex covers common variants.
-  # =====================================================================
-  # =====================================================================
-  # FLASHSPACE-STYLE WORKSPACE HOMING
-  # Each app both TILES (set-tiling → side-by-side, no overlap) and HOMES to
-  # its workspace (move --workspace N) the moment it opens — mirroring the mac
-  # FlashSpace profiles.json app→workspace assignment. Workspaces are bound to
-  # monitors above (1 main=ultrawide, 2 texting=Acer, 3 music=Acer,
-  # 4 gamedev=ultrawide). Games/launchers/unknowns still FLOAT (not listed).
-  # To re-home an app: change its --workspace number. To add one: drop it in
-  # the matching group.
-  # =====================================================================
+  # DEFAULT TILING MODEL — everything tiles unless floated or ignored below.
+  # Rules here only need to HOME windows to workspaces (set-tiling is implicit).
+  # Games go fullscreen and are fine; use lwin+t to float any edge case.
 
-  # --- Workspace 1: MAIN (ultrawide) — browse / read / write / watch ---
-  - commands: ["set-tiling", "move --workspace 1"]
+  # --- Workspace 1: MAIN (ultrawide) ---
+  - commands: ["move --workspace 1"]
     match:
-      # Media players (Plex XP9CDQW6ML4NQN)
-      - window_process: { regex: "vlc|Plex|FreeTube" }
-      # 7-Zip File Manager + File Explorer + File Pilot
+      - window_process: { regex: "Proton Mail" }
+      - window_process: { regex: "zen" }
       - window_process: { equals: "7zFM" }
       - window_process: { equals: "explorer" }
         window_class: { equals: "CabinetWClass" }
-      - window_process: { equals: "FPilot" } # File Pilot (fast file manager)
-      # Office main windows only (helper/tooltip windows float on their own)
+      - window_process: { equals: "FPilot" }
       - window_process: { equals: "EXCEL" }
         window_class: { equals: "XLMAIN" }
       - window_process: { equals: "WINWORD" }
@@ -191,101 +181,51 @@ window_rules:
       - window_process: { equals: "POWERPNT" }
         window_class: { equals: "PPTFrameClass" }
 
-  # --- Workspace 2: COMMS (Acer) — chat ---
-  - commands: ["set-tiling", "move --workspace 2"]
+  # --- Workspace 2: COMMS (Acer) ---
+  - commands: ["move --workspace 2"]
     match:
-      - window_process:
-          {
-            regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Proton Mail",
-          }
+      - window_process: { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
 
-  # --- Workspace 3: MUSIC (Acer) — music + soulseek ---
-  - commands: ["set-tiling", "move --workspace 3"]
+  # --- Workspace 3: MUSIC (Acer) ---
+  - commands: ["move --workspace 3"]
     match:
-      # SoulseekQt exe is versioned (SoulseekQt-2024.2.1) → substring match
       - window_process: { regex: "Cider|[sS]potify|SoulseekQt" }
 
-  # --- Workspace 4: GAMEDEV (ultrawide) — editors + creative/dev tools ---
-  - commands: ["set-tiling", "move --workspace 4"]
+  # --- Workspace 4: GAMEDEV (ultrawide) ---
+  - commands: ["move --workspace 4"]
     match:
-      # Code editors / IDEs (devenv = Visual Studio; JetBrains = pycharm64/rider64)
-      - window_process:
-          {
-            regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit",
-          }
-      # Creative / gamedev tools — MIRRORED from flashspace/profiles.json's
-      # "gamedev" profile (the Mac source of truth). 'GameMaker' matches
-      # GameMaker-LTS2026 + GMS2 (verified live).
-      - window_process:
-          {
-            regex: "Aseprite|paintdotnet|blender|HxD|Godot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus",
-          }
-      # AI Tools
+      - window_process: { regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit" }
+      - window_process: { regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus" }
       - window_process: { regex: "Claude|LM Studio" }
 
-  # --- Workspace 5: PLAY — games (float by default) + Playnite (tiles) ---
-  - commands: ["set-tiling", "move --workspace 5"]
+  # --- Workspace 5: PLAY — Playnite homes here, games go fullscreen ---
+  - commands: ["move --workspace 5"]
     match:
-      - window_process: { equals: "Playnite.DesktopApp" }
+      - window_process: { equals: "Playnite" }
 
-  # --- Workspace 6: MEDIA — capture / downloaders ---
-  - commands: ["set-tiling", "move --workspace 6"]
+  # --- Workspace 6: MEDIA — Fladder (fullscreen wherever) ---
+  - commands: ["move --workspace 6"]
     match:
-      # OBS (XPFFH613W8V6LV) + Elgato + ShareX
-      - window_process: { regex: "obs64|OBS|Elgato" }
-      - window_process: { equals: "ShareX" }
-        window_title: { regex: 'ShareX \d' }
-      # Downloaders
-      - window_process: { regex: "qbittorrent|JDownloader" }
+      - window_process: { equals: "fladder" }
+      - window_process: { regex: "vlc|FreeTube" }
 
-  # --- Workspace 7: UTILS — system / hardware ---
-  - commands: ["set-tiling", "move --workspace 7"]
+  # --- Workspace 7: UTILS ---
+  - commands: ["move --workspace 7"]
     match:
       - window_process: { equals: "logioptionsplus" }
       - window_process: { equals: "SystemSettings" }
       - window_process: { equals: "Taskmgr" }
       - window_process: { equals: "regedit" }
       - window_process: { equals: "SystemInformer" }
-      - window_process: { regex: "Hotspot Shield" } # VPN (XPDNLRV08ZCH53)
+      - window_process: { regex: "Hotspot Shield" }
       - window_process: { equals: "deskflow" }
 
-  # --- TILING but UNHOMED (open where you are; no fixed workspace) ---
-  - commands: ["set-tiling"]
+  # --- FLOAT — things that must never tile ---
+  - commands: ["set-floating"]
     match:
-      # Terminals (NOT WindowsTerminal — that's the quake dropdown, ignored below)
-      - window_process: { regex: "wezterm-gui|alacritty" }
-      - window_process: { regex: "zen|Obsidian" } # ADD THIS
-        window_title: { regex: ".+" }
-      # yabo-ui — your launcher (Tauri). ShaderGlass + games it launches stay
-      # floating/ignored; only the launcher UI tiles.
-      - window_process: { equals: "yabo-ui" }
-      # Core native Windows apps — safe to tile (opt-in is for games/junk, not
-      # first-party Windows tools). Tile wherever opened.
-      - window_process: { equals: "SnippingTool" } # Snipping Tool
-      - window_process: { equals: "ScreenSketch" } # Snip & Sketch (newer)
-      - window_process: { equals: "notepad" }
-      - window_process: { equals: "wordpad" }
-      - window_process: { equals: "mspaint" }
-      - window_process: { equals: "SystemSettings" } # Settings app
-      - window_process: { equals: "Taskmgr" } # Task Manager
-      - window_process: { equals: "regedit" }
-      - window_process: { equals: "CalculatorApp" } # Calculator
-      - window_process: { equals: "speedcrunch" } # SpeedCrunch calculator
-      - window_process: { equals: "SystemInformer" } # System Informer (Task Mgr replacement)
-      - window_process: { regex: "NanaZip" } # NanaZip archive manager
-      - window_process: { equals: "logioptionsplus" } # Logi Options+ (mouse/keyboard config)
-      - window_process: { equals: "deskflow" } # Deskflow (KVM, share kbd/mouse)
-      # RustDesk intentionally NOT tiled: it spawns a transient SESSION window (the
-      # "connected-to" view, not the control pane) that glaze would tile then drop,
-      # flashing + disrupting the layout. Left out of the allowlist so it floats.
-      # ShareX MAIN window only (title has version, e.g. "ShareX 20.2 Portable");
-      # title regex avoids tiling the capture overlay / annotation editor.
-      - window_process: { equals: "ShareX" }
-        window_title: { regex: 'ShareX \d' }
-      # Download managers not tied to a workspace. JDownloader caveat: its
-      # window is often owned by javaw.exe — if it floats, that's why (we don't
-      # allowlist 'java*' or every Java GAME would tile).
-      - window_process: { regex: "qbittorrent|JDownloader" }
+      - window_process: { regex: "steam|SteamWebHelper" }
+      - window_process: { equals: "EpicGamesLauncher" }
+      - window_process: { equals: "GalaxyClient" }
 
   # =====================================================================
   # IGNORE — true overlays/bars that must NOT be managed at all (no border,
@@ -308,13 +248,8 @@ window_rules:
       # unmanaged so it floats over the layout instead of tiling.
       - window_process: { equals: "WindowsTerminal" }
 
-      # WezTerm QUAKE dropdown — the --class quake-term instance. IGNORE so
-      # GlazeWM never tiles it; the toggle script draws it pinned to the top of
-      # the active monitor. Matched by window_CLASS (--class sets the class to
-      # 'quake-term'; the title stays as the shell name). Normal WezTerm windows
-      # have class 'org.wezfurlong.wezterm' and still tile via the allowlist.
+      # WezTerm — fully ignored (guake/dropdown style, always floating).
       - window_process: { equals: "wezterm-gui" }
-        window_class: { equals: "quake-term" }
 
       # ShaderGlass overlay (yabo-launcher CRT/shader overlay) — must sit
       # click-through on top of the game window; managing it breaks it.
@@ -338,6 +273,10 @@ window_rules:
       # common DOOM/Quake engine exes so other id-tech games are hands-off too.
       - window_process: { regex: "DOOMx64vk|DOOMEternal|DOOMTheDarkAges" }
       - window_class: { equals: "Zion" }
+
+      # MGS HD Collection (METAL GEAR SOLID3.exe, class CSD3DWND). Same DWM
+      # crash as EpicGamesLauncher: GlazeWM's border API races D3D11 init.
+      - window_class: { equals: "CSD3DWND" }
 
       # Picture-in-picture windows for browsers (float-but-ignore so they
       # stay pinned where you drop them).
