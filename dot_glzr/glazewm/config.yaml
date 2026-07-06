@@ -274,6 +274,10 @@ window_rules:
       - window_process: { regex: "DOOMx64vk|DOOMEternal|DOOMTheDarkAges" }
       - window_class: { equals: "Zion" }
 
+      # The Dark Mod (idTech4 fork). r_fullscreen=2 borderless windowed mode;
+      # GlazeWM's DWM border APIs race DirectInput acquire on launch → no mouse grab.
+      - window_process: { regex: "TheDarkMod|thedarkmod" }
+
       # MGS HD Collection (METAL GEAR SOLID3.exe, class CSD3DWND). Same DWM
       # crash as EpicGamesLauncher: GlazeWM's border API races D3D11 init.
       - window_class: { equals: "CSD3DWND" }
