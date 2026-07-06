@@ -198,8 +198,8 @@ window_rules:
       - window_process: { regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus" }
       - window_process: { regex: "Claude|LM Studio" }
 
-  # --- Workspace 5: PLAY — Playnite homes here, games go fullscreen ---
-  - commands: ["set-tiling", "move --workspace 5"]
+  # --- Workspace 5: PLAY — Playnite floats (popups/dialogs must not tile) ---
+  - commands: ["move --workspace 5"]
     match:
       - window_process: { equals: "Playnite" }
 
