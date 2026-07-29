@@ -187,7 +187,7 @@ dormin() {
   if [[ $# -eq 0 ]]; then
     opencode              # open the TUI (start fresh or pick a session with /sessions)
   else
-    opencode run "$@"     # one-shot query (like `claude -p "…"`)
+    opencode run --auto "$@"   # one-shot query, auto-approve (like claude --dangerously-skip-permissions)
   fi
 }
 

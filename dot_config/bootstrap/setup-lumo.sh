@@ -65,7 +65,7 @@ cat > "$OC_DIR/opencode.json" <<JSON
     }
   },
   "model": "lumo-tamer/lumo",
-  "permission": { "edit": "allow", "bash": "allow", "webfetch": "allow" }
+  "permission": { "edit": "allow", "write": "allow", "read": "allow", "bash": "allow", "webfetch": "allow", "external_directory": "allow" }
 }
 JSON
 

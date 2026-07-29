@@ -210,7 +210,7 @@ function dormin {
         for ($i=0; $i -lt 40; $i++) { try { Invoke-WebRequest 'http://localhost:3003/v1/models' -TimeoutSec 1 -UseBasicParsing -ErrorAction Stop | Out-Null; break } catch { if ($_.Exception.Response) { break }; Start-Sleep -Milliseconds 250 } }
     }
     if ($args.Count -eq 0) { opencode }               # open the TUI
-    else { opencode run @args }                       # one-shot query
+    else { opencode run --auto @args }                # one-shot query, auto-approve permissions
 }
 
 # --- machine-specific dir jumps (mac iCloud paths → Windows D:\) ---

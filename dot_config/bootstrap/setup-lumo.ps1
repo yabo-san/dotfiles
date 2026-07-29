@@ -68,7 +68,7 @@ Log "writing $ocDir\opencode.json"
     }
   },
   "model": "lumo-tamer/lumo",
-  "permission": { "edit": "allow", "bash": "allow", "webfetch": "allow" }
+  "permission": { "edit": "allow", "write": "allow", "read": "allow", "bash": "allow", "webfetch": "allow", "external_directory": "allow" }
 }
 "@ | Set-Content -Path (Join-Path $ocDir 'opencode.json') -Encoding utf8
 
