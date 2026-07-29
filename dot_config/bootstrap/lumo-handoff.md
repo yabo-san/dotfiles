@@ -22,6 +22,17 @@ dormin "do X and Y"    # one-shot query, non-interactive
 `dormin` lives in `dot_zshrc` and the PowerShell profile. It curls :3003 to see if the backend
 is up; if not, it starts `node dist/src/tamer.js server` detached.
 
+## Always-on backend (launchd, macOS)
+The lumo-tamer server runs as a launchd agent so it's always up (survives reboots, restarts on
+crash, refreshes tokens 24/7) — no cold start, and `dormin` never needs to launch it.
+- Plist: `~/Library/LaunchAgents/com.yabo.lumo-tamer.plist` (chezmoi-managed, mac-only; auto-loaded by a run_onchange script on `chezmoi apply`).
+- Controls:
+  - `launchctl list | grep lumo-tamer`  — status (2nd column 0 = healthy)
+  - `launchctl unload ~/Library/LaunchAgents/com.yabo.lumo-tamer.plist`  — stop
+  - `launchctl load -w ~/Library/LaunchAgents/com.yabo.lumo-tamer.plist`  — start
+- First load reads the vault key from the login keychain — click **Always Allow** once.
+- Not on macOS? Skip this; `dormin` auto-starts the server on demand instead.
+
 ## First-time setup on a NEW machine
 1. Install packages: `brew bundle` (mac) or `scoop import` + `winget import` (win).
 2. Build + configure the stack:  `bash ~/.config/bootstrap/setup-lumo.sh`  (or `setup-lumo.ps1` on win).
@@ -72,3 +83,4 @@ is up; if not, it starts `node dist/src/tamer.js server` detached.
 - `dot_zshrc` / PowerShell profile — the `dormin` function.
 - `Brewfile` / `scoopfile.json` — opencode + go.
 - `dot_config/bootstrap/setup-lumo.{sh,ps1}` — one-command bootstrap for a fresh machine.
+- `Library/LaunchAgents/com.yabo.lumo-tamer.plist` — always-on backend service (macOS only).

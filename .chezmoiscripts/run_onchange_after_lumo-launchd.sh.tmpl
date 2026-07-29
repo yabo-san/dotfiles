@@ -1,0 +1,10 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# (Re)load the lumo-tamer launchd agent whenever its plist changes.
+# hash: {{ include "Library/LaunchAgents/com.yabo.lumo-tamer.plist.tmpl" | sha256sum }}
+PLIST="$HOME/Library/LaunchAgents/com.yabo.lumo-tamer.plist"
+if [ -f "$PLIST" ] && [ -d "$HOME/lumo-tamer/dist" ]; then
+  launchctl unload "$PLIST" 2>/dev/null || true
+  launchctl load -w "$PLIST" 2>/dev/null && echo "[lumo] launchd agent (re)loaded"
+fi
+{{ end -}}

@@ -35,4 +35,9 @@ setup-alttab.sh
 {{ end }}
 # NOTE: .config/bat IS shared (mac + Windows) — the preferred bat style.
 
+# launchd agents are macOS-only (lumo-tamer always-on backend)
+{{ if ne .chezmoi.os "darwin" }}
+Library/**
+{{ end }}
+
 # nvim is shared (LazyVim overrides apply on both) — never ignored.
