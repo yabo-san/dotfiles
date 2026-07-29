@@ -208,6 +208,20 @@
       "Version": "0.12.2"
     },
     {
+      "Source": "main",
+      "Info": "opencode CLI — Claude-Code-style agent; wire to Lumo via lumo-tamer (setup-lumo.ps1)",
+      "Updated": "2026-07-29T00:00:00.0000000-07:00",
+      "Name": "opencode",
+      "Version": "1.18.9"
+    },
+    {
+      "Source": "main",
+      "Info": "Go toolchain — builds lumo-tamer's proton-auth (SRP login) binary",
+      "Updated": "2026-07-29T00:00:00.0000000-07:00",
+      "Name": "go",
+      "Version": "1.26.5"
+    },
+    {
       "Source": "nonportable",
       "Info": "",
       "Updated": "2026-06-04T07:04:49.654779-07:00",

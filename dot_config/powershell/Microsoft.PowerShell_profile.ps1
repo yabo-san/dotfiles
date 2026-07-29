@@ -199,10 +199,18 @@ function lastmod {
         Sort-Object LastWriteTime | Format-Table LastWriteTime, FullName -AutoSize
 }
 
-# dormin (dot_zshrc: claude --resume / passthrough)
+# dormin — opencode on Proton Lumo (via the local lumo-tamer proxy on :3003).
+# Auto-starts the lumo-tamer backend if it isn't already listening.
+# One-time setup on a new machine: cd ~\lumo-tamer ; npm run cli auth login
 function dormin {
-    if ($args.Count -eq 0) { claude --dangerously-skip-permissions --resume }
-    else { claude --dangerously-skip-permissions @args }
+    $up = try { Invoke-WebRequest -Uri 'http://localhost:3003/v1/models' -TimeoutSec 1 -UseBasicParsing -ErrorAction Stop; $true } catch { $_.Exception.Response -ne $null }
+    if (-not $up) {
+        Write-Host 'dormin: starting lumo-tamer backend…'
+        Start-Process node -ArgumentList 'dist/src/tamer.js','server' -WorkingDirectory "$HOME\lumo-tamer" -WindowStyle Hidden
+        for ($i=0; $i -lt 40; $i++) { try { Invoke-WebRequest 'http://localhost:3003/v1/models' -TimeoutSec 1 -UseBasicParsing -ErrorAction Stop | Out-Null; break } catch { if ($_.Exception.Response) { break }; Start-Sleep -Milliseconds 250 } }
+    }
+    if ($args.Count -eq 0) { opencode }               # open the TUI
+    else { opencode run @args }                       # one-shot query
 }
 
 # --- machine-specific dir jumps (mac iCloud paths → Windows D:\) ---

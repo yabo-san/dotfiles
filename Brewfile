@@ -56,6 +56,10 @@ cask "visual-studio-code"
 cask "zed"
 cask "devpod"
 
+brew "anomalyco/tap/opencode"
+brew "go"
+# lumo-tamer (the Lumo backend for opencode) lives at ~/lumo-tamer — a git external; go builds its proton-auth binary
+
 # kubernetes / containers
 cask "rancher"
 brew "docker-credential-helper"

@@ -175,11 +175,19 @@ mkcd() { mkdir -p "$1" && cd "$1" }
 alias reload='source ~/.zshrc'
 
 unalias dormin 2>/dev/null
+# dormin — opencode on Proton Lumo (via the local lumo-tamer proxy on :3003).
+# Auto-starts the lumo-tamer backend if it isn't already listening.
+# One-time setup on a new machine: cd ~/lumo-tamer && npm run cli auth login
 dormin() {
+  if ! curl -s -o /dev/null -m 1 http://localhost:3003/v1/models; then
+    echo "dormin: starting lumo-tamer backend…"
+    (cd "$HOME/lumo-tamer" && nohup node dist/src/tamer.js server >/tmp/lumo-tamer.log 2>&1 &)
+    for i in {1..40}; do curl -s -o /dev/null -m 1 http://localhost:3003/v1/models && break; sleep 0.25; done
+  fi
   if [[ $# -eq 0 ]]; then
-    claude --dangerously-skip-permissions --resume
+    opencode              # open the TUI (start fresh or pick a session with /sessions)
   else
-    claude --dangerously-skip-permissions "$@"
+    opencode run "$@"     # one-shot query (like `claude -p "…"`)
   fi
 }
 
