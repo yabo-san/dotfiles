@@ -1,0 +1,68 @@
+#requires -Version 5.1
+# =============================================================================
+# run_onchange_after_install-rohankar.ps1 — silent-install the RohanKar Launcher
+# =============================================================================
+# RohanKar is the odd one out among the launchers. GithubLauncher and Hydra both
+# ship PORTABLE builds, so .chezmoiexternals just unpacks them and it's done.
+# RohanKar ships an electron-builder NSIS INSTALLER ONLY - no portable variant -
+# so the external can only FETCH the setup exe. Something has to run it, and
+# chezmoi externals place files, they don't execute them. That's this.
+#
+# electron-builder NSIS flags:
+#   /S      silent
+#   /D=path install directory. MUST be last on the line and MUST NOT be quoted -
+#           that is an NSIS requirement, not a style choice. A quoted /D silently
+#           installs to the default location instead.
+#
+# Idempotent: skips entirely when the target version is already installed, so a
+# routine `chezmoi apply` doesn't re-run a 95 MB installer.
+#
+# Re-runs when the pinned version changes:
+#   {{ include ".chezmoiexternals/launchers.toml.tmpl" | sha256sum }}
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$version   = '1.4.1'
+$setup     = Join-Path $env:USERPROFILE '.local\share\launchers\_installers\rohankar-setup.exe'
+$installDir = Join-Path $env:LOCALAPPDATA 'Programs\rohankar-launcher'
+$exeName   = 'RohanKar Launcher.exe'
+
+if (-not (Test-Path $setup)) {
+    Write-Host "[rohankar] installer not fetched yet - run 'chezmoi apply' again once the external downloads." -ForegroundColor Yellow
+    return
+}
+
+# Already at this version? Nothing to do.
+$installed = Get-ChildItem $installDir -Filter '*.exe' -ErrorAction SilentlyContinue |
+             Where-Object { $_.Name -like '*RohanKar*' } | Select-Object -First 1
+if ($installed) {
+    $have = $installed.VersionInfo.ProductVersion
+    if ($have -and $have.StartsWith($version)) {
+        Write-Host "[rohankar] $have already installed." -ForegroundColor DarkGray
+        return
+    }
+    Write-Host "[rohankar] installed $have, want $version - upgrading." -ForegroundColor Cyan
+}
+
+# The app must not be running or NSIS will fail or leave a half-written install.
+if (Get-Process -Name 'RohanKar*' -ErrorAction SilentlyContinue) {
+    Write-Host "[rohankar] RohanKar Launcher is running - close it and re-run 'chezmoi apply'." -ForegroundColor Yellow
+    return
+}
+
+Write-Host "[rohankar] installing $version silently to $installDir ..." -ForegroundColor Cyan
+# /D must be last and unquoted; passing the whole thing as a single argument
+# string avoids PowerShell re-quoting the path.
+$proc = Start-Process -FilePath $setup -ArgumentList "/S /D=$installDir" -PassThru -Wait
+if ($proc.ExitCode -ne 0) {
+    Write-Host "[rohankar] installer exited $($proc.ExitCode)" -ForegroundColor Red
+    return
+}
+
+$now = Get-ChildItem $installDir -Filter '*.exe' -ErrorAction SilentlyContinue |
+       Where-Object { $_.Name -like '*RohanKar*' } | Select-Object -First 1
+if ($now) {
+    Write-Host "[rohankar] installed $($now.VersionInfo.ProductVersion) -> $($now.FullName)" -ForegroundColor Green
+} else {
+    Write-Host "[rohankar] installer reported success but no exe found in $installDir" -ForegroundColor Yellow
+}

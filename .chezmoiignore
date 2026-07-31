@@ -30,6 +30,7 @@ setup-alttab.sh
 run_onchange_after_playnite-scripts.ps1
 run_onchange_after_startup-shortcuts.ps1
 run_onchange_after_powershell-profile-bridge.ps1
+run_onchange_after_install-rohankar.ps1
 .glzr/**
 .config/wezterm/**
 .config/yasb/**
@@ -48,4 +49,5 @@ Library/**
 {{ end }}
 
 # nvim is shared (LazyVim overrides apply on both) — never ignored.
+
 
