@@ -760,7 +760,13 @@ def main() -> int:
     # window measures ~7px off on every edge.
     was_bare = not chrome_bits(hwnd)
     if was_bare:
-        logging.info("game is ALREADY borderless (native mode) — skipping the strip")
+        # We can see the window has no chrome. We CANNOT see why. It could be the
+        # game's own borderless mode, or another tool stripped it earlier —
+        # SetWindowLong is permanent for the life of that window, so a strip by
+        # e.g. Borderless Gaming survives even after that app is closed. Do not
+        # claim to know which; a fresh launch will show the truth, because a new
+        # window comes up with chrome again unless the game itself removes it.
+        logging.info("window already has no chrome — skipping the strip (cause unknown)")
     elif not args.no_borderless:
         try:
             apply_borderless(hwnd)
@@ -812,7 +818,7 @@ def main() -> int:
     logging.info(
         "SUMMARY %s | borderless=%s | target=%s | workspace=%s | rect=%s | managed=%s",
         args.game or args.process or "?",
-        "native" if was_bare else "stripped",
+        "already-bare" if was_bare else "stripped-by-us",
         args.target or "(none)",
         args.workspace,
         final,
