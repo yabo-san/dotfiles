@@ -63,12 +63,17 @@ def _glazewm(*args: str) -> dict:
     decode with the console codepage (cp1252 here) and blow up on the Font
     Awesome glyphs used as workspace display_names.
     """
+    # CREATE_NO_WINDOW is essential, not cosmetic: find_window polls every 0.5s
+    # for up to 90s, and without it EVERY glazewm call flashes a console window.
+    # That is what made PowerShell appear to open and close repeatedly while a
+    # game was starting.
     proc = subprocess.run(
         [_glazewm_exe(), *args],
         capture_output=True,
         encoding="utf-8",
         errors="replace",
         timeout=15,
+        creationflags=0x08000000,  # CREATE_NO_WINDOW
     )
     if proc.returncode != 0:
         raise RuntimeError(f"glazewm {' '.join(args)} failed: {(proc.stderr or '').strip()}")

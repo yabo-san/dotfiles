@@ -24,6 +24,7 @@
 
 {{- $ghlVersion := "v1.73" }}
 {{- $hydraVersion := "4.0.6" }}
+{{- $rohanVersion := "1.4.1" }}
 
 {{ if eq .chezmoi.os "windows" }}
 # ── GitHub Launcher ─────────────────────────────────────────────────────────
@@ -42,6 +43,17 @@
     type = "file"
     executable = true
     url = "https://github.com/hydralauncher/hydra/releases/download/v{{ $hydraVersion }}/hydralauncher-{{ $hydraVersion }}-portable.exe"
+    refreshPeriod = "720h"
+
+# ── RohanKar Launcher ───────────────────────────────────────────────────────
+# The odd one out: ships an electron-builder NSIS INSTALLER only, no portable
+# build. So we fetch the setup exe here and let
+# run_onchange_after_install-rohankar.ps1 silent-install it (/S /D=). Downloading
+# is idempotent; installing needs the separate script because chezmoi externals
+# can only place files, not run them.
+[".local/share/launchers/_installers/rohankar-setup.exe"]
+    type = "file"
+    url = "https://github.com/Kilted-Kraken/-RohanKar-Launcher/releases/download/v{{ $rohanVersion }}/RohanKar-Launcher-Setup-{{ $rohanVersion }}.exe"
     refreshPeriod = "720h"
 
 {{ end }}

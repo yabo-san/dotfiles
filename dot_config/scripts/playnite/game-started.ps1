@@ -66,6 +66,19 @@ try {
         }
     }
 
+    # ⚠️ OPT-IN ONLY. If the game carries no display tag, DO NOTHING — return
+    # before spawning anything at all.
+    #
+    # This guard was missing and it broke Dishonored: an untagged game still fell
+    # through to 'place', so the worker stripped its window styles mid-launch and
+    # moved it to workspace 8. Rewriting a D3D game's styles during init is
+    # exactly the class of thing the GlazeWM ignore rules exist to prevent (see
+    # the Unreal WindowsWindow.cpp:363 crash and the DarkMod DirectInput race).
+    #
+    # An untagged game must be indistinguishable from this whole system not
+    # existing.
+    if ($mode -eq 'place' -and -not $target) { return }
+
     # NOTE: evacuate mode does NOT require a target. 'display:exclusive' says the
     # game picks its own screen, so the worker finds the window and clears our
     # workspaces off whichever monitor it landed on.
