@@ -75,8 +75,13 @@ def _glazewm(*args: str) -> dict:
     return json.loads(proc.stdout)
 
 
-def find_window(process_name: str, timeout: float) -> str | None:
-    """Poll GlazeWM until a managed window for `process_name` appears; return its UUID."""
+def find_window(process_name: str, timeout: float) -> tuple[str, int] | tuple[None, None]:
+    """
+    Poll GlazeWM until a managed window for `process_name` appears.
+
+    Returns (uuid, hwnd). GlazeWM's WindowDto carries the raw HWND in `handle`,
+    which saves us enumerating windows ourselves for the borderless transform.
+    """
     target = process_name.lower()
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -88,9 +93,123 @@ def find_window(process_name: str, timeout: float) -> str | None:
         for w in windows:
             if (w.get("processName") or "").lower() == target:
                 logging.info("found window %s (%s) for %s", w["id"], w.get("title"), process_name)
-                return w["id"]
+                return w["id"], int(w.get("handle") or 0)
         time.sleep(POLL_INTERVAL_S)
-    return None
+    return None, None
+
+
+# ---------------------------------------------------------------------------
+# Borderless: strip the window chrome so a tiling WM can manage the game.
+#
+# Ported from Borderless Gaming (Codeusa/Borderless-Gaming, GPLv2),
+# BorderlessGaming.Logic/Windows/Manipulation.cs:66-93 (the style masks) and
+# :388-394 (the engines that need a delayed re-apply).
+#
+# The game is ALREADY in windowed mode -- all this does is remove the bars,
+# which is exactly Borderless Gaming's end use case. We deliberately do NOT
+# resize: Borderless Gaming fills the monitor because nothing else would, but
+# here GlazeWM owns placement, and resizing too would mean fighting it for the
+# same window on every redraw. Chrome is ours, geometry is the WM's.
+#
+# This lives here rather than in a Playnite C# extension on purpose -- no build
+# step, no deploy script, no second project to maintain, and the window is
+# already in hand from the query above.
+# ---------------------------------------------------------------------------
+
+GWL_STYLE = -16
+GWL_EXSTYLE = -20
+
+WS_CAPTION = 0x00C00000      # Border | DlgFrame
+WS_THICKFRAME = 0x00040000
+WS_SYSMENU = 0x00080000
+WS_MAXIMIZEBOX = 0x00010000
+WS_MINIMIZEBOX = 0x00020000
+
+WS_EX_DLGMODALFRAME = 0x00000001
+WS_EX_COMPOSITED = 0x02000000
+WS_EX_WINDOWEDGE = 0x00000100
+WS_EX_CLIENTEDGE = 0x00000200
+WS_EX_STATICEDGE = 0x00020000
+WS_EX_TOOLWINDOW = 0x00000080
+WS_EX_APPWINDOW = 0x00040000
+# NOTE: Borderless Gaming also strips WS_EX_LAYERED. We don't -- games using
+# per-pixel alpha go fully invisible without it.
+
+SWP_NOSIZE = 0x0001
+SWP_NOMOVE = 0x0002
+SWP_NOZORDER = 0x0004
+SWP_FRAMECHANGED = 0x0020
+SWP_NOOWNERZORDER = 0x0200
+SWP_NOSENDCHANGING = 0x0400
+
+# Engines that rewrite their own styles shortly after the window appears, so a
+# single immediate strip gets clobbered (Manipulation.cs:388-394).
+DELAYED_ENGINE_CLASSES = ("yygamemakeryy", "unrealwindow")
+
+
+def _window_class(hwnd: int) -> str:
+    import ctypes
+
+    buf = ctypes.create_unicode_buffer(256)
+    ctypes.windll.user32.GetClassNameW(hwnd, buf, 256)
+    return buf.value or ""
+
+
+def make_borderless(hwnd: int) -> bool:
+    """Clear the chrome style bits. Geometry is left entirely alone."""
+    import ctypes
+
+    if not hwnd:
+        return False
+    user32 = ctypes.windll.user32
+
+    # GetWindowLongPtrW only exists on 64-bit; 32-bit exports GetWindowLongW.
+    get_long = getattr(user32, "GetWindowLongPtrW", None) or user32.GetWindowLongW
+    set_long = getattr(user32, "SetWindowLongPtrW", None) or user32.SetWindowLongW
+    get_long.restype = ctypes.c_ssize_t
+    set_long.restype = ctypes.c_ssize_t
+    set_long.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_ssize_t]
+
+    style = get_long(hwnd, GWL_STYLE)
+    ex_style = get_long(hwnd, GWL_EXSTYLE)
+
+    new_style = style & ~(
+        WS_CAPTION | WS_THICKFRAME | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX
+    )
+    new_ex = ex_style & ~(
+        WS_EX_DLGMODALFRAME | WS_EX_COMPOSITED | WS_EX_WINDOWEDGE
+        | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
+    )
+
+    if new_style == style and new_ex == ex_style:
+        logging.info("hwnd %#x already bare", hwnd)
+        return True
+
+    set_long(hwnd, GWL_STYLE, new_style)
+    set_long(hwnd, GWL_EXSTYLE, new_ex)
+
+    # SWP_FRAMECHANGED is required after a style change or Windows keeps drawing
+    # the old frame. NOMOVE|NOSIZE keeps the WM in charge of geometry.
+    user32.SetWindowPos(
+        ctypes.c_void_p(hwnd), None, 0, 0, 0, 0,
+        SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER
+        | SWP_NOOWNERZORDER | SWP_NOSENDCHANGING,
+    )
+    logging.info("stripped chrome from hwnd %#x (class %s)", hwnd, _window_class(hwnd))
+    return True
+
+
+def apply_borderless(hwnd: int) -> None:
+    """make_borderless, plus the re-apply that stubborn engines need."""
+    cls = _window_class(hwnd).lower()
+    if any(name in cls for name in DELAYED_ENGINE_CLASSES):
+        logging.info("engine %r rewrites its own styles - delaying", cls)
+        time.sleep(5)
+    make_borderless(hwnd)
+    # One re-apply covers engines that re-assert styles once during init, without
+    # the permanent 3-second poll loop Borderless Gaming has to run.
+    time.sleep(2)
+    make_borderless(hwnd)
 
 
 def monitors() -> list[dict]:
@@ -234,6 +353,11 @@ def main() -> int:
     parser.add_argument("--game", default="", help="game name, for the workspace label and logs")
     parser.add_argument("--timeout", type=float, default=WINDOW_TIMEOUT_S)
     parser.add_argument(
+        "--no-borderless",
+        action="store_true",
+        help="skip the chrome strip in 'place' mode (for a game that fights it)",
+    )
+    parser.add_argument(
         "--mode",
         choices=("place", "evacuate", "home"),
         default="place",
@@ -274,10 +398,19 @@ def main() -> int:
     if not args.process:
         parser.error("--process is required for --mode place")
 
-    window_id = find_window(args.process, args.timeout)
+    window_id, hwnd = find_window(args.process, args.timeout)
     if window_id is None:
         logging.error("no window for %s after %.0fs -- giving up", args.process, args.timeout)
         return 1
+
+    # Strip the chrome FIRST. 'place' mode means "the WM manages this game", and a
+    # bordered window is one the WM can only manage badly. Do it before handing
+    # geometry to GlazeWM so it lays out against the final frame.
+    if not args.no_borderless:
+        try:
+            apply_borderless(hwnd)
+        except Exception:
+            logging.exception("borderless failed (continuing to placement anyway)")
 
     # Home the game first, so the workspace exists before we try to move it.
     _glazewm("command", "--id", window_id, "move", "--workspace", args.workspace)
