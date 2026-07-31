@@ -98,19 +98,58 @@ def monitors() -> list[dict]:
     return _glazewm("query", "monitors")["data"]["monitors"]
 
 
+def _monitor_aliases() -> dict:
+    """Friendly monitor names from ~/.config/monitors.json (declared in chezmoi)."""
+    path = os.path.join(os.path.expanduser("~"), ".config", "monitors.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except FileNotFoundError:
+        return {}
+    except Exception as exc:
+        logging.warning("could not read %s: %s", path, exc)
+        return {}
+    return {k.lower(): v for k, v in (data.get("monitors") or {}).items()}
+
+
 def resolve_monitor_index(target: str) -> int | None:
     r"""
     Map a target to a live monitor index.
 
     Accepts, in order of preference:
-      * hardwareId  (ACR0414, GSM772B)     -- stable across reboots
-      * devicePath  (\\?\DISPLAY#...)      -- stable
-      * deviceName  (\\.\DISPLAY9)         -- Display Helper's format; drifts
+      * a FRIENDLY NAME from ~/.config/monitors.json ("crt", "ultrawide")
+      * hardwareId  (ACR0414, GSM772B)     -- EDID id, stable per model
+      * devicePath  (\\?\DISPLAY#...)      -- stable per panel+port
+      * deviceName  (\\.\DISPLAY9)         -- Display Helper's format; DRIFTS
+      * resolution  (1024x768)             -- last resort, for panels with no EDID
+
+    Prefer friendly names everywhere. GDI names get reassigned by driver resets
+    and display-config changes; label a monitor once via the Raycast "Label
+    Monitor" command and refer to that name forever after.
     """
     if not target:
         return None
     want = target.strip().lower()
     mons = monitors()
+
+    # Friendly name -> whatever stable ids we recorded for it.
+    alias = _monitor_aliases().get(want)
+    if alias:
+        for key in ("devicePath", "hardwareId"):
+            value = (alias.get(key) or "").lower()
+            if not value:
+                continue
+            for idx, mon in enumerate(mons):
+                if (mon.get(key) or "").lower() == value:
+                    logging.info("target %r -> alias -> monitor %d by %s", target, idx, key)
+                    return idx
+        res = (alias.get("resolution") or "").lower()
+        if res:
+            for idx, mon in enumerate(mons):
+                if f"{mon.get('width')}x{mon.get('height')}".lower() == res:
+                    logging.info("target %r -> alias -> monitor %d by resolution", target, idx)
+                    return idx
+        logging.warning("target %r is a known label but matched no attached monitor", target)
     for key in ("hardwareId", "devicePath", "deviceName"):
         for idx, mon in enumerate(mons):
             if (mon.get(key) or "").lower() == want:

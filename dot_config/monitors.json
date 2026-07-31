@@ -1,0 +1,42 @@
+{
+  "##": [
+    "Friendly monitor names -> stable hardware identity. DECLARED here, enforced by chezmoi.",
+    "",
+    "WHY THIS EXISTS: \\\\.\\DISPLAYn GDI names DRIFT. They are reassigned by driver resets,",
+    "GPU disable/enable, and display-config changes. On this machine they have already",
+    "walked to DISPLAY7/8/9, which silently broke evict-crt.ps1 (hardcoded DISPLAY3) and",
+    "killed the '[RC] Display: \\\\.\\DISPLAY3' assignments on DOOM and The Dark Mod.",
+    "",
+    "So nothing anywhere should name a monitor by its GDI name. Everything refers to the",
+    "friendly names below, and resolution goes: devicePath -> hardwareId -> resolution.",
+    "",
+    "TO (RE)LABEL: focus the monitor you want to name, then run the Raycast command",
+    "'Label Monitor' (dot_config/scripts/raycast/label-monitor.ps1) with the friendly name.",
+    "It rewrites THIS file in the chezmoi source; commit it afterwards.",
+    "",
+    "devicePath is the most stable id (physical panel + port). hardwareId is the EDID",
+    "vendor+product code and is stable per model but not unique if you own two of the same",
+    "panel. resolution is the last resort - it is the only usable handle for a monitor with",
+    "no EDID, which is exactly the CRT's situation ('Default_Monitor')."
+  ],
+  "monitors": {
+    "acer": {
+      "devicePath": "",
+      "hardwareId": "ACR0414",
+      "resolution": "2560x1440",
+      "note": "Acer XG270HU - comms + music live here (workspaces 2, 3)"
+    },
+    "crt": {
+      "devicePath": "",
+      "hardwareId": "",
+      "resolution": "1024x768",
+      "note": "CRT - no EDID, reports the useless hardwareId 'Default_Monitor', so match on resolution"
+    },
+    "ultrawide": {
+      "devicePath": "",
+      "hardwareId": "GSM772B",
+      "resolution": "3440x1440",
+      "note": "LG 3440x1440 - primary; gamedev/play/utils (workspaces 4, 5, 7)"
+    }
+  }
+}

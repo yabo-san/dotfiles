@@ -10,8 +10,9 @@
 # --workspace flag — so every call was silently rejected.
 #
 # The real work lives in place_game_window.py so the game path and the manual
-# path share one implementation. Target is given as a RESOLUTION because the CRT
-# has no EDID and reports the useless hardwareId 'Default_Monitor'.
+# path share one implementation. The target is the FRIENDLY NAME 'crt' from
+# ~/.config/monitors.json — never a \\.\DISPLAYn name, which is what broke this
+# script in the first place. Re-label with the Raycast "Label Monitor" command.
 
 $py = @(
     "$env:USERPROFILE\scoop\apps\python\current\python.exe",
@@ -24,6 +25,6 @@ if (-not $py) {
 }
 
 $worker = Join-Path $env:USERPROFILE '.config\scripts\playnite\place_game_window.py'
-& $py $worker --mode evacuate --target '1024x768'
+& $py $worker --mode evacuate --target 'crt'
 
 glazewm.exe command "focus --workspace 1"

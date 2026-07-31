@@ -4,7 +4,7 @@
 #
 # REWRITTEN 2026-07-31 alongside evict-crt.ps1; see the note there for why the
 # previous `move-workspace --workspace N --monitor \\.\DISPLAY3` form never
-# worked. Target is a RESOLUTION because the CRT reports no usable EDID id.
+# worked. Target is the FRIENDLY NAME 'crt' from ~/.config/monitors.json.
 
 param(
     [string] $Workspace = '3'
@@ -21,6 +21,6 @@ if (-not $py) {
 }
 
 $worker = Join-Path $env:USERPROFILE '.config\scripts\playnite\place_game_window.py'
-& $py $worker --mode home --workspace $Workspace --target '1024x768'
+& $py $worker --mode home --workspace $Workspace --target 'crt'
 
 glazewm.exe command "focus --workspace $Workspace"
