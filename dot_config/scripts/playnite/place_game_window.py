@@ -319,6 +319,33 @@ def move_workspace_to_monitor(ws_name: str, target_index: int) -> None:
     logging.warning("gave up moving workspace %s to monitor %d", ws_name, target_index)
 
 
+def monitor_index_of_process(process_name: str, timeout: float) -> int | None:
+    """
+    Which monitor did this game's window land on?
+
+    For 'display:exclusive', the game picks its own screen (or Display Helper
+    picks for it), so there is no tag telling us which one to clear. Wait for the
+    window, then walk monitors -> workspaces -> windows to find where it went.
+    """
+    target = process_name.lower()
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            mons = monitors()
+        except Exception as exc:
+            logging.warning("query monitors failed (retrying): %s", exc)
+            mons = []
+        for idx, mon in enumerate(mons):
+            for ws in mon.get("children", []):
+                for win in ws.get("children", []):
+                    if (win.get("processName") or "").lower() == target:
+                        logging.info("%s landed on monitor %d", process_name, idx)
+                        return idx
+        time.sleep(POLL_INTERVAL_S)
+    logging.warning("never found a window for %s to locate", process_name)
+    return None
+
+
 def evacuate_monitor(target_index: int) -> None:
     """
     Clear every workspace off `target_index` and leave the monitor to the game.
@@ -389,8 +416,12 @@ def main() -> int:
         # exclusive-fullscreen window means DWM border calls on it, which is what
         # crashes Unreal and breaks DirectInput grabs.
         target_index = resolve_monitor_index(args.target)
+        if target_index is None and args.process:
+            # No explicit screen named ('display:exclusive'): the game chose one
+            # itself, so find its window and clear whichever monitor it landed on.
+            target_index = monitor_index_of_process(args.process, args.timeout)
         if target_index is None:
-            logging.error("evacuate: no target monitor resolved from %r", args.target)
+            logging.error("evacuate: could not determine which monitor to clear")
             return 1
         evacuate_monitor(target_index)
         return 0

@@ -46,19 +46,18 @@ try {
     $mode      = 'place'
 
     if ($Game) {
-        $tag = $Game.Tags | Where-Object { $_.Name -like 'yabo:display=*' } |
+        # display:<monitor>  — written by the Borderless Gaming Playnite extension.
+        $tag = $Game.Tags | Where-Object { $_.Name -like 'display:*' } |
                Select-Object -First 1 -ExpandProperty Name
-        if ($tag) { $target = $tag -replace '^yabo:display=', '' }
+        if ($tag) { $target = $tag -replace '^display:', '' }
 
-        $wsTag = $Game.Tags | Where-Object { $_.Name -like 'yabo:ws=*' } |
+        $wsTag = $Game.Tags | Where-Object { $_.Name -like 'workspace:*' } |
                  Select-Object -First 1 -ExpandProperty Name
-        if ($wsTag) { $workspace = $wsTag -replace '^yabo:ws=', '' }
+        if ($wsTag) { $workspace = $wsTag -replace '^workspace:', '' }
 
-        # Exclusive-fullscreen games: Display Helper picks the screen, we just
-        # clear our workspaces off it and never touch the game window.
-        $fs = $Game.Tags | Where-Object { $_.Name -in @('yabo:fullscreen', 'yabo:ignore') } |
-              Select-Object -First 1
-        if ($fs) { $mode = 'evacuate' }
+        # display:exclusive — the game wants exclusive fullscreen. Don't touch its
+        # window at all; just clear our workspaces off whichever screen it takes.
+        if ($target -eq 'exclusive') { $mode = 'evacuate'; $target = '' }
 
         if (-not $target) {
             $feat = $Game.Features | Where-Object { $_.Name -like '`[RC`] Display: *' } |
@@ -67,8 +66,9 @@ try {
         }
     }
 
-    # Evacuating without knowing which screen to clear is a no-op.
-    if ($mode -eq 'evacuate' -and -not $target) { return }
+    # NOTE: evacuate mode does NOT require a target. 'display:exclusive' says the
+    # game picks its own screen, so the worker finds the window and clears our
+    # workspaces off whichever monitor it landed on.
 
     # --- hand off to the detached worker ------------------------------------
     # pythonw = no console flash. scoop only shims 'python3', so the versioned
