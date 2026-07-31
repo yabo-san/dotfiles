@@ -213,6 +213,20 @@ function dormin {
     else { opencode run --auto @args }                # one-shot query, auto-approve permissions
 }
 
+# cc — Claude Code, resumed, no permission prompts.
+# Conversations are scoped to the directory you launch from, so `claude -c` only
+# finds a session started in that same dir. This jumps HOME first, because that
+# is where the long-running desktop/rice conversation lives — the one that knows
+# about GlazeWM, Playnite, the pagefile, all of it. For a per-project session
+# just run `claude -c` directly inside that repo.
+#   cc     resume it
+#   cca    same, elevated (device manager / registry / scheduled-task work)
+# NOTE: don't run the quake terminal elevated to get this. AutoHotkey runs at
+# medium integrity and UIPI blocks its hotkeys over an admin window, so backtick
+# stops working. Elevate the one command instead.
+function cc  { Push-Location $HOME; try { claude -c --dangerously-skip-permissions @args } finally { Pop-Location } }
+function cca { Push-Location $HOME; try { gsudo claude -c --dangerously-skip-permissions @args } finally { Pop-Location } }
+
 # --- machine-specific dir jumps (mac iCloud paths → Windows D:\) ---
 function icloud { Set-Location "D:\iCloudDrive" }
 function sb     { Set-Location "D:\iCloudDrive\iCloud~md~obsidian\sb" }
