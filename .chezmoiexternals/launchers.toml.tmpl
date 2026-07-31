@@ -1,0 +1,66 @@
+{{/*
+  launchers.toml — game launchers installed declaratively from GitHub releases.
+
+  THE MODEL: Playnite is the hub. These launchers are just fetchers — they know
+  how to find and update a class of games that Playnite doesn't. chezmoi installs
+  them, a thin Playnite extension per launcher surfaces its library, and the
+  Borderless Gaming extension handles window placement for all of them. No
+  launcher owns the catalog and none of them need to talk to each other.
+
+  WHY EXTERNALS RATHER THAN SCOOP: both ship PORTABLE builds, so there is no
+  installer to silence, no admin prompt, and no per-OS packaging to maintain.
+  More importantly a GitHub release URL works identically on Linux, while a scoop
+  manifest is Windows-only forever — and the whole point is that this repo can be
+  ported.
+
+  OS GUARDS LIVE HERE, not in .chezmoiignore. That file matches TARGET paths, so
+  a `.chezmoiexternals/**` entry there is a no-op — externals run regardless.
+  The guard has to be inside the external, like mise.toml.tmpl does it.
+
+  VERSIONS ARE PINNED on purpose (same as mise.toml.tmpl). "latest" would mean a
+  silent upgrade on any `chezmoi apply`, which is the opposite of reproducible.
+  To bump: change the version below, update the URL, run `chezmoi apply`.
+*/}}
+
+{{- $ghlVersion := "v1.73" }}
+{{- $hydraVersion := "4.0.6" }}
+
+{{ if eq .chezmoi.os "windows" }}
+# ── GitHub Launcher ─────────────────────────────────────────────────────────
+# Tracks PC ports / recompilations / decomp source ports straight from their
+# GitHub releases. Portable zip, so it just unpacks.
+[".local/share/launchers/github-launcher"]
+    type = "archive"
+    url = "https://github.com/SirDiabo/GithubLauncher/releases/download/{{ $ghlVersion }}/GitHubLauncher-{{ $ghlVersion }}-Windows.zip"
+    exact = false
+    stripComponents = 0
+    refreshPeriod = "720h"
+
+# ── Hydra ───────────────────────────────────────────────────────────────────
+# Portable single exe — `type = "file"`, not "archive".
+[".local/share/launchers/hydra/hydralauncher.exe"]
+    type = "file"
+    executable = true
+    url = "https://github.com/hydralauncher/hydra/releases/download/v{{ $hydraVersion }}/hydralauncher-{{ $hydraVersion }}-portable.exe"
+    refreshPeriod = "720h"
+
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" }}
+[".local/share/launchers/github-launcher"]
+    type = "archive"
+    url = "https://github.com/SirDiabo/GithubLauncher/releases/download/{{ $ghlVersion }}/GitHubLauncher-{{ $ghlVersion }}-Linux-{{ if eq .chezmoi.arch "arm64" }}ARM64{{ else }}X64{{ end }}.zip"
+    exact = false
+    stripComponents = 0
+    refreshPeriod = "720h"
+
+[".local/share/launchers/hydra/hydralauncher.AppImage"]
+    type = "file"
+    executable = true
+    url = "https://github.com/hydralauncher/hydra/releases/download/v{{ $hydraVersion }}/hydralauncher-{{ $hydraVersion }}.AppImage"
+    refreshPeriod = "720h"
+
+{{ end }}
+
+{{/* macOS: neither ships a darwin build, and there is no gaming setup on the
+     Mac anyway — nothing is emitted here on purpose. */}}
