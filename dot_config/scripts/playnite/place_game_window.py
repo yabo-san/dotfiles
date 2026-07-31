@@ -575,6 +575,163 @@ def release_workspace(ws_name: str, focus_after: str = "1") -> None:
         logging.warning("release: could not focus %s: %s", focus_after, exc)
 
 
+SOLO_STATE = os.path.join(os.path.dirname(LOG_PATH), "solo-state.json")
+
+
+def _monitor_id(mon: dict) -> str:
+    """A stable-ish identity for a monitor, best available first."""
+    return (mon.get("devicePath") or mon.get("hardwareId")
+            or f"{mon.get('width')}x{mon.get('height')}")
+
+
+def _monitor_index_by_id(mid: str) -> int | None:
+    for idx, mon in enumerate(monitors()):
+        if _monitor_id(mon) == mid:
+            return idx
+    return None
+
+
+def _save_solo_state(ws_name: str, displaced: list[dict]) -> None:
+    """
+    Remember where displaced workspaces came from, so exit can put them back.
+
+    Keyed by devicePath/hardwareId rather than monitor INDEX, because indices are
+    recomputed from x-coordinates on any display change and would point at the
+    wrong screen after one.
+    """
+    try:
+        os.makedirs(os.path.dirname(SOLO_STATE), exist_ok=True)
+        with open(SOLO_STATE, "w", encoding="utf-8") as fh:
+            json.dump({"workspace": ws_name, "displaced": displaced}, fh, indent=2)
+        logging.info("solo: recorded %d displaced workspace(s)", len(displaced))
+    except Exception as exc:
+        logging.warning("solo: could not save state: %s", exc)
+
+
+def restore_solo_state(ws_name: str) -> None:
+    """
+    Put displaced workspaces back where they were before the game took the screen.
+
+    Only moves a workspace still sitting where WE pushed it — if it was moved by
+    hand since, that was deliberate and we leave it alone. State is consumed
+    either way so a stale file can't act on a later launch.
+    """
+    if not os.path.exists(SOLO_STATE):
+        return
+    try:
+        with open(SOLO_STATE, encoding="utf-8") as fh:
+            state = json.load(fh)
+    except Exception as exc:
+        logging.warning("restore: unreadable state: %s", exc)
+        return
+
+    if state.get("workspace") != ws_name:
+        logging.info("restore: state is for workspace %s, not %s — ignoring",
+                     state.get("workspace"), ws_name)
+        return
+
+    for entry in state.get("displaced", []):
+        name, home_id, pushed_to = entry.get("name"), entry.get("home"), entry.get("pushed_to")
+        if not name or not home_id:
+            continue
+
+        # GlazeWM will not move an EMPTY workspace — it deactivates instead, and
+        # disappears from the tree. Nothing to restore in that case, and nothing
+        # lost either: an empty workspace re-homes itself on next activation IF it
+        # has bind_to_monitor set. Workspaces without a binding land wherever they
+        # are activated, which is a config gap, not something to fight here.
+        occupants = 0
+        for mon in monitors():
+            for ws in mon.get("children", []):
+                if ws.get("name") == name:
+                    occupants = len(ws.get("children", []))
+        if occupants == 0:
+            logging.info("restore: ws%s is empty — leaving it to re-home on activation", name)
+            continue
+        home_idx = _monitor_index_by_id(home_id)
+        if home_idx is None:
+            logging.info("restore: %s's monitor is gone — leaving it", name)
+            continue
+
+        current = None
+        for idx, mon in enumerate(monitors()):
+            for ws in mon.get("children", []):
+                if ws.get("name") == name:
+                    current = idx
+        if current is None or current == home_idx:
+            continue
+        if pushed_to is not None and _monitor_id(monitors()[current]) != pushed_to:
+            logging.info("restore: %s was moved by hand since — leaving it", name)
+            continue
+
+        _step_workspace_to(name, home_idx)
+
+    try:
+        os.remove(SOLO_STATE)
+    except Exception:
+        pass
+
+
+def _step_workspace_to(name: str, target_index: int) -> bool:
+    """
+    Walk a workspace onto a monitor, trying every direction and verifying.
+
+    move-workspace --direction only resolves to a GEOMETRICALLY adjacent monitor,
+    and adjacency needs real overlap on the perpendicular axis — on this desk the
+    Acer and CRT merely touch at y=552 and never overlap, so 'left' between them
+    silently does nothing. Hence: try all four, check by re-querying.
+    """
+    def where(n: str) -> int | None:
+        for idx, mon in enumerate(monitors()):
+            for ws in mon.get("children", []):
+                if ws.get("name") == n:
+                    return idx
+        return None
+
+    for attempt in range(4):
+        current = where(name)
+        if current is None:
+            # An empty workspace deactivates and vanishes from the tree entirely.
+            # Focusing it re-activates it — on its bound monitor if it has one.
+            logging.info("ws%s is not active; activating it", name)
+            try:
+                _glazewm("command", "focus", "--workspace", name)
+                time.sleep(0.4)
+            except Exception as exc:
+                logging.warning("could not activate ws%s: %s", name, exc)
+                return False
+            current = where(name)
+            if current is None:
+                logging.warning("ws%s still not in the tree", name)
+                return False
+
+        if current == target_index:
+            logging.info("ws%s is on monitor %d", name, target_index)
+            return True
+
+        moved = False
+        for direction in ("left", "right", "up", "down"):
+            try:
+                _glazewm("command", "focus", "--workspace", name)
+                time.sleep(0.2)
+                _glazewm("command", "move-workspace", "--direction", direction)
+                time.sleep(0.35)
+            except Exception as exc:
+                logging.warning("ws%s %s errored: %s", name, direction, exc)
+                continue
+            after = where(name)
+            logging.info("ws%s %s: monitor %s -> %s", name, direction, current, after)
+            if after is not None and after != current:
+                moved = True
+                break
+
+        if not moved:
+            logging.warning("ws%s would not move off monitor %s (attempt %d)", name, current, attempt + 1)
+            return False
+    logging.warning("ws%s did not reach monitor %d after 4 passes", name, target_index)
+    return False
+
+
 def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
     """
     Leave ONLY the game's workspace on the target monitor, then display it.
@@ -598,6 +755,8 @@ def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
     # and silently does nothing. Only the ultrawide is a valid horizontal
     # neighbour. Rather than reason about the layout, just try each direction and
     # verify by re-querying.
+    displaced: list[dict] = []
+
     def monitor_of(name: str) -> int | None:
         for idx, mon in enumerate(monitors()):
             for ws in mon.get("children", []):
@@ -617,6 +776,7 @@ def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
             break
 
         name = others[0]["name"]
+        home_id = _monitor_id(mons[target_index])
         moved = False
         for direction in ("right", "left", "up", "down"):
             try:
@@ -627,8 +787,14 @@ def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
             except Exception as exc:
                 logging.warning("solo: %s %s failed: %s", name, direction, exc)
                 continue
-            if monitor_of(name) != target_index:
+            landed = monitor_of(name)
+            if landed != target_index:
                 logging.info("solo: pushed workspace %s off monitor %d (%s)", name, target_index, direction)
+                displaced.append({
+                    "name": name,
+                    "home": home_id,
+                    "pushed_to": _monitor_id(monitors()[landed]) if landed is not None else None,
+                })
                 moved = True
                 break
 
@@ -640,6 +806,8 @@ def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
             break
     else:
         logging.warning("solo: gave up clearing monitor %d", target_index)
+
+    _save_solo_state(ws_name, displaced)
 
     # Make the game's workspace the one actually on screen.
     try:
@@ -711,7 +879,9 @@ def main() -> int:
     )
 
     if args.mode == "release":
-        # Called from post-game.ps1 when the game exits.
+        # Called from post-game.ps1 when the game exits. Put the displaced
+        # workspaces back BEFORE moving focus, so focus lands on a settled layout.
+        restore_solo_state(args.workspace)
         release_workspace(args.workspace, args.focus_after)
         return 0
 
@@ -736,7 +906,17 @@ def main() -> int:
         if target_index is None:
             logging.error("evacuate: could not determine which monitor to clear")
             return 1
-        evacuate_monitor(target_index)
+
+        # Same contract as 'place': the monitor ends up hosting ONE workspace,
+        # ours, and nothing else. The only difference is that we never touch the
+        # game's window — it is fullscreen or handles its own borderless, so the
+        # WM has no business resizing it. It still gets a screen to itself.
+        move_workspace_to_monitor(args.workspace, target_index)
+        solo_workspace_on_monitor(args.workspace, target_index)
+        logging.info(
+            "SUMMARY %s | mode=exclusive | window untouched | target=%s | workspace=%s",
+            args.game or "?", args.target or "(auto)", args.workspace,
+        )
         return 0
 
     if not args.process and not args.install_dir:
@@ -834,6 +1014,7 @@ if __name__ == "__main__":
         _setup_logging()
         logging.exception("unhandled error")
         sys.exit(1)
+
 
 
 
