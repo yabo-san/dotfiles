@@ -47,6 +47,16 @@ $shortcuts = @(
         Target = 'C:\ProgramData\MEGAsync\MEGAsync.exe'
         Args   = ''
         Why    = 'file sync'
+    },
+    @{
+        # The CRT has no EDID, so its yasb bar is targeted by GDI device name —
+        # and that number drifts on every display upset, silently taking the bar
+        # with it. Re-resolve it at logon. Windows Powershell rather than pwsh:
+        # always present, and -NoProfile keeps it out of the profile bridge.
+        Name   = 'yasb-crt-bar.lnk'
+        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
+        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\yasb\fix-crt-bar.ps1`""
+        Why    = 're-point the yasb CRT bar at whatever DISPLAYn the CRT is today'
     }
 )
 
