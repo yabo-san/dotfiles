@@ -127,6 +127,13 @@ workspaces:
   - name: "1"
     display_name: "" # main (home)
     keep_alive: true
+    # The main productivity workspace - it belongs on the ultrawide.
+    # It had NO binding, which is why it drifted onto the CRT twice on
+    # 2026-07-31 and had to be moved back by hand. An unbound workspace lands
+    # wherever it is activated and never self-corrects; a bound one re-homes
+    # itself on activation, which also lets it recover by itself after a game
+    # solos a monitor and pushes it off.
+    bind_to_monitor: 2  # LG ultrawide (GSM772B) - 0-based, left-to-right
   - name: "2"
     display_name: "" # comms (comments)
     keep_alive: true
