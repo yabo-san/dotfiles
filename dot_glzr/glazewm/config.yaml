@@ -260,6 +260,18 @@ window_rules:
       # click-through on top of the game window; managing it breaks it.
       - window_process: { equals: "ShaderGlass" }
 
+      # Borderless Gaming — a tray utility that manipulates OTHER windows; there
+      # is nothing for a tiling WM to gain by managing it, and plenty to lose.
+      # Observed 2026-07-31: GlazeWM caught it mid-startup at 146x32 and pinned
+      # it there permanently, making the UI unclickable. That is not a bug in
+      # Borderless Gaming — manage_window.rs:189-209 SNAPSHOTS a floating
+      # window's frame the instant it is managed ("Use the original width/height
+      # of the window") and re-applies that rect on every redraw. clamp_size
+      # there is a MAXIMUM only, so tiny in = tiny forever. Any app that sizes
+      # its window after creating it is exposed to this while
+      # window_behavior.initial_state is "floating".
+      - window_process: { equals: "BorderlessGaming" }
+
       # Epic Games Launcher (Unreal Engine / Slate) — CRASHES when managed.
       # GlazeWM's window_effects (border/title-bar/corner) call DWM frame APIs
       # (DwmExtendFrameIntoClientArea) on the same window Unreal is extending,
