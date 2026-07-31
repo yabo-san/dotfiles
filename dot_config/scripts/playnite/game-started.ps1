@@ -100,13 +100,23 @@ try {
     $gameName = ''
     if ($Game -and $Game.Name) { $gameName = $Game.Name }
 
+    # InstallDirectory is the PRIMARY matcher. Playnite's own Steam plugin works
+    # this way — SteamGameController.cs:198 watches the install directory for
+    # processes rather than tracking the launched pid — which is exactly why
+    # $StartedProcessId came back as `vcredist_x64` for Dishonored: the redist
+    # lives inside that directory and got caught first. ProcessName is the
+    # fallback for games with no install dir recorded.
+    $installDir = ''
+    if ($Game -and $Game.InstallDirectory) { $installDir = $Game.InstallDirectory }
+
     $argList = @(
         "`"$worker`"",
-        '--mode',      $mode,
-        '--process',   $proc.ProcessName,
-        '--workspace', $workspace,
-        '--target',    "`"$target`"",
-        '--game',      "`"$gameName`""
+        '--mode',        $mode,
+        '--process',     $proc.ProcessName,
+        '--install-dir', "`"$installDir`"",
+        '--workspace',   $workspace,
+        '--target',      "`"$target`"",
+        '--game',        "`"$gameName`""
     )
     Start-Process -FilePath $py -ArgumentList $argList -WindowStyle Hidden | Out-Null
 }

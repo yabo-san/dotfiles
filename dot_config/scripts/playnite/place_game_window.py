@@ -80,27 +80,114 @@ def _glazewm(*args: str) -> dict:
     return json.loads(proc.stdout)
 
 
-def find_window(process_name: str, timeout: float) -> tuple[str, int] | tuple[None, None]:
-    """
-    Poll GlazeWM until a managed window for `process_name` appears.
+def _process_path(hwnd: int) -> str:
+    """Full exe path behind a window, via its owning PID."""
+    import ctypes
+    from ctypes import wintypes
 
-    Returns (uuid, hwnd). GlazeWM's WindowDto carries the raw HWND in `handle`,
-    which saves us enumerating windows ourselves for the borderless transform.
+    pid = wintypes.DWORD()
+    ctypes.windll.user32.GetWindowThreadProcessId(ctypes.c_void_p(hwnd), ctypes.byref(pid))
+    if not pid.value:
+        return ""
+    # PROCESS_QUERY_LIMITED_INFORMATION — works without elevation, unlike the
+    # older PROCESS_QUERY_INFORMATION.
+    handle = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid.value)
+    if not handle:
+        return ""
+    try:
+        size = wintypes.DWORD(32768)
+        buf = ctypes.create_unicode_buffer(size.value)
+        if ctypes.windll.kernel32.QueryFullProcessImageNameW(handle, 0, buf, ctypes.byref(size)):
+            return buf.value
+        return ""
+    finally:
+        ctypes.windll.kernel32.CloseHandle(handle)
+
+
+def find_window(
+    process_name: str, timeout: float, install_dir: str = ""
+) -> tuple[str, int] | tuple[None, None]:
+    r"""
+    Poll GlazeWM until the game's window appears. Returns (uuid, hwnd).
+
+    MATCHING BY INSTALL DIRECTORY IS THE PRIMARY PATH, and it is lifted straight
+    from how Playnite's own Steam plugin does it —
+    SteamLibrary/SteamGameController.cs:198 calls
+    `procMon.WatchDirectoryProcesses(installDirectory, false)` and reports
+    whatever process tree starts in there. It never tracks the launched pid.
+
+    That is also exactly why $StartedProcessId is useless for Steam titles: for
+    Dishonored it reported `vcredist_x64`, because
+    ...\common\Dishonored\Binaries\Redist\vcredist_x64.exe lives INSIDE the
+    install directory and the monitor caught it first. Matching on the directory
+    but requiring a real WINDOW skips redists, installers and other prerequisites
+    for free, since they either have no window or are long gone by then.
+
+    Falls back to process-name matching when no install dir is known.
     """
-    target = process_name.lower()
+    root = os.path.normcase(os.path.abspath(install_dir)) if install_dir else ""
+    target = process_name.lower() if process_name else ""
     deadline = time.monotonic() + timeout
+
     while time.monotonic() < deadline:
-        try:
-            windows = _glazewm("query", "windows")["data"]["windows"]
-        except Exception as exc:  # GlazeWM may be mid-restart; keep waiting
-            logging.warning("query windows failed (retrying): %s", exc)
-            windows = []
-        for w in windows:
-            if (w.get("processName") or "").lower() == target:
-                logging.info("found window %s (%s) for %s", w["id"], w.get("title"), process_name)
-                return w["id"], int(w.get("handle") or 0)
+        for hwnd in _visible_windows():
+            path = _process_path(hwnd)
+            if not path:
+                continue
+
+            hit = False
+            if root and os.path.normcase(path).startswith(root):
+                hit = True
+                why = f"install dir ({path})"
+            elif target and os.path.splitext(os.path.basename(path))[0].lower() == target:
+                hit = True
+                why = f"process name ({path})"
+
+            if hit:
+                logging.info("matched by %s", why)
+                return _glazewm_id_for(hwnd), hwnd
+
         time.sleep(POLL_INTERVAL_S)
+
+    logging.error(
+        "no window after %.0fs (install_dir=%r process=%r)", timeout, install_dir, process_name
+    )
     return None, None
+
+
+def _visible_windows() -> list[int]:
+    """
+    Every visible top-level window, straight from Win32.
+
+    Deliberately NOT `glazewm query windows`: that only lists windows GlazeWM has
+    already CLAIMED. A game that hasn't been managed yet — or one that is
+    explicitly ignored — is invisible to it, so the game would never be found.
+    Enumerate ourselves, then ask GlazeWM about the window afterwards.
+    """
+    import ctypes
+
+    found: list[int] = []
+    user32 = ctypes.windll.user32
+    proto = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+
+    def cb(hwnd, _):
+        if user32.IsWindowVisible(ctypes.c_void_p(hwnd)):
+            found.append(hwnd)
+        return True
+
+    user32.EnumWindows(proto(cb), None)
+    return found
+
+
+def _glazewm_id_for(hwnd: int) -> str | None:
+    """GlazeWM's container uuid for a window, or None if it isn't managing it."""
+    try:
+        for w in _glazewm("query", "windows")["data"]["windows"]:
+            if int(w.get("handle") or 0) == hwnd:
+                return w["id"]
+    except Exception as exc:
+        logging.warning("could not resolve glazewm id: %s", exc)
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -455,7 +542,8 @@ def evacuate_monitor(target_index: int) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Place a game window via GlazeWM.")
-    parser.add_argument("--process", default="", help="process name of the game (no .exe); 'place' mode only")
+    parser.add_argument("--process", default="", help="process name of the game (no .exe); fallback matcher")
+    parser.add_argument("--install-dir", default="", help="game install directory - PRIMARY matcher, mirrors Playnite's own Steam plugin")
     parser.add_argument("--workspace", default="8", help="GlazeWM workspace to host the game")
     parser.add_argument("--target", default="", help="monitor hardwareId / devicePath / deviceName")
     parser.add_argument("--game", default="", help="game name, for the workspace label and logs")
@@ -507,10 +595,10 @@ def main() -> int:
         evacuate_monitor(target_index)
         return 0
 
-    if not args.process:
-        parser.error("--process is required for --mode place")
+    if not args.process and not args.install_dir:
+        parser.error("--mode place needs --install-dir (preferred) or --process")
 
-    window_id, hwnd = find_window(args.process, args.timeout)
+    window_id, hwnd = find_window(args.process, args.timeout, args.install_dir)
     if window_id is None:
         logging.error("no window for %s after %.0fs -- giving up", args.process, args.timeout)
         return 1
@@ -563,4 +651,5 @@ if __name__ == "__main__":
         _setup_logging()
         logging.exception("unhandled error")
         sys.exit(1)
+
 
