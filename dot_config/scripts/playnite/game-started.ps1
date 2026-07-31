@@ -46,7 +46,21 @@ try {
     $mode      = 'place'
 
     if ($Game) {
-        # display:<monitor>  — written by the Borderless Gaming Playnite extension.
+        # ── DISPLAY HELPER OWNS THIS GAME → STAY OUT ─────────────────────────
+        # An "[RC] Display:" feature means the user handed this game to Display
+        # Helper, which is the fallback path for titles that genuinely NEED
+        # exclusive fullscreen. Display Helper switches the primary monitor and
+        # sets the display mode; both of those re-anchor the desktop, and the two
+        # systems fighting over one window helps nobody.
+        #
+        # This replaces having a separate "ignore" concept entirely: the presence
+        # of the other system's tag IS the opt-out.
+        # NOTE: '[' and ']' are wildcard metacharacters in -like, hence backticks.
+        $rc = $Game.Features | Where-Object { $_.Name -like '`[RC`] Display: *' } |
+              Select-Object -First 1
+        if ($rc) { return }
+
+        # display:<monitor> — written by our extension. Windowed games only.
         $tag = $Game.Tags | Where-Object { $_.Name -like 'display:*' } |
                Select-Object -First 1 -ExpandProperty Name
         if ($tag) { $target = $tag -replace '^display:', '' }
@@ -55,15 +69,10 @@ try {
                  Select-Object -First 1 -ExpandProperty Name
         if ($wsTag) { $workspace = $wsTag -replace '^workspace:', '' }
 
-        # display:exclusive — the game wants exclusive fullscreen. Don't touch its
-        # window at all; just clear our workspaces off whichever screen it takes.
+        # display:exclusive — a fullscreen game you'd rather not hand to Display
+        # Helper. We never touch the window; we just clear our own workspaces off
+        # whichever screen it takes.
         if ($target -eq 'exclusive') { $mode = 'evacuate'; $target = '' }
-
-        if (-not $target) {
-            $feat = $Game.Features | Where-Object { $_.Name -like '`[RC`] Display: *' } |
-                    Select-Object -First 1 -ExpandProperty Name
-            if ($feat) { $target = ($feat -replace '^\[RC\] Display:\s*', '').Trim() }
-        }
     }
 
     # ⚠️ OPT-IN ONLY. If the game carries no display tag, DO NOTHING — return
