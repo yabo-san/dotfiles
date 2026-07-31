@@ -10,9 +10,10 @@
 #
 # Re-runs whenever any script body changes (hashes below are part of the script
 # text, so chezmoi sees a diff and re-executes):
-#   pre-game.ps1     {{ include "dot_config/scripts/playnite/pre-game.ps1"     | sha256sum }}
-#   post-game.ps1    {{ include "dot_config/scripts/playnite/post-game.ps1"    | sha256sum }}
-#   game-started.ps1 {{ include "dot_config/scripts/playnite/game-started.ps1" | sha256sum }}
+#   pre-game.ps1        {{ include "dot_config/scripts/playnite/pre-game.ps1"        | sha256sum }}
+#   post-game.ps1       {{ include "dot_config/scripts/playnite/post-game.ps1"       | sha256sum }}
+#   game-started.ps1    {{ include "dot_config/scripts/playnite/game-started.ps1"    | sha256sum }}
+#   restore-curation.ps1 {{ include "dot_config/scripts/playnite/restore-curation.ps1" | sha256sum }}
 # =============================================================================
 $ErrorActionPreference = 'Stop'
 
@@ -34,6 +35,9 @@ $stubs = @{
     PreScript         = "`$s=`"$dir\pre-game.ps1`"; if (Test-Path `$s) { & `$s -Game `$Game }"
     PostScript        = "`$s=`"$dir\post-game.ps1`"; if (Test-Path `$s) { & `$s -Game `$Game }"
     GameStartedScript = "`$s=`"$dir\game-started.ps1`"; if (Test-Path `$s) { & `$s -GamePid `$StartedProcessId -Game `$Game }"
+    # Curation restore. No-ops on a normal launch — it only acts when the marker
+    # file exists, which the Raycast "Restore Playnite Curation" command drops.
+    AppStartupScript  = "`$s=`"$dir\restore-curation.ps1`"; if (Test-Path `$s) { & `$s -PlayniteApi `$PlayniteApi }"
 }
 
 $raw = Get-Content $cfgPath -Raw
