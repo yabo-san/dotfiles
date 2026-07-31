@@ -269,6 +269,15 @@ window_rules:
       - window_process: { equals: "EpicGamesLauncher" }
       - window_class: { regex: "UnrealWindow" }
 
+      # Dishonored / Dishonored 2 / Death of the Outsider. The UnrealWindow rule
+      # above is UE4's Slate class and does NOT match UNREAL ENGINE 3, so these
+      # were being managed — and GlazeWM's DWM border calls are exactly what
+      # crashes Unreal. Observed 2026-07-31: Dishonored.exe faults on ITSELF,
+      # 0xc0000005 then 0xc000041d at a fixed offset 0x005bf247 every single
+      # launch, and its own Launch.log shows "Closing by request" one second
+      # after opening — i.e. something destroyed the window out from under it.
+      - window_process: { regex: "Dishonored" }
+
       # yabo-shader-hud — launcher's shader HUD overlay; must stay unmanaged
       # so it sits over the game window. Matched by title (window_title regex).
       - window_title: { regex: "yabo-shader-hud" }
