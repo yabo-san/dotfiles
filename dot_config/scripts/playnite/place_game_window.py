@@ -247,6 +247,25 @@ def _window_class(hwnd: int) -> str:
     return buf.value or ""
 
 
+def chrome_bits(hwnd: int) -> list[str]:
+    """
+    Which chrome style bits are currently set. Empty = already borderless.
+
+    This is the whole of "can we detect a natively-borderless game": read the
+    style word. Reliable and cheap. What we CANNOT detect is whether a game
+    *offers* a borderless mode in its options — that is per-game knowledge, and
+    the user has to set it. All we can see is the window in front of us.
+    """
+    import ctypes
+
+    user32 = ctypes.windll.user32
+    get_long = getattr(user32, "GetWindowLongPtrW", None) or user32.GetWindowLongW
+    get_long.restype = ctypes.c_ssize_t
+    style = get_long(hwnd, GWL_STYLE)
+    names = ("WS_CAPTION", "WS_THICKFRAME", "WS_SYSMENU", "WS_MAXIMIZEBOX", "WS_MINIMIZEBOX")
+    return [n for n in names if style & globals()[n]]
+
+
 def make_borderless(hwnd: int) -> bool:
     """Clear the chrome style bits. Geometry is left entirely alone."""
     import ctypes
@@ -599,14 +618,25 @@ def main() -> int:
         parser.error("--mode place needs --install-dir (preferred) or --process")
 
     window_id, hwnd = find_window(args.process, args.timeout, args.install_dir)
-    if window_id is None:
-        logging.error("no window for %s after %.0fs -- giving up", args.process, args.timeout)
+    # Gate on HWND, not on GlazeWM's container id. A window GlazeWM isn't
+    # managing (ignored by a rule, or not yet claimed) still has a perfectly good
+    # HWND, and the strip plus raw placement work without GlazeWM entirely.
+    # GlazeWM is only needed for the workspace and fullscreen steps below.
+    if not hwnd:
+        logging.error("no window after %.0fs -- giving up", args.timeout)
         return 1
+    if window_id is None:
+        logging.info("GlazeWM is not managing this window — placing it directly")
 
     # Strip the chrome FIRST. 'place' mode means "the WM manages this game", and a
     # bordered window is one the WM can only manage badly. Do it before handing
-    # geometry to GlazeWM so it lays out against the final frame.
-    if not args.no_borderless:
+    # geometry to GlazeWM so it lays out against the final frame — and because
+    # GetWindowRect includes the invisible DWM resize border, so a still-bordered
+    # window measures ~7px off on every edge.
+    was_bare = not chrome_bits(hwnd)
+    if was_bare:
+        logging.info("game is ALREADY borderless (native mode) — skipping the strip")
+    elif not args.no_borderless:
         try:
             apply_borderless(hwnd)
         except Exception:
@@ -616,9 +646,10 @@ def main() -> int:
     # Tiling, not floating: a floating window's rect is snapshotted at manage
     # time (manage_window.rs:189-209) and would pin the game at whatever tiny
     # size it happened to have during startup.
-    _glazewm("command", "--id", window_id, "set-tiling")
-    time.sleep(0.3)
-    _glazewm("command", "--id", window_id, "move", "--workspace", args.workspace)
+    if window_id:
+        _glazewm("command", "--id", window_id, "set-tiling")
+        time.sleep(0.3)
+        _glazewm("command", "--id", window_id, "move", "--workspace", args.workspace)
 
     if args.target:
         target_index = resolve_monitor_index(args.target)
@@ -638,9 +669,22 @@ def main() -> int:
 
     # maximized=false is required: the default (true) calls Win32 maximize, which
     # silently does nothing on windows lacking WS_MAXIMIZEBOX -- i.e. most games.
-    _glazewm("command", "--id", window_id, "set-fullscreen", "--maximized=false")
+    if window_id:
+        _glazewm("command", "--id", window_id, "set-fullscreen", "--maximized=false")
 
-    logging.info("placed %s on workspace %s", args.process, args.workspace)
+    # One line you can actually read when something misbehaves. Everything here
+    # is measured, not assumed — the rect comes from GetWindowRect, never from
+    # `glazewm query`, which reports GlazeWM's model and diverges silently.
+    final = window_rect(hwnd)
+    logging.info(
+        "SUMMARY %s | borderless=%s | target=%s | workspace=%s | rect=%s | managed=%s",
+        args.game or args.process or "?",
+        "native" if was_bare else "stripped",
+        args.target or "(none)",
+        args.workspace,
+        final,
+        "yes" if window_id else "no",
+    )
     return 0
 
 
