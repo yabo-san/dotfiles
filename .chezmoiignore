@@ -2,6 +2,10 @@ setup
 # entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
 bootstrap.ps1
 
+# python bytecode — never deploy, never track
+**/__pycache__/**
+**/*.pyc
+
 # ── OS gating: each platform only applies its own files ──────────────────
 # Patterns below match TARGET paths (post dot_/private_ rename), not source names.
 # On Windows, skip all the mac-only configs:
@@ -23,6 +27,7 @@ setup-alttab.sh
 
 # On mac/Linux, skip all the Windows-only configs:
 {{ if ne .chezmoi.os "windows" }}
+run_onchange_after_playnite-scripts.ps1
 .glzr/**
 .config/wezterm/**
 .config/yasb/**

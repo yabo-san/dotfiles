@@ -1,0 +1,65 @@
+#requires -Version 5.1
+# =============================================================================
+# run_onchange_after_playnite-scripts.ps1 — plant the Playnite global-script stubs
+# =============================================================================
+# Playnite stores its global scripts as RAW TEXT inside %APPDATA%\Playnite\config.json,
+# which chezmoi cannot track. So we never put logic there: each of the three
+# script boxes gets a fixed one-line stub that calls a real, tracked file under
+# ~/.config/scripts/playnite/. The stubs never change; all iteration happens in
+# the tracked files.
+#
+# Re-runs whenever any script body changes (hashes below are part of the script
+# text, so chezmoi sees a diff and re-executes):
+#   pre-game.ps1     {{ include "dot_config/scripts/playnite/pre-game.ps1"     | sha256sum }}
+#   post-game.ps1    {{ include "dot_config/scripts/playnite/post-game.ps1"    | sha256sum }}
+#   game-started.ps1 {{ include "dot_config/scripts/playnite/game-started.ps1" | sha256sum }}
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$cfgPath = Join-Path $env:APPDATA 'Playnite\config.json'
+if (-not (Test-Path $cfgPath)) {
+    Write-Host "[playnite] no config.json yet — run Playnite once, then 'chezmoi apply'." -ForegroundColor Yellow
+    return
+}
+
+# Playnite rewrites config.json wholesale when it exits, which would silently
+# undo us. Refuse to touch it while it's running.
+if (Get-Process 'Playnite*' -ErrorAction SilentlyContinue) {
+    Write-Host "[playnite] Playnite is running — close it and re-run 'chezmoi apply'." -ForegroundColor Yellow
+    return
+}
+
+$dir = '$env:USERPROFILE\.config\scripts\playnite'
+$stubs = @{
+    PreScript         = "`$s=`"$dir\pre-game.ps1`"; if (Test-Path `$s) { & `$s -Game `$Game }"
+    PostScript        = "`$s=`"$dir\post-game.ps1`"; if (Test-Path `$s) { & `$s -Game `$Game }"
+    GameStartedScript = "`$s=`"$dir\game-started.ps1`"; if (Test-Path `$s) { & `$s -GamePid `$StartedProcessId -Game `$Game }"
+}
+
+$raw = Get-Content $cfgPath -Raw
+$cfg = $raw | ConvertFrom-Json
+
+$changed = $false
+foreach ($key in $stubs.Keys) {
+    $current = $cfg.PSObject.Properties[$key]
+    if ($null -eq $current) {
+        $cfg | Add-Member -NotePropertyName $key -NotePropertyValue $stubs[$key]
+        $changed = $true
+    }
+    elseif ($current.Value -ne $stubs[$key]) {
+        $current.Value = $stubs[$key]
+        $changed = $true
+    }
+}
+
+if (-not $changed) {
+    Write-Host "[playnite] global script stubs already current." -ForegroundColor DarkGray
+    return
+}
+
+# Keep one rollback copy — this file holds every Playnite setting, not just ours.
+Copy-Item $cfgPath "$cfgPath.bak" -Force
+$cfg | ConvertTo-Json -Depth 100 | Set-Content $cfgPath -Encoding UTF8
+
+Write-Host "[playnite] global script stubs installed (backup: config.json.bak)" -ForegroundColor Green
+Write-Host "           bodies live in ~/.config/scripts/playnite/ and are chezmoi-tracked." -ForegroundColor DarkGray

@@ -258,6 +258,13 @@
     },
     {
       "Source": "main",
+      "Info": "Playnite -> GlazeWM game-window placement worker (place_game_window.py)",
+      "Updated": "2026-07-31T00:00:00.0000000-07:00",
+      "Name": "python",
+      "Version": "3.14.6"
+    },
+    {
+      "Source": "main",
       "Info": "",
       "Updated": "2026-06-04T02:57:03.3001332-07:00",
       "Name": "ripgrep",
