@@ -1,0 +1,6026 @@
+{
+  "##": [
+    "Per-game Playnite curation (tags + features), exported by export-curation.ps1.",
+    "Tags and features are CURATION, not secrets - clone-my-playnite.ps1 scrubs the",
+    "whole library DB, which would otherwise lose every yabo:display= target and",
+    "every [RC] Display: assignment on a fresh machine.",
+    "Games are keyed by name+plugin because database GUIDs are re-minted on import."
+  ],
+  "exportedAt": "2026-07-31T02:38:47.8432804-07:00",
+  "gameCount": 235,
+  "games": [
+    {
+      "name": "3dSen",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1147940",
+      "tags": [
+        "1980s",
+        "1990's",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Casual",
+        "Indie",
+        "JRPG",
+        "Metroidvania",
+        "Old School",
+        "Pixel Graphics",
+        "Platformer",
+        "Racing",
+        "Retro",
+        "RPG",
+        "Simulation",
+        "Singleplayer",
+        "Software",
+        "Sports",
+        "Strategy"
+      ],
+      "features": [
+        "Co-Op",
+        "Family Sharing",
+        "Multiplayer",
+        "Partial Controller Support",
+        "Pvp",
+        "Remote Play Together",
+        "Shared/Split Screen",
+        "Shared/Split Screen Co-Op",
+        "Shared/Split Screen Pvp",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "A Hat in Time",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "253230",
+      "tags": [
+        "3D Platformer",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Co-op",
+        "Collectathon",
+        "Colorful",
+        "Comedy",
+        "Cute",
+        "Exploration",
+        "Family Friendly",
+        "Female Protagonist",
+        "Funny",
+        "Great Soundtrack",
+        "Indie",
+        "Moddable",
+        "Open World",
+        "Platformer",
+        "Singleplayer",
+        "Third Person"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Absolute Drift",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "19927295d6e3467887d4e830d8c85963",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Aces Wild: Manic Brawling Action!",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "269230",
+      "tags": [
+        "Action",
+        "Anime",
+        "Beat 'em up",
+        "Bullet Hell",
+        "Character Action Game",
+        "Controller",
+        "Fighting",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Indie",
+        "Local Co-Op",
+        "Side Scroller",
+        "Spectacle fighter"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "All Our Asias",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "698050",
+      "tags": [
+        "3D",
+        "Adventure",
+        "Atmospheric",
+        "Controller",
+        "Emotional",
+        "Experimental",
+        "Historical",
+        "Linear",
+        "Modern",
+        "Philosophical",
+        "Psychological",
+        "Retro",
+        "Sci-fi",
+        "Singleplayer",
+        "Story Rich",
+        "Supernatural",
+        "Surreal",
+        "Third Person",
+        "Transhumanism",
+        "Walking Simulator"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Anodyne 2: Return to Dust",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "Tanzanite",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "ARMORED CORE VI FIRES OF RUBICON",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1888160",
+      "tags": [
+        "3D",
+        "Action",
+        "Action-Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Combat",
+        "Difficult",
+        "Fast-Paced",
+        "Futuristic",
+        "Mechs",
+        "Military",
+        "Multiplayer",
+        "Post-apocalyptic",
+        "Robots",
+        "Sci-fi",
+        "Singleplayer",
+        "Souls-like",
+        "Soundtrack",
+        "Third Person",
+        "Vehicular Combat"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Arx Fatalis",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1700",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Dark Fantasy",
+        "Dungeon Crawler",
+        "Exploration",
+        "Fantasy",
+        "First-Person",
+        "Horror",
+        "Immersive Sim",
+        "Inventory Management",
+        "Magic",
+        "Open World",
+        "RPG",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Underground"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Aseprite",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "431730",
+      "tags": [
+        "2D",
+        "Animation & Modeling",
+        "Cute",
+        "Design & Illustration",
+        "Difficult",
+        "Game Development",
+        "Indie",
+        "Pixel Graphics",
+        "Retro",
+        "Singleplayer",
+        "Software",
+        "Utilities"
+      ],
+      "features": []
+    },
+    {
+      "name": "Astro Duel 2",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "e3c0d11648554383b33da58d075fd101",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Baldur's Gate 3",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1086940",
+      "tags": [
+        "Adventure",
+        "Character Customization",
+        "Choices Matter",
+        "Class-Based",
+        "Co-op Campaign",
+        "Combat",
+        "CRPG",
+        "Dark Fantasy",
+        "Fantasy",
+        "LGBTQ+",
+        "Multiplayer",
+        "Nudity",
+        "Online Co-Op",
+        "Romance",
+        "RPG",
+        "Sexual Content",
+        "Singleplayer",
+        "Story Rich",
+        "Strategy",
+        "Turn-Based Combat"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "BallisticNG",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "473770",
+      "tags": [
+        "Action",
+        "Arcade",
+        "Atmospheric",
+        "Combat Racing",
+        "Driving",
+        "Fast-Paced",
+        "Flight",
+        "Futuristic",
+        "Indie",
+        "Level Editor",
+        "Moddable",
+        "Multiplayer",
+        "Racing",
+        "Retro",
+        "Sci-fi",
+        "Singleplayer",
+        "Split Screen",
+        "Third Person",
+        "Vehicular Combat",
+        "VR"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Banjo-Kazooie: Recompiled",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "BanjoRecomp.BanjoRecomp",
+      "tags": [
+        "[ShaderGlass] CRT-Geom"
+      ],
+      "features": []
+    },
+    {
+      "name": "Batman Arkham Knight",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "Cowbird",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Bayonetta",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "460790",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Anime",
+        "Atmospheric",
+        "Beat 'em up",
+        "Character Action Game",
+        "Classic",
+        "Comedy",
+        "Difficult",
+        "Fantasy",
+        "Fast-Paced",
+        "Female Protagonist",
+        "Gore",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Nudity",
+        "Sexual Content",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Binky's Trash Service",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1498940",
+      "tags": [
+        "1980s",
+        "1990's",
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Arcade",
+        "Cartoon",
+        "Cartoony",
+        "Collectathon",
+        "Cute",
+        "Metroidvania",
+        "Old School",
+        "Pixel Graphics",
+        "Platformer",
+        "Precision Platformer",
+        "Puzzle Platformer",
+        "Side Scroller",
+        "Stylized"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Blender",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "365670",
+      "tags": [
+        "2D",
+        "3D",
+        "Action",
+        "Animation & Modeling",
+        "Building",
+        "Design & Illustration",
+        "Difficult",
+        "Free to Play",
+        "Game Development",
+        "Hentai",
+        "Moddable",
+        "Physics",
+        "Sandbox",
+        "Sexual Content",
+        "Singleplayer",
+        "Software",
+        "Story Rich",
+        "Survival Horror",
+        "Utilities",
+        "Video Production"
+      ],
+      "features": []
+    },
+    {
+      "name": "Blood West",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1587130",
+      "tags": [
+        "1990's",
+        "Action",
+        "Dark",
+        "Demons",
+        "First-Person",
+        "FPS",
+        "Horror",
+        "Immersive Sim",
+        "Inventory Management",
+        "Lovecraftian",
+        "Open World",
+        "Retro",
+        "RPG",
+        "Shooter",
+        "Singleplayer",
+        "Souls-like",
+        "Stealth",
+        "Survival",
+        "Survival Horror",
+        "Western"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Blood: Fresh Supply",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1010750",
+      "tags": [
+        "1990's",
+        "2.5D",
+        "4 Player Local",
+        "Action",
+        "Atmospheric",
+        "Boomer Shooter",
+        "Co-op",
+        "Co-op Campaign",
+        "Dark",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Horror",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Old School",
+        "Pixel Graphics",
+        "Retro",
+        "Shooter"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "BLUE REVOLVER",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "439490",
+      "tags": [
+        "2D",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Bullet Hell",
+        "Difficult",
+        "Female Protagonist",
+        "Great Soundtrack",
+        "Indie",
+        "Pixel Graphics",
+        "Retro",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Top-Down Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Brigador: Up-Armored Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "274500",
+      "tags": [
+        "Action",
+        "Action Roguelike",
+        "Atmospheric",
+        "Capitalism",
+        "Cyberpunk",
+        "Destruction",
+        "Difficult",
+        "Dystopian",
+        "Indie",
+        "Isometric",
+        "Mechs",
+        "Robots",
+        "Roguelite",
+        "Sci-fi",
+        "Shooter",
+        "Soundtrack",
+        "Top-Down",
+        "Top-Down Shooter",
+        "Twin Stick Shooter",
+        "Vehicular Combat"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Capcom Fighting Collection 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2400430",
+      "tags": [
+        "1990's",
+        "2D Fighter",
+        "3D Fighter",
+        "Action",
+        "Arcade",
+        "Co-op",
+        "Fighting",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Online Co-Op",
+        "Pixel Graphics",
+        "Retro",
+        "Score Attack",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Cave Story+",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "200900",
+      "tags": [
+        "2D",
+        "Action",
+        "Adventure",
+        "Anime",
+        "Classic",
+        "Cute",
+        "Difficult",
+        "Exploration",
+        "Great Soundtrack",
+        "Indie",
+        "Metroidvania",
+        "Pixel Graphics",
+        "Platformer",
+        "Remake",
+        "Replay Value",
+        "Retro",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "CAYNE",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "532840",
+      "tags": [
+        "1980s",
+        "1990's",
+        "2.5D",
+        "2D",
+        "Adventure",
+        "Alternate History",
+        "Atmospheric",
+        "Female Protagonist",
+        "Free to Play",
+        "Gore",
+        "Horror",
+        "Indie",
+        "Isometric",
+        "Point & Click",
+        "Post-apocalyptic",
+        "Retro",
+        "Sci-fi",
+        "Singleplayer",
+        "Story Rich",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Classic Marathon",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2398450",
+      "tags": [
+        "2.5D",
+        "3D",
+        "Action",
+        "Aliens",
+        "Boomer Shooter",
+        "Co-op",
+        "First-Person",
+        "FPS",
+        "Free to Play",
+        "Futuristic",
+        "Linear",
+        "Multiplayer",
+        "Online Co-Op",
+        "PvE",
+        "PvP",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Story Rich"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Classic Marathon 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2398490",
+      "tags": [
+        "2.5D",
+        "3D",
+        "Action",
+        "Aliens",
+        "Boomer Shooter",
+        "Co-op",
+        "First-Person",
+        "FPS",
+        "Free to Play",
+        "Futuristic",
+        "Linear",
+        "Multiplayer",
+        "Online Co-Op",
+        "PvE",
+        "PvP",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Story Rich"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Copy Kitty",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "349250",
+      "tags": [
+        "2D",
+        "Action",
+        "Arcade",
+        "Bullet Hell",
+        "Cats",
+        "Colorful",
+        "Cute",
+        "Cyberpunk",
+        "Destruction",
+        "Female Protagonist",
+        "Futuristic",
+        "Great Soundtrack",
+        "Indie",
+        "Level Editor",
+        "Platformer",
+        "Puzzle Platformer",
+        "Retro",
+        "Robots",
+        "Sci-fi",
+        "Side Scroller"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Counter-Strike 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "730",
+      "tags": [
+        "Action",
+        "Co-op",
+        "Competitive",
+        "Difficult",
+        "eSports",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Military",
+        "Moddable",
+        "Multiplayer",
+        "Online Co-Op",
+        "PvP",
+        "Realistic",
+        "Shooter",
+        "Strategy",
+        "Tactical",
+        "Team-Based",
+        "Trading",
+        "War"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Crazy Taxi",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "71230",
+      "tags": [
+        "1990's",
+        "Action",
+        "Arcade",
+        "Automobile Sim",
+        "Casual",
+        "Classic",
+        "Controller",
+        "Driving",
+        "Fast-Paced",
+        "Female Protagonist",
+        "Funny",
+        "Great Soundtrack",
+        "Nostalgia",
+        "Old School",
+        "Open World",
+        "Racing",
+        "Retro",
+        "Singleplayer",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Cruelty Squad",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1388770",
+      "tags": [
+        "Action",
+        "Assassins",
+        "Capitalism",
+        "Cyberpunk",
+        "Dark Humor",
+        "Dystopian",
+        "First-Person",
+        "FPS",
+        "Immersive Sim",
+        "Lore-Rich",
+        "Post-apocalyptic",
+        "Psychedelic",
+        "Psychological Horror",
+        "Retro",
+        "Shooter",
+        "Simulation",
+        "Stealth",
+        "Stylized",
+        "Surreal",
+        "Tactical"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Crysis",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "17300",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Aliens",
+        "Atmospheric",
+        "Benchmark",
+        "Classic",
+        "Destruction",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Great Soundtrack",
+        "Moddable",
+        "Multiplayer",
+        "Open World",
+        "Sandbox",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Crysis Warhead",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "17330",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Aliens",
+        "Atmospheric",
+        "Benchmark",
+        "Controller",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Military",
+        "Multiplayer",
+        "Open World",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Crysis Wars",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "17340",
+      "tags": [
+        "Action"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Ctrl Alt Ego",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1571940",
+      "tags": [
+        "Action",
+        "Dark Comedy",
+        "First-Person",
+        "FPS",
+        "Hacking",
+        "Immersive",
+        "Immersive Sim",
+        "Indie",
+        "Nonlinear",
+        "Philosophical",
+        "Physics",
+        "Puzzle",
+        "Retro",
+        "Robots",
+        "RPG",
+        "Sandbox",
+        "Sci-fi",
+        "Singleplayer",
+        "Space",
+        "Stealth"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "CyberBlocker Complete Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2123390",
+      "tags": [
+        "1980s",
+        "1990's",
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Arcade",
+        "Cyberpunk",
+        "Retro",
+        "Score Attack",
+        "Shooter",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Dark Messiah of Might & Magic Single Player",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2100",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Dark Fantasy",
+        "Fantasy",
+        "First-Person",
+        "Gore",
+        "Hack and Slash",
+        "Immersive Sim",
+        "Magic",
+        "Medieval",
+        "Multiplayer",
+        "Multiple Endings",
+        "RPG",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Swordplay"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "DARK SOULS III",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "374320",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Co-op",
+        "Dark Fantasy",
+        "Difficult",
+        "Exploration",
+        "Great Soundtrack",
+        "Lore-Rich",
+        "Multiplayer",
+        "Open World",
+        "PvP",
+        "Replay Value",
+        "RPG",
+        "Singleplayer",
+        "Souls-like",
+        "Story Rich",
+        "Third Person"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "DARK SOULS: REMASTERED",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "570940",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Co-op",
+        "Dark",
+        "Dark Fantasy",
+        "Difficult",
+        "Exploration",
+        "Fantasy",
+        "Great Soundtrack",
+        "Lore-Rich",
+        "Multiplayer",
+        "Replay Value",
+        "RPG",
+        "Souls-like",
+        "Soundtrack",
+        "Story Rich",
+        "Third Person"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Deadlock",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1422450",
+      "tags": [
+        "Action",
+        "Co-op",
+        "Competitive",
+        "Cute",
+        "Early Access",
+        "Free to Play",
+        "Funny",
+        "Hero Shooter",
+        "LGBTQ+",
+        "MOBA",
+        "Multiplayer",
+        "Online Co-Op",
+        "PvP",
+        "Sexual Content",
+        "Shooter",
+        "Strategy",
+        "Tactical",
+        "Team-Based",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "DEATH STRANDING DIRECTOR'S CUT",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1850570",
+      "tags": [
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Atmospheric",
+        "Cinematic",
+        "Combat",
+        "Exploration",
+        "Great Soundtrack",
+        "Horror",
+        "Multiplayer",
+        "Open World",
+        "Post-apocalyptic",
+        "Relaxing",
+        "Sci-fi",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Third Person",
+        "Third-Person Shooter",
+        "Walking Simulator"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Deus Ex: Game of the Year Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "6910",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Conspiracy",
+        "Cyberpunk",
+        "Dystopian",
+        "First-Person",
+        "FPS",
+        "Great Soundtrack",
+        "Immersive Sim",
+        "Inventory Management",
+        "Moddable",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Deus Ex: Mankind Divided",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "337000",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Conspiracy",
+        "Cyberpunk",
+        "Dystopian",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Great Soundtrack",
+        "Immersive Sim",
+        "Open World",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Third Person",
+        "Transhumanism"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Devil Daggers",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "422970",
+      "tags": [
+        "Action",
+        "Arcade",
+        "Arena Shooter",
+        "Atmospheric",
+        "Bullet Hell",
+        "Dark",
+        "Demons",
+        "Difficult",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Horror",
+        "Indie",
+        "Lovecraftian",
+        "Pixel Graphics",
+        "Retro",
+        "Shooter",
+        "Singleplayer",
+        "Survival"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Devil May Cry 4",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "45700",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Beat 'em up",
+        "Character Action Game",
+        "Controller",
+        "Demons",
+        "Difficult",
+        "Fantasy",
+        "Gothic",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "RPG",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Story Rich",
+        "Stylized",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Diablo (DevilutionX)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "diasurgical.devilutionx",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Diesel Knights Playtest",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3258420",
+      "tags": [
+        "3D",
+        "Action",
+        "Alternate History",
+        "Combat",
+        "First-Person",
+        "FPS",
+        "Mechs",
+        "Military",
+        "Multiplayer",
+        "Parkour",
+        "PvE",
+        "PvP",
+        "Robots",
+        "Sci-fi",
+        "Score Attack",
+        "Shooter",
+        "Steampunk",
+        "Third Person",
+        "Tutorial",
+        "World War II"
+      ],
+      "features": []
+    },
+    {
+      "name": "Disaster Arms - Impact Project B A H N",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3462730",
+      "tags": [
+        "Action",
+        "Anime",
+        "Arcade",
+        "Bullet Hell",
+        "Capitalism",
+        "Cartoon",
+        "Cute",
+        "Destruction",
+        "Dystopian",
+        "Emotional",
+        "Faith",
+        "Futuristic",
+        "Hand-drawn",
+        "Platformer",
+        "Retro",
+        "Sci-fi",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Side Scroller",
+        "Stylized"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Dishonored",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "205100",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Assassins",
+        "Atmospheric",
+        "Dark",
+        "Dystopian",
+        "Fantasy",
+        "First-Person",
+        "FPS",
+        "Immersive Sim",
+        "Magic",
+        "Multiple Endings",
+        "Open World",
+        "Replay Value",
+        "RPG",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Steampunk",
+        "Story Rich"
+      ],
+      "features": [
+        "Achievements",
+        "Adjustable Difficulty",
+        "Cloud Saves",
+        "Color Alternatives",
+        "Family Sharing",
+        "Partial Controller Support",
+        "Playable Without Timed Input",
+        "Remote Play On Tablet",
+        "Remote Play On TV",
+        "Single Player",
+        "Stereo Sound",
+        "Surround Sound"
+      ]
+    },
+    {
+      "name": "Dishonored 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "403640",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Assassins",
+        "Atmospheric",
+        "Dystopian",
+        "Exploration",
+        "Female Protagonist",
+        "First-Person",
+        "Gore",
+        "Great Soundtrack",
+        "Heist",
+        "Immersive Sim",
+        "Magic",
+        "Open World",
+        "Parkour",
+        "Singleplayer",
+        "Stealth",
+        "Steampunk",
+        "Story Rich",
+        "Supernatural"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Dishonored: Death of the Outsider",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "614570",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Assassins",
+        "Atmospheric",
+        "Choices Matter",
+        "Dark",
+        "Fantasy",
+        "Female Protagonist",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Immersive Sim",
+        "Magic",
+        "Open World",
+        "Parkour",
+        "Singleplayer",
+        "Stealth",
+        "Steampunk",
+        "Story Rich",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Divinity: Original Sin 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "435150",
+      "tags": [
+        "Character Customization",
+        "Choices Matter",
+        "Co-op Campaign",
+        "CRPG",
+        "Exploration",
+        "Fantasy",
+        "Female Protagonist",
+        "Funny",
+        "Isometric",
+        "Local Co-Op",
+        "Moddable",
+        "Party-Based RPG",
+        "PvP",
+        "Romance",
+        "RPG",
+        "Story Rich",
+        "Strategy",
+        "Strategy RPG",
+        "Tactical RPG",
+        "Turn-Based Strategy"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Divinity: Original Sin Enhanced Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "373420",
+      "tags": [
+        "Adventure",
+        "Character Customization",
+        "Co-op",
+        "CRPG",
+        "Fantasy",
+        "Great Soundtrack",
+        "Indie",
+        "Isometric",
+        "Local Co-Op",
+        "Multiplayer",
+        "Open World",
+        "Party-Based RPG",
+        "RPG",
+        "Singleplayer",
+        "Split Screen",
+        "Story Rich",
+        "Strategy",
+        "Turn-Based",
+        "Turn-Based Combat",
+        "Turn-Based Strategy"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "DOOM",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "379720",
+      "tags": [
+        "Action",
+        "Atmospheric",
+        "Boomer Shooter",
+        "Classic",
+        "Co-op",
+        "Demons",
+        "Difficult",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Great Soundtrack",
+        "Horror",
+        "Multiplayer",
+        "Remake",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Violent",
+        "Zombies"
+      ],
+      "features": [
+        "[RC] Display: \\\\.\\DISPLAY3",
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "DOOM + DOOM II",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2280",
+      "tags": [
+        "1990's",
+        "2.5D",
+        "Action",
+        "Boomer Shooter",
+        "Classic",
+        "Demons",
+        "Difficult",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Great Soundtrack",
+        "Moddable",
+        "Multiplayer",
+        "Old School",
+        "Retro",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Violent"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "DOOM 3: BFG Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "208200",
+      "tags": [
+        "Action",
+        "Atmospheric",
+        "Classic",
+        "Dark",
+        "Demons",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Great Soundtrack",
+        "Horror",
+        "Mars",
+        "Multiplayer",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Survival",
+        "Survival Horror",
+        "Violent",
+        "Zombies"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Dragon's Dogma 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2054970",
+      "tags": [
+        "3D",
+        "Action",
+        "Action RPG",
+        "Action-Adventure",
+        "Adventure",
+        "Artificial Intelligence",
+        "Character Customization",
+        "Dragons",
+        "Fantasy",
+        "Lore-Rich",
+        "Magic",
+        "Medieval",
+        "Multiplayer",
+        "Open World",
+        "Physics",
+        "PvE",
+        "RPG",
+        "Singleplayer",
+        "Swordplay",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Driver 2 (REDRIVER2)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ia.driver-2-pc",
+      "tags": [],
+      "features": [
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Duke Nukem 3D (EDuke32)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "terminx.EDuke32",
+      "tags": [
+        "Experimental"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "DUNGEON RAZE",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3281300",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Action Roguelike",
+        "Action RPG",
+        "Bullet Hell",
+        "Casual",
+        "Cute",
+        "Dungeon Crawler",
+        "Fantasy",
+        "JRPG",
+        "Loot",
+        "Pixel Graphics",
+        "Roguelike",
+        "RPG",
+        "Shooter",
+        "Top-Down",
+        "Top-Down Shooter",
+        "Twin Stick Shooter",
+        "Underground"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Dustforce",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "65300",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "4 Player Local",
+        "Action",
+        "Atmospheric",
+        "Difficult",
+        "Fast-Paced",
+        "Great Soundtrack",
+        "Indie",
+        "Level Editor",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Parkour",
+        "Platformer",
+        "Precision Platformer",
+        "Score Attack",
+        "Side Scroller",
+        "Singleplayer",
+        "Stylized",
+        "Time Attack"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "E Y E: Divine Cybermancy",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "91700",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Co-op",
+        "Cyberpunk",
+        "First-Person",
+        "FPS",
+        "Hacking",
+        "Immersive Sim",
+        "Indie",
+        "Multiplayer",
+        "Online Co-Op",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Surreal"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "EARTH DEFENSE FORCE 6",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2291060",
+      "tags": [
+        "3D",
+        "Action",
+        "Aliens",
+        "Anime",
+        "Co-op",
+        "Gore",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Mechs",
+        "Multiplayer",
+        "Online Co-Op",
+        "PvE",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Third-Person Shooter",
+        "Violent"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Energy Hook",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "378070",
+      "tags": [
+        "Action",
+        "Indie",
+        "Sports"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Environmental Station Alpha",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "350070",
+      "tags": [
+        "2D",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Difficult",
+        "Exploration",
+        "Great Soundtrack",
+        "Indie",
+        "Metroidvania",
+        "Pixel Graphics",
+        "Platformer",
+        "Puzzle",
+        "Retro",
+        "Sci-fi",
+        "Singleplayer",
+        "Space"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Escape From Castle Matsumoto",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2490030",
+      "tags": [
+        "1980s",
+        "2.5D",
+        "3D",
+        "Action",
+        "Arcade",
+        "Comedy",
+        "Controller",
+        "Demons",
+        "Funny",
+        "Heist",
+        "Historical",
+        "Martial Arts",
+        "Ninja",
+        "Old School",
+        "Pixel Graphics",
+        "Procedural Generation",
+        "PvP",
+        "Retro",
+        "Split Screen",
+        "Tactical"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Evil Egg",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3651950",
+      "tags": [
+        "2D",
+        "Abstract",
+        "Action",
+        "Action Roguelike",
+        "Arcade",
+        "Atmospheric",
+        "Bullet Hell",
+        "Colorful",
+        "Free to Play",
+        "Magic",
+        "Perma Death",
+        "Pixel Graphics",
+        "Psychedelic",
+        "Roguelite",
+        "Score Attack",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Stylized",
+        "Top-Down Shooter",
+        "Twin Stick Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "EXAPUNKS",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "716490",
+      "tags": [
+        "Automation",
+        "Cyberpunk",
+        "Difficult",
+        "Great Soundtrack",
+        "Hacking",
+        "Indie",
+        "Logic",
+        "Programming",
+        "Puzzle",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Fallen Aces",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1411910",
+      "tags": [
+        "2.5D",
+        "2D",
+        "Action",
+        "Arena Shooter",
+        "Boomer Shooter",
+        "Cartoon",
+        "Comic Book",
+        "Fast-Paced",
+        "FPS",
+        "Gore",
+        "Hand-drawn",
+        "Immersive Sim",
+        "Level Editor",
+        "Noir",
+        "Old School",
+        "Retro",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Fight'N Rage",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "674520",
+      "tags": [
+        "2D",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Beat 'em up",
+        "Choices Matter",
+        "Classic",
+        "Difficult",
+        "Female Protagonist",
+        "Fighting",
+        "Great Soundtrack",
+        "Indie",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Multiple Endings",
+        "Pixel Graphics",
+        "Post-apocalyptic",
+        "Retro",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "FIGHTING EX LAYER",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "871200",
+      "tags": [
+        "2.5D",
+        "2D Fighter",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Fighting",
+        "Great Soundtrack",
+        "Multiplayer",
+        "Singleplayer"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "FINAL FANTASY XIII",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "292120",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Cinematic",
+        "Difficult",
+        "Fantasy",
+        "Female Protagonist",
+        "Futuristic",
+        "Great Soundtrack",
+        "JRPG",
+        "Linear",
+        "RPG",
+        "Sci-fi",
+        "Singleplayer",
+        "Story Rich",
+        "Strategy",
+        "Third Person",
+        "Turn-Based",
+        "Turn-Based Combat"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "FlyKnight",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3108510",
+      "tags": [
+        "3D",
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Co-op",
+        "Combat",
+        "Dungeon Crawler",
+        "Exploration",
+        "Fantasy",
+        "First-Person",
+        "Fishing",
+        "Inventory Management",
+        "Loot",
+        "Multiplayer",
+        "Old School",
+        "Online Co-Op",
+        "Retro",
+        "RPG",
+        "Singleplayer",
+        "Souls-like"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Fortune's Run",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1692240",
+      "tags": [
+        "Action",
+        "Atmospheric",
+        "Boomer Shooter",
+        "Capitalism",
+        "Conspiracy",
+        "Cyberpunk",
+        "Dystopian",
+        "Early Access",
+        "Female Protagonist",
+        "First-Person",
+        "FPS",
+        "Immersive Sim",
+        "Martial Arts",
+        "Pixel Graphics",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "GameMaker",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1670460",
+      "tags": [
+        "Animation & Modeling",
+        "Design & Illustration",
+        "Education",
+        "Game Development",
+        "Psychological Horror",
+        "Software",
+        "Software Training",
+        "Utilities"
+      ],
+      "features": [
+        "In-App Purchases"
+      ]
+    },
+    {
+      "name": "Geometry Wars: Retro Evolved",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "8400",
+      "tags": [
+        "2D",
+        "Action",
+        "Arcade",
+        "Arena Shooter",
+        "Bullet Hell",
+        "Casual",
+        "Classic",
+        "Great Soundtrack",
+        "Indie",
+        "Psychedelic",
+        "Retro",
+        "Score Attack",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Singleplayer",
+        "Twin Stick Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Getting Over It with Bennett Foddy",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "240720",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Comedy",
+        "Dark Humor",
+        "Difficult",
+        "Funny",
+        "Great Soundtrack",
+        "Horror",
+        "Indie",
+        "Philosophical",
+        "Physics",
+        "Platformer",
+        "Psychological Horror",
+        "Replay Value",
+        "Singleplayer",
+        "Story Rich",
+        "Strategy",
+        "Survival Horror",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Gloomwood",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1150760",
+      "tags": [
+        "Action",
+        "Atmospheric",
+        "Dark",
+        "Exploration",
+        "First-Person",
+        "FPS",
+        "Gothic",
+        "Immersive Sim",
+        "Indie",
+        "Lovecraftian",
+        "Mystery",
+        "Physics",
+        "PvE",
+        "Resource Management",
+        "Retro",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Steampunk",
+        "Survival Horror"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Grand Theft Auto III",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "12100",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Automobile Sim",
+        "Classic",
+        "Crime",
+        "Driving",
+        "Great Soundtrack",
+        "Moddable",
+        "Multiplayer",
+        "Open World",
+        "Sandbox",
+        "Satire",
+        "Shooter",
+        "Silent Protagonist",
+        "Singleplayer",
+        "Story Rich",
+        "Third Person",
+        "Third-Person Shooter",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Grand Theft Auto III (re3 / Liberty Extended)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "re3.LibertyExtended",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Grand Theft Auto: Vice City",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "12110",
+      "tags": [
+        "1980s",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Automobile Sim",
+        "Classic",
+        "Crime",
+        "Driving",
+        "Funny",
+        "Great Soundtrack",
+        "Moddable",
+        "Multiplayer",
+        "Music",
+        "Open World",
+        "Sandbox",
+        "Shooter",
+        "Singleplayer",
+        "Third Person",
+        "Third-Person Shooter",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Grand Theft Auto: Vice City (reVC / Vice Extended)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "reVC.ViceExtended",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Gravity Circuit",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "858710",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Beat 'em up",
+        "Controller",
+        "Difficult",
+        "Fast-Paced",
+        "Great Soundtrack",
+        "Indie",
+        "Multiplayer",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Robots",
+        "Sci-fi",
+        "Side Scroller",
+        "Singleplayer",
+        "Soundtrack",
+        "Superhero"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Guild Wars Reforged",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "29720",
+      "tags": [
+        "3D",
+        "Action",
+        "Action RPG",
+        "Action-Adventure",
+        "Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Choose Your Own Adventure",
+        "Colorful",
+        "Crafting",
+        "CRPG",
+        "Emotional",
+        "Exploration",
+        "Fantasy",
+        "Lore-Rich",
+        "Magic",
+        "Medieval",
+        "MMORPG",
+        "RPG",
+        "Third Person"
+      ],
+      "features": [
+        "Co-Operative",
+        "Massively Multiplayer Online (MMO)",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Halo: The Master Chief Collection",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "976730",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Aliens",
+        "Atmospheric",
+        "Beautiful",
+        "Classic",
+        "Co-op",
+        "Epic",
+        "First-Person",
+        "FPS",
+        "Great Soundtrack",
+        "Horror",
+        "Lore-Rich",
+        "Multiplayer",
+        "Online Co-Op",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Story Rich"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Heartless & Dreadful: Return By 72 Hours",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1701890",
+      "tags": [
+        "3D",
+        "3D Platformer",
+        "Action",
+        "Atmospheric",
+        "Beat 'em up",
+        "Character Action Game",
+        "Combat",
+        "Dark",
+        "Dark Fantasy",
+        "Fantasy",
+        "Gore",
+        "Hack and Slash",
+        "Indie",
+        "Linear",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Stylized",
+        "Third Person",
+        "Villain Protagonist",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "HELLDIVERS 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "553850",
+      "tags": [
+        "Action",
+        "Capitalism",
+        "Co-op",
+        "Comedy",
+        "Difficult",
+        "Extraction Shooter",
+        "Gore",
+        "Great Soundtrack",
+        "Multiplayer",
+        "Online Co-Op",
+        "Open World",
+        "Psychological Horror",
+        "PvE",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Third Person",
+        "Third-Person Shooter",
+        "Violent"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Hellsinker",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1067720",
+      "tags": [
+        "2D",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Bullet Hell",
+        "Casual",
+        "Cute",
+        "Difficult",
+        "Fantasy",
+        "Female Protagonist",
+        "Indie",
+        "Lore-Rich",
+        "Philosophical",
+        "Pixel Graphics",
+        "Replay Value",
+        "Retro",
+        "Score Attack",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "HITMAN World of Assassination",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1659040",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Assassins",
+        "Capitalism",
+        "Cinematic",
+        "Funny",
+        "Gore",
+        "Immersive Sim",
+        "Multiplayer",
+        "Open World",
+        "Puzzle",
+        "Realistic",
+        "Sandbox",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Third Person",
+        "Third-Person Shooter",
+        "Violent",
+        "VR"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Hitman: Blood Money",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "6860",
+      "tags": [
+        "Action",
+        "Assassins",
+        "Atmospheric",
+        "Classic",
+        "Crime",
+        "Dark",
+        "Difficult",
+        "First-Person",
+        "Great Soundtrack",
+        "Open World",
+        "Puzzle",
+        "Replay Value",
+        "Sandbox",
+        "Shooter",
+        "Simulation",
+        "Singleplayer",
+        "Stealth",
+        "Strategy",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Horizon Chase Turbo",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "389140",
+      "tags": [
+        "1990's",
+        "4 Player Local",
+        "Action",
+        "Arcade",
+        "Casual",
+        "Colorful",
+        "Driving",
+        "Epic",
+        "Great Soundtrack",
+        "Indie",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Nostalgia",
+        "Old School",
+        "Racing",
+        "Retro",
+        "Singleplayer",
+        "Split Screen",
+        "Sports"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "HYPER DEMON",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1743850",
+      "tags": [
+        "3D",
+        "Action",
+        "Arcade",
+        "Arena Shooter",
+        "Bullet Hell",
+        "Bullet Time",
+        "Combat",
+        "Demons",
+        "Difficult",
+        "Fast-Paced",
+        "FPS",
+        "Lovecraftian",
+        "Psychedelic",
+        "Score Attack",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Surreal",
+        "Time Attack"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "HYPER DEMON PVP",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2801700",
+      "tags": [
+        "3D",
+        "3D Fighter",
+        "Action",
+        "Arena Shooter",
+        "Dark Fantasy",
+        "eSports",
+        "First-Person",
+        "FPS",
+        "Free to Play",
+        "Multiplayer",
+        "PvP",
+        "Shooter",
+        "Spectacle fighter",
+        "Stylized"
+      ],
+      "features": [
+        "Multiplayer"
+      ]
+    },
+    {
+      "name": "Hyper Echelon",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "4c94a9ec733d40ccb0da37f43f0f9592",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Hytale",
+      "plugin": "00000000-0000-0000-0000-000000000000",
+      "gameId": "26989c11a78c436e6d31ca6c2f38eacc",
+      "tags": [],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Infinifactory",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "c7b3c16f56cb45abbfd915d59fd39689",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Jalopy",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "446020",
+      "tags": [
+        "Adventure",
+        "Atmospheric",
+        "Automobile Sim",
+        "Driving",
+        "Early Access",
+        "Economy",
+        "Exploration",
+        "First-Person",
+        "Indie",
+        "Management",
+        "Multiplayer",
+        "Open World",
+        "Realistic",
+        "Relaxing",
+        "Resource Management",
+        "Roguelite",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Survival"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Jet Set Radio",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "205950",
+      "tags": [
+        "3D Platformer",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Atmospheric",
+        "Classic",
+        "Colorful",
+        "Controller",
+        "Female Protagonist",
+        "Great Soundtrack",
+        "Music",
+        "Open World",
+        "Parkour",
+        "Platformer",
+        "Retro",
+        "Singleplayer",
+        "Skating",
+        "Sports",
+        "Stylized",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Kenshi",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "233860",
+      "tags": [
+        "Adventure",
+        "Alternate History",
+        "Base Building",
+        "Building",
+        "Character Customization",
+        "City Builder",
+        "Crafting",
+        "Indie",
+        "Management",
+        "Ninja",
+        "Open World",
+        "Post-apocalyptic",
+        "RPG",
+        "RTS",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Steampunk",
+        "Strategy",
+        "Survival"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "KID A MNESIA EXHIBITION",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "33411619626243f1859d0b7fb5cc5405",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "KILL KNIGHT",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "c7cb232d49d347aabfa73d583660d7ee",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "killer7",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "868520",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Anime",
+        "Atmospheric",
+        "Classic",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Great Soundtrack",
+        "Horror",
+        "On-Rails Shooter",
+        "Psychological Horror",
+        "Puzzle",
+        "Sexual Content",
+        "Shooter",
+        "Singleplayer",
+        "Story Rich",
+        "Stylized",
+        "Surreal",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "La-Mulana",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "230700",
+      "tags": [
+        "2D",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Classic",
+        "Controller",
+        "Difficult",
+        "Exploration",
+        "Great Soundtrack",
+        "Indie",
+        "Metroidvania",
+        "Pixel Graphics",
+        "Platformer",
+        "Puzzle",
+        "Puzzle Platformer",
+        "Remake",
+        "Retro",
+        "RPG",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Left 4 Dead",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "500",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Co-op",
+        "Competitive",
+        "Female Protagonist",
+        "First-Person",
+        "FPS",
+        "Horror",
+        "Moddable",
+        "Multiplayer",
+        "Online Co-Op",
+        "Post-apocalyptic",
+        "Replay Value",
+        "Shooter",
+        "Singleplayer",
+        "Survival",
+        "Tactical",
+        "Team-Based",
+        "Zombies"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "LISA",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "335670",
+      "tags": [
+        "2D",
+        "Adventure",
+        "Atmospheric",
+        "Choices Matter",
+        "Comedy",
+        "Dark",
+        "Dark Humor",
+        "Funny",
+        "Great Soundtrack",
+        "Horror",
+        "Indie",
+        "JRPG",
+        "Party-Based RPG",
+        "Pixel Graphics",
+        "Post-apocalyptic",
+        "Psychological Horror",
+        "RPG",
+        "Side Scroller",
+        "Singleplayer",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Lobotomy Corporation",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "568220",
+      "tags": [
+        "2D",
+        "Anime",
+        "Atmospheric",
+        "Cute",
+        "Difficult",
+        "Gore",
+        "Great Soundtrack",
+        "Horror",
+        "Indie",
+        "Lovecraftian",
+        "Management",
+        "Psychological Horror",
+        "Roguelike",
+        "Roguelite",
+        "RTS",
+        "Simulation",
+        "Singleplayer",
+        "Story Rich",
+        "Strategy",
+        "Visual Novel"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Logic Bombs",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3816700",
+      "tags": [
+        "2D",
+        "Casual",
+        "Difficult",
+        "Indie",
+        "Logic",
+        "Pixel Graphics",
+        "Puzzle",
+        "Retro",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "LucasArts Adventures (DREAMM)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "aarongiles.DREAMM",
+      "tags": [
+        "Experimental"
+      ],
+      "features": []
+    },
+    {
+      "name": "Magenta Horizon - Neverending Harvest",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2109060",
+      "tags": [
+        "2D Platformer",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Beat 'em up",
+        "Cartoony",
+        "Character Action Game",
+        "Colorful",
+        "Dark Fantasy",
+        "Demons",
+        "Difficult",
+        "Fast-Paced",
+        "Hack and Slash",
+        "Platformer",
+        "Singleplayer",
+        "Souls-like",
+        "Spectacle fighter",
+        "Stylized",
+        "Surreal",
+        "Trains"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Marvel vs Capcom: Infinite",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "493840",
+      "tags": [
+        "2.5D",
+        "2D Fighter",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Comic Book",
+        "Competitive",
+        "Fighting",
+        "Heist",
+        "Local Multiplayer",
+        "Memes",
+        "Multiplayer",
+        "Open World",
+        "Singleplayer",
+        "Superhero"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Mega Man Maker",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "megamanmaker",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "METAL GEAR SOLID V: GROUND ZEROES",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "311340",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Cinematic",
+        "Classic",
+        "Cold War",
+        "Dark",
+        "Espionage",
+        "Great Soundtrack",
+        "Open World",
+        "Replay Value",
+        "Sandbox",
+        "Shooter",
+        "Short",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Tactical",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "METAL GEAR SOLID V: THE PHANTOM PAIN",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "287700",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Cinematic",
+        "Dark",
+        "Great Soundtrack",
+        "Heist",
+        "Horses",
+        "Multiplayer",
+        "Open World",
+        "Replay Value",
+        "Sandbox",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Tactical",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "METAL SLUG",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "366250",
+      "tags": [
+        "2D",
+        "Action",
+        "Adventure",
+        "Arcade",
+        "Cartoony",
+        "Classic",
+        "Co-op",
+        "Fast-Paced",
+        "Funny",
+        "Great Soundtrack",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "METAL SLUG 3",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "250180",
+      "tags": [
+        "2D",
+        "Action",
+        "Arcade",
+        "Classic",
+        "Co-op",
+        "Comedy",
+        "Difficult",
+        "Great Soundtrack",
+        "Local Co-Op",
+        "Multiplayer",
+        "Nostalgia",
+        "Old School",
+        "Online Co-Op",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "METAL SLUG X",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "312610",
+      "tags": [
+        "2D",
+        "Action",
+        "Adventure",
+        "Anime",
+        "Arcade",
+        "Classic",
+        "Co-op",
+        "Difficult",
+        "Great Soundtrack",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Old School",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "MOLEK-SYNTEZ",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1168880",
+      "tags": [
+        "Automation",
+        "Indie",
+        "Logic",
+        "Programming",
+        "Puzzle",
+        "Science",
+        "Simulation",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Monster Hunter: World",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "582010",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Co-op",
+        "Dating Sim",
+        "Difficult",
+        "Exploration",
+        "Fantasy",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "JRPG",
+        "MMORPG",
+        "Multiplayer",
+        "Open World",
+        "Replay Value",
+        "RPG",
+        "Singleplayer",
+        "Third Person"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Mosa Lina",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2477090",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "Adventure",
+        "Co-op",
+        "Colorful",
+        "Immersive Sim",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Minimalist",
+        "Multiplayer",
+        "Online Co-Op",
+        "Pixel Graphics",
+        "Platformer",
+        "Puzzle",
+        "Puzzle Platformer",
+        "Roguelike",
+        "Sandbox",
+        "Side Scroller",
+        "Simulation",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Natural Selection 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "4920",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Aliens",
+        "Atmospheric",
+        "Co-op",
+        "Competitive",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Indie",
+        "Moddable",
+        "Multiplayer",
+        "Online Co-Op",
+        "RTS",
+        "Sci-fi",
+        "Shooter",
+        "Space",
+        "Strategy",
+        "Tactical",
+        "Team-Based"
+      ],
+      "features": [
+        "Multiplayer"
+      ]
+    },
+    {
+      "name": "Neon Inferno",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2957720",
+      "tags": [
+        "Action",
+        "Arcade",
+        "Assassins",
+        "Bullet Time",
+        "Cyberpunk",
+        "Dystopian",
+        "Female Protagonist",
+        "Futuristic",
+        "Local Co-Op",
+        "Old School",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Robots",
+        "Sci-fi",
+        "Score Attack",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Nex Machina",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "404540",
+      "tags": [
+        "Action",
+        "Arcade",
+        "Bullet Hell",
+        "Co-op",
+        "Competitive",
+        "Controller",
+        "Cyberpunk",
+        "Difficult",
+        "Great Soundtrack",
+        "Indie",
+        "Local Co-Op",
+        "Replay Value",
+        "Sci-fi",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Singleplayer",
+        "Top-Down",
+        "Top-Down Shooter",
+        "Twin Stick Shooter"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "NieR: Automata",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "524220",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Anime",
+        "Atmospheric",
+        "Bullet Hell",
+        "Character Action Game",
+        "Female Protagonist",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "JRPG",
+        "Nudity",
+        "Open World",
+        "Post-apocalyptic",
+        "Robots",
+        "RPG",
+        "Sci-fi",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Story Rich",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "NiGHTS into Dreams",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "219950",
+      "tags": [
+        "1990's",
+        "2.5D",
+        "Action",
+        "Adventure",
+        "Arcade",
+        "Atmospheric",
+        "Classic",
+        "Colorful",
+        "Family Friendly",
+        "Fantasy",
+        "Fast-Paced",
+        "Female Protagonist",
+        "Flight",
+        "Great Soundtrack",
+        "Platformer",
+        "Remake",
+        "Retro",
+        "Score Attack",
+        "Singleplayer",
+        "Surreal"
+      ],
+      "features": [
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Ninja Five-O (2025)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ia.ninja-five-o",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Noita",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "881100",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Action Roguelike",
+        "Action-Adventure",
+        "Crafting",
+        "Dark Humor",
+        "Difficult",
+        "Dungeon Crawler",
+        "Gun Customization",
+        "Indie",
+        "Mythology",
+        "Open World",
+        "Perma Death",
+        "Physics",
+        "Pixel Graphics",
+        "Roguelike",
+        "Roguelite",
+        "RPG",
+        "Sandbox"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Oddworld: Stranger's Wrath HD",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "15750",
+      "tags": [
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Comedy",
+        "Controller",
+        "First-Person",
+        "FPS",
+        "Great Soundtrack",
+        "Open World",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Story Rich",
+        "Strategy",
+        "Third Person",
+        "Third-Person Shooter",
+        "Violent",
+        "Western"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Omikron - The Nomad Soul",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "243000",
+      "tags": [
+        "1990's",
+        "Action",
+        "Adventure",
+        "Classic",
+        "Combat",
+        "Cyberpunk",
+        "Fighting",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Great Soundtrack",
+        "Open World",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Soundtrack",
+        "Story Rich",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "OpenMW (Morrowind)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "OpenMW.openmw",
+      "tags": [
+        "Experimental"
+      ],
+      "features": []
+    },
+    {
+      "name": "OpenTTD",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1536610",
+      "tags": [
+        "2D",
+        "Building",
+        "Casual",
+        "City Builder",
+        "Co-op",
+        "Economy",
+        "Free to Play",
+        "Indie",
+        "Isometric",
+        "Management",
+        "Moddable",
+        "Multiplayer",
+        "Online Co-Op",
+        "Resource Management",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Strategy",
+        "Trains",
+        "Transportation"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Opus Magnum",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "558990",
+      "tags": [
+        "2D",
+        "Automation",
+        "Building",
+        "Casual",
+        "Difficult",
+        "Great Soundtrack",
+        "Hex Grid",
+        "Indie",
+        "Logic",
+        "Programming",
+        "Puzzle",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Steampunk"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "OutRun 2006: Coast 2 Coast",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ia.out-run-2006-coast-2-coast.-7z",
+      "tags": [
+        "Update available"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Paper Mario (Paper Mario ReCut)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "SMCGames.Paper-Mario-ReCut",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Parking Garage Rally Circuit",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2737300",
+      "tags": [
+        "1990's",
+        "3D",
+        "Action",
+        "Arcade",
+        "Controller",
+        "Driving",
+        "Family Friendly",
+        "Indie",
+        "Multiplayer",
+        "Old School",
+        "Physics",
+        "PvP",
+        "Racing",
+        "Retro",
+        "Singleplayer"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "PEAK",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3527290",
+      "tags": [
+        "3D",
+        "Action",
+        "Action Roguelike",
+        "Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Co-op",
+        "Comedy",
+        "Exploration",
+        "First-Person",
+        "Horror",
+        "Investigation",
+        "Multiplayer",
+        "Mystery",
+        "Online Co-Op",
+        "Physics",
+        "Platformer",
+        "Procedural Generation",
+        "Survival Horror",
+        "Time Management"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Perfect Dark",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "perfect-dark-pc-port.perfect_dark",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Peripeteia",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1437760",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Atmospheric",
+        "Cyberpunk",
+        "Dark",
+        "Dystopian",
+        "Espionage",
+        "Exploration",
+        "First-Person",
+        "FPS",
+        "Hacking",
+        "Horror",
+        "Immersive Sim",
+        "Inventory Management",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "picoCAD",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2800590",
+      "tags": [
+        "Animation & Modeling",
+        "Colorful",
+        "Design & Illustration",
+        "Game Development",
+        "Pixel Graphics",
+        "Software"
+      ],
+      "features": []
+    },
+    {
+      "name": "picoSYNTH",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2949300",
+      "tags": [
+        "2D",
+        "Audio Production",
+        "Cozy",
+        "Game Development",
+        "Old School",
+        "Physics",
+        "Pixel Graphics",
+        "Retro",
+        "Simulation",
+        "Wholesome"
+      ],
+      "features": []
+    },
+    {
+      "name": "Pizza Tower",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2231450",
+      "tags": [
+        "1990's",
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Adventure",
+        "Cartoony",
+        "Colorful",
+        "Comedy",
+        "Difficult",
+        "Epic",
+        "Fast-Paced",
+        "Funny",
+        "Great Soundtrack",
+        "Indie",
+        "Memes",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Singleplayer",
+        "War"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Portal 2: Community Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "440000",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Casual",
+        "Co-op",
+        "First-Person",
+        "Free to Play",
+        "Horror",
+        "Indie",
+        "Level Editor",
+        "Mod",
+        "Moddable",
+        "Multiplayer",
+        "Psychological Horror",
+        "Puzzle",
+        "Puzzle Platformer",
+        "Sci-fi",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Prey",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "480490",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Aliens",
+        "Atmospheric",
+        "Exploration",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Great Soundtrack",
+        "Horror",
+        "Immersive Sim",
+        "Open World",
+        "Psychological Horror",
+        "RPG",
+        "Sci-fi",
+        "Singleplayer",
+        "Space",
+        "Stealth",
+        "Story Rich",
+        "Survival Horror"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Prey (Prey2006)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "FriskTheFallenHuman.Prey2006",
+      "tags": [
+        "Experimental"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Project Zomboid",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "108600",
+      "tags": [
+        "2D",
+        "Adventure",
+        "Building",
+        "Co-op",
+        "Crafting",
+        "Early Access",
+        "Indie",
+        "Isometric",
+        "Multiplayer",
+        "Open World",
+        "Open World Survival Craft",
+        "Post-apocalyptic",
+        "Realistic",
+        "RPG",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Survival",
+        "Survival Horror",
+        "Zombies"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Pseudoregalia",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2365810",
+      "tags": [
+        "3D",
+        "3D Platformer",
+        "Abstract",
+        "Adventure",
+        "Controller",
+        "Exploration",
+        "Fantasy",
+        "Female Protagonist",
+        "Indie",
+        "Magic",
+        "Metroidvania",
+        "Nonlinear",
+        "Old School",
+        "Parkour",
+        "Platformer",
+        "Retro",
+        "Singleplayer",
+        "Stylized",
+        "Surreal",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Pyre",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "462770",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Choices Matter",
+        "Colorful",
+        "Fantasy",
+        "Great Soundtrack",
+        "Hand-drawn",
+        "Indie",
+        "Interactive Fiction",
+        "Local Multiplayer",
+        "Lore-Rich",
+        "Multiple Endings",
+        "Music",
+        "Party-Based RPG",
+        "RPG",
+        "Singleplayer",
+        "Story Rich",
+        "Stylized",
+        "Visual Novel"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Quake",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2310",
+      "tags": [
+        "1990's",
+        "Action",
+        "Arena Shooter",
+        "Atmospheric",
+        "Boomer Shooter",
+        "Classic",
+        "Co-op",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Great Soundtrack",
+        "Horror",
+        "Moddable",
+        "Multiplayer",
+        "Old School",
+        "Retro",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Quake",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "hrehfeld.QuakeInjector",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Quake II (vkQuake2)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "kondrak.vkQuake2",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Quake Live",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "282440",
+      "tags": [
+        "Action",
+        "Addictive",
+        "Arena Shooter",
+        "Atmospheric",
+        "Classic",
+        "Competitive",
+        "Difficult",
+        "eSports",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Funny",
+        "Multiplayer",
+        "Nostalgia",
+        "Old School",
+        "Parkour",
+        "Sci-fi",
+        "Shooter",
+        "Survival",
+        "Violent"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Quest Master",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2094070",
+      "tags": [
+        "2D",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Choose Your Own Adventure",
+        "Co-op",
+        "Controller",
+        "Dungeon Crawler",
+        "Fantasy",
+        "Female Protagonist",
+        "Level Editor",
+        "Local Co-Op",
+        "Magic",
+        "Medieval",
+        "Moddable",
+        "Old School",
+        "Pixel Graphics",
+        "Puzzle",
+        "Retro",
+        "Sandbox"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "R E P O",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3241660",
+      "tags": [
+        "3D",
+        "Action",
+        "Action Roguelike",
+        "Co-op",
+        "Comedy",
+        "Early Access",
+        "Exploration",
+        "First-Person",
+        "Funny",
+        "Horror",
+        "Multiplayer",
+        "Online Co-Op",
+        "Perma Death",
+        "Physics",
+        "Post-apocalyptic",
+        "Procedural Generation",
+        "Robots",
+        "Sci-fi",
+        "Stealth",
+        "Survival"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Raiden V: Director's Cut",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "570050",
+      "tags": [
+        "Action",
+        "Arcade",
+        "Bullet Hell",
+        "Great Soundtrack",
+        "Local Co-Op",
+        "Sci-fi",
+        "Shoot 'Em Up",
+        "Shooter"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Rain World",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "312520",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Cute",
+        "Difficult",
+        "Exploration",
+        "Indie",
+        "Metroidvania",
+        "Open World",
+        "Physics",
+        "Pixel Graphics",
+        "Platformer",
+        "Post-apocalyptic",
+        "Simulation",
+        "Singleplayer",
+        "Souls-like",
+        "Survival",
+        "Survival Horror"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Raze",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ZDoom.Raze",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "REAL WEB LEGENDS: Carter's Quest",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2409110",
+      "tags": [
+        "1990's",
+        "3D",
+        "Action",
+        "Action-Adventure",
+        "Combat",
+        "Early Access",
+        "Fantasy",
+        "Hack and Slash",
+        "LGBTQ+",
+        "Magic",
+        "Medieval",
+        "Mystery",
+        "Open World",
+        "Retro",
+        "RPG",
+        "Singleplayer",
+        "Souls-like",
+        "Spectacle fighter",
+        "Story Rich",
+        "Stylized"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Replicube",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3401490",
+      "tags": [
+        "Level Editor",
+        "Pixel Graphics",
+        "Programming",
+        "Puzzle",
+        "Retro",
+        "Sandbox",
+        "Simulation"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Resident Evil 4",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "254700",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Difficult",
+        "Gore",
+        "Great Soundtrack",
+        "Horror",
+        "Inventory Management",
+        "Quick-Time Events",
+        "Remake",
+        "Replay Value",
+        "Shooter",
+        "Singleplayer",
+        "Survival",
+        "Survival Horror",
+        "Third Person",
+        "Third-Person Shooter",
+        "VR",
+        "Zombies"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Resident Evil 5",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "21690",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Co-op",
+        "Co-op Campaign",
+        "Female Protagonist",
+        "Gore",
+        "Horror",
+        "Local Co-Op",
+        "Multiplayer",
+        "Online Co-Op",
+        "Quick-Time Events",
+        "Shooter",
+        "Singleplayer",
+        "Split Screen",
+        "Survival",
+        "Survival Horror",
+        "Third Person",
+        "Third-Person Shooter",
+        "Zombies"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Resident Evil 6",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "221040",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Co-op",
+        "Co-op Campaign",
+        "Female Protagonist",
+        "Gore",
+        "Horror",
+        "Local Co-Op",
+        "Multiplayer",
+        "Online Co-Op",
+        "Quick-Time Events",
+        "Shooter",
+        "Singleplayer",
+        "Split Screen",
+        "Survival",
+        "Survival Horror",
+        "Third Person",
+        "Third-Person Shooter",
+        "Zombies"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "RetroArch",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1118310",
+      "tags": [
+        "1980s",
+        "1990's",
+        "2D",
+        "Adventure",
+        "Arcade",
+        "Classic",
+        "Co-op",
+        "Controller",
+        "Free to Play",
+        "Indie",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Old School",
+        "Pixel Graphics",
+        "Retro",
+        "RPG",
+        "Simulation",
+        "Singleplayer",
+        "Software",
+        "Utilities"
+      ],
+      "features": [
+        "Cloud Saves",
+        "Co-Op",
+        "Full Controller Support",
+        "HDR Available",
+        "LAN Co-Op",
+        "LAN Pvp",
+        "Multiplayer",
+        "Online Co-Op",
+        "Online Pvp",
+        "Pvp",
+        "Remote Play On Phone",
+        "Remote Play On Tablet",
+        "Remote Play On TV",
+        "Remote Play Together",
+        "Shared/Split Screen",
+        "Shared/Split Screen Co-Op",
+        "Shared/Split Screen Pvp",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Retrocycles",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1306180",
+      "tags": [
+        "Action",
+        "Competitive",
+        "Free to Play",
+        "Indie",
+        "Multiplayer",
+        "Racing",
+        "Sports"
+      ],
+      "features": [
+        "Battle Royale",
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Ribbit Rampage",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2846690",
+      "tags": [
+        "2D",
+        "Action",
+        "Arcade",
+        "Free to Play",
+        "Indie",
+        "Singleplayer",
+        "Top-Down Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Rusted Moss",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1772830",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Atmospheric",
+        "Dark",
+        "Difficult",
+        "Dystopian",
+        "Female Protagonist",
+        "Indie",
+        "Metroidvania",
+        "Multiple Endings",
+        "Pixel Graphics",
+        "Platformer",
+        "Post-apocalyptic",
+        "Precision Platformer",
+        "Retro",
+        "Story Rich",
+        "Twin Stick Shooter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "San Francisco Rush 2049 (ProjectR)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "t3hd0gg.ProjectR",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "SEGA Bass Fishing",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "71240",
+      "tags": [
+        "Arcade",
+        "Casual",
+        "Classic",
+        "Fishing",
+        "Simulation",
+        "Singleplayer",
+        "Sports"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Sega Rally 2 (25th Anniversary)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ia.sega-rally-2-25th-anniversary",
+      "tags": [],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Severed Steel",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "7179f095efcc4f92a950a6d9dbd9c602",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "ShaderGlass",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3613770",
+      "tags": [
+        "Free to Play",
+        "Game Development",
+        "Photo Editing",
+        "Pixel Graphics",
+        "Programming",
+        "Retro",
+        "Software",
+        "Utilities",
+        "Video Production"
+      ],
+      "features": []
+    },
+    {
+      "name": "Shadows of Doubt",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "986130",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Cyberpunk",
+        "Detective",
+        "First-Person",
+        "Hacking",
+        "Immersive Sim",
+        "Indie",
+        "Noir",
+        "Open World",
+        "Pixel Graphics",
+        "Procedural Generation",
+        "Puzzle",
+        "RPG",
+        "Sandbox",
+        "Singleplayer",
+        "Stealth",
+        "Voxel"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "SHENZHEN I/O",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "504210",
+      "tags": [
+        "2D",
+        "Automation",
+        "Building",
+        "Difficult",
+        "Education",
+        "Great Soundtrack",
+        "Hacking",
+        "Indie",
+        "Logic",
+        "Programming",
+        "Psychological Horror",
+        "Puzzle",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Solitaire"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Sid Meier's Civilization V",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "8930",
+      "tags": [
+        "4X",
+        "Addictive",
+        "Classic",
+        "Co-op",
+        "Diplomacy",
+        "Economy",
+        "Grand Strategy",
+        "Great Soundtrack",
+        "Hex Grid",
+        "Historical",
+        "Moddable",
+        "Multiplayer",
+        "Replay Value",
+        "Simulation",
+        "Singleplayer",
+        "Strategy",
+        "Tactical",
+        "Touch-Friendly",
+        "Turn-Based",
+        "Turn-Based Strategy"
+      ],
+      "features": [
+        "Achievements",
+        "Cloud Saves",
+        "Family Sharing",
+        "Multiplayer",
+        "Remote Play On Tablet",
+        "Single Player",
+        "Trading Cards"
+      ]
+    },
+    {
+      "name": "Sid Meier's Civilization VI",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "Kinglet",
+      "tags": [],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Sifu",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "d36336f190094951873ed6138ac208d8",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Skybolt Zack",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "909670",
+      "tags": [
+        "2D",
+        "Action",
+        "Action-Adventure",
+        "Anime",
+        "Arcade",
+        "Colorful",
+        "Controller",
+        "Difficult",
+        "Fast-Paced",
+        "Indie",
+        "Platformer",
+        "Retro",
+        "Rhythm",
+        "Robots",
+        "Runner",
+        "Score Attack",
+        "Side Scroller",
+        "Singleplayer",
+        "Soundtrack",
+        "Time Attack"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Slay the Spire",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "646570",
+      "tags": [
+        "2D",
+        "Card Battler",
+        "Card Game",
+        "Casual",
+        "Deckbuilding",
+        "Difficult",
+        "Dungeon Crawler",
+        "Fantasy",
+        "Great Soundtrack",
+        "Indie",
+        "Mouse Only",
+        "Procedural Generation",
+        "Replay Value",
+        "Roguelike",
+        "Roguelike Deckbuilder",
+        "Roguelite",
+        "RPG",
+        "Singleplayer",
+        "Strategy",
+        "Turn-Based"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Snake Pass",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "544330",
+      "tags": [
+        "3D Platformer",
+        "Action",
+        "Adventure",
+        "Casual",
+        "Collectathon",
+        "Colorful",
+        "Cozy",
+        "Cute",
+        "Difficult",
+        "Exploration",
+        "Family Friendly",
+        "Indie",
+        "Nature",
+        "Physics",
+        "Platformer",
+        "Puzzle",
+        "Puzzle Platformer",
+        "Simulation",
+        "Singleplayer",
+        "Wholesome"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Sonic 2 (Absolute)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "sonic-2-absolute",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Sonic Blast (SMS)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ia.SonicBlastSMS.zip",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Sonic CD",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "200940",
+      "tags": [
+        "1990's",
+        "2D",
+        "Action",
+        "Adventure",
+        "Anime",
+        "Classic",
+        "Colorful",
+        "Family Friendly",
+        "Fast-Paced",
+        "Great Soundtrack",
+        "Old School",
+        "Pixel Graphics",
+        "Platformer",
+        "Remake",
+        "Replay Value",
+        "Retro",
+        "Side Scroller",
+        "Singleplayer",
+        "Time Attack",
+        "Time Travel"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Space Channel 5: Part 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "71260",
+      "tags": [
+        "Action",
+        "Anime",
+        "Classic",
+        "Female Protagonist",
+        "Great Soundtrack",
+        "Music",
+        "Retro",
+        "Rhythm",
+        "Sci-fi"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "Spark the Electric Jester 3",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1629530",
+      "tags": [
+        "1990's",
+        "3D",
+        "3D Platformer",
+        "Action",
+        "Beat 'em up",
+        "Cartoony",
+        "Colorful",
+        "Combat",
+        "Driving",
+        "Exploration",
+        "Fantasy",
+        "Fast-Paced",
+        "Futuristic",
+        "Hack and Slash",
+        "Indie",
+        "Platformer",
+        "Retro",
+        "Sci-fi",
+        "Singleplayer",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Spelunky 2",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "418530",
+      "tags": [
+        "2D",
+        "2D Platformer",
+        "4 Player Local",
+        "Action",
+        "Action Roguelike",
+        "Co-op",
+        "Cute",
+        "Dark Humor",
+        "Difficult",
+        "Funny",
+        "Indie",
+        "Local Co-Op",
+        "Online Co-Op",
+        "Perma Death",
+        "Platformer",
+        "Procedural Generation",
+        "PvP",
+        "Replay Value",
+        "Roguelike",
+        "Side Scroller"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "SpriteStack",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1106180",
+      "tags": [
+        "Animation & Modeling",
+        "Design & Illustration",
+        "Game Development"
+      ],
+      "features": []
+    },
+    {
+      "name": "STAR WARS Jedi Knight: Jedi Academy",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "6020",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Character Customization",
+        "Classic",
+        "Female Protagonist",
+        "Fighting",
+        "First-Person",
+        "FPS",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Moddable",
+        "Multiplayer",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Story Rich",
+        "Swordplay",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "STAR WARS: TIE Fighter Special Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "355250",
+      "tags": [
+        "Action",
+        "Classic",
+        "Flight",
+        "Simulation",
+        "Singleplayer",
+        "Space",
+        "Space Sim"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Stardew Valley",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "413150",
+      "tags": [
+        "2D",
+        "Agriculture",
+        "Building",
+        "Casual",
+        "Crafting",
+        "Cute",
+        "Dating Sim",
+        "Farming Sim",
+        "Fishing",
+        "Great Soundtrack",
+        "Indie",
+        "Life Sim",
+        "Multiplayer",
+        "Open World",
+        "Pixel Graphics",
+        "Relaxing",
+        "RPG",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Stephen's Sausage Roll",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "353540",
+      "tags": [
+        "Cooking",
+        "Difficult",
+        "Indie",
+        "Pixel Graphics",
+        "Psychological Horror",
+        "Puzzle",
+        "Singleplayer",
+        "Sokoban",
+        "Top-Down"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "STRAFTAT",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2386720",
+      "tags": [
+        "1990's",
+        "3D",
+        "Action",
+        "Arena Shooter",
+        "Atmospheric",
+        "Boomer Shooter",
+        "Casual",
+        "Fast-Paced",
+        "FPS",
+        "Free to Play",
+        "Gore",
+        "Great Soundtrack",
+        "Indie",
+        "Multiplayer",
+        "Psychological Horror",
+        "PvP",
+        "Retro",
+        "Shooter",
+        "Surreal",
+        "Violent"
+      ],
+      "features": [
+        "Multiplayer"
+      ]
+    },
+    {
+      "name": "Streets of Rogue",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "512900",
+      "tags": [
+        "2D",
+        "Action",
+        "Action Roguelike",
+        "Adventure",
+        "Co-op",
+        "Funny",
+        "Gore",
+        "Great Soundtrack",
+        "Immersive Sim",
+        "Indie",
+        "Local Co-Op",
+        "Multiplayer",
+        "Online Co-Op",
+        "Pixel Graphics",
+        "Procedural Generation",
+        "Roguelike",
+        "Roguelite",
+        "RPG",
+        "Stealth",
+        "Violent"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "StreetStep: 21st Century Basketball",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2344240",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Anime",
+        "Arcade",
+        "Basketball",
+        "Comedy",
+        "Controller",
+        "Exploration",
+        "Female Protagonist",
+        "Funny",
+        "Indie",
+        "Multiplayer",
+        "Pixel Graphics",
+        "PvP",
+        "Remake",
+        "RPG",
+        "Simulation",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Sports"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Strider",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "235210",
+      "tags": [
+        "2.5D",
+        "2D",
+        "Action",
+        "Adventure",
+        "Anime",
+        "Arcade",
+        "Classic",
+        "Controller",
+        "Cyberpunk",
+        "Fast-Paced",
+        "Hack and Slash",
+        "Metroidvania",
+        "Ninja",
+        "Platformer",
+        "Reboot",
+        "Remake",
+        "Retro",
+        "Sci-fi",
+        "Side Scroller",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Super Mario 64 (Ghostship)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "harbourmasters.ghostship",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Super Mario World",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "snesrev.smw",
+      "tags": [],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Super Metroid",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "snesrev.sm",
+      "tags": [],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Sven Co-op",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "225840",
+      "tags": [
+        "1990's",
+        "3D",
+        "Action",
+        "Casual",
+        "Co-op",
+        "Dialogue Heavy",
+        "First-Person",
+        "FPS",
+        "Free to Play",
+        "Moddable",
+        "Multiplayer",
+        "Online Co-Op",
+        "Puzzle",
+        "PvE",
+        "Retro",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Survival",
+        "Team-Based",
+        "Third Person"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "System Shock",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "482400",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Cyberpunk",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Horror",
+        "Immersive Sim",
+        "Remake",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Story Rich",
+        "Survival",
+        "Survival Horror",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "System Shock 2: 25th Anniversary Remaster",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "866570",
+      "tags": [
+        "3D",
+        "Action",
+        "Action RPG",
+        "Action-Adventure",
+        "Adventure",
+        "Atmospheric",
+        "Cyberpunk",
+        "Dark",
+        "First-Person",
+        "FPS",
+        "Horror",
+        "Immersive Sim",
+        "Metroidvania",
+        "Multiplayer",
+        "Online Co-Op",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Story Rich"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "System Shock: Enhanced Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "410710",
+      "tags": [
+        "1990's",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Cyberpunk",
+        "First-Person",
+        "FPS",
+        "Great Soundtrack",
+        "Horror",
+        "Immersive Sim",
+        "Metroidvania",
+        "Pixel Graphics",
+        "Retro",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Teardown",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1167630",
+      "tags": [
+        "3D",
+        "Action",
+        "Co-op",
+        "Co-op Campaign",
+        "Destruction",
+        "Driving",
+        "First-Person",
+        "Heist",
+        "Indie",
+        "Mod",
+        "Multiplayer",
+        "Online Co-Op",
+        "Physics",
+        "Puzzle",
+        "Realistic",
+        "Replay Value",
+        "Sandbox",
+        "Simulation",
+        "Singleplayer",
+        "Voxel"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Terra Nova: Strike Force Centauri",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "368600",
+      "tags": [
+        "1990's",
+        "Action",
+        "Classic",
+        "FMV",
+        "FPS",
+        "Mechs",
+        "Sci-fi",
+        "Simulation",
+        "Singleplayer",
+        "Tactical"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Terraria",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "105600",
+      "tags": [
+        "2D",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Building",
+        "Co-op",
+        "Crafting",
+        "Exploration",
+        "Indie",
+        "Multiplayer",
+        "Online Co-Op",
+        "Open World",
+        "Open World Survival Craft",
+        "Pixel Graphics",
+        "Platformer",
+        "Replay Value",
+        "RPG",
+        "Sandbox",
+        "Singleplayer",
+        "Survival"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "The Club",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "10460",
+      "tags": [
+        "Action",
+        "Arcade",
+        "Singleplayer",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "The Dark Mod",
+      "plugin": "00000000-0000-0000-0000-000000000000",
+      "gameId": "c032aa88-d072-4314-82a4-00c88516e45e",
+      "tags": [
+        "Direct control",
+        "Fantasy",
+        "First-Person",
+        "id Tech 4",
+        "Medieval",
+        "Real-Time",
+        "Realistic",
+        "Steampunk",
+        "Victorian"
+      ],
+      "features": [
+        "[RC] Display: \\\\.\\DISPLAY3",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "The Elder Scrolls III: Morrowind",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "22320",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Character Customization",
+        "Classic",
+        "Exploration",
+        "Fantasy",
+        "First-Person",
+        "Great Soundtrack",
+        "Lore-Rich",
+        "Magic",
+        "Medieval",
+        "Moddable",
+        "Open World",
+        "RPG",
+        "Sandbox",
+        "Singleplayer",
+        "Story Rich",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "The Force Engine (Dark Forces / Outlaws)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "luciusDXL.TheForceEngine",
+      "tags": [
+        "Experimental"
+      ],
+      "features": []
+    },
+    {
+      "name": "The Legend of Korra",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "281690",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Anime",
+        "Atmospheric",
+        "Beat 'em up",
+        "Cartoon",
+        "Casual",
+        "Character Action Game",
+        "Family Friendly",
+        "Fantasy",
+        "Female Protagonist",
+        "Fighting",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Magic",
+        "Martial Arts",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Steampunk",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "The Wonderful 101: Remastered",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1190400",
+      "tags": [
+        "3D",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Anime",
+        "Arcade",
+        "Beat 'em up",
+        "Character Action Game",
+        "Co-op",
+        "Comedy",
+        "Difficult",
+        "Fast-Paced",
+        "Funny",
+        "Hack and Slash",
+        "Isometric",
+        "Local Co-Op",
+        "Remake",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Superhero"
+      ],
+      "features": [
+        "Co-Operative",
+        "Massively Multiplayer Online (MMO)",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Thief II: The Metal Age",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "211740",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Dark",
+        "Dark Fantasy",
+        "Exploration",
+        "Fantasy",
+        "First-Person",
+        "FPS",
+        "Great Soundtrack",
+        "Horror",
+        "Immersive",
+        "Immersive Sim",
+        "Medieval",
+        "Sequel",
+        "Singleplayer",
+        "Stealth",
+        "Steampunk",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Thief: The Dark Project",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "211600",
+      "tags": [
+        "1990's",
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Dark",
+        "Dark Fantasy",
+        "Exploration",
+        "Fantasy",
+        "First-Person",
+        "FPS",
+        "Horror",
+        "Immersive",
+        "Immersive Sim",
+        "Medieval",
+        "Moddable",
+        "Singleplayer",
+        "Stealth",
+        "Steampunk",
+        "Story Rich"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "tModLoader",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1281930",
+      "tags": [
+        "2D",
+        "Action",
+        "Adventure",
+        "Building",
+        "Co-op",
+        "Difficult",
+        "Free to Play",
+        "Great Soundtrack",
+        "Indie",
+        "Mod",
+        "Moddable",
+        "Multiplayer",
+        "Online Co-Op",
+        "Open World Survival Craft",
+        "Pixel Graphics",
+        "Replay Value",
+        "RPG",
+        "Sandbox",
+        "Singleplayer",
+        "Survival"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Tom Clancy's Splinter Cell: Chaos Theory",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "13570",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Co-op",
+        "Controller",
+        "Espionage",
+        "Great Soundtrack",
+        "Immersive",
+        "Local Co-Op",
+        "Multiplayer",
+        "Shooter",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Strategy",
+        "Tactical",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "TRANSFORMERS: Devastation",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "338930",
+      "tags": [
+        "1980s",
+        "Action",
+        "Adventure",
+        "Anime",
+        "Beat 'em up",
+        "Cartoony",
+        "Character Action Game",
+        "Co-op",
+        "Fighting",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Mechs",
+        "Open World",
+        "Retro",
+        "Robots",
+        "Sci-fi",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Third Person"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Transformers: Fall of Cybertron",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "213120",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Co-op",
+        "Dinosaurs",
+        "Great Soundtrack",
+        "Mechs",
+        "Multiplayer",
+        "Open World",
+        "Robots",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Space",
+        "Story Rich",
+        "Third Person",
+        "Third-Person Shooter",
+        "War"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Transformers: War for Cybertron",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "42650",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Co-op",
+        "Controller",
+        "Mechs",
+        "Multiplayer",
+        "Online Co-Op",
+        "Open World",
+        "Robots",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Third Person",
+        "Third-Person Shooter"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Tres-Bashers",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1595640",
+      "tags": [
+        "1980s",
+        "1990's",
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Atmospheric",
+        "Colorful",
+        "Controller",
+        "Cute",
+        "Funny",
+        "Horror",
+        "Lore-Rich",
+        "Magic",
+        "Metroidvania",
+        "Pixel Graphics",
+        "Platformer",
+        "Retro",
+        "Side Scroller"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "TRON 2 0",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "327740",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Atmospheric",
+        "Classic",
+        "Cyberpunk",
+        "First-Person",
+        "FPS",
+        "Futuristic",
+        "Multiplayer",
+        "RPG",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer"
+      ],
+      "features": [
+        "Single Player",
+        "Split Screen"
+      ]
+    },
+    {
+      "name": "UFO 50",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1147860",
+      "tags": [
+        "1980s",
+        "2D",
+        "2D Platformer",
+        "Action",
+        "Adventure",
+        "Arcade",
+        "Casual",
+        "Difficult",
+        "Great Soundtrack",
+        "Indie",
+        "Local Multiplayer",
+        "Minigames",
+        "Pixel Graphics",
+        "Platformer",
+        "Puzzle",
+        "Retro",
+        "Roguelike",
+        "RPG",
+        "Sports",
+        "Strategy"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "ULTRAKILL",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1229490",
+      "tags": [
+        "Action",
+        "Arena Shooter",
+        "Boomer Shooter",
+        "Character Action Game",
+        "Colorful",
+        "Dating Sim",
+        "Difficult",
+        "Early Access",
+        "Fast-Paced",
+        "First-Person",
+        "FPS",
+        "Gore",
+        "Great Soundtrack",
+        "Old School",
+        "Retro",
+        "Robots",
+        "Score Attack",
+        "Shooter",
+        "Singleplayer",
+        "Spectacle fighter"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Unsouled",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1042920",
+      "tags": [
+        "2D",
+        "2D Fighter",
+        "Action",
+        "Action RPG",
+        "Action-Adventure",
+        "Adventure",
+        "Combat",
+        "Controller",
+        "Difficult",
+        "Early Access",
+        "Indie",
+        "Pixel Graphics",
+        "Post-apocalyptic",
+        "PvE",
+        "RPG",
+        "Souls-like",
+        "Stylized",
+        "Swordplay",
+        "Top-Down",
+        "Zombies"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "UT2004 (OldUnreal UT2004 Patch)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "OldUnreal.UT2004Patches",
+      "tags": [
+        "Experimental",
+        "Update available"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Vanquish",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "460810",
+      "tags": [
+        "Action",
+        "Adventure",
+        "Arcade",
+        "Bullet Time",
+        "Character Action Game",
+        "Classic",
+        "Cyberpunk",
+        "Fast-Paced",
+        "Futuristic",
+        "Gore",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Mechs",
+        "Robots",
+        "Sci-fi",
+        "Shooter",
+        "Singleplayer",
+        "Third Person",
+        "Third-Person Shooter",
+        "Violent"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Vernal Edge",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1546710",
+      "tags": [
+        "2D",
+        "Action",
+        "Action-Adventure",
+        "Adventure",
+        "Character Action Game",
+        "Combat",
+        "Fantasy",
+        "Fast-Paced",
+        "Female Protagonist",
+        "Hack and Slash",
+        "Magic",
+        "Metroidvania",
+        "Pixel Graphics",
+        "Platformer",
+        "Singleplayer",
+        "Swordplay"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "VIDEOBALL",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "277390",
+      "tags": [
+        "4 Player Local",
+        "Action",
+        "Indie",
+        "Local Multiplayer",
+        "Sports"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Virtua Fighter 5 R E V O World Stage",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "3112260",
+      "tags": [
+        "3D Fighter",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Atmospheric",
+        "Character Customization",
+        "Classic",
+        "Fighting",
+        "Great Soundtrack",
+        "JRPG",
+        "Local Multiplayer",
+        "Martial Arts",
+        "Multiplayer",
+        "Ninja",
+        "Open World",
+        "PvP",
+        "Retro",
+        "Singleplayer",
+        "Swordplay",
+        "Wrestling"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Void Stranger",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2121980",
+      "tags": [
+        "2D",
+        "Adventure",
+        "Atmospheric",
+        "Difficult",
+        "Exploration",
+        "Female Protagonist",
+        "Great Soundtrack",
+        "Horror",
+        "Indie",
+        "LGBTQ+",
+        "Mystery",
+        "Nudity",
+        "Pixel Graphics",
+        "Psychological Horror",
+        "Puzzle",
+        "Retro",
+        "Singleplayer",
+        "Sokoban",
+        "Story Rich",
+        "Top-Down"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Warhammer 40,000: Dawn of War II - Anniversary Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "15620",
+      "tags": [
+        "Action",
+        "Atmospheric",
+        "Co-op",
+        "Co-op Campaign",
+        "Fantasy",
+        "Futuristic",
+        "Gore",
+        "Great Soundtrack",
+        "Multiplayer",
+        "Online Co-Op",
+        "Real Time Tactics",
+        "Real-Time",
+        "RPG",
+        "RTS",
+        "Sci-fi",
+        "Singleplayer",
+        "Story Rich",
+        "Strategy",
+        "Tactical",
+        "Violent"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Weird West: Definitive Edition",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1097350",
+      "tags": [
+        "Action",
+        "Action RPG",
+        "Adventure",
+        "Atmospheric",
+        "Choices Matter",
+        "Dark",
+        "Dark Fantasy",
+        "Immersive Sim",
+        "Indie",
+        "Isometric",
+        "Multiple Endings",
+        "RPG",
+        "Singleplayer",
+        "Stealth",
+        "Story Rich",
+        "Supernatural",
+        "Tactical RPG",
+        "Top-Down",
+        "Violent",
+        "Western"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Wilmot's Warehouse",
+      "plugin": "00000002-dbd1-46c6-b5d0-b1ba559d10e4",
+      "gameId": "9b40e3ffb4074f22a856a521be5ce858",
+      "tags": [],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "World Fighting Soccer 22",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "1465610",
+      "tags": [
+        "2.5D",
+        "2D Platformer",
+        "Action",
+        "Anime",
+        "Arcade",
+        "Colorful",
+        "Controller",
+        "Fighting",
+        "Football (Soccer)",
+        "Indie",
+        "Local Multiplayer",
+        "Multiplayer",
+        "Pixel Graphics",
+        "PvP",
+        "Retro",
+        "Singleplayer",
+        "Spectacle fighter",
+        "Sports"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Your Only Move Is HUSTLE",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "2212330",
+      "tags": [
+        "2D",
+        "2D Fighter",
+        "Action",
+        "Anime",
+        "Cartoon",
+        "Cartoony",
+        "Cinematic",
+        "Colorful",
+        "Hand-drawn",
+        "Minimalist",
+        "Multiplayer",
+        "Pixel Graphics",
+        "Sandbox",
+        "Side Scroller",
+        "Simulation",
+        "Solitaire",
+        "Spectacle fighter",
+        "Strategy",
+        "Turn-Based Strategy",
+        "Turn-Based Tactics"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Yume Nikki",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "650700",
+      "tags": [
+        "2D",
+        "Adventure",
+        "Atmospheric",
+        "Casual",
+        "Cute",
+        "Dark",
+        "Experimental",
+        "Exploration",
+        "Fantasy",
+        "Female Protagonist",
+        "Free to Play",
+        "Horror",
+        "Indie",
+        "Pixel Graphics",
+        "Psychological",
+        "Psychological Horror",
+        "Silent Protagonist",
+        "Singleplayer",
+        "Surreal",
+        "Walking Simulator"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Zelda Classic",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "ArmageddonGames.ZQuestClassic",
+      "tags": [
+        "Experimental"
+      ],
+      "features": [
+        "Single Player"
+      ]
+    },
+    {
+      "name": "Zelda: Twilight Princess (dusk)",
+      "plugin": "1a390433-18ff-42bd-8741-8c1778a7cab9",
+      "gameId": "TwilitRealm.dusk",
+      "tags": [
+        "Update available"
+      ],
+      "features": []
+    },
+    {
+      "name": "ZeroRanger",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "809020",
+      "tags": [
+        "2D",
+        "Action",
+        "Arcade",
+        "Bullet Hell",
+        "Difficult",
+        "Fast-Paced",
+        "Female Protagonist",
+        "Great Soundtrack",
+        "Indie",
+        "Local Co-Op",
+        "Pixel Graphics",
+        "Retro",
+        "Sci-fi",
+        "Shoot 'Em Up",
+        "Shooter",
+        "Singleplayer",
+        "Story Rich"
+      ],
+      "features": [
+        "Co-Operative",
+        "Multiplayer",
+        "Single Player"
+      ]
+    },
+    {
+      "name": "ZONE OF THE ENDERS THE 2nd RUNNER: MARS / ANUBIS ZONE OF THE ENDERS: MARS",
+      "plugin": "cb91dfc9-b977-43bf-8e70-55f46e410fab",
+      "gameId": "650510",
+      "tags": [
+        "Action",
+        "Anime",
+        "Classic",
+        "Great Soundtrack",
+        "Hack and Slash",
+        "Mechs",
+        "Remake",
+        "Robots",
+        "Sci-fi",
+        "Singleplayer",
+        "Story Rich",
+        "Third Person",
+        "Violent",
+        "VR"
+      ],
+      "features": [
+        "Multiplayer",
+        "Single Player"
+      ]
+    }
+  ]
+}
