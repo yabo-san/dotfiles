@@ -239,6 +239,28 @@ window_rules:
       - window_process: { equals: "EpicGamesLauncher" }
       - window_process: { equals: "GalaxyClient" }
 
+  # --- CLAW BACK the main windows the blanket float above over-caught ---
+  # Rules run IN ORDER and EVERY matching rule runs
+  # (wm/src/commands/window/run_window_rules.rs), so a later `set-tiling` beats
+  # the earlier `set-floating`. These MUST stay below the float block.
+  #
+  # Steam renders through steamwebhelper and EVERY Steam surface shares the
+  # `SDL_app` class — friends list, notification toasts, the login box — so the
+  # class cannot tell them apart. The title can: the main client is the one
+  # titled exactly "Steam". Popups keep floating, which is what the blanket rule
+  # was protecting in the first place.
+  - commands: ["set-tiling", "move --workspace 5"]
+    match:
+      - window_process: { equals: "steamwebhelper" }
+        window_title: { equals: "Steam" }
+
+  # RustDesk is the same class of thing as deskflow — remote input/control — so
+  # it lives in UTILS. Flutter app, one window class for both the ID panel and
+  # any remote session, so the process alone is a safe match.
+  - commands: ["set-tiling", "move --workspace 7"]
+    match:
+      - window_process: { equals: "rustdesk" }
+
   # =====================================================================
   # IGNORE — true overlays/bars that must NOT be managed at all (no border,
   # no workspace tracking). Distinct from "floating": floated windows still
