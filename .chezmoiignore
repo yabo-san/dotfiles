@@ -28,6 +28,7 @@ setup-alttab.sh
 # On mac/Linux, skip all the Windows-only configs:
 {{ if ne .chezmoi.os "windows" }}
 run_onchange_after_playnite-scripts.ps1
+run_onchange_after_startup-shortcuts.ps1
 .glzr/**
 .config/wezterm/**
 .config/yasb/**

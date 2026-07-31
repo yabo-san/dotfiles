@@ -130,11 +130,16 @@ workspaces:
   - name: "2"
     display_name: "" # comms (comments)
     keep_alive: true
-    bind_to_monitor: 1  # Acer (XG270HU, ACR0414)
+    # bind_to_monitor is a 0-BASED index, ordered LEFT-TO-RIGHT by x-coordinate
+    # (glazewm dispatcher.rs sorted_displays). Live order here is:
+    #   0 = Acer XG270HU (ACR0414)   1 = CRT (1024x768)   2 = LG ultrawide (GSM772B)
+    # This said 1 and was therefore homing comms onto the CRT. Confirm after any
+    # monitor rearrangement with:  glazewm query monitors
+    bind_to_monitor: 0  # Acer (XG270HU, ACR0414)
   - name: "3"
     display_name: "" # music (note)
     keep_alive: true
-    bind_to_monitor: 1  # Acer
+    bind_to_monitor: 0  # Acer (see note on workspace 2 — 0-based, left-to-right)
   - name: "4"
     display_name: "" # gamedev (paintbrush)
     keep_alive: true

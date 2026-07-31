@@ -1,0 +1,83 @@
+#requires -Version 5.1
+# =============================================================================
+# run_onchange_after_startup-shortcuts.ps1 — generate the Startup folder .lnk files
+# =============================================================================
+# These four shortcuts are what actually bring the rice up at logon. They were
+# a manual bootstrap step (windows-notes.txt "Autostart apps — recreate on
+# bootstrap") because a .lnk is a binary blob holding absolute paths, so chezmoi
+# can't track one usefully. It can generate them, though — which is the same
+# trick used for Playnite's global scripts.
+#
+# This is not cosmetic: quake-hotkey.lnk went missing on the main machine and
+# AutoHotkey silently stopped autostarting. A missing shortcut fails quiet.
+#
+# Idempotent: rewrites a shortcut only when its target/args drift. Skips any
+# whose target isn't installed yet, so it's safe to run mid-bootstrap and again
+# afterwards.
+#
+# {{ .chezmoi.os }} — re-runs if the OS context changes
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$startup = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup'
+New-Item -ItemType Directory -Force $startup | Out-Null
+
+$shortcuts = @(
+    @{
+        Name   = 'GlazeWM.lnk'
+        Target = 'C:\Program Files\glzr.io\GlazeWM\glazewm.exe'
+        Args   = ''
+        Why    = 'tiling window manager'
+    },
+    @{
+        Name   = 'YASB.lnk'
+        Target = 'C:\Program Files\YASB\yasb.exe'
+        Args   = ''
+        Why    = 'status bar (will not start on boot without this)'
+    },
+    @{
+        # scoop 'current' junction, so this survives AutoHotkey upgrades.
+        Name   = 'quake-hotkey.lnk'
+        Target = "$env:USERPROFILE\scoop\apps\autohotkey\current\v2\AutoHotkey64.exe"
+        Args   = "`"$env:USERPROFILE\.config\scripts\wezterm\quake-hotkey.ahk`""
+        Why    = 'backtick WezTerm dropdown, Alt remaps, Win+Shift+S -> ShareX'
+    },
+    @{
+        Name   = 'MEGAsync.lnk'
+        Target = 'C:\ProgramData\MEGAsync\MEGAsync.exe'
+        Args   = ''
+        Why    = 'file sync'
+    }
+)
+
+$shell   = New-Object -ComObject WScript.Shell
+$made    = @()
+$skipped = @()
+
+foreach ($s in $shortcuts) {
+    $lnk = Join-Path $startup $s.Name
+
+    if (-not (Test-Path $s.Target)) {
+        $skipped += "$($s.Name) (not installed: $($s.Target))"
+        continue
+    }
+
+    if (Test-Path $lnk) {
+        $existing = $shell.CreateShortcut($lnk)
+        if ($existing.TargetPath -eq $s.Target -and $existing.Arguments -eq $s.Args) {
+            continue   # already correct
+        }
+    }
+
+    $sc = $shell.CreateShortcut($lnk)
+    $sc.TargetPath       = $s.Target
+    $sc.Arguments        = $s.Args
+    $sc.WorkingDirectory = Split-Path $s.Target
+    $sc.Description      = $s.Why
+    $sc.Save()
+    $made += $s.Name
+}
+
+if ($made)    { Write-Host "[startup] wrote: $($made -join ', ')" -ForegroundColor Green }
+if ($skipped) { foreach ($s in $skipped) { Write-Host "[startup] skipped $s" -ForegroundColor DarkYellow } }
+if (-not $made -and -not $skipped) { Write-Host "[startup] all shortcuts current." -ForegroundColor DarkGray }

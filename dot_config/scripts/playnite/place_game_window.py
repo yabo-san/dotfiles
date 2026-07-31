@@ -116,6 +116,12 @@ def resolve_monitor_index(target: str) -> int | None:
             if (mon.get(key) or "").lower() == want:
                 logging.info("target %r matched monitor %d by %s", target, idx, key)
                 return idx
+    # A monitor with no EDID (a CRT on a passive adapter) reports the useless
+    # hardwareId 'Default_Monitor', so allow addressing it by resolution.
+    for idx, mon in enumerate(mons):
+        if f"{mon.get('width')}x{mon.get('height')}".lower() == want:
+            logging.info("target %r matched monitor %d by resolution", target, idx)
+            return idx
     logging.warning(
         "target %r matched no monitor; available: %s",
         target,
@@ -183,16 +189,20 @@ def evacuate_monitor(target_index: int) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Place a game window via GlazeWM.")
-    parser.add_argument("--process", required=True, help="process name of the game (no .exe)")
+    parser.add_argument("--process", default="", help="process name of the game (no .exe); 'place' mode only")
     parser.add_argument("--workspace", default="8", help="GlazeWM workspace to host the game")
     parser.add_argument("--target", default="", help="monitor hardwareId / devicePath / deviceName")
     parser.add_argument("--game", default="", help="game name, for the workspace label and logs")
     parser.add_argument("--timeout", type=float, default=WINDOW_TIMEOUT_S)
     parser.add_argument(
         "--mode",
-        choices=("place", "evacuate"),
+        choices=("place", "evacuate", "home"),
         default="place",
-        help="place = host the window on a workspace; evacuate = clear the monitor and hands off",
+        help=(
+            "place    = wait for the game window and host it on a workspace; "
+            "evacuate = clear every workspace off a monitor and hands off; "
+            "home     = move one workspace onto a monitor (no window involved)"
+        ),
     )
     args = parser.parse_args()
 
@@ -201,6 +211,15 @@ def main() -> int:
         "--- %s | mode=%s process=%s target=%r ws=%s",
         args.game or "?", args.mode, args.process, args.target, args.workspace,
     )
+
+    if args.mode == "home":
+        # Used by the monitor Raycast scripts, not by Playnite.
+        target_index = resolve_monitor_index(args.target)
+        if target_index is None:
+            logging.error("home: no target monitor resolved from %r", args.target)
+            return 1
+        move_workspace_to_monitor(args.workspace, target_index)
+        return 0
 
     if args.mode == "evacuate":
         # The game owns the screen. Don't touch its window at all -- managing an
@@ -212,6 +231,9 @@ def main() -> int:
             return 1
         evacuate_monitor(target_index)
         return 0
+
+    if not args.process:
+        parser.error("--process is required for --mode place")
 
     window_id = find_window(args.process, args.timeout)
     if window_id is None:
