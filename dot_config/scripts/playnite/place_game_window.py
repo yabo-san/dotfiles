@@ -204,6 +204,81 @@ def make_borderless(hwnd: int) -> bool:
     return True
 
 
+def _make_dpi_aware() -> None:
+    """
+    Make THIS thread per-monitor-DPI-aware before any geometry work.
+
+    Without it Windows virtualises coordinates for a non-aware process and the
+    numbers come back scaled: asking for 1024x768 at -1032,552 on the CRT landed
+    1040x777 at -1039,552. Same fix quake-wezterm.ps1 already applies for the
+    same reason (mixed-DPI monitors).
+    """
+    import ctypes
+
+    try:
+        # DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = -4
+        ctypes.windll.user32.SetThreadDpiAwarenessContext(ctypes.c_void_p(-4))
+    except Exception as exc:  # pre-1703 Windows: not fatal, just less accurate
+        logging.warning("could not set DPI awareness: %s", exc)
+
+
+def window_rect(hwnd: int) -> tuple[int, int, int, int] | None:
+    """(x, y, w, h) straight from Win32. GROUND TRUTH.
+
+    `glazewm query` reports GlazeWM's INTERNAL MODEL, which diverges silently:
+    it happily reported a window at -2550,-848 on one monitor while the window
+    was actually at 0,0 on another. Never trust it for geometry.
+    """
+    import ctypes
+
+    class RECT(ctypes.Structure):
+        _fields_ = [("left", ctypes.c_long), ("top", ctypes.c_long),
+                    ("right", ctypes.c_long), ("bottom", ctypes.c_long)]
+
+    r = RECT()
+    if not ctypes.windll.user32.GetWindowRect(ctypes.c_void_p(hwnd), ctypes.byref(r)):
+        return None
+    return r.left, r.top, r.right - r.left, r.bottom - r.top
+
+
+def place_on_monitor(hwnd: int, mon: dict, tries: int = 3) -> bool:
+    """
+    Put the window on a monitor with a raw SetWindowPos, and VERIFY it landed.
+
+    GlazeWM applies the size correctly but misses the position on monitors at
+    negative coordinates — the window ends up at 0,0 (the primary origin) while
+    GlazeWM believes it moved. Games are not fighting back: a raw SetWindowPos
+    to the same rect moves them and holds indefinitely. So we do the positioning
+    ourselves and check the result rather than trusting anyone's model.
+    """
+    import ctypes
+
+    # NOTE: deliberately NOT calling _make_dpi_aware() here. GlazeWM reports
+    # monitor bounds in the same (non-aware, virtualised) space this process
+    # already uses, so they match exactly on 100%-scale monitors. Turning DPI
+    # awareness on makes us physical while GlazeWM stays logical, and the CRT
+    # (125% scale, dpi 120) then overshoots badly — 1300x971 for a 1024x768
+    # screen. Mixed-DPI monitors land within ~10px this way; set the display to
+    # 100% in Windows if you need it exact.
+    x, y = int(mon["x"]), int(mon["y"])
+    w, h = int(mon["width"]), int(mon["height"])
+    flags = 0x0004 | 0x0010 | 0x0020  # NOZORDER | NOACTIVATE | FRAMECHANGED
+
+    for attempt in range(1, tries + 1):
+        ctypes.windll.user32.SetWindowPos(
+            ctypes.c_void_p(hwnd), None, x, y, w, h, flags
+        )
+        time.sleep(0.6)
+        got = window_rect(hwnd)
+        if got and abs(got[0] - x) <= 4 and abs(got[1] - y) <= 4:
+            logging.info("placed at %s,%s %sx%s (attempt %d)", *got[:4], attempt)
+            return True
+        logging.warning("placement attempt %d landed at %s, wanted %s,%s", attempt, got, x, y)
+
+    logging.error("could not place window on %s after %d tries", mon.get("hardwareId"), tries)
+    return False
+
+
 def apply_borderless(hwnd: int) -> None:
     """make_borderless, plus the re-apply that stubborn engines need."""
     cls = _window_class(hwnd).lower()
@@ -449,12 +524,22 @@ def main() -> int:
             logging.exception("borderless failed (continuing to placement anyway)")
 
     # Home the game first, so the workspace exists before we try to move it.
+    # Tiling, not floating: a floating window's rect is snapshotted at manage
+    # time (manage_window.rs:189-209) and would pin the game at whatever tiny
+    # size it happened to have during startup.
+    _glazewm("command", "--id", window_id, "set-tiling")
+    time.sleep(0.3)
     _glazewm("command", "--id", window_id, "move", "--workspace", args.workspace)
 
     if args.target:
         target_index = resolve_monitor_index(args.target)
         if target_index is not None:
             move_workspace_to_monitor(args.workspace, target_index)
+            # GlazeWM gets the size right and the POSITION wrong on monitors at
+            # negative coordinates, so do the placement ourselves and verify.
+            mons = monitors()
+            if target_index < len(mons):
+                place_on_monitor(hwnd, mons[target_index])
 
     if args.game:
         # Label the workspace so the bar shows what's running.
