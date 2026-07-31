@@ -4,6 +4,8 @@ bootstrap.ps1
 
 # python bytecode — never deploy, never track
 **/__pycache__/**
+.config/scripts/hydra/node_modules/**
+.config/scripts/hydra/package-lock.json
 **/*.pyc
 
 # ── OS gating: each platform only applies its own files ──────────────────
@@ -49,5 +51,6 @@ Library/**
 {{ end }}
 
 # nvim is shared (LazyVim overrides apply on both) — never ignored.
+
 
 
