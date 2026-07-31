@@ -533,6 +533,122 @@ def monitor_index_of_process(process_name: str, timeout: float) -> int | None:
     return None
 
 
+def release_workspace(ws_name: str, focus_after: str = "1") -> None:
+    """
+    Free the game's workspace after the game exits.
+
+    GlazeWM deactivates an empty workspace by itself when keep_alive is false, so
+    there is nothing to "delete" — the problem is being left STRANDED on an empty
+    workspace, possibly on the CRT, staring at nothing. So: confirm it's empty,
+    then move focus somewhere sane.
+
+    If the game left windows behind (a launcher, a crash dialog) we leave the
+    workspace alone rather than yanking focus away from something the user may
+    still need.
+    """
+    try:
+        mons = monitors()
+    except Exception as exc:
+        logging.warning("release: could not query monitors: %s", exc)
+        return
+
+    occupants = 0
+    found = False
+    for mon in mons:
+        for ws in mon.get("children", []):
+            if ws.get("name") == ws_name:
+                found = True
+                occupants = len(ws.get("children", []))
+
+    if not found:
+        logging.info("release: workspace %s already gone", ws_name)
+    elif occupants:
+        logging.info("release: workspace %s still holds %d window(s) — leaving it", ws_name, occupants)
+        return
+    else:
+        logging.info("release: workspace %s is empty", ws_name)
+
+    try:
+        _glazewm("command", "focus", "--workspace", focus_after)
+        logging.info("release: focused workspace %s", focus_after)
+    except Exception as exc:
+        logging.warning("release: could not focus %s: %s", focus_after, exc)
+
+
+def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
+    """
+    Leave ONLY the game's workspace on the target monitor, then display it.
+
+    Placing the game is not enough on its own: the monitor can already be hosting
+    half a dozen other workspaces, and GlazeWM shows one at a time — so the game
+    ends up on a workspace that isn't the displayed one, and whatever WAS
+    displayed keeps the screen. Observed exactly that with Thief: the window was
+    correctly at -1032,552 on the CRT while the CRT was still showing workspace 4
+    with zen and pwsh on it.
+
+    So: push every OTHER workspace off, then focus the game's. That is the
+    "nothing else on that monitor while the game runs" half of the contract.
+    """
+    # Try every direction and CHECK the workspace actually left.
+    #
+    # move-workspace --direction only finds a GEOMETRICALLY adjacent monitor, and
+    # "adjacent" needs real overlap on the perpendicular axis. On this desk the
+    # Acer spans y -888..552 and the CRT starts exactly AT 552 — they touch on a
+    # single line and never overlap, so "left" from the CRT resolves to nothing
+    # and silently does nothing. Only the ultrawide is a valid horizontal
+    # neighbour. Rather than reason about the layout, just try each direction and
+    # verify by re-querying.
+    def monitor_of(name: str) -> int | None:
+        for idx, mon in enumerate(monitors()):
+            for ws in mon.get("children", []):
+                if ws.get("name") == name:
+                    return idx
+        return None
+
+    for _ in range(24):  # bounded; each pass moves at most one workspace
+        mons = monitors()
+        if target_index >= len(mons):
+            return
+        others = [
+            ws for ws in mons[target_index].get("children", [])
+            if ws.get("name") and ws.get("name") != ws_name
+        ]
+        if not others:
+            break
+
+        name = others[0]["name"]
+        moved = False
+        for direction in ("right", "left", "up", "down"):
+            try:
+                _glazewm("command", "focus", "--workspace", name)
+                time.sleep(0.15)
+                _glazewm("command", "move-workspace", "--direction", direction)
+                time.sleep(0.25)
+            except Exception as exc:
+                logging.warning("solo: %s %s failed: %s", name, direction, exc)
+                continue
+            if monitor_of(name) != target_index:
+                logging.info("solo: pushed workspace %s off monitor %d (%s)", name, target_index, direction)
+                moved = True
+                break
+
+        if not moved:
+            # An EMPTY workspace often refuses to move at all — but an empty one
+            # isn't covering the game either, so it's harmless. Stop rather than
+            # spin.
+            logging.warning("solo: workspace %s would not move off monitor %d — leaving it", name, target_index)
+            break
+    else:
+        logging.warning("solo: gave up clearing monitor %d", target_index)
+
+    # Make the game's workspace the one actually on screen.
+    try:
+        _glazewm("command", "focus", "--workspace", ws_name)
+        logging.info("solo: focused workspace %s", ws_name)
+    except Exception as exc:
+        logging.warning("solo: could not focus %s: %s", ws_name, exc)
+
+
 def evacuate_monitor(target_index: int) -> None:
     """
     Clear every workspace off `target_index` and leave the monitor to the game.
@@ -567,6 +683,9 @@ def main() -> int:
     parser.add_argument("--target", default="", help="monitor hardwareId / devicePath / deviceName")
     parser.add_argument("--game", default="", help="game name, for the workspace label and logs")
     parser.add_argument("--timeout", type=float, default=WINDOW_TIMEOUT_S)
+    parser.add_argument("--focus-after", default="1", help="workspace to focus once the game exits")
+    parser.add_argument("--share-monitor", action="store_true",
+                        help="do NOT clear other workspaces off the target monitor")
     parser.add_argument(
         "--no-borderless",
         action="store_true",
@@ -574,12 +693,13 @@ def main() -> int:
     )
     parser.add_argument(
         "--mode",
-        choices=("place", "evacuate", "home"),
+        choices=("place", "evacuate", "home", "release"),
         default="place",
         help=(
             "place    = wait for the game window and host it on a workspace; "
             "evacuate = clear every workspace off a monitor and hands off; "
-            "home     = move one workspace onto a monitor (no window involved)"
+            "home     = move one workspace onto a monitor (no window involved); "
+            "release  = the game exited: free its workspace and restore focus"
         ),
     )
     args = parser.parse_args()
@@ -589,6 +709,11 @@ def main() -> int:
         "--- %s | mode=%s process=%s target=%r ws=%s",
         args.game or "?", args.mode, args.process, args.target, args.workspace,
     )
+
+    if args.mode == "release":
+        # Called from post-game.ps1 when the game exits.
+        release_workspace(args.workspace, args.focus_after)
+        return 0
 
     if args.mode == "home":
         # Used by the monitor Raycast scripts, not by Playnite.
@@ -655,8 +780,16 @@ def main() -> int:
         target_index = resolve_monitor_index(args.target)
         if target_index is not None:
             move_workspace_to_monitor(args.workspace, target_index)
+
+            # Clear every other workspace off that monitor and display the game's.
+            # Without this the game lands correctly but the monitor carries on
+            # showing whatever workspace it was already displaying.
+            if not args.share_monitor:
+                solo_workspace_on_monitor(args.workspace, target_index)
+
             # GlazeWM gets the size right and the POSITION wrong on monitors at
             # negative coordinates, so do the placement ourselves and verify.
+            # AFTER the solo pass, since moving workspaces triggers re-layouts.
             mons = monitors()
             if target_index < len(mons):
                 place_on_monitor(hwnd, mons[target_index])
@@ -695,5 +828,7 @@ if __name__ == "__main__":
         _setup_logging()
         logging.exception("unhandled error")
         sys.exit(1)
+
+
 
 

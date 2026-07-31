@@ -28,3 +28,42 @@ try {
 catch {
     # Never surface a dialog after a game exits.
 }
+
+# --- free the game's workspace ------------------------------------------------
+# Closing the game leaves you stranded on an empty workspace, possibly on the CRT
+# staring at nothing. GlazeWM deactivates an empty workspace by itself (keep_alive
+# is false on 8/9/10), so there is nothing to delete — the missing half is moving
+# FOCUS back somewhere sane.
+#
+# Only runs for games we actually placed. A game carrying Display Helper's own
+# "[RC] Display:" feature was never ours to begin with, and an untagged game was
+# never moved, so neither needs releasing.
+try {
+    if (-not $Game) { return }
+
+    $rc = $Game.Features | Where-Object { $_.Name -like '`[RC`] Display: *' } | Select-Object -First 1
+    if ($rc) { return }
+
+    $tag = $Game.Tags | Where-Object { $_.Name -like 'display:*' } |
+           Select-Object -First 1 -ExpandProperty Name
+    if (-not $tag) { return }
+
+    $workspace = '8'
+    $wsTag = $Game.Tags | Where-Object { $_.Name -like 'workspace:*' } |
+             Select-Object -First 1 -ExpandProperty Name
+    if ($wsTag) { $workspace = $wsTag -replace '^workspace:', '' }
+
+    $py = @(
+        "$env:USERPROFILE\scoop\apps\python\current\pythonw.exe",
+        "$env:USERPROFILE\scoop\apps\python\current\python.exe"
+    ) | Where-Object { Test-Path $_ } | Select-Object -First 1
+    $worker = Join-Path $env:USERPROFILE '.config\scripts\playnite\place_game_window.py'
+    if (-not $py -or -not (Test-Path $worker)) { return }
+
+    Start-Process -FilePath $py -WindowStyle Hidden -ArgumentList @(
+        "`"$worker`"", '--mode', 'release', '--workspace', $workspace, '--focus-after', '1'
+    ) | Out-Null
+}
+catch {
+    # Never surface a dialog after a game exits.
+}
