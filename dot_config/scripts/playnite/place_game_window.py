@@ -253,13 +253,14 @@ def place_on_monitor(hwnd: int, mon: dict, tries: int = 3) -> bool:
     """
     import ctypes
 
-    # NOTE: deliberately NOT calling _make_dpi_aware() here. GlazeWM reports
-    # monitor bounds in the same (non-aware, virtualised) space this process
-    # already uses, so they match exactly on 100%-scale monitors. Turning DPI
-    # awareness on makes us physical while GlazeWM stays logical, and the CRT
-    # (125% scale, dpi 120) then overshoots badly — 1300x971 for a 1024x768
-    # screen. Mixed-DPI monitors land within ~10px this way; set the display to
-    # 100% in Windows if you need it exact.
+    # ORDER MATTERS: strip the chrome BEFORE calling this. GetWindowRect includes
+    # the invisible DWM resize border (WS_THICKFRAME), so a still-bordered window
+    # reads ~7px off on every edge. Once the frame styles are gone it lands
+    # EXACTLY — verified to the pixel on all three monitors.
+    #
+    # Deliberately NOT calling _make_dpi_aware(): GlazeWM reports bounds in the
+    # same non-aware space this process uses, so they agree. Turning awareness on
+    # makes us physical while GlazeWM stays logical and the numbers diverge.
     x, y = int(mon["x"]), int(mon["y"])
     w, h = int(mon["width"]), int(mon["height"])
     flags = 0x0004 | 0x0010 | 0x0020  # NOZORDER | NOACTIVATE | FRAMECHANGED
@@ -562,3 +563,4 @@ if __name__ == "__main__":
         _setup_logging()
         logging.exception("unhandled error")
         sys.exit(1)
+
