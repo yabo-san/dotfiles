@@ -65,7 +65,14 @@ bars:
   # on the big monitors), no cava/media/cpu/memory clutter.
   crt-bar:
     enabled: true
-    screens: ["\\\\.\\DISPLAY3"]   # the 4:3 CRT
+    # ⚠️ GDI NAME — DRIFTS. Was DISPLAY3; the GPU disable/re-enable on 2026-07-31
+    # renumbered everything to DISPLAY7/8/9 and this bar silently stopped appearing.
+    # primary-bar above is immune because it matches EDID friendly names, but the
+    # CRT has NO EDID (absent from WmiMonitorID entirely), so there is no friendly
+    # name to use — a GDI name is the only handle yasb accepts for it.
+    # If the CRT bar vanishes again: glazewm query monitors  -> find the 1024x768
+    # entry -> put its deviceName here. See dot_config/monitors.json.
+    screens: ["\\\\.\\DISPLAY9"]   # the 4:3 CRT
     class_name: "yasb-bar"
     alignment:
       position: "top"
