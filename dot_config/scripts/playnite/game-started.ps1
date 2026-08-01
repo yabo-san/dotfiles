@@ -215,8 +215,24 @@ try {
             Write-Gate "$gameName - display:manage set, will move the window too"
         } else {
             $mode = 'evacuate'
-            if (-not $target) { $inferred = $true }
         }
+    }
+
+    # A game we were told nothing about still goes SOMEWHERE, and that somewhere is
+    # knowable: the PRIMARY display. Windows puts the primary at the desktop origin
+    # and a game that pins itself pins to (0,0).
+    #
+    # This also covers Display Helper without having to parse its feature at all.
+    # DH's only trick is SetPrimaryDisplay (verified in its DLL: CDS_SET_PRIMARY,
+    # setAsPrimaryDevice), and it runs BEFORE the game starts - so by the time this
+    # script runs, the primary already IS the screen DH chose. Same rule either
+    # way: whatever is primary right now is where the game is going.
+    #
+    # Replaces inferring the monitor from where a window happens to appear, which
+    # needed the window to exist, to be findable, and to have settled first.
+    if ($mode -eq 'evacuate' -and -not $target) {
+        $target = 'primary'
+        $inferred = $true
     }
 
     # NOTE: evacuate mode does NOT require a target. 'display:exclusive' says the

@@ -438,6 +438,26 @@ def resolve_monitor_index(target: str) -> int | None:
     want = target.strip().lower()
     mons = monitors()
 
+    # "primary" -- the monitor at the desktop origin.
+    #
+    # This is THE useful target, because it is where an unconfigured game will
+    # open. Windows puts the primary display at (0,0) and games that pin
+    # themselves pin to (0,0); Dishonored does exactly this, which is why it kept
+    # appearing on the ultrawide.
+    #
+    # It is also what Display Helper manipulates - its DLL calls SetPrimaryDisplay
+    # / CDS_SET_PRIMARY and nothing else. So by the time this script runs, DH has
+    # already made the game's chosen screen primary, and "primary" resolves to the
+    # right monitor whether DH is configured for the game or not.
+    if want == "primary":
+        for idx, mon in enumerate(mons):
+            if int(mon.get("x", -1)) == 0 and int(mon.get("y", -1)) == 0:
+                logging.info("target 'primary' -> monitor %d (%sx%s at origin)",
+                             idx, mon.get("width"), mon.get("height"))
+                return idx
+        logging.warning("no monitor at the desktop origin; cannot resolve 'primary'")
+        return None
+
     # Friendly name -> whatever stable ids we recorded for it.
     alias = _monitor_aliases().get(want)
     if alias:
