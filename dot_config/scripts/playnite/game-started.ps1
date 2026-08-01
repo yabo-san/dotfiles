@@ -37,6 +37,26 @@ $DefaultWorkspace = '8'
 # Dishonored did nothing for a whole day and the only way to find out was reading
 # Playnite's log and guessing.
 $Script:GateLog = Join-Path $env:USERPROFILE '.config\scripts\playnite\place-window.log'
+function Resolve-Names($ids, $objects, [string]$collection) {
+    # Prefer the raw Ids resolved through the database: that is the record of
+    # truth, and it works even when the convenience property comes back empty.
+    $names = @()
+    try {
+        if ($ids -and $PlayniteApi) {
+            foreach ($id in $ids) {
+                $item = $PlayniteApi.Database.$collection.Get($id)
+                if ($item -and $item.Name) { $names += $item.Name }
+            }
+        }
+    } catch { }
+
+    if ($names.Count -eq 0 -and $objects) {
+        try { $names = @($objects | ForEach-Object { $_.Name } | Where-Object { $_ }) } catch { }
+    }
+
+    return $names
+}
+
 function Write-Gate([string]$msg) {
     try {
         $line = "{0} [GATE] {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss,fff'), $msg
@@ -97,16 +117,29 @@ try {
         # which was the entire point.
         #
         # NOTE: '[' and ']' are wildcard metacharacters in -like, hence backticks.
-        $rc = $Game.Features | Where-Object { $_.Name -like '`[RC`] Display: *' } |
+        # ── RESOLVE NAMES THE HARD WAY ───────────────────────────────────────
+        # $Game.Tags / $Game.Features are CONVENIENCE properties that resolve the
+        # game's Ids against the database, and in Playnite's script runspace they
+        # can come back empty even when the game is tagged. Dishonored carries
+        # display:acer in the database, and this script still saw no tag at all -
+        # it fell through to the untagged path and never touched the window.
+        #
+        # So read the raw *Ids and resolve them through $PlayniteApi.Database
+        # ourselves, falling back to the convenience property. One of the two
+        # always works, and the failure is no longer silent.
+        $tagNames  = @(Resolve-Names $Game.TagIds     $Game.Tags     'Tags')
+        $featNames = @(Resolve-Names $Game.FeatureIds $Game.Features 'Features')
+        Write-Gate "$gameName - tags=[$($tagNames -join ', ')] features=[$($featNames -join ', ')]"
+
+        # NOTE: '[' and ']' are wildcard metacharacters in -like, hence backticks.
+        $rc = $featNames | Where-Object { $_ -like '`[RC`] Display: *' } |
               Select-Object -First 1
 
         # display:<monitor> — written by our extension. Windowed games only.
-        $tag = $Game.Tags | Where-Object { $_.Name -like 'display:*' } |
-               Select-Object -First 1 -ExpandProperty Name
+        $tag = $tagNames | Where-Object { $_ -like 'display:*' } | Select-Object -First 1
         if ($tag) { $target = $tag -replace '^display:', '' }
 
-        $wsTag = $Game.Tags | Where-Object { $_.Name -like 'workspace:*' } |
-                 Select-Object -First 1 -ExpandProperty Name
+        $wsTag = $tagNames | Where-Object { $_ -like 'workspace:*' } | Select-Object -First 1
         if ($wsTag) { $workspace = $wsTag -replace '^workspace:', '' }
 
         if ($rc) {
