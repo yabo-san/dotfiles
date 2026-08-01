@@ -981,9 +981,19 @@ def solo_workspace_on_monitor(ws_name: str, target_index: int) -> None:
         mons = monitors()
         if target_index >= len(mons):
             return
+        # ONLY MOVE WORKSPACES THAT HAVE WINDOWS ON THEM.
+        #
+        # An EMPTY workspace sitting on the game's monitor is harmless - there is
+        # nothing on it to see, and the game covers the screen regardless. Moving
+        # it is not just pointless, it is actively destructive: GlazeWM will not
+        # move an empty workspace by direction, so it gets pushed away by some
+        # other means and then CANNOT BE PUT BACK on exit. That is what left the
+        # Acer with no workspaces and comms/music stranded on the ultrawide, twice.
         others = [
             ws for ws in mons[target_index].get("children", [])
-            if ws.get("name") and ws.get("name") != ws_name
+            if ws.get("name")
+            and ws.get("name") != ws_name
+            and ws.get("children")          # has windows; empty ones stay put
         ]
         if not others:
             break

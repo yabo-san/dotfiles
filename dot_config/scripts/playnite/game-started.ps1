@@ -153,8 +153,12 @@ try {
             # longer resolves, the worker falls back to whichever monitor the
             # game's window actually landed on, which is why --process still
             # matters here.
+            # $rc is a STRING here (Resolve-Names returns names, not objects), so
+            # do NOT reach for .Name — that silently yields $null and the game
+            # ends up evacuating "wherever the window lands" instead of the screen
+            # Display Helper actually named.
             if (-not $target -or $target -eq 'exclusive') {
-                $target = ($rc.Name -replace '^\[RC\] Display:\s*', '').Trim()
+                $target = ($rc -replace '^\[RC\] Display:\s*', '').Trim()
             }
         }
         elseif ($target -eq 'exclusive') {
@@ -190,10 +194,29 @@ try {
     # opens. That is a guess, hence --only-if-covers: it claims the monitor ONLY
     # if the game is genuinely filling it. Without that, a small windowed game
     # opening on the ultrawide would throw workspaces 1-7 off the main display.
+    # ── WE DO NOT MANAGE GAME WINDOWS. AT ALL. ───────────────────────────────
+    # Owner's call after two days of this (2026-08-01): forget window management.
+    # Moving, resizing and stripping game windows never worked reliably and never
+    # will - Dishonored re-asserts its own style and position every ~2.5s, so every
+    # "fix" is undone a second later and the attempts are visible as flicker.
+    #
+    # The whole job is now:
+    #   1. Display Helper says which monitor the game wants (it switches the
+    #      PRIMARY, which is the only thing that actually relocates such a game).
+    #   2. We move OUR workspaces off that monitor.
+    #   3. On close we reclaim it.
+    #
+    # That is 'evacuate' mode, which never touches the window. 'place' - the strip
+    # and reposition path - is now opt-in via a display:manage tag, kept only for
+    # the games that genuinely tolerate it (The Dark Mod, Thief).
     $inferred = $false
-    if ($mode -eq 'place' -and -not $target) {
-        $mode = 'evacuate'
-        $inferred = $true
+    if ($mode -eq 'place') {
+        if ($tagNames -contains 'display:manage') {
+            Write-Gate "$gameName - display:manage set, will move the window too"
+        } else {
+            $mode = 'evacuate'
+            if (-not $target) { $inferred = $true }
+        }
     }
 
     # NOTE: evacuate mode does NOT require a target. 'display:exclusive' says the
