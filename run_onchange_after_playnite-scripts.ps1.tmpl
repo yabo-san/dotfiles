@@ -12,8 +12,10 @@
 # text, so chezmoi sees a diff and re-executes):
 #   pre-game.ps1        {{ include "dot_config/scripts/playnite/pre-game.ps1"        | sha256sum }}
 #   post-game.ps1       {{ include "dot_config/scripts/playnite/post-game.ps1"       | sha256sum }}
-#   game-started.ps1    {{ include "dot_config/scripts/playnite/game-started.ps1"    | sha256sum }}
 #   restore-curation.ps1 {{ include "dot_config/scripts/playnite/restore-curation.ps1" | sha256sum }}
+#
+# NOTE: there is deliberately NO GameStartedScript any more. Window and monitor
+# handling was removed entirely (2026-08-01) — see below.
 # =============================================================================
 $ErrorActionPreference = 'Stop'
 
@@ -32,9 +34,25 @@ if (Get-Process 'Playnite*' -ErrorAction SilentlyContinue) {
 
 $dir = '$env:USERPROFILE\.config\scripts\playnite'
 $stubs = @{
+    # AutoHotkey off before a game, back on after. AHK's low-level keyboard hook
+    # is a raw-input liability and an anti-cheat red flag. This pair is unrelated
+    # to window management and has always worked.
     PreScript         = "`$s=`"$dir\pre-game.ps1`"; if (Test-Path `$s) { & `$s -Game `$Game }"
     PostScript        = "`$s=`"$dir\post-game.ps1`"; if (Test-Path `$s) { & `$s -Game `$Game }"
-    GameStartedScript = "`$s=`"$dir\game-started.ps1`"; if (Test-Path `$s) { & `$s -GamePid `$StartedProcessId -Game `$Game }"
+
+    # GameStartedScript is deliberately EMPTY.
+    #
+    # It used to call a worker that found the game's window, stripped its chrome
+    # and moved it to a monitor. That never worked reliably and was removed on
+    # 2026-08-01 at the owner's call: games re-assert their own window (Dishonored
+    # every ~2.5s), so every change was undone a moment later, and the last
+    # attempt at chrome-stripping broke the game outright. Rewriting a running
+    # game's window styles is a known crash path (Unreal WindowsWindow.cpp:363).
+    #
+    # Set here explicitly rather than just left alone, so a machine that had the
+    # old stub gets it CLEARED on apply instead of keeping a call to a script that
+    # no longer exists.
+    GameStartedScript = ""
     # Curation restore. No-ops on a normal launch — it only acts when the marker
     # file exists, which the Raycast "Restore Playnite Curation" command drops.
     AppStartupScript  = "`$s=`"$dir\restore-curation.ps1`"; if (Test-Path `$s) { & `$s -PlayniteApi `$PlayniteApi }"
