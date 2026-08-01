@@ -533,6 +533,78 @@ def monitor_index_of_process(process_name: str, timeout: float) -> int | None:
     return None
 
 
+def monitor_index_of_hwnd(hwnd: int) -> int | None:
+    """
+    Which monitor is this window physically on?
+
+    Geometry, not GlazeWM's model. `monitor_index_of_process` walks the WM's own
+    tree, so it only ever sees windows the WM has claimed -- useless for a game
+    that is ignored, floating, or simply not managed yet, which is the normal case
+    for the untagged games Display Helper handles.
+
+    Uses the window's CENTRE rather than its origin: a window straddling two
+    screens belongs to the one showing most of it, and a maximised window whose
+    origin sits a pixel outside its own monitor still resolves correctly.
+    """
+    rect = window_rect(hwnd)
+    if not rect:
+        return None
+    left, top, right, bottom = rect
+    cx, cy = (left + right) // 2, (top + bottom) // 2
+
+    try:
+        mons = monitors()
+    except Exception as exc:
+        logging.warning("query monitors failed: %s", exc)
+        return None
+
+    for idx, mon in enumerate(mons):
+        mx, my = int(mon.get("x", 0)), int(mon.get("y", 0))
+        mw, mh = int(mon.get("width", 0)), int(mon.get("height", 0))
+        if mx <= cx < mx + mw and my <= cy < my + mh:
+            logging.info(
+                "window centre (%d,%d) is on monitor %d (%dx%d at %d,%d)",
+                cx, cy, idx, mw, mh, mx, my,
+            )
+            return idx
+
+    logging.warning("window centre (%d,%d) is on no known monitor", cx, cy)
+    return None
+
+
+def _window_covers_monitor(hwnd: int, mon_index: int, ratio: float = 0.85) -> bool:
+    """
+    Is this window actually filling the monitor?
+
+    The test for "this game has taken the screen". Deliberately generous: a
+    borderless-fullscreen window matches the monitor exactly, while a game running
+    at a lower resolution than the desktop, or one that leaves a taskbar strip,
+    still covers the great majority of it. A launcher, config dialog or small
+    windowed game does not come close.
+    """
+    rect = window_rect(hwnd)
+    if not rect:
+        return False
+    left, top, right, bottom = rect
+    win_area = max(0, right - left) * max(0, bottom - top)
+
+    try:
+        mon = monitors()[mon_index]
+    except Exception:
+        return False
+
+    mon_area = int(mon.get("width", 0)) * int(mon.get("height", 0))
+    if mon_area <= 0:
+        return False
+
+    covered = win_area / mon_area
+    logging.info(
+        "window covers %.0f%% of monitor %d (need %.0f%%)",
+        covered * 100, mon_index, ratio * 100,
+    )
+    return covered >= ratio
+
+
 def release_workspace(ws_name: str, focus_after: str = "1") -> None:
     """
     Free the game's workspace after the game exits.
@@ -854,6 +926,9 @@ def main() -> int:
     parser.add_argument("--focus-after", default="1", help="workspace to focus once the game exits")
     parser.add_argument("--share-monitor", action="store_true",
                         help="do NOT clear other workspaces off the target monitor")
+    parser.add_argument("--only-if-covers", action="store_true",
+                        help="evacuate mode: only claim an INFERRED monitor when the "
+                             "game is actually filling it (untagged games)")
     parser.add_argument(
         "--no-borderless",
         action="store_true",
@@ -903,6 +978,29 @@ def main() -> int:
             # No explicit screen named ('display:exclusive'): the game chose one
             # itself, so find its window and clear whichever monitor it landed on.
             target_index = monitor_index_of_process(args.process, args.timeout)
+        if target_index is None and (args.install_dir or args.process):
+            # Last resort, and the one that actually works for an untagged game.
+            # monitor_index_of_process() matches by PROCESS NAME against GlazeWM's
+            # own model, and both halves of that are unreliable here: Playnite
+            # hands us the wrong process for Steam titles (vcredist), and a game
+            # GlazeWM is ignoring or has not claimed never appears in the model at
+            # all. Find the window the same way 'place' does -- by install
+            # directory -- and work the monitor out from where it physically is.
+            _, hwnd = find_window(args.process, args.timeout, args.install_dir)
+            if hwnd:
+                target_index = monitor_index_of_hwnd(hwnd)
+
+                # An UNTAGGED game is a guess: nobody told us it wants this screen,
+                # we inferred it from where a window happened to open. Claiming a
+                # monitor for a small windowed game would throw every workspace off
+                # it -- and if that monitor is the main one, that is the whole
+                # desktop. So only claim a screen the game is actually FILLING.
+                if args.only_if_covers and not _window_covers_monitor(hwnd, target_index):
+                    logging.info(
+                        "evacuate: untagged game is not filling monitor %d — "
+                        "leaving it alone", target_index,
+                    )
+                    return 0
         if target_index is None:
             logging.error("evacuate: could not determine which monitor to clear")
             return 1

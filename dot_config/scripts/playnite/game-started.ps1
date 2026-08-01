@@ -143,9 +143,24 @@ try {
     #
     # An untagged game must be indistinguishable from this whole system not
     # existing.
+    # ── NO TAG OF OURS → ASSUME DISPLAY HELPER, AND HOLD THE SCREEN ──────────
+    # An untagged game is not "nothing to do". The assumption is that the user is
+    # driving it with Display Helper, so our job is to tell the WM "a game is
+    # taking this monitor, do not put anything there".
+    #
+    # This is SAFE in a way that 'place' is not: evacuate never touches the
+    # window. It only moves OUR workspaces off a screen. The old opt-in guard
+    # existed because untagged games were being window-STRIPPED mid-launch, which
+    # is what broke Dishonored — that danger belongs to 'place' alone.
+    #
+    # No screen is named, so the worker infers it from where the window actually
+    # opens. That is a guess, hence --only-if-covers: it claims the monitor ONLY
+    # if the game is genuinely filling it. Without that, a small windowed game
+    # opening on the ultrawide would throw workspaces 1-7 off the main display.
+    $inferred = $false
     if ($mode -eq 'place' -and -not $target) {
-        Write-Gate "$gameName - no display tag, leaving it alone (tag it to opt in)"
-        return
+        $mode = 'evacuate'
+        $inferred = $true
     }
 
     # NOTE: evacuate mode does NOT require a target. 'display:exclusive' says the
@@ -183,7 +198,9 @@ try {
         '--target',      "`"$target`"",
         '--game',        "`"$gameName`""
     )
-    Write-Gate "$gameName - handing off: mode=$mode target='$target' ws=$workspace proc='$procName' dir='$installDir'"
+    if ($inferred) { $argList += '--only-if-covers' }
+
+    Write-Gate "$gameName - handing off: mode=$mode target='$target' ws=$workspace proc='$procName' inferred=$inferred dir='$installDir'"
     Start-Process -FilePath $py -ArgumentList $argList -WindowStyle Hidden | Out-Null
 }
 catch {
