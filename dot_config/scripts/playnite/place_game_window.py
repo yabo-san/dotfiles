@@ -624,6 +624,26 @@ def enforce_placement(hwnd: int, mon: dict, strip: bool, seconds: float = 20.0) 
             continue
 
         fixes += 1
+
+        # GIVE UP EARLY. Some games re-assert their own window continuously -
+        # Dishonored does it about every 2.5 seconds, style AND position. Fighting
+        # that is a war we lose anyway, and every round is a visible FLICKER on the
+        # owner's screen, which is worse than doing nothing.
+        #
+        # A game that pins itself to (0,0) is pinning itself to the PRIMARY
+        # monitor's origin. The only thing that actually relocates it is changing
+        # which monitor is primary before launch - which is exactly what Display
+        # Helper does, and why it exists as the fallback for these titles.
+        if fixes > 2:
+            logging.warning(
+                "enforce: the game keeps re-asserting its own window (%d reverts). "
+                "NOT fighting it - that only flickers. This title pins itself to the "
+                "primary monitor; hand it to Display Helper, which switches the "
+                "primary before launch, and we will just clear the screen for it.",
+                fixes,
+            )
+            return
+
         if regrew:
             logging.info("enforce: chrome came back — stripping again (fix %d)", fixes)
             try:
