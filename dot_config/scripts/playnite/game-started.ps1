@@ -46,19 +46,23 @@ try {
     $mode      = 'place'
 
     if ($Game) {
-        # ── DISPLAY HELPER OWNS THIS GAME → STAY OUT ─────────────────────────
+        # ── DISPLAY HELPER OWNS THE WINDOW → CLEAR ITS SCREEN ANYWAY ─────────
         # An "[RC] Display:" feature means the user handed this game to Display
-        # Helper, which is the fallback path for titles that genuinely NEED
-        # exclusive fullscreen. Display Helper switches the primary monitor and
-        # sets the display mode; both of those re-anchor the desktop, and the two
-        # systems fighting over one window helps nobody.
+        # Helper, the fallback for titles that genuinely NEED exclusive
+        # fullscreen. We must never touch that window: DH switches the primary
+        # monitor and sets the display mode, and DWM border calls on an exclusive
+        # -fullscreen window are what crash Unreal and break DirectInput grabs.
         #
-        # This replaces having a separate "ignore" concept entirely: the presence
-        # of the other system's tag IS the opt-out.
+        # But NOT TOUCHING THE WINDOW IS NOT THE SAME AS DOING NOTHING, and this
+        # used to `return` here, which left the game sharing its screen with
+        # whatever workspace happened to be on it. Launching from Playnite means
+        # we already know where the game is going — DH's own feature names the
+        # screen — so we still evacuate that monitor. The game gets it to itself,
+        # which was the entire point.
+        #
         # NOTE: '[' and ']' are wildcard metacharacters in -like, hence backticks.
         $rc = $Game.Features | Where-Object { $_.Name -like '`[RC`] Display: *' } |
               Select-Object -First 1
-        if ($rc) { return }
 
         # display:<monitor> — written by our extension. Windowed games only.
         $tag = $Game.Tags | Where-Object { $_.Name -like 'display:*' } |
@@ -69,10 +73,27 @@ try {
                  Select-Object -First 1 -ExpandProperty Name
         if ($wsTag) { $workspace = $wsTag -replace '^workspace:', '' }
 
-        # display:exclusive — a fullscreen game you'd rather not hand to Display
-        # Helper. We never touch the window; we just clear our own workspaces off
-        # whichever screen it takes.
-        if ($target -eq 'exclusive') { $mode = 'evacuate'; $target = '' }
+        if ($rc) {
+            # Evacuate only — the worker never looks at the window in this mode.
+            $mode = 'evacuate'
+
+            # DH writes a GDI device name, e.g. "[RC] Display: \\.\DISPLAY9".
+            # Prefer OUR tag when the game carries one, because \\.\DISPLAYn
+            # DRIFTS: every display-config change renumbers it (this is the same
+            # failure that silently killed the yasb CRT bar). When the string no
+            # longer resolves, the worker falls back to whichever monitor the
+            # game's window actually landed on, which is why --process still
+            # matters here.
+            if (-not $target -or $target -eq 'exclusive') {
+                $target = ($rc.Name -replace '^\[RC\] Display:\s*', '').Trim()
+            }
+        }
+        elseif ($target -eq 'exclusive') {
+            # display:exclusive — a fullscreen game you'd rather not hand to
+            # Display Helper. Same contract, but no screen is named, so the
+            # worker finds the window and clears whichever monitor it took.
+            $mode = 'evacuate'; $target = ''
+        }
     }
 
     # ⚠️ OPT-IN ONLY. If the game carries no display tag, DO NOTHING — return
