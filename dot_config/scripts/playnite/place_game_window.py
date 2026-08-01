@@ -533,6 +533,49 @@ def monitor_index_of_process(process_name: str, timeout: float) -> int | None:
     return None
 
 
+def settle_window(hwnd: int, stable_for: float = 1.5, timeout: float = 25.0) -> bool:
+    """
+    Block until the game stops moving/resizing its own window.
+
+    Returns True if it settled, False if it was still changing at `timeout`
+    (in which case placement goes ahead anyway — a moving target beats no
+    attempt at all).
+
+    Why this exists: a window existing is not the same as a game being finished
+    with it. Unreal creates a 160x120 placeholder during init, then resizes and
+    re-styles it when the renderer comes up. Anything we do before that gets
+    silently reverted by the game — the chrome grows back and the position snaps
+    to (0,0) — which looks exactly like our code not working.
+    """
+    deadline = time.monotonic() + timeout
+    last = None
+    stable_since = None
+
+    while time.monotonic() < deadline:
+        rect = window_rect(hwnd)
+        if rect is None:
+            return False
+
+        if rect == last:
+            if stable_since is None:
+                stable_since = time.monotonic()
+            elif time.monotonic() - stable_since >= stable_for:
+                w, h = rect[2] - rect[0], rect[3] - rect[1]
+                logging.info("window settled at %dx%d after %.1fs",
+                             w, h, timeout - (deadline - time.monotonic()))
+                return True
+        else:
+            if last is not None:
+                logging.info("window still changing: %s -> %s", last, rect)
+            stable_since = None
+            last = rect
+
+        time.sleep(POLL_INTERVAL_S)
+
+    logging.warning("window never settled in %.0fs — placing anyway", timeout)
+    return False
+
+
 def monitor_index_of_hwnd(hwnd: int) -> int | None:
     """
     Which monitor is this window physically on?
@@ -1030,6 +1073,21 @@ def main() -> int:
         return 1
     if window_id is None:
         logging.info("GlazeWM is not managing this window — placing it directly")
+
+    # WAIT FOR THE WINDOW TO SETTLE before touching anything.
+    #
+    # A game is not done with its window when that window first exists. Unreal
+    # creates a 160x120 placeholder during init, long before it knows its
+    # resolution, then resizes and re-styles it once the renderer comes up. Strip
+    # and place at first sight and the game simply undoes both: Dishonored kept
+    # snapping back to (0,0) at 1008x715 and re-growing its title bar, even with
+    # the WM ignoring it entirely.
+    #
+    # Borderless Gaming hit this years ago and solved it the same way, with a
+    # per-engine delay before manipulating a window (Manipulation.cs:388-394).
+    # Rather than keep a list of engines, just watch the geometry and act once it
+    # stops moving.
+    settle_window(hwnd)
 
     # Strip the chrome FIRST. 'place' mode means "the WM manages this game", and a
     # bordered window is one the WM can only manage badly. Do it before handing

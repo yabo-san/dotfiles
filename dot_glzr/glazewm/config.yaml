@@ -289,6 +289,26 @@ window_rules:
       # click-through on top of the game window; managing it breaks it.
       - window_process: { equals: "ShaderGlass" }
 
+      # Unreal Engine 3 games (Dishonored is the one that bites).
+      #
+      # A UE3 game creates its window TINY - 160x120 - during init, before it
+      # knows its resolution. GlazeWM claims it at that moment and SNAPSHOTS that
+      # size as the floating placement (manage_window.rs:189-209, "use the
+      # original width/height of the window"). The snapshot is never revisited,
+      # so the window is frozen tiny forever - and worse, GlazeWM keeps
+      # RE-APPLYING it. Three SetWindowPos attempts to move Dishonored to the
+      # Acer were each yanked straight back, and the two sides fighting made the
+      # window visibly flicker.
+      #
+      # A CLASS rule, not a per-game one: every UE3 title behaves this way, and
+      # this config must never become a dictionary of individual games.
+      #
+      # Ignoring is what MAKES placement work. The Playnite worker moves and
+      # sizes the window itself with raw SetWindowPos, which lands first try on
+      # an unmanaged window - exactly why The Dark Mod (managed=no) placed
+      # cleanly while Dishonored (managed=yes) could not.
+      - window_class: { equals: "LaunchUnrealUWindowsClient" }
+
       # Borderless Gaming — a tray utility that manipulates OTHER windows; there
       # is nothing for a tiling WM to gain by managing it, and plenty to lose.
       # Observed 2026-07-31: GlazeWM caught it mid-startup at 146x32 and pinned
