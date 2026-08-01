@@ -576,6 +576,18 @@ def settle_window(hwnd: int, stable_for: float = 1.5, timeout: float = 25.0) -> 
     return False
 
 
+def workspace_monitor_index(ws_name: str) -> int | None:
+    """Which monitor index currently hosts this workspace (None if nowhere)."""
+    try:
+        for idx, mon in enumerate(monitors()):
+            for ws in mon.get("children", []):
+                if ws.get("name") == ws_name:
+                    return idx
+    except Exception as exc:
+        logging.warning("query monitors failed: %s", exc)
+    return None
+
+
 def monitor_index_of_hwnd(hwnd: int) -> int | None:
     """
     Which monitor is this window physically on?
@@ -1113,15 +1125,42 @@ def main() -> int:
     # Tiling, not floating: a floating window's rect is snapshotted at manage
     # time (manage_window.rs:189-209) and would pin the game at whatever tiny
     # size it happened to have during startup.
+    target_index = resolve_monitor_index(args.target) if args.target else None
+
     if window_id:
         _glazewm("command", "--id", window_id, "set-tiling")
         time.sleep(0.3)
+
+        # FOCUS THE TARGET MONITOR FIRST. A workspace materialises on whichever
+        # monitor is focused, so moving the window to its workspace while the
+        # target is focused lands the whole thing there in one step.
+        #
+        # This replaces stepping the workspace across monitors with
+        # `move-workspace --direction`, which kept failing: an EMPTY workspace
+        # will not move at all, directions resolve to the nearest adjacent
+        # monitor (so "left" off the ultrawide hits the CRT, never the Acer),
+        # and the result was "gave up moving workspace 8 to monitor 0" followed
+        # by the game being placed on whatever screen the workspace was stuck on.
+        if target_index is not None:
+            _glazewm("command", "focus", "--monitor", str(target_index))
+            time.sleep(0.4)
+
         _glazewm("command", "--id", window_id, "move", "--workspace", args.workspace)
+        time.sleep(0.4)
 
     if args.target:
-        target_index = resolve_monitor_index(args.target)
         if target_index is not None:
-            move_workspace_to_monitor(args.workspace, target_index)
+            # Usually already correct thanks to the focus above; this only has
+            # work to do when GlazeWM was not managing the window (window_id is
+            # None), so nothing moved it there.
+            where = workspace_monitor_index(args.workspace)
+            if where != target_index:
+                logging.info("workspace %s is on monitor %s, wanted %s — moving it",
+                             args.workspace, where, target_index)
+                move_workspace_to_monitor(args.workspace, target_index)
+            else:
+                logging.info("workspace %s is already on monitor %d",
+                             args.workspace, target_index)
 
             # Clear every other workspace off that monitor and display the game's.
             # Without this the game lands correctly but the monitor carries on

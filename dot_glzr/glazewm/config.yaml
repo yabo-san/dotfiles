@@ -307,7 +307,9 @@ window_rules:
       # sizes the window itself with raw SetWindowPos, which lands first try on
       # an unmanaged window - exactly why The Dark Mod (managed=no) placed
       # cleanly while Dishonored (managed=yes) could not.
-      - window_class: { equals: "LaunchUnrealUWindowsClient" }
+      # (UE3 ignore rule removed - GlazeWM CAN move these windows; it beat raw
+      #  SetWindowPos three times. The problem was the FLOATING snapshot, not
+      #  management itself. Handled with set-tiling/fullscreen instead.)
 
       # Borderless Gaming — a tray utility that manipulates OTHER windows; there
       # is nothing for a tiling WM to gain by managing it, and plenty to lose.
