@@ -1047,6 +1047,16 @@ def main() -> int:
     parser.add_argument("--focus-after", default="1", help="workspace to focus once the game exits")
     parser.add_argument("--share-monitor", action="store_true",
                         help="do NOT clear other workspaces off the target monitor")
+    parser.add_argument("--use-workspace", action="store_true",
+                        help="also give the game its own GlazeWM workspace on the "
+                             "target monitor. OFF by default: the workspace dance is "
+                             "what kept failing, and when it fails the game is dragged "
+                             "to whatever monitor the workspace is stuck on")
+    parser.add_argument("--solo-monitor", action="store_true",
+                        help="clear OTHER workspaces off the target monitor. OFF by "
+                             "default: GlazeWM already displays only one workspace per "
+                             "monitor, so a game on its own workspace owns the screen "
+                             "already, and the restore afterwards is unreliable")
     parser.add_argument("--only-if-covers", action="store_true",
                         help="evacuate mode: only claim an INFERRED monitor when the "
                              "game is actually filling it (untagged games)")
@@ -1193,7 +1203,19 @@ def main() -> int:
     # size it happened to have during startup.
     target_index = resolve_monitor_index(args.target) if args.target else None
 
-    if window_id:
+    # THE JOB IS: MOVE A WINDOW TO A SCREEN, HOLD IT, LET GO.
+    #
+    # Everything below this that touches WORKSPACES is opt-in (--use-workspace),
+    # because the workspace choreography is what kept breaking and it was never
+    # needed. Handing the game to workspace 8 means the game follows workspace 8 —
+    # and when "gave up moving workspace 8 to monitor 0" happens, the game gets
+    # dragged to whatever monitor that workspace is stuck on. That is the actual
+    # reason Dishonored ended up on the ultrawide.
+    #
+    # Without it: find the window, strip the chrome, put it on the monitor, keep it
+    # there while the game finishes starting, stop. GlazeWM leaves game windows
+    # floating anyway, so there is nothing to co-ordinate with.
+    if window_id and args.use_workspace:
         _glazewm("command", "--id", window_id, "set-tiling")
         time.sleep(0.3)
 
@@ -1214,11 +1236,8 @@ def main() -> int:
         _glazewm("command", "--id", window_id, "move", "--workspace", args.workspace)
         time.sleep(0.4)
 
-    if args.target:
-        if target_index is not None:
-            # Usually already correct thanks to the focus above; this only has
-            # work to do when GlazeWM was not managing the window (window_id is
-            # None), so nothing moved it there.
+    if target_index is not None:
+        if args.use_workspace:
             where = workspace_monitor_index(args.workspace)
             if where != target_index:
                 logging.info("workspace %s is on monitor %s, wanted %s — moving it",
@@ -1238,14 +1257,17 @@ def main() -> int:
             if args.solo_monitor:
                 solo_workspace_on_monitor(args.workspace, target_index)
 
-            # GlazeWM gets the size right and the POSITION wrong on monitors at
-            # negative coordinates, so do the placement ourselves and verify.
-            # AFTER the solo pass, since moving workspaces triggers re-layouts.
-            mons = monitors()
-            if target_index < len(mons):
-                place_on_monitor(hwnd, mons[target_index])
+        # THE ACTUAL JOB: put the window on the screen, then hold it there while
+        # the game finishes starting. GlazeWM gets the size right and the POSITION
+        # wrong on monitors at negative coordinates, so place it ourselves and
+        # verify. AFTER any workspace work, since that triggers re-layouts.
+        mons = monitors()
+        if target_index < len(mons):
+            place_on_monitor(hwnd, mons[target_index])
+            enforce_placement(hwnd, mons[target_index],
+                              strip=not (was_bare or args.no_borderless))
 
-    if args.game:
+    if args.game and args.use_workspace:
         # Label the workspace so the bar shows what's running.
         loc = workspace_location(args.workspace)
         if loc:
@@ -1253,7 +1275,7 @@ def main() -> int:
 
     # maximized=false is required: the default (true) calls Win32 maximize, which
     # silently does nothing on windows lacking WS_MAXIMIZEBOX -- i.e. most games.
-    if window_id:
+    if window_id and args.use_workspace:
         _glazewm("command", "--id", window_id, "set-fullscreen", "--maximized=false")
 
     # One line you can actually read when something misbehaves. Everything here
