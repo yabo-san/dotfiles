@@ -556,6 +556,18 @@ def settle_window(hwnd: int, stable_for: float = 1.5, timeout: float = 25.0) -> 
         if rect is None:
             return False
 
+        # Reject nonsense. A starting game can report absurd rects - Dishonored
+        # produced 32160x32028 - and treating one of those as "settled" makes the
+        # whole thing act during init, which is exactly when the game will undo
+        # it. Anything bigger than the virtual desktop is not a real window yet.
+        w, h = rect[2] - rect[0], rect[3] - rect[1]
+        if w <= 0 or h <= 0 or w > 20000 or h > 20000:
+            logging.info("ignoring bogus rect %dx%d while the game starts up", w, h)
+            last = None
+            stable_since = None
+            time.sleep(POLL_INTERVAL_S)
+            continue
+
         if rect == last:
             if stable_since is None:
                 stable_since = time.monotonic()
@@ -574,6 +586,60 @@ def settle_window(hwnd: int, stable_for: float = 1.5, timeout: float = 25.0) -> 
 
     logging.warning("window never settled in %.0fs — placing anyway", timeout)
     return False
+
+
+def enforce_placement(hwnd: int, mon: dict, strip: bool, seconds: float = 20.0) -> None:
+    """
+    Keep the window where we put it while the game finishes starting.
+
+    Placing once is not enough. Dishonored opens on the right monitor, then
+    completes its init and re-asserts BOTH its style (the title bar comes back)
+    and its position (it snaps to 0,0 - the primary monitor's origin, i.e. the
+    ultrawide). Everything we did gets undone about a second later, which is
+    indistinguishable from us never having run.
+
+    So watch it. Any time it drifts off the target monitor or regrows chrome, put
+    it back. This is what GlazeWM does that a one-shot SetWindowPos does not: it
+    has an event loop and simply keeps winning.
+
+    Bounded, because this cannot run forever - by the time the game is at its
+    menu it has stopped fighting.
+    """
+    mx, my = int(mon.get("x", 0)), int(mon.get("y", 0))
+    mw, mh = int(mon.get("width", 0)), int(mon.get("height", 0))
+    deadline = time.monotonic() + seconds
+    fixes = 0
+
+    while time.monotonic() < deadline:
+        time.sleep(0.5)
+
+        rect = window_rect(hwnd)
+        if rect is None:
+            break  # window is gone; nothing to enforce
+
+        drifted = not (mx - 8 <= rect[0] <= mx + 8 and my - 8 <= rect[1] <= my + 8)
+        regrew = strip and bool(chrome_bits(hwnd))
+
+        if not drifted and not regrew:
+            continue
+
+        fixes += 1
+        if regrew:
+            logging.info("enforce: chrome came back — stripping again (fix %d)", fixes)
+            try:
+                apply_borderless(hwnd)
+            except Exception:
+                logging.exception("enforce: re-strip failed")
+
+        if drifted:
+            logging.info("enforce: window drifted to (%d,%d) — putting it back (fix %d)",
+                         rect[0], rect[1], fixes)
+            place_on_monitor(hwnd, mon, tries=1)
+
+    if fixes:
+        logging.info("enforce: corrected the game %d time(s) over %.0fs", fixes, seconds)
+    else:
+        logging.info("enforce: window stayed put, no corrections needed")
 
 
 def workspace_monitor_index(ws_name: str) -> int | None:
@@ -1162,10 +1228,14 @@ def main() -> int:
                 logging.info("workspace %s is already on monitor %d",
                              args.workspace, target_index)
 
-            # Clear every other workspace off that monitor and display the game's.
-            # Without this the game lands correctly but the monitor carries on
-            # showing whatever workspace it was already displaying.
-            if not args.share_monitor:
+            # SOLO IS OFF BY DEFAULT, and --solo-monitor is now needed to ask for
+            # it. GlazeWM only ever DISPLAYS one workspace per monitor (verified:
+            # every monitor reports isDisplayed=true on exactly one child), so a
+            # game on its own workspace already has that screen to itself. Solo
+            # was solving a problem that does not exist, and it was destructive:
+            # it shoved comms and music off the Acer, and the restore afterwards
+            # could not put them back because an emptied workspace will not move.
+            if args.solo_monitor:
                 solo_workspace_on_monitor(args.workspace, target_index)
 
             # GlazeWM gets the size right and the POSITION wrong on monitors at
