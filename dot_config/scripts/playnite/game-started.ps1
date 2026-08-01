@@ -33,11 +33,47 @@ param(
 $ErrorActionPreference = 'Continue'
 $DefaultWorkspace = '8'
 
-try {
-    if (-not $GamePid) { return }
+# Every exit path says WHY. Without this the script fails completely silently -
+# Dishonored did nothing for a whole day and the only way to find out was reading
+# Playnite's log and guessing.
+$Script:GateLog = Join-Path $env:USERPROFILE '.config\scripts\playnite\place-window.log'
+function Write-Gate([string]$msg) {
+    try {
+        $line = "{0} [GATE] {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss,fff'), $msg
+        Add-Content -LiteralPath $Script:GateLog -Value $line -ErrorAction SilentlyContinue
+    } catch { }
+}
 
-    $proc = Get-Process -Id $GamePid -ErrorAction SilentlyContinue
-    if (-not $proc) { return }
+try {
+    $gameName = ''
+    if ($Game -and $Game.Name) { $gameName = $Game.Name }
+
+    $installDir = ''
+    if ($Game -and $Game.InstallDirectory) { $installDir = $Game.InstallDirectory }
+
+    # ── DO NOT GATE ON THE PID ───────────────────────────────────────────────
+    # Playnite's $StartedProcessId is unreliable for Steam games: for Dishonored
+    # it comes back as `vcredist_x64`, because the redistributable lives inside
+    # the install directory and gets caught first. That process exits in about
+    # two seconds, so `Get-Process -Id $GamePid` finds nothing and this script
+    # used to `return` here - before ever reading a tag. The game was never
+    # touched and never said why.
+    #
+    # Playnite's OWN Steam plugin has the same problem and solves it the same
+    # way we do: watch the INSTALL DIRECTORY, not the pid
+    # (SteamGameController.cs:198). The worker already treats --install-dir as
+    # its primary matcher, so a missing or dead pid is survivable - it is only
+    # fatal if we have no install directory to fall back on either.
+    $procName = ''
+    if ($GamePid) {
+        $proc = Get-Process -Id $GamePid -ErrorAction SilentlyContinue
+        if ($proc) { $procName = $proc.ProcessName }
+    }
+
+    if (-not $procName -and -not $installDir) {
+        Write-Gate "$gameName - no usable pid AND no install directory; nothing to match on"
+        return
+    }
 
     # --- resolve the target monitor from Playnite metadata ------------------
     # NOTE: '[' and ']' are wildcard metacharacters in -like, hence the backticks.
@@ -107,7 +143,10 @@ try {
     #
     # An untagged game must be indistinguishable from this whole system not
     # existing.
-    if ($mode -eq 'place' -and -not $target) { return }
+    if ($mode -eq 'place' -and -not $target) {
+        Write-Gate "$gameName - no display tag, leaving it alone (tag it to opt in)"
+        return
+    }
 
     # NOTE: evacuate mode does NOT require a target. 'display:exclusive' says the
     # game picks its own screen, so the worker finds the window and clears our
@@ -121,35 +160,33 @@ try {
         "$env:USERPROFILE\scoop\apps\python\current\python.exe",
         "$env:USERPROFILE\scoop\shims\python3.exe"
     ) | Where-Object { Test-Path $_ } | Select-Object -First 1
-    if (-not $py) { return }
+    if (-not $py) {
+        Write-Gate "$gameName - no python found; cannot run the worker"
+        return
+    }
 
     $worker = Join-Path $env:USERPROFILE '.config\scripts\playnite\place_game_window.py'
-    if (-not (Test-Path $worker)) { return }
+    if (-not (Test-Path $worker)) {
+        Write-Gate "$gameName - worker missing at $worker"
+        return
+    }
 
-    # No '??' here: Playnite's runspace is Windows PowerShell 5.1.
-    $gameName = ''
-    if ($Game -and $Game.Name) { $gameName = $Game.Name }
-
-    # InstallDirectory is the PRIMARY matcher. Playnite's own Steam plugin works
-    # this way — SteamGameController.cs:198 watches the install directory for
-    # processes rather than tracking the launched pid — which is exactly why
-    # $StartedProcessId came back as `vcredist_x64` for Dishonored: the redist
-    # lives inside that directory and got caught first. ProcessName is the
-    # fallback for games with no install dir recorded.
-    $installDir = ''
-    if ($Game -and $Game.InstallDirectory) { $installDir = $Game.InstallDirectory }
-
+    # --process may legitimately be empty now (dead/wrong pid); --install-dir is
+    # the primary matcher and the worker only errors when BOTH are missing, which
+    # was already checked above.
     $argList = @(
         "`"$worker`"",
         '--mode',        $mode,
-        '--process',     $proc.ProcessName,
+        '--process',     $procName,
         '--install-dir', "`"$installDir`"",
         '--workspace',   $workspace,
         '--target',      "`"$target`"",
         '--game',        "`"$gameName`""
     )
+    Write-Gate "$gameName - handing off: mode=$mode target='$target' ws=$workspace proc='$procName' dir='$installDir'"
     Start-Process -FilePath $py -ArgumentList $argList -WindowStyle Hidden | Out-Null
 }
 catch {
-    # Never surface a dialog over a launching game.
+    # Never surface a dialog over a launching game — but do not swallow the reason.
+    Write-Gate "EXCEPTION: $($_.Exception.Message)"
 }
