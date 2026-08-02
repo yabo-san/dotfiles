@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# setup-lumo.sh — stand up the Lumo coding stack on macOS/Linux.
-#   opencode (Claude-Code-style TUI)  ->  lumo-tamer (local OpenAI proxy :3003)  ->  Proton Lumo
+# setup-lumo.sh — stand up the opencode coding stack on macOS/Linux.
+#   opencode (Claude-Code-style TUI)  ->  ollama on yabohome (tailscale :11434)  [default]
+#                                     ->  lumo-tamer (local OpenAI proxy :3003)  ->  Proton Lumo
 #
 # Idempotent: re-running updates the build and configs but KEEPS your generated API key
 # and your auth vault. Prereqs (from Brewfile): git, node, npm, go, opencode.
@@ -57,6 +58,12 @@ cat > "$OC_DIR/opencode.json" <<JSON
 {
   "\$schema": "https://opencode.ai/config.json",
   "provider": {
+    "ollama": {
+      "name": "Ollama (yabohome, tailscale)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": { "baseURL": "http://100.70.242.116:11434/v1", "apiKey": "ollama" },
+      "models": { "qwen2.5-coder": { "name": "Qwen 2.5 Coder (7.6B Q4)" } }
+    },
     "lumo-tamer": {
       "name": "Lumo (Proton, via lumo-tamer)",
       "npm": "@ai-sdk/openai-compatible",
@@ -64,7 +71,8 @@ cat > "$OC_DIR/opencode.json" <<JSON
       "models": { "lumo": { "name": "Lumo (auto)" }, "lumo-max": { "name": "Lumo 2.0 Max" }, "lumo-lite": { "name": "Lumo 2.0 Lite" } }
     }
   },
-  "model": "lumo-tamer/lumo",
+  "model": "ollama/qwen2.5-coder",
+  "small_model": "ollama/qwen2.5-coder",
   "permission": { "edit": "allow", "write": "allow", "read": "allow", "bash": "allow", "webfetch": "allow", "external_directory": "allow" }
 }
 JSON
@@ -85,5 +93,6 @@ Only fetch a URL when it is genuinely not a git repo.
 MD
 fi
 
-log "done. Next (once per machine):  cd ~/lumo-tamer && tamer auth login"
+log "done. Default model is ollama on yabohome (100.70.242.116:11434)."
+log "Lumo (lumo-tamer/lumo) is kept as the fallback provider."
 log "then just run:  dormin"

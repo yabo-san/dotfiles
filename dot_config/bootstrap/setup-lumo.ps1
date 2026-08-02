@@ -60,6 +60,12 @@ Log "writing $ocDir\opencode.json"
 {
   "`$schema": "https://opencode.ai/config.json",
   "provider": {
+    "ollama": {
+      "name": "Ollama (local)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": { "baseURL": "http://localhost:11434/v1", "apiKey": "ollama" },
+      "models": { "qwen2.5-coder": { "name": "Qwen 2.5 Coder (7.6B Q4)" } }
+    },
     "lumo-tamer": {
       "name": "Lumo (Proton, via lumo-tamer)",
       "npm": "@ai-sdk/openai-compatible",
@@ -67,7 +73,8 @@ Log "writing $ocDir\opencode.json"
       "models": { "lumo": { "name": "Lumo (auto)" }, "lumo-max": { "name": "Lumo 2.0 Max" }, "lumo-lite": { "name": "Lumo 2.0 Lite" } }
     }
   },
-  "model": "lumo-tamer/lumo",
+  "model": "ollama/qwen2.5-coder",
+  "small_model": "ollama/qwen2.5-coder",
   "permission": { "edit": "allow", "write": "allow", "read": "allow", "bash": "allow", "webfetch": "allow", "external_directory": "allow" }
 }
 "@ | Set-Content -Path (Join-Path $ocDir 'opencode.json') -Encoding utf8

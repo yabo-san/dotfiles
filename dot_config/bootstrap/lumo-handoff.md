@@ -1,23 +1,25 @@
-# Lumo coding stack — runbook / handoff
+# opencode coding stack — runbook / handoff
 
-Your Claude-Code replacement, running on Proton Lumo. Everything here is verified working
-on macOS as of 2026-07-29 (real Lumo round-trips + a passing tool-call test).
+Your Claude-Code replacement. Default model is **ollama on yabohome** (tailscale
+`100.70.242.116:11434`); **Proton Lumo** via lumo-tamer is the fallback provider.
 
 ```
 opencode (Claude-Code-style TUI)          <- you type here (`dormin`)
-   └─ provider "lumo-tamer" -> http://localhost:3003/v1
-        └─ lumo-tamer (local OpenAI-compatible proxy)
-             └─ Proton Lumo   (auth: SRP login, auto-refresh, key in OS keychain)
+   └─ provider "ollama" -> http://100.70.242.116:11434/v1   (DEFAULT: qwen2.5-coder)
+   └─ provider "lumo-tamer" -> http://localhost:3003/v1  (fallback: Proton Lumo)
+        └─ lumo-tamer (local OpenAI-compatible proxy, auth: SRP login)
 ```
 
 - **opencode** — the agent/UI. Installed via `anomalyco/tap/opencode` (mac) / `scoop install opencode` (win).
+- **ollama** — runs headless on `yabohome` (this Windows box), bound to the tailscale IP only. Model loads on first request, unloads after ~5 min idle — zero VRAM when dormant. Reach it from any tailnet node.
 - **lumo-tamer** — `~/lumo-tamer`, a local proxy that speaks the OpenAI API and forwards to Lumo. Run `git pull` to update.
 - **go** — only needed to build lumo-tamer's `proton-auth` (SRP login) binary.
 
 ## Daily use
 ```
-dormin                 # opens the opencode TUI on Lumo (auto-starts the backend if down)
+dormin                 # opens the opencode TUI (default model: ollama on yabohome)
 dormin "do X and Y"    # one-shot query, non-interactive
+opencode -m lumo-tamer/lumo-max   # switch to Lumo for a stronger session
 ```
 `dormin` lives in `dot_zshrc` and the PowerShell profile. It curls :3003 to see if the backend
 is up; if not, it starts `node dist/src/tamer.js server` detached.
