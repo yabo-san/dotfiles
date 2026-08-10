@@ -133,7 +133,7 @@ workspaces:
     # wherever it is activated and never self-corrects; a bound one re-homes
     # itself on activation, which also lets it recover by itself after a game
     # solos a monitor and pushes it off.
-    bind_to_monitor: 2  # LG ultrawide (GSM772B) - 0-based, left-to-right
+    bind_to_monitor: 2 # LG ultrawide (GSM772B) - 0-based, left-to-right
   - name: "2"
     display_name: "" # comms (comments)
     keep_alive: true
@@ -142,19 +142,19 @@ workspaces:
     #   0 = Acer XG270HU (ACR0414)   1 = CRT (1024x768)   2 = LG ultrawide (GSM772B)
     # This said 1 and was therefore homing comms onto the CRT. Confirm after any
     # monitor rearrangement with:  glazewm query monitors
-    bind_to_monitor: 0  # Acer (XG270HU, ACR0414)
+    bind_to_monitor: 0 # Acer (XG270HU, ACR0414)
   - name: "3"
     display_name: "" # music (note)
     keep_alive: true
-    bind_to_monitor: 0  # Acer (see note on workspace 2 — 0-based, left-to-right)
+    bind_to_monitor: 0 # Acer (see note on workspace 2 — 0-based, left-to-right)
   - name: "4"
     display_name: "" # gamedev (paintbrush)
     keep_alive: true
-    bind_to_monitor: 2  # ultrawide
+    bind_to_monitor: 2 # ultrawide
   - name: "5"
     display_name: "" # play (gamepad)
     keep_alive: true
-    bind_to_monitor: 2  # ultrawide
+    bind_to_monitor: 2 # ultrawide
   - name: "6"
     display_name: "" # media (film)
     keep_alive: true
@@ -162,7 +162,7 @@ workspaces:
   - name: "7"
     display_name: "" # utils (wrench)
     keep_alive: true
-    bind_to_monitor: 2  # ultrawide
+    bind_to_monitor: 2 # ultrawide
   - name: "8"
   - name: "9"
   - name: "10"
@@ -196,7 +196,8 @@ window_rules:
   # --- Workspace 2: COMMS (Acer) ---
   - commands: ["set-tiling", "move --workspace 2"]
     match:
-      - window_process: { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
+      - window_process:
+          { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
 
   # --- Workspace 3: MUSIC (Acer) ---
   - commands: ["set-tiling", "move --workspace 3"]
@@ -206,8 +207,14 @@ window_rules:
   # --- Workspace 4: GAMEDEV (ultrawide) ---
   - commands: ["set-tiling", "move --workspace 4"]
     match:
-      - window_process: { regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit" }
-      - window_process: { regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus" }
+      - window_process:
+          {
+            regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit",
+          }
+      - window_process:
+          {
+            regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus",
+          }
       - window_process: { regex: "Claude|LM Studio" }
 
   # --- Workspace 5: PLAY — Playnite floats (popups/dialogs must not tile) ---
@@ -429,16 +436,18 @@ keybindings:
   - commands: ["close"]
     bindings: ["alt+q"]
 
-  # ── CYCLE WORKSPACES (mac Cmd+Tab / FlashSpace style — Alt = Cmd) ──────
-  # Alt+Tab steps through your ACTIVE (non-empty) workspaces instead of native
-  # window-switching; Alt+Shift+Tab goes back. Mirrors the Mac FlashSpace flow
-  # (workspaces ARE apps here, so you cycle spaces, not windows).
-  # NOTE: Alt+Tab is OS-reserved — GlazeWM intercepts it via its keyboard hook.
-  # If Windows ever wins the race, swap these to a non-reserved combo.
+  # ── CYCLE WORKSPACES (freed up native Alt+Tab) ─────────────────────────
+  # Alt+Tab/Alt+Shift+Tab are intentionally left UNBOUND here so GlazeWM's
+  # keyboard hook never claims them — that's what let Windows' native
+  # Alt+Tab window switcher through again (the way Cmd+Tab-style app
+  # switching works on macOS). GlazeWM's hook always wins the race for any
+  # combo it has a binding on, so as long as alt+tab appeared anywhere in
+  # this file, native Alt+Tab was permanently overridden, no exceptions.
+  # Workspace cycling moved to lwin+tab / lwin+shift+tab instead.
   - commands: ["focus --next-active-workspace"]
-    bindings: ["alt+tab"]
+    bindings: ["lwin+tab"]
   - commands: ["focus --prev-active-workspace"]
-    bindings: ["alt+shift+tab"]
+    bindings: ["lwin+shift+tab"]
 
   # ── WM CONTROL ────────────────────────────────────────────────────────
   - commands: ["wm-toggle-pause"] # freeze all binds (safety)
