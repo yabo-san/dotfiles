@@ -45,7 +45,7 @@ run_onchange_after_install-rohankar.ps1
 {{ end }}
 # NOTE: .config/bat IS shared (mac + Windows) — the preferred bat style.
 
-# launchd agents are macOS-only (lumo-tamer always-on backend)
+# launchd agents are macOS-only (e.g. always-on backend services)
 {{ if ne .chezmoi.os "darwin" }}
 Library/**
 {{ end }}

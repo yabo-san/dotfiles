@@ -199,35 +199,9 @@ function lastmod {
         Sort-Object LastWriteTime | Format-Table LastWriteTime, FullName -AutoSize
 }
 
-# dormin — opencode on Proton Lumo (via the local lumo-tamer proxy on :3003).
-# Auto-starts the lumo-tamer backend if it isn't already listening.
-# One-time setup on a new machine: cd ~\lumo-tamer ; npm run cli auth login
+# dormin — opencode. Default model is ollama (local :11434; the Mac hits the
+# tailscale-bound server on yabohome). Nothing to auto-start — ollama is a daemon.
 function dormin {
-    $up = try { Invoke-WebRequest -Uri 'http://localhost:3003/v1/models' -TimeoutSec 1 -UseBasicParsing -ErrorAction Stop; $true } catch { $_.Exception.Response -ne $null }
-    if (-not $up) {
-        Write-Host 'dormin: starting lumo-tamer backend…'
-        Start-Process node -ArgumentList 'dist/src/tamer.js','server' -WorkingDirectory "$HOME\lumo-tamer" -WindowStyle Hidden
-        for ($i=0; $i -lt 40; $i++) { try { Invoke-WebRequest 'http://localhost:3003/v1/models' -TimeoutSec 1 -UseBasicParsing -ErrorAction Stop | Out-Null; $up=$true; break } catch { if ($_.Exception.Response) { $up=$true; break }; Start-Sleep -Milliseconds 250 } }
-
-        # If it never came up, the usual cause is a LAPSED PROTON REFRESH TOKEN,
-        # and the backend dies at startup with "Token refresh failed: 400". Left
-        # alone, dormin would carry on and hand you a confusing opencode error
-        # instead. Say what is actually wrong and what to run.
-        if (-not $up) {
-            Write-Host ''
-            Write-Host 'dormin: lumo-tamer did not start.' -ForegroundColor Red
-            $status = & node "$HOME\lumo-tamer\dist\src\tamer.js" auth status 2>&1 | Out-String
-            if ($status -match 'Token refresh failed|Invalid refresh token|needs attention') {
-                Write-Host 'Your Proton refresh token has lapsed. Re-auth with:' -ForegroundColor Yellow
-                Write-Host '    tamer auth login' -ForegroundColor Cyan
-                Write-Host '(username, password, TOTP - same as on the Mac)' -ForegroundColor DarkGray
-            } else {
-                Write-Host 'Backend error:' -ForegroundColor Yellow
-                ($status -split "`n" | Select-Object -First 8) | ForEach-Object { Write-Host "    $_" -ForegroundColor DarkGray }
-            }
-            return
-        }
-    }
     if ($args.Count -eq 0) { opencode }               # open the TUI
     else { opencode run --auto @args }                # one-shot query, auto-approve permissions
 }

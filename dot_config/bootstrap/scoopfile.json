@@ -209,16 +209,16 @@
     },
     {
       "Source": "main",
-      "Info": "opencode CLI — Claude-Code-style agent; wire to Lumo via lumo-tamer (setup-lumo.ps1)",
+      "Info": "opencode CLI — Claude-Code-style agent; default model is local ollama (setup-opencode.ps1)",
       "Updated": "2026-07-29T00:00:00.0000000-07:00",
       "Name": "opencode",
       "Version": "1.18.9"
     },
     {
       "Source": "main",
-      "Info": "Go toolchain — builds lumo-tamer's proton-auth (SRP login) binary",
+      "Info": "Ollama — local model server (default provider for opencode)",
       "Updated": "2026-07-29T00:00:00.0000000-07:00",
-      "Name": "go",
+      "Name": "ollama",
       "Version": "1.26.5"
     },
     {

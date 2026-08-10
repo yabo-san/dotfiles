@@ -175,9 +175,8 @@ mkcd() { mkdir -p "$1" && cd "$1" }
 alias reload='source ~/.zshrc'
 
 unalias dormin 2>/dev/null
-# dormin — opencode. Default model is ollama on yabohome (tailscale :11434);
-# lumo-tamer (local proxy on :3003) is the fallback provider, started on demand
-# only if the TUI can't reach it. Set the model per-session: opencode -m lumo-tamer/lumo-max
+# dormin — opencode. Default model is ollama on yabohome (tailscale :11434).
+# Nothing to auto-start — ollama is a daemon. Set the model per-session: opencode -m <provider>/<model>
 dormin() {
   if [[ $# -eq 0 ]]; then
     opencode              # open the TUI (start fresh or pick a session with /sessions)

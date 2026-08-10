@@ -57,8 +57,9 @@ cask "zed"
 cask "devpod"
 
 brew "anomalyco/tap/opencode"
-brew "go"
-# lumo-tamer (the Lumo backend for opencode) lives at ~/lumo-tamer — a git external; go builds its proton-auth binary
+brew "ollama"
+# opencode defaults to ollama on yabohome (tailscale). Local ollama is optional —
+# install for models that live on this machine.
 
 # kubernetes / containers
 cask "rancher"
