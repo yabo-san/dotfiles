@@ -353,6 +353,11 @@ window_rules:
       # so it sits over the game window. Matched by title (window_title regex).
       - window_title: { regex: "yabo-shader-hud" }
 
+      # Crysis / Crysis Wars Sandbox 2 editor (CryEngine 2). Old D3D9 init races
+      # GlazeWM's DWM border APIs (same crash vector as Epic/Unreal). Ignore the
+      # launcher/editor windows so the WM never touches their frames.
+      - window_process: { regex: "EditorLauncher|Sandbox2" }
+
       # DOOM (2016, id Tech 6 'Zion' engine, process DOOMx64vk). Ignore so
       # GlazeWM never touches the game window. Also match the Zion class +
       # common DOOM/Quake engine exes so other id-tech games are hands-off too.
