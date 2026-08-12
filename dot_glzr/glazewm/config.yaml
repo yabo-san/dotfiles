@@ -172,10 +172,16 @@ workspaces:
 
 window_rules:
   # =====================================================================
-  # ALLOWLIST — the ONLY windows that tile. Everything else floats (see
-  # DEFAULT TILING MODEL — everything tiles unless floated or ignored below.
-  # OPT-IN TILING — only listed apps tile. Everything else floats (games, unknown exes).
-  # Games go fullscreen and are fine; use lwin+t to float any edge case.
+  # DENY-BY-DEFAULT (2026-08-12) — GlazeWM manages ONLY the processes named
+  # in the rules below. A catch-all `ignore` at the bottom of this section
+  # matches every other process, so unknown windows (games, launchers,
+  # anything new) get ZERO window management: no border, no workspace, no
+  # floating-size snapshot. This replaced the old allowlist-tiling +
+  # floating-default + per-game ignore-list model — the floating snapshot
+  # (manage_window.rs:189-209) kept pinning game windows at their init size
+  # (Dishonored's 160x120, Dishonored 2's splash), and the per-game ignore
+  # list needed a new entry for every broken title. To manage a new app,
+  # add its process to a rule below AND to the catch-all's allowlist regex.
 
   # --- Workspace 1: MAIN (ultrawide) ---
   - commands: ["set-tiling", "move --workspace 1"]
@@ -239,23 +245,12 @@ window_rules:
       - window_process: { regex: "Hotspot Shield" }
       - window_process: { equals: "deskflow" }
 
-  # --- FLOAT — things that must never tile ---
-  - commands: ["set-floating"]
-    match:
-      - window_process: { regex: "steam|SteamWebHelper" }
-      - window_process: { equals: "EpicGamesLauncher" }
-      - window_process: { equals: "GalaxyClient" }
-
-  # --- CLAW BACK the main windows the blanket float above over-caught ---
-  # Rules run IN ORDER and EVERY matching rule runs
-  # (wm/src/commands/window/run_window_rules.rs), so a later `set-tiling` beats
-  # the earlier `set-floating`. These MUST stay below the float block.
-  #
+  # --- CLAW BACK ---
   # Steam renders through steamwebhelper and EVERY Steam surface shares the
   # `SDL_app` class — friends list, notification toasts, the login box — so the
   # class cannot tell them apart. The title can: the main client is the one
-  # titled exactly "Steam". Popups keep floating, which is what the blanket rule
-  # was protecting in the first place.
+  # titled exactly "Steam". It tiles onto ws5; every other Steam surface
+  # floats via initial_state (steam/steamwebhelper are on the allowlist).
   - commands: ["set-tiling", "move --workspace 5"]
     match:
       - window_process: { equals: "steamwebhelper" }
@@ -280,131 +275,33 @@ window_rules:
       - window_process: { equals: "Dishonored2" }
 
   # =====================================================================
-  # IGNORE — true overlays/bars that must NOT be managed at all (no border,
-  # no workspace tracking). Distinct from "floating": floated windows still
-  # get borders and move with workspaces; ignored ones are invisible to the WM.
+  # CATCH-ALL IGNORE — the deny half of the model. Any process NOT named in a
+  # rule above is ignored outright: no border, no workspace, and — critically —
+  # no floating-size snapshot (manage_window.rs:189-209), which is what kept
+  # pinning game windows at their init size (Dishonored at 160x120, Dishonored
+  # 2's splash, BorderlessGaming at 146x32). This replaces the old per-game
+  # ignore list; it also covers every title/class-matched game rule that was
+  # here (UnrealWindow, Zion, CSD3DWND, Crysis, TheDarkMod, ...) because none
+  # of those processes are allowlisted. When adding a managed app to a rule
+  # above, ALSO add its process to this regex or it will be ignored.
   # =====================================================================
   - commands: ["ignore"]
     match:
-      # Status bars (running both zebar and yasb)
-      - window_process: { regex: "zebar|yasb" }
-
-      # Windows shell surfaces — Start menu, Search, Action Center, etc.
-      # MUST be ignored or GlazeWM steals focus back the instant they open,
-      # dismissing them (Start "opens for a second then closes"). Also stops
-      # GlazeWM from yanking Start onto the wrong monitor.
-      - window_process:
-          { regex: "StartMenuExperienceHost|SearchHost|ShellExperienceHost" }
-
-      # Windows Terminal = the quake-style dropdown console. Must stay
-      # unmanaged so it floats over the layout instead of tiling.
-      - window_process: { equals: "WindowsTerminal" }
-
-      # WezTerm — fully ignored (guake/dropdown style, always floating).
-      - window_process: { equals: "wezterm-gui" }
-
-      # ShaderGlass overlay (yabo-launcher CRT/shader overlay) — must sit
-      # click-through on top of the game window; managing it breaks it.
-      - window_process: { equals: "ShaderGlass" }
-
-      # Unreal Engine 3 games (Dishonored is the one that bites).
-      #
-      # A UE3 game creates its window TINY - 160x120 - during init, before it
-      # knows its resolution. GlazeWM claims it at that moment and SNAPSHOTS that
-      # size as the floating placement (manage_window.rs:189-209, "use the
-      # original width/height of the window"). The snapshot is never revisited,
-      # so the window is frozen tiny forever - and worse, GlazeWM keeps
-      # RE-APPLYING it. Three SetWindowPos attempts to move Dishonored to the
-      # Acer were each yanked straight back, and the two sides fighting made the
-      # window visibly flicker.
-      #
-      # A CLASS rule, not a per-game one: every UE3 title behaves this way, and
-      # this config must never become a dictionary of individual games.
-      #
-      # Ignoring is what MAKES placement work. The Playnite worker moves and
-      # sizes the window itself with raw SetWindowPos, which lands first try on
-      # an unmanaged window - exactly why The Dark Mod (managed=no) placed
-      # cleanly while Dishonored (managed=yes) could not.
-      # (UE3 ignore rule removed - GlazeWM CAN move these windows; it beat raw
-      #  SetWindowPos three times. The problem was the FLOATING snapshot, not
-      #  management itself. Handled with set-tiling/fullscreen instead.)
-
-      # Borderless Gaming — a tray utility that manipulates OTHER windows; there
-      # is nothing for a tiling WM to gain by managing it, and plenty to lose.
-      # Observed 2026-07-31: GlazeWM caught it mid-startup at 146x32 and pinned
-      # it there permanently, making the UI unclickable. That is not a bug in
-      # Borderless Gaming — manage_window.rs:189-209 SNAPSHOTS a floating
-      # window's frame the instant it is managed ("Use the original width/height
-      # of the window") and re-applies that rect on every redraw. clamp_size
-      # there is a MAXIMUM only, so tiny in = tiny forever. Any app that sizes
-      # its window after creating it is exposed to this while
-      # window_behavior.initial_state is "floating".
-      - window_process: { equals: "BorderlessGaming" }
-
-      # Epic Games Launcher (Unreal Engine / Slate) — CRASHES when managed.
-      # GlazeWM's window_effects (border/title-bar/corner) call DWM frame APIs
-      # (DwmExtendFrameIntoClientArea) on the same window Unreal is extending,
-      # tripping Unreal's assertion (WindowsWindow.cpp:363) -> hard crash.
-      # IGNORE (not just float) so GlazeWM never touches its frame. Matched by
-      # process AND by UnrealWindow class to catch other Unreal apps too.
-      - window_process: { equals: "EpicGamesLauncher" }
-      - window_class: { regex: "UnrealWindow" }
-
-      # NOTE (2026-07-31): Dishonored was briefly ignored here while chasing a
-      # launch crash. That was WRONG for this setup. `ignore` is hands-off in
-      # BOTH directions — GlazeWM stops crashing it, but also can no longer move
-      # it, give it a workspace, or fullscreen it, which is the entire point.
-      # A game window has to stay MANAGED so it can get its own workspace and be
-      # fullscreened over the bar; the borderless strip then makes it seamless.
-      # If a UE3 title does turn out to crash under management, the fix is to
-      # disable window_effects borders (the DWM calls are the crash vector), not
-      # to ignore the window.
-
-      # yabo-shader-hud — launcher's shader HUD overlay; must stay unmanaged
-      # so it sits over the game window. Matched by title (window_title regex).
-      - window_title: { regex: "yabo-shader-hud" }
-
-      # Crysis / Crysis Wars / Warhead / Sandbox 2 editor (CryEngine 2). Old D3D9
-      # init races GlazeWM's DWM border APIs (same crash vector as Epic/Unreal).
-      # Ignore the launcher, editor, and game windows so the WM never touches
-      # their frames.
-      - window_process: { regex: "EditorLauncher|Sandbox2|Crysis|Crysis64|CrysisWars|CrysisWars64" }
-
-      # DOOM (2016, id Tech 6 'Zion' engine, process DOOMx64vk). Ignore so
-      # GlazeWM never touches the game window. Also match the Zion class +
-      # common DOOM/Quake engine exes so other id-tech games are hands-off too.
-      - window_process: { regex: "DOOMx64vk|DOOMEternal|DOOMTheDarkAges" }
-      - window_class: { equals: "Zion" }
-
-      # The Dark Mod (idTech4 fork). r_fullscreen=2 borderless windowed mode;
-      # GlazeWM's DWM border APIs race DirectInput acquire on launch → no mouse grab.
-      - window_process: { regex: "TheDarkMod|thedarkmod" }
-
-      # MGS HD Collection (METAL GEAR SOLID3.exe, class CSD3DWND). Same DWM
-      # crash as EpicGamesLauncher: GlazeWM's border API races D3D11 init.
-      - window_class: { equals: "CSD3DWND" }
-
-      # Picture-in-picture windows for browsers (float-but-ignore so they
-      # stay pinned where you drop them).
+      # Carve-outs for windows that SHARE an allowlisted process, so the
+      # catch-all below can't see them. Browser PiP (zen/Arc/Firefox PiP would
+      # otherwise tile onto ws1 with the main window) and the launcher's
+      # shader HUD overlay.
       - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
         window_class: { regex: "Chrome_WidgetWin_1|MozillaDialogClass" }
       - window_process: { equals: "Arc" }
         window_title: { regex: "[Pp]icture.in.[Pp]icture" }
+      - window_title: { regex: "yabo-shader-hud" }
 
-      # PowerToys / Lively helper surfaces.
-      - window_process: { equals: "PowerToys" }
-        window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
-      - window_process: { equals: "PowerToys" }
-        window_title: { regex: ".*? - Peek" }
-      - window_process: { equals: "Lively" }
-        window_class: { regex: "HwndWrapper" }
-
-  # =====================================================================
-  # NOTE: No more per-launcher / per-game ignore rules. With floating-default,
-  # DoomLauncher, N64RecompLauncher, EpicGamesLauncher, Steam, emulators,
-  # recomp ports (Starship.exe, *Recompiled.exe), SoH, etc. ALL float
-  # automatically — they're simply not on the allowlist. That's the point.
-  # =====================================================================
+      # The catch-all itself: process matches NONE of the allowlist above.
+      - window_process:
+          {
+            not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|Dishonored2",
+          }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
