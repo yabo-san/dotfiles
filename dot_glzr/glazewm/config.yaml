@@ -268,6 +268,17 @@ window_rules:
     match:
       - window_process: { equals: "rustdesk" }
 
+  # --- Dishonored 2 (Void engine) ---
+  # Spawns a small windowed "VoidEngine v1.77.9.0" splash first, then flips to
+  # fullscreen once the menu is loaded. GlazeWM grabs the tiny init window and
+  # SNAPSHOTS that frame (manage_window.rs:189-209), then re-applies it on every
+  # redraw — so the game looks like it "won't launch" while the two fight over
+  # the rect. Force fullscreen the instant it appears so it never tiles or gets
+  # pinned at splash size.
+  - commands: ["set-fullscreen"]
+    match:
+      - window_process: { equals: "Dishonored2" }
+
   # =====================================================================
   # IGNORE — true overlays/bars that must NOT be managed at all (no border,
   # no workspace tracking). Distinct from "floating": floated windows still
@@ -353,10 +364,11 @@ window_rules:
       # so it sits over the game window. Matched by title (window_title regex).
       - window_title: { regex: "yabo-shader-hud" }
 
-      # Crysis / Crysis Wars Sandbox 2 editor (CryEngine 2). Old D3D9 init races
-      # GlazeWM's DWM border APIs (same crash vector as Epic/Unreal). Ignore the
-      # launcher/editor windows so the WM never touches their frames.
-      - window_process: { regex: "EditorLauncher|Sandbox2" }
+      # Crysis / Crysis Wars / Warhead / Sandbox 2 editor (CryEngine 2). Old D3D9
+      # init races GlazeWM's DWM border APIs (same crash vector as Epic/Unreal).
+      # Ignore the launcher, editor, and game windows so the WM never touches
+      # their frames.
+      - window_process: { regex: "EditorLauncher|Sandbox2|Crysis|Crysis64|CrysisWars|CrysisWars64" }
 
       # DOOM (2016, id Tech 6 'Zion' engine, process DOOMx64vk). Ignore so
       # GlazeWM never touches the game window. Also match the Zion class +
