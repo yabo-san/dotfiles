@@ -263,17 +263,6 @@ window_rules:
     match:
       - window_process: { equals: "rustdesk" }
 
-  # --- Dishonored 2 (Void engine) ---
-  # Spawns a small windowed "VoidEngine v1.77.9.0" splash first, then flips to
-  # fullscreen once the menu is loaded. GlazeWM grabs the tiny init window and
-  # SNAPSHOTS that frame (manage_window.rs:189-209), then re-applies it on every
-  # redraw — so the game looks like it "won't launch" while the two fight over
-  # the rect. Force fullscreen the instant it appears so it never tiles or gets
-  # pinned at splash size.
-  - commands: ["set-fullscreen"]
-    match:
-      - window_process: { equals: "Dishonored2" }
-
   # =====================================================================
   # CATCH-ALL IGNORE — the deny half of the model. Any process NOT named in a
   # rule above is ignored outright: no border, no workspace, and — critically —
@@ -300,7 +289,7 @@ window_rules:
       # The catch-all itself: process matches NONE of the allowlist above.
       - window_process:
           {
-            not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|Dishonored2",
+            not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk",
           }
 
 binding_modes:
