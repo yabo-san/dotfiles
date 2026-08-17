@@ -33,6 +33,7 @@ run_onchange_after_playnite-scripts.ps1
 run_onchange_after_startup-shortcuts.ps1
 run_onchange_after_powershell-profile-bridge.ps1
 run_onchange_after_install-rohankar.ps1
+run_onchange_after_install-obsidian-sync.ps1
 .glzr/**
 .config/wezterm/**
 .config/yasb/**

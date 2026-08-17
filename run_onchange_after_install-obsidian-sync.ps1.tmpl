@@ -1,0 +1,71 @@
+#requires -Version 5.1
+# =============================================================================
+# run_onchange_after_install-obsidian-sync.ps1 — clone + venv the sync daemon
+# =============================================================================
+# obsidian-icloud-windows-sync bridges D:\obsidian\sb <-> the iCloud Drive copy
+# of the vault. Obsidian cannot run directly against iCloud on Windows: every
+# file there is a cloud-filter placeholder (all 514 .md carry ReparsePoint) that
+# can dehydrate underneath a running app, so a real local vault plus a daemon is
+# the only workable shape.
+#
+# WHY NOT .chezmoiexternals: externals resolve relative to the DESTINATION dir
+# (the home dir). This repo lives on D:\REPOS, outside the chezmoi target, so an
+# external can't place it. A script can.
+#
+# WHY A VENV: `python` is managed by scoop (see .config/bootstrap/scoopfile.json)
+# and a scoop upgrade replaces the whole install directory, taking site-packages
+# with it. That happened on 2026-07-31 -- python went to 3.14.6 and pyyaml,
+# watchdog, colorama and aiofiles all vanished, so the daemon died at
+# `import yaml`. Because the Raycast launcher hid its output, nothing surfaced
+# it, and five weeks of Mac/iPhone notes sat unseen in D:\iCloudDrive. A venv
+# inside the repo is immune to the next `scoop update python`.
+#
+# The config is NOT taken from the repo. Upstream's README says to copy
+# config.yaml -> my-config.yaml inside the clone, which leaves it untracked and
+# one `git pull` from being clobbered; ours lives at
+# ~/.config/obsidian/sync-config.yaml and is deployed by chezmoi.
+#
+# Idempotent: clones only if absent, builds the venv only if absent, and
+# reinstalls only when the venv can't import the package.
+#
+# Re-runs when the config changes:
+#   {{ include "dot_config/obsidian/sync-config.yaml" | sha256sum }}
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$repo    = 'D:\REPOS\obsidian-icloud-windows-sync'
+$url     = 'https://github.com/gursimar/obsidian-icloud-windows-sync.git'
+$venvPy  = Join-Path $repo '.venv\Scripts\python.exe'
+
+if (-not (Test-Path 'D:\')) {
+    Write-Host '[obsidian-sync] no D: drive - skipping (not this machine).' -ForegroundColor DarkGray
+    return
+}
+
+if (-not (Test-Path (Join-Path $repo '.git'))) {
+    Write-Host "[obsidian-sync] cloning to $repo ..." -ForegroundColor Cyan
+    New-Item -ItemType Directory -Force (Split-Path $repo) | Out-Null
+    & git clone --quiet $url $repo
+    if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] clone failed.' -ForegroundColor Red; return }
+} else {
+    Write-Host '[obsidian-sync] repo present.' -ForegroundColor DarkGray
+}
+
+if (-not (Test-Path $venvPy)) {
+    Write-Host '[obsidian-sync] creating venv ...' -ForegroundColor Cyan
+    & python -m venv (Join-Path $repo '.venv')
+    if (-not (Test-Path $venvPy)) { Write-Host '[obsidian-sync] venv creation failed.' -ForegroundColor Red; return }
+}
+
+# Reinstall only when the package isn't importable from the venv — covers both a
+# fresh venv and a half-finished previous run.
+& $venvPy -c 'import obsidian_sync, yaml, watchdog, colorama, aiofiles' 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host '[obsidian-sync] installing package + deps into venv ...' -ForegroundColor Cyan
+    & $venvPy -m pip install --quiet --upgrade pip
+    & $venvPy -m pip install --quiet $repo
+    & $venvPy -c 'import obsidian_sync, yaml, watchdog, colorama, aiofiles' 2>$null
+    if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] deps still missing after install.' -ForegroundColor Red; return }
+}
+
+Write-Host '[obsidian-sync] ready — launch via Raycast "Obsidian".' -ForegroundColor Green

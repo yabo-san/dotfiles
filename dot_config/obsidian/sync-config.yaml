@@ -1,0 +1,94 @@
+# =============================================================================
+# sync-config.yaml — obsidian-icloud-windows-sync configuration
+# =============================================================================
+# Deployed to ~/.config/obsidian/sync-config.yaml and passed to the daemon by
+# .config/scripts/raycast/obsidian-launch.ps1.
+#
+# WHY IT LIVES HERE AND NOT IN THE TOOL'S REPO: upstream's README says to copy
+# config.yaml -> my-config.yaml inside the clone, which leaves it untracked and
+# one `git pull` away from being clobbered. Keeping it in chezmoi decouples our
+# settings from the upstream checkout entirely.
+#
+# Windows-only: `.config/obsidian/**` is already gated in .chezmoiignore.
+# =============================================================================
+
+paths:
+  local_vault: "D:\\obsidian\\sb"
+  icloud_vault: "D:\\iCloudDrive\\iCloud~md~obsidian\\sb"
+  history_dir: "D:\\obsidian\\history"
+  logs_dir: "D:\\obsidian\\logs"
+
+sync:
+  run_continuously: true
+
+  # MUST be false against iCloud for Windows 15.9. icloud_status.py classifies
+  # a file as CLOUD_ONLY when `is_reparse and not is_pinned`, but this iCloud
+  # build marks EVERY file as a cloud-filter placeholder whether or not the
+  # data is resident -- all 514 .md here carry ReparsePoint and none are Pinned.
+  # So every file reads as CLOUD_ONLY even at on_disk == logical, is_safe()
+  # returns False, and wait_until_uploaded() -- an unbounded `while True` in
+  # this version -- never exits. Observed 2026-08-17: all 54 pending pulls
+  # queued, then sat at "Still waiting for iCloud (247s elapsed)" having copied
+  # nothing. Only Offline / RecallOnDataAccess actually mean dehydrated.
+  #
+  # Turning the check off is safe here: a genuinely unavailable file raises on
+  # read and copy_to_disk logs FAILED and re-raises, so that file's worker
+  # errors out loudly instead of hanging. It cannot write a truncated file.
+  check_icloud_status: false
+
+  poll_interval: 2
+  # Both raised well above upstream defaults (3 / 8). iCloud on Windows serves
+  # every file through the cloud-filter driver, so mtime/size keep moving while
+  # a file hydrates; acting too early is what manufactures phantom conflicts.
+  stability_window: 5
+  stabilize_wait: 60
+  tiny_threshold: 8
+
+logging:
+  console_level: "normal" # quiet | normal | verbose
+  shorter_paths: true
+  max_display_length: 50
+  # NOTE: retention is by FILE COUNT, not size (logger.py cleanup_old_logs), and
+  # there is no rotation within a run. One runaway loop wrote a single 186MB log
+  # and the dir reached 361MB. The ignore rules below are the actual defence;
+  # this number only caps how many runs are kept.
+  log_retention: 10
+
+ignore:
+  patterns:
+    - ".obsidian/appearance.json"
+    - ".obsidian/cache"
+    - ".obsidian/app.json"
+    - ".obsidian/workspace*.json"
+    - ".obsidian/plugins/*/data.json"
+
+    # ── plugin CODE ─────────────────────────────────────────────────────────
+    # The runaway loop that killed the daemon on 2026-07-08. The tool writes
+    # atomically (tmp -> os.replace), and that replace fires `deleted` +
+    # `moved_to` on the real path, which it then re-queues and re-syncs, ad
+    # infinitum. `.tmp` is filtered by should_sync_rel; the final path is not.
+    # Patterns go through fnmatch, whose `*` spans separators, so one line
+    # covers every plugin. Cost: plugins installed on the Mac won't appear here
+    # automatically — install them per-device.
+    - ".obsidian/plugins/*"
+
+    # ── quarantined: unreadable in iCloud ────────────────────────────────────
+    # Offline + RecallOnDataAccess, and every hydration attempt fails with
+    # 0x8007017C ERROR_CLOUD_FILE_INVALID_REQUEST. iCloud has been retrying
+    # item 840F28ED-E8D5-4E7B-AACF-D4C4B69F7FC1 in a loop (see the iCloudDrive
+    # log under AppleInc.iCloud_nzyj5cx40ttqa). This matters because
+    # wait_until_uploaded() is an UNBOUNDED `while True` in this version --
+    # "timeout_seconds ... no longer enforced" -- so its worker would spin at
+    # 2 polls/sec forever. Fix it at the source (re-save the note on the Mac so
+    # iCloud mints a fresh asset), then delete this line.
+    - "1 Input/course/Mischa - Kubernetes Fundamentals.md"
+  dirs:
+    - ".trash"
+    - ".fseventsd"
+    - ".spotlight-v100"
+    - ".apdisk"
+  files:
+    - ".ds_store"
+    - ".trash"
+    - "workspace.json"
+    - "workspace-mobile.json"
