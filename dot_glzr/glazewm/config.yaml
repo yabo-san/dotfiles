@@ -187,7 +187,20 @@ window_rules:
   - commands: ["set-tiling", "move --workspace 1"]
     match:
       - window_process: { regex: "Proton Mail" }
+      # MAIN WINDOW ONLY. Process alone also matched Zen's DIALOGS (download
+      # prompt, Save As, permission popups) — every one is process `zen` — so
+      # they were tiled AND teleported to ws1. Off ws1 that reads as "the window
+      # vanished", and since they're modal, Zen looks frozen with no visible
+      # cause. GlazeWM only auto-skips owned windows with NO title bar
+      # (manage_window.rs check_is_manageable: `has_owner_window() &&
+      # !has_window_style(WS_CAPTION)`), and a real dialog has one, so it gets
+      # managed and the rules run on it. There is no is-dialog match key —
+      # WindowMatchConfig is only process/class/title — so scope by class:
+      # ONLY the main window is MozillaWindowClass. Dialogs (MozillaDialogClass,
+      # or #32770 for a native Save As) now match nothing, fall through to
+      # initial_state floating + centered, and land on the CURRENT workspace.
       - window_process: { regex: "zen" }
+        window_class: { equals: "MozillaWindowClass" }
       - window_process: { equals: "7zFM" }
       - window_process: { equals: "explorer" }
         window_class: { equals: "CabinetWClass" }
@@ -224,9 +237,24 @@ window_rules:
       - window_process: { regex: "Claude|LM Studio" }
 
   # --- Workspace 5: PLAY — Playnite floats (popups/dialogs must not tile) ---
+  # MAIN WINDOW ONLY, by TITLE. Not tiling the popups was only half the fix:
+  # `move --workspace 5` still applied to them, and ws1 and ws5 are BOTH bound
+  # to monitor 2, so a Settings popup landed on a workspace hidden behind
+  # whatever the ultrawide was showing.
+  #
+  # Class is useless here — Playnite is WPF, so every window is
+  # HwndWrapper[Playnite.DesktopApp;;<GUID>] with a GUID that changes each
+  # launch. Title is exact and stable instead: Title="Playnite" appears in
+  # exactly two files upstream, Desktop and Fullscreen MainWindow.xaml. Every
+  # dialog uses a localized resource or a binding, so none can collide.
+  #
+  # One rule covers both app modes: GlazeWM's process_name splits the exe on
+  # '.' and keeps the FIRST segment (native_window.rs), so both
+  # Playnite.DesktopApp.exe and Playnite.FullscreenApp.exe report "Playnite".
   - commands: ["move --workspace 5"]
     match:
       - window_process: { equals: "Playnite" }
+        window_title: { equals: "Playnite" }
 
   # --- Workspace 6: MEDIA — Fladder (fullscreen wherever) ---
   - commands: ["set-tiling", "move --workspace 6"]
