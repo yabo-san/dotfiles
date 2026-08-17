@@ -72,16 +72,15 @@ ignore:
     # automatically — install them per-device.
     - ".obsidian/plugins/*"
 
-    # ── quarantined: unreadable in iCloud ────────────────────────────────────
-    # Offline + RecallOnDataAccess, and every hydration attempt fails with
-    # 0x8007017C ERROR_CLOUD_FILE_INVALID_REQUEST. iCloud has been retrying
-    # item 840F28ED-E8D5-4E7B-AACF-D4C4B69F7FC1 in a loop (see the iCloudDrive
-    # log under AppleInc.iCloud_nzyj5cx40ttqa). This matters because
-    # wait_until_uploaded() is an UNBOUNDED `while True` in this version --
-    # "timeout_seconds ... no longer enforced" -- so its worker would spin at
-    # 2 polls/sec forever. Fix it at the source (re-save the note on the Mac so
-    # iCloud mints a fresh asset), then delete this line.
-    - "1 Input/course/Mischa - Kubernetes Fundamentals.md"
+    # NOTE (2026-08-17): "1 Input/course/Mischa - Kubernetes Fundamentals.md"
+    # was quarantined here while its CloudKit asset (840F28ED-...) was corrupt --
+    # iCloud staged the bytes fine but the Windows cloud-filter driver refused
+    # the write with 0x8007017C ERROR_CLOUD_FILE_INVALID_REQUEST, and
+    # wait_until_uploaded() is an unbounded `while True` in this version, so its
+    # worker would have spun at 2 polls/sec forever. The record is gone and the
+    # note has been rebuilt, so the entry is removed. If a single file ever wedges
+    # like that again, quarantining it here is the stopgap -- but remember the
+    # daemon then ignores it completely, including pushing a local copy UP.
   dirs:
     - ".trash"
     - ".fseventsd"
