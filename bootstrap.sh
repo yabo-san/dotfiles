@@ -10,4 +10,4 @@
 # (darwin vs linux vs windows) — this script just gets chezmoi itself running.
 # =============================================================================
 set -eu
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply yabo-san/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply --force yabo-san/dotfiles
