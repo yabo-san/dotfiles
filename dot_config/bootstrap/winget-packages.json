@@ -22,6 +22,9 @@
 					"PackageIdentifier" : "Git.Git"
 				},
 				{
+					"PackageIdentifier" : "Docker.DockerDesktop"
+				},
+				{
 					"PackageIdentifier" : "REALiX.HWiNFO"
 				},
 				{
