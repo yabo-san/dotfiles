@@ -1,0 +1,11 @@
+{{/* DevPod CLI - dev container orchestrator (github.com/loft-sh/devpod). Unlike mise, this runs on Windows too - no scoop equivalent, so chezmoi owns it everywhere. */}}
+[".local/bin/devpod{{ if eq .chezmoi.os "windows" }}.exe{{ end }}"]
+type = "file"
+executable = true
+{{ if eq .chezmoi.os "darwin" }}
+url = "https://github.com/loft-sh/devpod/releases/download/v0.6.15/devpod-darwin-{{.chezmoi.arch}}"
+{{ else if eq .chezmoi.os "windows" }}
+url = "https://github.com/loft-sh/devpod/releases/download/v0.6.15/devpod-windows-amd64.exe"
+{{ else }}
+url = "https://github.com/loft-sh/devpod/releases/download/v0.6.15/devpod-linux-{{.chezmoi.arch}}"
+{{ end }}
