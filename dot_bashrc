@@ -159,6 +159,81 @@ fi
 set -o vi
 eval "$(mise activate bash)"
 
+# ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc — was never here at all) ~~~~~
+alias v=nvim
+alias gp="git pull"
+alias gs="git status"
+alias lg=lazygit
+
+if command -v bat > /dev/null ; then
+  alias cat="bat"
+fi
+
+if command -v lsd > /dev/null ; then
+  alias ls="lsd"
+  alias ll="ls -lgh"
+  alias la='ls -lathr'
+  alias lla='ls -lgha'
+  alias lt='ls --tree'
+fi
+
+# modern CLI pack — alias to classic names where present
+command -v fastfetch > /dev/null && alias ff='fastfetch' && alias neofetch='fastfetch'
+command -v btop  > /dev/null && alias top='btop'
+command -v dust  > /dev/null && alias du='dust'
+command -v duf   > /dev/null && alias df='duf'
+command -v procs > /dev/null && alias ps='procs'
+
+# yazi — terminal file manager (y); cd's the shell to where you quit
+if command -v yazi > /dev/null ; then
+  function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+  }
+fi
+
+alias k='kubectl'
+alias kgp='kubectl get pods'
+if command -v kubectl > /dev/null ; then
+  source <(kubectl completion bash)
+  complete -F __start_kubectl k
+fi
+
+alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
+# icloud/sb are Mac paths — inert here, kept for parity when this file lands on a Mac
+alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
+alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
+
+# grep → rg, find → fd, wget → curl
+command -v rg   > /dev/null && alias grep='rg'
+command -v fd   > /dev/null && alias find='fd'
+alias wget='curl -L -O'
+
+# mkcd — mkdir + cd
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
+# reload — re-source this file
+alias reload='source ~/.bashrc'
+
+# dormin — opencode. Default model is ollama on yabohome (tailscale :11434).
+dormin() {
+  if [ $# -eq 0 ]; then
+    opencode
+  else
+    opencode run --auto "$@"
+  fi
+}
+
+# zoxide — smart cd (--cmd cd makes `cd <partial>` jump by frecency). Last on
+# purpose, same as zshrc — needs to load after everything else to own `cd`.
+if command -v zoxide > /dev/null ; then
+  eval "$(zoxide init bash --cmd cd)"
+fi
+
 # devpod ssh (interactive mode) hits a Windows-only bug -- "The parameter is
 # incorrect" -- in its port-forward + tunnel setup (loft-sh/devpod, tested
 # 2026-08-18). `devpod ssh --command` works fine; only the interactive path
