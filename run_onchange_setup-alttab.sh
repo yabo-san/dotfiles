@@ -1,5 +1,11 @@
 #!/bin/bash
 # AltTab (com.lwouis.alt-tab-macos) — re-runs when this file changes
+# macOS-only; `defaults` doesn't exist on Linux/Windows and this was never
+# gated, so it silently broke `chezmoi apply` on any non-Mac box (found via
+# a Linux devcontainer, 2026-08-18).
+if [ "$(uname -s)" != "Darwin" ]; then
+  exit 0
+fi
 
 defaults write com.lwouis.alt-tab-macos appearanceSize -int 2
 defaults write com.lwouis.alt-tab-macos appsToShow -int 0

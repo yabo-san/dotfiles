@@ -284,9 +284,9 @@ function prompt {
 # ssh --command, etc.) passes straight through to the real binary untouched.
 function dssh {
     param([Parameter(Mandatory)][string]$Workspace)
-    $cid = docker ps --format '{{.ID}}`t{{.Image}}' |
+    $cid = docker ps --format '{{.ID}}|{{.Image}}' |
         Select-String "vsc-$Workspace" |
-        ForEach-Object { ($_ -split "`t")[0] } |
+        ForEach-Object { ($_ -split '\|')[0] } |
         Select-Object -First 1
     if (-not $cid) {
         Write-Host "dssh: no running container found for workspace '$Workspace'" -ForegroundColor Red
