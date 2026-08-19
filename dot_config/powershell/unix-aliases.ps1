@@ -39,7 +39,12 @@ if (Get-Command gsudo -ErrorAction SilentlyContinue) {
 function mkcd { param($d) New-Item -ItemType Directory -Force -Path $d | Out-Null; Set-Location $d }
 
 # reload — re-source the profile (like `source ~/.zshrc`)
-function reload { . $PROFILE }
+# NOTE: bare $PROFILE is CurrentUserCurrentHost (Documents\PowerShell\Microsoft.
+# PowerShell_profile.ps1) -- the profile-bridge script only wires up
+# CurrentUserAllHosts (Documents\PowerShell\profile.ps1) to redirect to the real
+# chezmoi-tracked config. Different slots; bare $PROFILE was never valid here.
+# Source the real tracked file directly instead of trusting profile indirection.
+function reload { . "$env:USERPROFILE\.config\powershell\Microsoft.PowerShell_profile.ps1" }
 
 # head — first N lines. `head file`, `head -n 5 file`, `head -5 file`, `... | head`
 function head {
