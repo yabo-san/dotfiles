@@ -292,7 +292,11 @@ function dssh {
         Write-Host "dssh: no running container found for workspace '$Workspace'" -ForegroundColor Red
         return
     }
-    docker exec -it $cid bash
+    # -u/-w match devcontainer.json's remoteUser and the /workspaces/<name> mount --
+    # a plain `docker exec` with neither defaults to root at /, whose home was
+    # never set up by anything (dotfiles, mise) and looks "broken" even though
+    # the real vscode-user environment is fully installed.
+    docker exec -it -u vscode -w "/workspaces/$Workspace" $cid bash
 }
 
 $script:RealDevpod = "$env:USERPROFILE\.local\bin\devpod.exe"
