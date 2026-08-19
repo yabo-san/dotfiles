@@ -222,7 +222,12 @@ function cca { Push-Location $HOME; try { gsudo claude -c --dangerously-skip-per
 
 # --- machine-specific dir jumps (mac iCloud paths → Windows D:\) ---
 function icloud { Set-Location "D:\iCloudDrive" }
-function sb     { Set-Location "D:\iCloudDrive\iCloud~md~obsidian\sb" }
+# sb = the vault you EDIT. Obsidian on this machine opens the replica at
+# D:\obsidian\sb and the python daemon bridges it to iCloud; editing the
+# iCloud copy directly is what the whole arrangement exists to prevent.
+# `sbi` is there for inspecting the other side -- look, do not edit.
+function sb     { Set-Location "D:\obsidian\sb" }
+function sbi    { Set-Location "D:\iCloudDrive\iCloud~md~obsidian\sb" }
 function od     { Set-Location "D:\OneDrive" }
 function ubu    { wsl ~ -d Ubuntu @args }   # drop into Ubuntu w/ your zsh dotfiles
 
@@ -267,4 +272,22 @@ function prompt {
     "$e[$($c.blue)m$loc$e[0m " +
     $branch +
     "$e[$($c.mauve)m❯$e[0m "
+}
+
+# devpod ssh (interactive mode) hits a Windows-only bug -- "The parameter is
+# incorrect" -- in its port-forward + tunnel setup (loft-sh/devpod, tested
+# 2026-08-18). `devpod ssh --command` works fine; only the interactive path
+# breaks. This sidesteps it entirely via `docker exec` against the workspace's
+# own container, found by DevPod's `vsc-<workspace>-<hash>` image naming.
+function dssh {
+    param([Parameter(Mandatory)][string]$Workspace)
+    $cid = docker ps --format '{{.ID}}`t{{.Image}}' |
+        Select-String "vsc-$Workspace" |
+        ForEach-Object { ($_ -split "`t")[0] } |
+        Select-Object -First 1
+    if (-not $cid) {
+        Write-Host "dssh: no running container found for workspace '$Workspace'" -ForegroundColor Red
+        return
+    }
+    docker exec -it $cid bash
 }

@@ -190,3 +190,19 @@ dormin() {
 if command -v zoxide > /dev/null ; then
   eval "$(zoxide init zsh --cmd cd)"
 fi
+
+# devpod ssh (interactive mode) hits a Windows-only bug -- "The parameter is
+# incorrect" -- in its port-forward + tunnel setup (loft-sh/devpod, tested
+# 2026-08-18). `devpod ssh --command` works fine; only the interactive path
+# breaks. Sidesteps it via docker exec against the workspace's own container,
+# found by DevPod's `vsc-<workspace>-<hash>` image naming.
+dssh() {
+  local workspace="${1:?usage: dssh <devpod-workspace-name>}"
+  local cid
+  cid=$(docker ps --format '{{.ID}}\t{{.Image}}' | awk -v w="vsc-$workspace" '$2 ~ w {print $1; exit}')
+  if [ -z "$cid" ]; then
+    echo "dssh: no running container found for workspace '$workspace'" >&2
+    return 1
+  fi
+  docker exec -it "$cid" bash
+}
