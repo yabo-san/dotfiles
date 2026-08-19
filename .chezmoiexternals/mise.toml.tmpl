@@ -1,11 +1,15 @@
 {{/* Only fetch mise on non-Windows (mac/Linux). On Windows, scoop manages tools. */}}
 {{ if ne .chezmoi.os "windows" }}
+{{ $arch := .chezmoi.arch }}
+{{ if eq $arch "amd64" }}{{ $arch = "x64" }}{{ end }}
+{{/* mise renamed release assets from -amd64 to -x64 (arm64 unchanged); this silently worked
+     before only because Apple Silicon (arm64) happened not to hit the renamed suffix. */}}
 [".local/bin/mise"]
 type = "file"
 executable = true
 {{ if eq .chezmoi.os "darwin" }}
-url = "https://github.com/jdx/mise/releases/download/v2026.6.11/mise-v2026.6.11-macos-{{.chezmoi.arch}}"
+url = "https://github.com/jdx/mise/releases/download/v2026.6.11/mise-v2026.6.11-macos-{{ $arch }}"
 {{ else }}
-url = "https://github.com/jdx/mise/releases/download/v2026.6.11/mise-v2026.6.11-{{.chezmoi.os}}-{{.chezmoi.arch}}"
+url = "https://github.com/jdx/mise/releases/download/v2026.6.11/mise-v2026.6.11-{{.chezmoi.os}}-{{ $arch }}"
 {{ end }}
 {{ end }}
