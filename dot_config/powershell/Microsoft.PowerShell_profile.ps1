@@ -274,11 +274,14 @@ function prompt {
     "$e[$($c.mauve)m❯$e[0m "
 }
 
-# devpod ssh (interactive mode) hits a Windows-only bug -- "The parameter is
-# incorrect" -- in its port-forward + tunnel setup (loft-sh/devpod, tested
-# 2026-08-18). `devpod ssh --command` works fine; only the interactive path
-# breaks. This sidesteps it entirely via `docker exec` against the workspace's
-# own container, found by DevPod's `vsc-<workspace>-<hash>` image naming.
+# devpod ssh <name> (plain interactive, no --command) hits a Windows-only bug --
+# "The parameter is incorrect" -- in its port-forward + tunnel setup (loft-sh/
+# devpod, tested 2026-08-18). `devpod ssh --command` works fine; only the bare
+# interactive path breaks. dssh sidesteps it via `docker exec` against the
+# workspace's own container, found by DevPod's `vsc-<workspace>-<hash>` image
+# naming. The `devpod` function below shadows the real devpod.exe so plain
+# `devpod ssh <name>` just works transparently -- everything else (up, delete,
+# ssh --command, etc.) passes straight through to the real binary untouched.
 function dssh {
     param([Parameter(Mandatory)][string]$Workspace)
     $cid = docker ps --format '{{.ID}}`t{{.Image}}' |
@@ -290,4 +293,13 @@ function dssh {
         return
     }
     docker exec -it $cid bash
+}
+
+$script:RealDevpod = "$env:USERPROFILE\.local\bin\devpod.exe"
+function devpod {
+    if ($args.Count -eq 2 -and $args[0] -eq 'ssh') {
+        dssh $args[1]
+        return
+    }
+    & $script:RealDevpod @args
 }
