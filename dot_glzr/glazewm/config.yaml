@@ -48,7 +48,7 @@ gaps:
   outer_gap:
     top: "40px"
     right: "10px"
-    bottom: "15px"
+    bottom: "10px"
     left: "10px"
 
 window_effects:
@@ -212,6 +212,17 @@ window_rules:
       - window_process: { equals: "POWERPNT" }
         window_class: { equals: "PPTFrameClass" }
 
+      # Obsidian belongs on MAIN, same as the Mac: FlashSpace profile "Default",
+      # workspace "main", display "LG HDR WQHD" -- which is this ultrawide.
+      # It was in NO rule at all, so the catch-all below ignored it, and an
+      # ignored window is never cloaked on a workspace switch: it has no
+      # workspace to be hidden with, so it hung over ALL of them permanently.
+      # Electron, so every Obsidian window is Chrome_WidgetWin_1 and class
+      # cannot separate a popped-out note from the main window (the trick used
+      # for zen above). Match the process alone -- popouts are real editor
+      # windows and tiling them is correct.
+      - window_process: { equals: "Obsidian" }
+
   # --- Workspace 2: COMMS (Acer) ---
   - commands: ["set-tiling", "move --workspace 2"]
     match:
@@ -317,7 +328,7 @@ window_rules:
       # The catch-all itself: process matches NONE of the allowlist above.
       - window_process:
           {
-            not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk",
+            not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk",
           }
 
 binding_modes:
