@@ -54,7 +54,7 @@
 
  RAYCAST SCRIPT COMMANDS (fresh-machine manual setup -- can't be chezmoi'd):
   - The scripts live in ~/.config/scripts/raycast (chezmoi-deployed, SINGLE source):
-    obsidian-launch, ahk-on, ahk-off, classic-start-menu, glaze-move-right.
+    ahk-on, ahk-off, classic-start-menu, glaze-move-right.
     (Old D:\REPOS\scripts\raycast copies were retired -- one source of truth now.)
   - POINT RAYCAST AT THAT DIR by hand: Settings > Extensions > Script Commands >
     Add Directory > C:\Users\senio\.config\scripts\raycast. Raycast stores its script
@@ -190,5 +190,28 @@ Constructor keys: F5 run, Ctrl+` panel, Ctrl+F7 clean, F6 stop, Ctrl+F5 package.
  AceGM\GMEdit — check where GMEdit creates its config on first run and move it there.)
 
 --- OBSIDIAN ---
-Open via Raycast "Obsidian" command (obsidian-launch.ps1) — launches the vault directly.
-Notes sync via iCloud; .obsidian config also syncs (no guardian needed).
+Open Obsidian ANY WAY YOU LIKE (taskbar, Start menu, obsidian:// link). There is no launcher
+script any more and nothing special to remember.
+
+THE ARCHITECTURE. Obsidian on this machine opens ONLY the replica at D:\obsidian\sb. It never
+touches D:\iCloudDrive\iCloud~md~obsidian\sb. iCloud for Windows serves every file through the
+cloud-filter driver, which Obsidian handles badly (dehydrated placeholders read as empty/renamed
+notes and it happily writes that damage back up). So Windows edits a normal local folder and a
+python daemon -- gursimar/obsidian-icloud-windows-sync, cloned to D:\REPOS by
+run_onchange_after_install-obsidian-sync.ps1 -- three-way syncs local <-> iCloud <-> history.
+The iCloud vault stays the Mac/iPhone source of truth and is never edited by this machine.
+The shell functions follow the same split: `sb` = the replica you edit, `sbi` = look, don't touch.
+
+WHAT STARTS IT. obsidian-sync.lnk in the Startup folder (written by
+run_onchange_after_startup-shortcuts.ps1) runs .config/scripts/obsidian/start-sync-daemon.ps1 at
+logon. It no-ops if the daemon is already up, so it is also the by-hand way to start it.
+This used to live inside the Raycast "Obsidian" command, which meant sync only ran if the vault
+was opened THAT ONE WAY -- and when it silently died it stayed dead for five weeks and 54 notes
+piled up in iCloud that Windows never saw. Sync is a machine service, not a launcher side effect.
+
+IS IT ALIVE? D:\obsidian\logs\daemon-status.txt holds the last start result; the sync logs sit
+beside it. Config is ~/.config/obsidian/sync-config.yaml (chezmoi-managed, NOT the my-config.yaml
+in the tool's checkout -- upstream's README tells you to put it there and a git pull eats it).
+Known upstream landmines are documented in that file's comments: check_icloud_status MUST stay
+false on iCloud 15.9, and .obsidian/plugins/* must stay ignored or the daemon self-loops.
+PLUGINS DO NOT SYNC as a result -- install them per-device.

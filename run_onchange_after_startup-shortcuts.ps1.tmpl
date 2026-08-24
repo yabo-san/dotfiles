@@ -57,6 +57,19 @@ $shortcuts = @(
         Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
         Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\yasb\fix-crt-bar.ps1`""
         Why    = 're-point the yasb CRT bar at whatever DISPLAYn the CRT is today'
+    },
+    @{
+        # Obsidian on this machine opens the REPLICA at D:\obsidian\sb and never
+        # touches the iCloud copy; this daemon is the bridge between the two.
+        # It used to start only from the Raycast "Obsidian" command, so opening
+        # the vault any other way synced nothing -- silently, for five weeks.
+        # Sync is a machine service, so it belongs at logon. The wrapper script
+        # does the venv/config guards and feeds stdin (upstream calls input()
+        # before the engine starts); it no-ops if the daemon is already up.
+        Name   = 'obsidian-sync.lnk'
+        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
+        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\obsidian\start-sync-daemon.ps1`""
+        Why    = 'Obsidian local<->iCloud sync daemon'
     }
 )
 

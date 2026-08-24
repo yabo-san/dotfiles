@@ -2,7 +2,8 @@
 # sync-config.yaml — obsidian-icloud-windows-sync configuration
 # =============================================================================
 # Deployed to ~/.config/obsidian/sync-config.yaml and passed to the daemon by
-# .config/scripts/raycast/obsidian-launch.ps1.
+# .config/scripts/obsidian/start-sync-daemon.ps1, which the obsidian-sync.lnk
+# Startup shortcut runs at logon.
 #
 # WHY IT LIVES HERE AND NOT IN THE TOOL'S REPO: upstream's README says to copy
 # config.yaml -> my-config.yaml inside the clone, which leaves it untracked and
