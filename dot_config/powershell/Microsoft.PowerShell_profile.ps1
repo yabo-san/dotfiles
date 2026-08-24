@@ -96,7 +96,7 @@ function brew {
         }
         '^(upgrade|up)$' {
             Write-Host "scoop update *..."  -ForegroundColor Cyan;  scoop update *
-            Write-Host "winget upgrade --all..." -ForegroundColor Blue; winget upgrade --all --silent
+            Write-Host "winget upgrade --all..." -ForegroundColor Blue; sudo winget upgrade --all --silent
             Write-Host "choco upgrade all..." -ForegroundColor Magenta; sudo choco upgrade all -y
             return
         }
