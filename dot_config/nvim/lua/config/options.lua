@@ -25,8 +25,7 @@ then
   -- reach the system clipboard via OSC 52, and pasting FROM the host is the
   -- terminal's job (Ctrl+Shift+V / right-click).
   local function reg_paste()
-    return { vim.split(vim.fn.getreg('"'), "
-"), vim.fn.getregtype('"') }
+    return { vim.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') }
   end
   vim.g.clipboard = {
     name = "OSC 52",
