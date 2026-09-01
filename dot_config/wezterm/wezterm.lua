@@ -111,6 +111,14 @@ config.keys = {
   { key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
 }
 
+-- ── SSH agent: OFF ──────────────────────────────────────────────────────
+-- Newer WezTerm nightlies default mux_enable_ssh_agent=true: every pane gets
+-- SSH_AUTH_SOCK pointed at ~/.local/share/wezterm/agent.<pid> -- but no socket
+-- is actually served there, so anything honouring the variable (devpod's agent
+-- forwarding, ssh -A) dials a dead path and dies. Broke `devpod up` 2026-09-01.
+-- If agent forwarding is ever wanted, use Windows' OpenSSH agent service.
+config.mux_enable_ssh_agent = false
+
 -- ── Default shell: PowerShell 7 ; WSL one keybind away ───────────────────
 if is_windows then
   config.default_prog = { "pwsh.exe", "-NoLogo" }

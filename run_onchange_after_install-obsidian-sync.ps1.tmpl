@@ -34,7 +34,8 @@
 $ErrorActionPreference = 'Stop'
 
 $repo    = 'D:\REPOS\obsidian-icloud-windows-sync'
-$url     = 'https://github.com/gursimar/obsidian-icloud-windows-sync.git'
+# yabo-san fork: adds the quiet-period debounce (sync.quiet_period). Upstream = gursimar.
+$url     = 'https://github.com/yabo-san/obsidian-icloud-windows-sync.git'
 $venvPy  = Join-Path $repo '.venv\Scripts\python.exe'
 
 if (-not (Test-Path 'D:\')) {

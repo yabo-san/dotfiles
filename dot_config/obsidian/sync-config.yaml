@@ -44,6 +44,14 @@ sync:
   stability_window: 5
   stabilize_wait: 60
   tiny_threshold: 8
+  # Quiet-period debounce (yabo-san fork). A file is synced only after it has
+  # stopped changing in BOTH vaults for this many seconds. Obsidian autosaves
+  # every ~2s while typing; upstream pushed each save to iCloud (34 pushes of one
+  # note in 2.5 min on 2026-09-01), and iCloud answered by forking the note into
+  # "node pools(1).md", "node pools 2..6.md" and then deleting the original.
+  # stability_window is NOT a debounce (flat sleep, never re-checks) -- this is.
+  quiet_period: 20
+  quiet_max_wait: 600
 
 logging:
   console_level: "normal" # quiet | normal | verbose

@@ -305,5 +305,12 @@ function devpod {
         dssh $args[1]
         return
     }
+    # bare `devpod ssh` (no name): infer the workspace from the current folder,
+    # matching DevPod's own folder->workspace naming. Without this it fell
+    # through to the real binary and hit the Windows tunnel bug (2026-09-01).
+    if ($args.Count -eq 1 -and $args[0] -eq 'ssh') {
+        dssh (Split-Path -Leaf (Get-Location))
+        return
+    }
     & $script:RealDevpod @args
 }
