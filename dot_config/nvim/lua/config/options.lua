@@ -17,9 +17,20 @@ if vim.fn.has("mac") == 0 and vim.fn.has("win32") == 0
   and vim.fn.executable("wl-copy") == 0
 then
   local osc52 = require("vim.ui.clipboard.osc52")
+  -- Paste must NOT use osc52.paste: that's a clipboard READ query, terminals
+  -- (WezTerm included) refuse those for security, and with LazyVim's
+  -- clipboard=unnamedplus every plain `p` then hangs on "waiting for OSC 52
+  -- response" (hit 2026-09-01 in the mercury devpod). Instead paste from
+  -- nvim's own unnamed register: in-nvim yank/paste is instant, yanks still
+  -- reach the system clipboard via OSC 52, and pasting FROM the host is the
+  -- terminal's job (Ctrl+Shift+V / right-click).
+  local function reg_paste()
+    return { vim.split(vim.fn.getreg('"'), "
+"), vim.fn.getregtype('"') }
+  end
   vim.g.clipboard = {
     name = "OSC 52",
     copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
-    paste = { ["+"] = osc52.paste("+"), ["*"] = osc52.paste("*") },
+    paste = { ["+"] = reg_paste, ["*"] = reg_paste },
   }
 end

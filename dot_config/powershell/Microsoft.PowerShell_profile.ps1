@@ -305,11 +305,15 @@ function devpod {
         dssh $args[1]
         return
     }
-    # bare `devpod ssh` (no name): infer the workspace from the current folder,
-    # matching DevPod's own folder->workspace naming. Without this it fell
-    # through to the real binary and hit the Windows tunnel bug (2026-09-01).
+    # bare `devpod ssh` (no name): fzf picker over the workspace list, then
+    # dssh into the choice. (Passing it to the real binary hit the Windows
+    # tunnel bug, 2026-09-01.) One workspace = no menu, straight in.
     if ($args.Count -eq 1 -and $args[0] -eq 'ssh') {
-        dssh (Split-Path -Leaf (Get-Location))
+        $ws = & $script:RealDevpod list --output json 2>$null | ConvertFrom-Json |
+            ForEach-Object { $_.id }
+        if (-not $ws) { Write-Host "devpod ssh: no workspaces found" -ForegroundColor Red; return }
+        $pick = if ($ws.Count -eq 1) { $ws } else { $ws | fzf --height 40% --prompt 'workspace> ' }
+        if ($pick) { dssh $pick }
         return
     }
     & $script:RealDevpod @args
