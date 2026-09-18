@@ -121,19 +121,16 @@ Win11's 2025 "UserChoiceLatest" hash protection makes the FINAL default-app choi
 un-scriptable. e.g. Archives -> NanaZip: right-click a .zip/.7z/.rar -> Open with
 -> NanaZip -> "Always use" (NanaZip auto-registers via MSIX, already in the list).
 
---- ShareX ---
-Uses native PrintScreen hotkeys (PrtSc=full, Ctrl+PrtSc=region, Alt+PrtSc=window,
-Shift+PrtSc=record, Ctrl+Shift+PrtSc=GIF). Autostarts via the Run key (tracked);
-hotkeys only fire while ShareX is running. PrintScreenKeyForSnippingEnabled=0
-frees PrtSc from Windows snip.
-
---- Win+Shift+S -> ShareX (via AHK, the reliable way) ---
-Win+Shift+S is reserved by Snip & Sketch and fights any app that tries to register
-it. The robust fix: AutoHotkey intercepts it (quake-hotkey.ahk: `#+s::` runs ShareX
--RectangleRegion) — AHK swallows the key BEFORE Windows snip, no reboot needed.
-Also removed the Snip & Sketch app for good measure:
-  Get-AppxPackage *ScreenSketch* | Remove-AppxPackage
-ShareX hotkeys otherwise: PrtSc=all screens, Ctrl+PrtSc=region.
+--- Screenshots = native Snipping Tool (ShareX removed 2026-09-17) ---
+Win+Shift+S (native) and PrtSc both open the snip overlay. Nothing autostarts,
+nothing to configure, no AHK binding.
+Reinstall on a fresh box (the old setup had UNINSTALLED it):
+  winget install --id 9MZ95KL8MR0L --source msstore
+Registry (now in windows-tweaks.reg): PrintScreenKeyForSnippingEnabled=1 and
+PrintScreenKeyForSnippingTool=1 put PrtSc back on the snip overlay. The old setup
+set Enabled=0 to free PrtSc for ShareX -- do NOT re-add that.
+Do NOT bind #+s in quake-hotkey.ahk: AHK swallows Win+Shift+S before Windows snip
+sees it, which is exactly how ShareX used to win the key.
 
 --- PowerShell modules must live OFF OneDrive ---
 Documents is OneDrive-redirected, so the default PS module path
@@ -152,7 +149,7 @@ These .lnk files live in %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
   - YASB.lnk           -> C:\Program Files\Yasb\yasb.exe  (else the bar wont start on boot)
   - quake-hotkey.lnk   -> AutoHotkey64.exe ~\.config\scripts\wezterm\quake-hotkey.ahk
   - MEGAsync.lnk       -> (MEGAsync)
-ShareX autostarts via the Run key (in windows-tweaks.reg), not here.
+(Screenshots need no autostart now that it's the native Snipping Tool.)
 
 --- Alt-remaps (mac-style) + AMD dependency (REQUIRED bootstrap step on AMD) ---
 quake-hotkey.ahk remaps Alt+C/X/V/A -> Ctrl (copy/cut/paste/select-all) and Alt+Z -> Ctrl+Z (undo),
@@ -174,7 +171,7 @@ AND Esc/click-away close it (Open-Shell closes on WM_ACTIVATE/WA_INACTIVE).
 NOTE: Open-Shell IGNORES injected keystrokes (LLKHF_INJECTED), so simulating keys
 (keybd_event/AHK) does NOT work — the IPC message is the ONLY programmatic path.
 Key triggers WinKey/ShiftWin = "Nothing" ON PURPOSE: Shift+Win would clash with
-ShareX's Win+Shift+S. ShiftClick=WindowsMenu (Shift+click start button = Win11 menu).
+Win+Shift+S (Snipping Tool). ShiftClick=WindowsMenu (Shift+click start = Win11 menu).
 
 --- GMEdit + Constructor (GameMaker editor, manual install — not in scoop/winget) ---
 GMEdit = a fast GML code editor (alt to the GameMaker IDE). Constructor = a plugin

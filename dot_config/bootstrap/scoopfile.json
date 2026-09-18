@@ -508,13 +508,6 @@
     },
     {
       "Info": "",
-      "Source": "extras",
-      "Name": "sharex",
-      "Version": "21.0.0",
-      "Updated": "/Date(1785400371307)/"
-    },
-    {
-      "Info": "",
       "Source": "main",
       "Name": "sops",
       "Version": "3.13.3",

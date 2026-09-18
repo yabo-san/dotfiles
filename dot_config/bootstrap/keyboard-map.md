@@ -15,7 +15,6 @@ Sources: `scripts/wezterm/quake-hotkey.ahk` (AHK) · `~/.glzr/glazewm/config.yam
 | `Alt+Shift+C/X/V/A` | pass through to the app (e.g. Zen copy-URL) |
 | `` ` `` (backtick) | WezTerm quake dropdown toggle |
 | `` Ctrl+` `` | type a literal backtick |
-| `Win+Shift+S` | ShareX region capture |
 
 **Obsidian only (when focused)** — Alt-ified via AHK, NOT its config (it's iCloud-synced → Mac-safe):
 `Alt+Y` browse-vault · `Alt+M` move-file · `Alt+I` Templater Zettel · `Alt+N` new-tab · `Alt+T` daily-note
@@ -23,12 +22,13 @@ Sources: `scripts/wezterm/quake-hotkey.ahk` (AHK) · `~/.glzr/glazewm/config.yam
 ---
 
 ## Windows keys
-**Disabled** (`DisabledHotkeys=IXNQSBOR`, relog to activate): `Win+ I X N Q S B O R`
+**Disabled** (`DisabledHotkeys=IXNQBOR`, relog to activate): `Win+ I X N Q B O R`
 (Settings/power-menu/notifications/search×2/taskbar-focus/orientation/Run — all covered by Raycast / Open-Shell / YASB)
 **Removed:** `Win+C` (Copilot off) · `Win+W` (Widgets app uninstalled)
 **Already inert** (GlazeWM eats `lwin+k`/`lwin+h`): `Win+K` (cast) · `Win+H` (dictation)
 **Kept:** `Win+E` files · `Win+P` display · `Win+V` clipboard · `Win+G` Game Bar · `Win+A` quick-settings · `Win+.` emoji
-**Rebound:** `Win+L` → GlazeWM move-window-right (Raycast bridge) · `Win+Shift+S` → ShareX
+**Rebound:** `Win+L` → GlazeWM move-window-right (Raycast bridge)
+**Native:** `Win+Shift+S` → Snipping Tool region · `PrtSc` → Snipping Tool overlay
 
 ---
 
@@ -67,7 +67,7 @@ _Note: a `resize` binding-mode is defined (h/j/k/l/arrows = ±2%, Esc/Enter exit
 ## Apps
 - **Zen** — all command shortcuts Alt-ified (Cmd-parity); private window = `Alt+Shift+N`; reload = `Alt+R` (works now AMD hotkeys are off).
 - **Obsidian** — see the AHK Obsidian block above; vim mode is ON (Obsidian hotkeys override vim's Ctrl-keys).
-- **ShareX** — `Win+Shift+S` region (via AHK) · `PrtSc` all screens · `Ctrl+PrtSc` region.
+- **Snipping Tool** — `Win+Shift+S` region · `PrtSc` opens the same overlay. Native, nothing to autostart (ShareX removed 2026-09-17).
 - **Playnite** — global Pre/PostScript kills AHK on game launch (raw input, anti-cheat safe) and relaunches it after. Manual toggle = Raycast **"AHK Off" / "AHK On"**.
 
 ---

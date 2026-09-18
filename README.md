@@ -42,7 +42,7 @@ Detailed bootstrap + gotchas live in `dot_config/bootstrap/windows-notes.txt`; t
 | Shell | PowerShell (full zsh-parity port of `dot_zshrc`) | 7.5.5 |
 | Launcher | Raycast (Win) · Open-Shell classic menu (Shift+Win) | — |
 | Files | File Pilot (GUI) · yazi (TUI) · Win+E (Explorer) | 0.7.0 |
-| Screenshots | ShareX — PrtSc / Ctrl+PrtSc; Win+Shift+S via AHK | 20.2 |
+| Screenshots | Snipping Tool (native) — Win+Shift+S / PrtSc | — |
 | Task manager | System Informer (replaces taskmgr via IFEO) | 3.2 |
 | Archives | NanaZip (frontend) + 7-Zip (scoop/yazi dependency) | 6.0 |
 | Remote desktop | RustDesk | 1.4.7 |
@@ -75,3 +75,6 @@ TODO:
 - setup retroNAS and gamevault  
 - cleanup steam and playnite installation on desktop pc  
 - organize obsidian vault  
+- KH2 Re:Fined: L1 shortcut menu leaks ○/jump — fill the 4th slot in every Customize > Shortcuts set (active set's ○ slot is empty/junk; see dllmain.cpp's ShortcutSetsKH3 module)  
+- KH2 Re:Fined: title screen renders 16:9 and gets cut off at 4:3 (mod-asset issue, not a setting)  
+- `devtunnel` PowerShell helper wrapping `devpod ssh <workspace> -L <port>:localhost:<port>` — devcontainer port-forwarding to Windows currently needs the raw flag syntax remembered every time (`--ide none` skips the IDE's automatic port-relay for `forwardPorts`)  

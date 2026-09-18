@@ -22,16 +22,9 @@ vkC0::
     SendText("``")
 }
 
-; Win+Shift+S -> ShareX region capture (AHK swallows it BEFORE Windows snip, so
-; Snipping Tool never fires; no reboot needed). Replaces the native snip key.
-; KeyWait releases Win+Shift FIRST — else ShareX's region selector sees the held
-; modifiers as mode-changers and the crosshair won't track the mouse (finicky).
-#+s::
-{
-    KeyWait("LWin")
-    KeyWait("Shift")
-    Run('"' . EnvGet("USERPROFILE") . '\scoop\apps\sharex\current\ShareX.exe" -RectangleRegion')
-}
+; Win+Shift+S is deliberately NOT bound here — it goes to the native Snipping Tool
+; (ShareX removed 2026-09-17). Anything AHK binds to #+s swallows the key before
+; Windows snip sees it, so leave it alone.
 
 ; Win+W -> focus the Zen window WHEREVER it is — even cloaked on another glaze
 ; workspace, or minimized. DetectHiddenWindows lets us see it when glaze cloaks
