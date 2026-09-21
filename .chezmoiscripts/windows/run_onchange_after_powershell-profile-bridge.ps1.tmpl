@@ -22,6 +22,10 @@
 # chezmoi hash so this re-runs when the tracked profile changes:
 #   {{ include "dot_config/powershell/Microsoft.PowerShell_profile.ps1" | sha256sum }}
 # =============================================================================
+# A skip that means "not done, try later" MUST exit non-zero. chezmoi records a
+# run_onchange script that exits 0 as done and never retries it, so a plain
+# `return` there silently drops the work (found 2026-09-20: Playnite was open,
+# the stubs were skipped, and chezmoi never tried again).
 $ErrorActionPreference = 'Stop'
 
 $target = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PowerShell\profile.ps1'
@@ -29,7 +33,7 @@ $source = Join-Path $env:USERPROFILE '.config\powershell\Microsoft.PowerShell_pr
 
 if (-not (Test-Path $source)) {
     Write-Host "[profile] chezmoi profile missing: $source" -ForegroundColor Yellow
-    return
+    exit 1
 }
 
 $bridge = @"

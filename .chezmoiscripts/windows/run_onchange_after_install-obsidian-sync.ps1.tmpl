@@ -32,6 +32,10 @@
 # Re-runs when the config changes:
 #   {{ include "dot_config/obsidian/sync-config.yaml" | sha256sum }}
 # =============================================================================
+# A skip that means "not done, try later" MUST exit non-zero. chezmoi records a
+# run_onchange script that exits 0 as done and never retries it, so a plain
+# `return` there silently drops the work (found 2026-09-20: Playnite was open,
+# the stubs were skipped, and chezmoi never tried again).
 $ErrorActionPreference = 'Stop'
 
 $repo    = 'D:\REPOS\obsidian-icloud-windows-sync'
@@ -48,7 +52,7 @@ if (-not (Test-Path (Join-Path $repo '.git'))) {
     Write-Host "[obsidian-sync] cloning to $repo ..." -ForegroundColor Cyan
     New-Item -ItemType Directory -Force (Split-Path $repo) | Out-Null
     & git clone --quiet $url $repo
-    if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] clone failed.' -ForegroundColor Red; return }
+    if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] clone failed.' -ForegroundColor Red; exit 1 }
 } else {
     Write-Host '[obsidian-sync] repo present.' -ForegroundColor DarkGray
 }
@@ -56,7 +60,7 @@ if (-not (Test-Path (Join-Path $repo '.git'))) {
 if (-not (Test-Path $venvPy)) {
     Write-Host '[obsidian-sync] creating venv ...' -ForegroundColor Cyan
     & python -m venv (Join-Path $repo '.venv')
-    if (-not (Test-Path $venvPy)) { Write-Host '[obsidian-sync] venv creation failed.' -ForegroundColor Red; return }
+    if (-not (Test-Path $venvPy)) { Write-Host '[obsidian-sync] venv creation failed.' -ForegroundColor Red; exit 1 }
 }
 
 # Reinstall only when the package isn't importable from the venv — covers both a
@@ -67,7 +71,7 @@ if ($LASTEXITCODE -ne 0) {
     & $venvPy -m pip install --quiet --upgrade pip
     & $venvPy -m pip install --quiet $repo
     & $venvPy -c 'import obsidian_sync, yaml, watchdog, colorama, aiofiles' 2>$null
-    if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] deps still missing after install.' -ForegroundColor Red; return }
+    if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] deps still missing after install.' -ForegroundColor Red; exit 1 }
 }
 
 Write-Host '[obsidian-sync] ready — launch via Raycast "Obsidian".' -ForegroundColor Green

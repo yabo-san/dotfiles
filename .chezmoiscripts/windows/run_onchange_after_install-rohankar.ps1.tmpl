@@ -21,6 +21,10 @@
 # Re-runs when the pinned version changes:
 #   {{ include ".chezmoiexternals/launchers.toml.tmpl" | sha256sum }}
 # =============================================================================
+# A skip that means "not done, try later" MUST exit non-zero. chezmoi records a
+# run_onchange script that exits 0 as done and never retries it, so a plain
+# `return` there silently drops the work (found 2026-09-20: Playnite was open,
+# the stubs were skipped, and chezmoi never tried again).
 $ErrorActionPreference = 'Stop'
 
 $version   = '1.4.1'
@@ -30,7 +34,7 @@ $exeName   = 'RohanKar Launcher.exe'
 
 if (-not (Test-Path $setup)) {
     Write-Host "[rohankar] installer not fetched yet - run 'chezmoi apply' again once the external downloads." -ForegroundColor Yellow
-    return
+    exit 1
 }
 
 # Already at this version? Nothing to do.
@@ -48,7 +52,7 @@ if ($installed) {
 # The app must not be running or NSIS will fail or leave a half-written install.
 if (Get-Process -Name 'RohanKar*' -ErrorAction SilentlyContinue) {
     Write-Host "[rohankar] RohanKar Launcher is running - close it and re-run 'chezmoi apply'." -ForegroundColor Yellow
-    return
+    exit 1
 }
 
 Write-Host "[rohankar] installing $version silently to $installDir ..." -ForegroundColor Cyan
@@ -57,7 +61,7 @@ Write-Host "[rohankar] installing $version silently to $installDir ..." -Foregro
 $proc = Start-Process -FilePath $setup -ArgumentList "/S /D=$installDir" -PassThru -Wait
 if ($proc.ExitCode -ne 0) {
     Write-Host "[rohankar] installer exited $($proc.ExitCode)" -ForegroundColor Red
-    return
+    exit 1
 }
 
 $now = Get-ChildItem $installDir -Filter '*.exe' -ErrorAction SilentlyContinue |
@@ -66,5 +70,6 @@ if ($now) {
     Write-Host "[rohankar] installed $($now.VersionInfo.ProductVersion) -> $($now.FullName)" -ForegroundColor Green
 } else {
     Write-Host "[rohankar] installer reported success but no exe found in $installDir" -ForegroundColor Yellow
+    exit 1
 }
 {{ end -}}

@@ -18,19 +18,23 @@
 # NOTE: there is deliberately NO GameStartedScript any more. Window and monitor
 # handling was removed entirely (2026-08-01) — see below.
 # =============================================================================
+# A skip that means "not done, try later" MUST exit non-zero. chezmoi records a
+# run_onchange script that exits 0 as done and never retries it, so a plain
+# `return` there silently drops the work (found 2026-09-20: Playnite was open,
+# the stubs were skipped, and chezmoi never tried again).
 $ErrorActionPreference = 'Stop'
 
 $cfgPath = Join-Path $env:APPDATA 'Playnite\config.json'
 if (-not (Test-Path $cfgPath)) {
     Write-Host "[playnite] no config.json yet — run Playnite once, then 'chezmoi apply'." -ForegroundColor Yellow
-    return
+    exit 1
 }
 
 # Playnite rewrites config.json wholesale when it exits, which would silently
 # undo us. Refuse to touch it while it's running.
 if (Get-Process 'Playnite*' -ErrorAction SilentlyContinue) {
     Write-Host "[playnite] Playnite is running — close it and re-run 'chezmoi apply'." -ForegroundColor Yellow
-    return
+    exit 1
 }
 
 $dir = '$env:USERPROFILE\.config\scripts\playnite'
