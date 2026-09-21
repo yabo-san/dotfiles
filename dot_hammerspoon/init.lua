@@ -1,3 +1,4 @@
+require("hs.ipc") -- enables the `hs` CLI so the console can be queried from a shell
 local GHOSTTY = "com.mitchellh.ghostty"
 local previousApp = nil
 

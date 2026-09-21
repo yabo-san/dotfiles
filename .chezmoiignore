@@ -5,6 +5,7 @@ setup
 README.md
 # entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
 bootstrap.ps1
+bootstrap.sh
 
 # python bytecode — never deploy, never track
 **/__pycache__/**
@@ -21,7 +22,6 @@ Brewfile
 .zshrc
 .tmux.conf
 .config/aerospace/**
-.config/flashspace/**
 .config/ghostty/**
 .config/karabiner/**
 .config/mise/**
@@ -42,6 +42,9 @@ Brewfile
 .config/bootstrap/**
 .config/fastfetch/**
 .config/obsidian/**
+.config/monitors.json
+.config/playnite/**
+.wslconfig
 {{ end }}
 # NOTE: .config/bat IS shared (mac + Windows) — the preferred bat style.
 
@@ -59,7 +62,6 @@ Library/**
 {{ if eq .chezmoi.os "linux" }}
 Brewfile
 .config/aerospace/**
-.config/flashspace/**
 .config/ghostty/**
 .config/karabiner/**
 .config/sketchybar/**

@@ -43,7 +43,6 @@ cask "deskflow"      # KVM — share one kbd/mouse across mac+windows (ex-Synerg
 cask "betterdisplay" # virtual/headless displays — ultrawide virtual screen for the RustDesk-Mac-as-a-tile rig
 cask "raindropio"
 cask "alt-tab"
-brew "flashspace"
 cask "macsyzones"
 brew "scroll-reverser"
 
