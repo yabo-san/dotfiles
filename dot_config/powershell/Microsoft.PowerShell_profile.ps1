@@ -45,10 +45,13 @@ $env:BAT_CONFIG_PATH = "$env:USERPROFILE\.config\bat\config"
 # Both init scripts are slow to GENERATE (zoxide ~225ms, atuin ~500ms) but the
 # output is static — so CACHE the init script and source the cache (refresh
 # weekly). Same trick as kubectl. Keeps startup snappy.
-function Initialize-CachedInit($cmd, $args, $cacheName) {
+function Initialize-CachedInit($cmd, $cmdArgs, $cacheName) {
     $cache = Join-Path $env:LOCALAPPDATA $cacheName
     if ((-not (Test-Path $cache)) -or ((Get-Item $cache).LastWriteTime -lt (Get-Date).AddDays(-7))) {
-        & $cmd $args 2>$null | Out-String | Set-Content $cache -Encoding utf8
+        # $cmdArgs, NOT $args: $args is an automatic variable, a param by that name arrives empty.
+        # Only write the cache if the tool actually printed something.
+        $out = & $cmd @cmdArgs 2>$null | Out-String
+        if ($out.Trim()) { Set-Content $cache $out -Encoding utf8 }
     }
     if ((Get-Item $cache -EA SilentlyContinue).Length -gt 0) { . $cache }
 }
@@ -229,6 +232,10 @@ function icloud { Set-Location "D:\iCloudDrive" }
 function sb     { Set-Location "D:\obsidian\sb" }
 function sbi    { Set-Location "D:\iCloudDrive\iCloud~md~obsidian\sb" }
 function od     { Set-Location "D:\OneDrive" }
+# desktop = the REAL desktop (the one you see, OneDrive-redirected), not the
+# stale ~\Desktop folder. Asks Windows for the known folder instead of
+# hardcoding the path, so it survives the senio -> yabo account rename.
+function desktop { Set-Location -LiteralPath ([Environment]::GetFolderPath('Desktop')) }
 function ubu    { wsl ~ -d Ubuntu @args }   # drop into Ubuntu w/ your zsh dotfiles
 
 # ~~~~~~~~~~~~~~~ Completions (dot_zshrc: fzf, kubectl) ~~~~~~~~~~~~~~~~~~~~~~~~
