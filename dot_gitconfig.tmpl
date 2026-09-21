@@ -4,20 +4,17 @@
 [core]
 	editor = code --wait
 	pager = delta
+# GitHub auth goes through the gh CLI. `gh` is resolved on PATH on every OS
+# (scoop shims on Windows, brew on mac). Do NOT hardcode a gh.exe path here:
+# the old one pointed at C:\Program Files\GitHub CLI, which does not exist
+# with a scoop install, so an apply would have broken every push. The empty
+# `helper =` first clears any helper inherited from the system config.
 [credential "https://github.com"]
 	helper =
-{{ if eq .chezmoi.os "windows" -}}
-	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
-{{ else -}}
 	helper = !gh auth git-credential
-{{ end -}}
 [credential "https://gist.github.com"]
 	helper =
-{{ if eq .chezmoi.os "windows" -}}
-	helper = !'C:\\Program Files\\GitHub CLI\\gh.exe' auth git-credential
-{{ else -}}
 	helper = !gh auth git-credential
-{{ end -}}
 [delta]
 	navigate = true
 	line-numbers = true
