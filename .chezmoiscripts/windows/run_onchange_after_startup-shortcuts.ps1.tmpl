@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
 # =============================================================================
 # run_onchange_after_startup-shortcuts.ps1 — generate the Startup folder .lnk files
@@ -104,3 +105,4 @@ foreach ($s in $shortcuts) {
 if ($made)    { Write-Host "[startup] wrote: $($made -join ', ')" -ForegroundColor Green }
 if ($skipped) { foreach ($s in $skipped) { Write-Host "[startup] skipped $s" -ForegroundColor DarkYellow } }
 if (-not $made -and -not $skipped) { Write-Host "[startup] all shortcuts current." -ForegroundColor DarkGray }
+{{ end -}}

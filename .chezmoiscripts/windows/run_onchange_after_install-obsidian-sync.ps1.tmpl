@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
 # =============================================================================
 # run_onchange_after_install-obsidian-sync.ps1 — clone + venv the sync daemon
@@ -70,3 +71,4 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host '[obsidian-sync] ready — launch via Raycast "Obsidian".' -ForegroundColor Green
+{{ end -}}

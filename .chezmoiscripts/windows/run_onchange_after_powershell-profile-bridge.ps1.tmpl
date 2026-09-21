@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
 # =============================================================================
 # run_onchange_after_powershell-profile-bridge.ps1
@@ -60,3 +61,4 @@ if (Test-Path $target) {
 
 Set-Content -Path $target -Value $bridge -Encoding UTF8
 Write-Host "[profile] bridged $target -> chezmoi profile" -ForegroundColor Green
+{{ end -}}

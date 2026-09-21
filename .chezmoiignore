@@ -1,6 +1,8 @@
 setup
 # age private key — never deployed, never managed
 .config/age/keys.txt
+# repo docs: stay in the repo for GitHub, never copied into ~
+README.md
 # entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
 bootstrap.ps1
 
@@ -25,24 +27,12 @@ Brewfile
 .config/mise/**
 .config/sketchybar/**
 .chezmoiexternals/**
-.chezmoiscripts/**
-setup-alttab.sh
 {{ end }}
 
 # On mac/Linux, skip all the Windows-only configs:
-# NOTE: for scripts, chezmoi strips the run_onchange_/run_once_/before_/after_
-# prefixes when matching ignore patterns against the computed target name --
-# same idea as dot_/private_ stripping for regular files. Listing the full
-# source-prefixed name here never matched anything; these scripts were
-# silently NOT ignored on non-Windows this whole time (confirmed: reproduced
-# `install-obsidian-sync.ps1: exec format error` on a clean Linux box,
-# 2026-08-18, independent of DevPod).
+# Scripts are NOT listed here: each one in .chezmoiscripts/<os>/ wraps itself
+# in an OS if-guard (template), and chezmoi skips a script that renders empty.
 {{ if ne .chezmoi.os "windows" }}
-playnite-scripts.ps1
-startup-shortcuts.ps1
-powershell-profile-bridge.ps1
-install-rohankar.ps1
-install-obsidian-sync.ps1
 .glzr/**
 .config/wezterm/**
 .config/yasb/**
@@ -73,7 +63,6 @@ Brewfile
 .config/ghostty/**
 .config/karabiner/**
 .config/sketchybar/**
-setup-alttab.sh
 .ssh/**
 {{ end }}
 

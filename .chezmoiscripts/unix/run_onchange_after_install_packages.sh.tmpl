@@ -1,4 +1,6 @@
+{{ if ne .chezmoi.os "windows" -}}
 #!/bin/bash
 # packages hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 $HOME/.local/bin/mise trust $HOME/.config/mise/config.toml && $HOME/.local/bin/mise install
 
+{{ end -}}

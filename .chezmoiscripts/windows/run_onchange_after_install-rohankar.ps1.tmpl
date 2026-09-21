@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
 # =============================================================================
 # run_onchange_after_install-rohankar.ps1 — silent-install the RohanKar Launcher
@@ -66,3 +67,4 @@ if ($now) {
 } else {
     Write-Host "[rohankar] installer reported success but no exe found in $installDir" -ForegroundColor Yellow
 }
+{{ end -}}

@@ -1,3 +1,4 @@
+{{ if ne .chezmoi.os "windows" -}}
 #!/bin/sh
 # Install the SadServers CLI (sads) into ~/.local/bin.
 # run_once: chezmoi executes this once (re-runs only if this script's contents change).
@@ -44,3 +45,4 @@ fi
 "$DEST/sads" -v 2>/dev/null || true
 echo "sads: installed to $DEST/sads"
 echo "sads: finish with -> sads auth   &&   sads config --path ~/.ssh/id_ed25519"
+{{ end -}}
