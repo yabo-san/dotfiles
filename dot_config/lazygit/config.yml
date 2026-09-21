@@ -10,12 +10,11 @@ gui:
   nerdFontsVersion: "3"
   showFileTree: true
   showRandomTip: false
-
 git:
-  paging:
-    # use delta inside lazygit too, so its diffs match the CLI git diffs.
-    colorArg: always
-    pager: delta --dark --paging=never
+  diffRenderers:
+    - # use delta inside lazygit too, so its diffs match the CLI git diffs.
+      colorArg: always
+      command: delta --dark --paging=never
   parseEmoji: true
 
 # vim keys are lazygit's default; nothing to add.
