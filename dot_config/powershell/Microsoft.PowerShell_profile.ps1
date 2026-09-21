@@ -274,47 +274,8 @@ function prompt {
     "$e[$($c.mauve)m❯$e[0m "
 }
 
-# devpod ssh <name> (plain interactive, no --command) hits a Windows-only bug --
-# "The parameter is incorrect" -- in its port-forward + tunnel setup (loft-sh/
-# devpod, tested 2026-08-18). `devpod ssh --command` works fine; only the bare
-# interactive path breaks. dssh sidesteps it via `docker exec` against the
-# workspace's own container, found by DevPod's `vsc-<workspace>-<hash>` image
-# naming. The `devpod` function below shadows the real devpod.exe so plain
-# `devpod ssh <name>` just works transparently -- everything else (up, delete,
-# ssh --command, etc.) passes straight through to the real binary untouched.
-function dssh {
-    param([Parameter(Mandatory)][string]$Workspace)
-    $cid = docker ps --format '{{.ID}}|{{.Image}}' |
-        Select-String "vsc-$Workspace" |
-        ForEach-Object { ($_ -split '\|')[0] } |
-        Select-Object -First 1
-    if (-not $cid) {
-        Write-Host "dssh: no running container found for workspace '$Workspace'" -ForegroundColor Red
-        return
-    }
-    # -u/-w match devcontainer.json's remoteUser and the /workspaces/<name> mount --
-    # a plain `docker exec` with neither defaults to root at /, whose home was
-    # never set up by anything (dotfiles, mise) and looks "broken" even though
-    # the real vscode-user environment is fully installed.
-    docker exec -it -u vscode -w "/workspaces/$Workspace" $cid bash
-}
-
-$script:RealDevpod = "$env:USERPROFILE\.local\bin\devpod.exe"
-function devpod {
-    if ($args.Count -eq 2 -and $args[0] -eq 'ssh') {
-        dssh $args[1]
-        return
-    }
-    # bare `devpod ssh` (no name): fzf picker over the workspace list, then
-    # dssh into the choice. (Passing it to the real binary hit the Windows
-    # tunnel bug, 2026-09-01.) One workspace = no menu, straight in.
-    if ($args.Count -eq 1 -and $args[0] -eq 'ssh') {
-        $ws = & $script:RealDevpod list --output json 2>$null | ConvertFrom-Json |
-            ForEach-Object { $_.id }
-        if (-not $ws) { Write-Host "devpod ssh: no workspaces found" -ForegroundColor Red; return }
-        $pick = if ($ws.Count -eq 1) { $ws } else { $ws | fzf --height 40% --prompt 'workspace> ' }
-        if ($pick) { dssh $pick }
-        return
-    }
-    & $script:RealDevpod @args
-}
+# (Removed the DevPod ssh workaround -- the `dssh` function + `devpod` shadow.
+#  DevPod's bare `devpod ssh` had a Windows tunnel bug that forced a docker-exec
+#  shim; Devsy (the maintained fork) replaced DevPod and its `devsy workspace ssh`
+#  works natively on Windows, so none of the workaround is needed. Devsy is
+#  installed via .chezmoiexternals/devsy.toml.tmpl.)

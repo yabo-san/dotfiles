@@ -60,6 +60,23 @@ install-obsidian-sync.ps1
 Library/**
 {{ end }}
 
+# ── Linux == the Ubuntu devcontainer (the ONLY Linux this repo ever targets) ──
+# Windows and Mac are the daily drivers; Linux only exists as the pinned
+# ubuntu-24.04 devcontainer. So strip it to dev-shell essentials -- keep
+# bash/zsh/tmux/mise/git/nvim/bat, drop the mac-GUI configs that leak through
+# the ne-windows block above, and drop ALL personal secrets: an injected
+# client workspace must never carry your home-cluster key or desktop config.
+{{ if eq .chezmoi.os "linux" }}
+Brewfile
+.config/aerospace/**
+.config/flashspace/**
+.config/ghostty/**
+.config/karabiner/**
+.config/sketchybar/**
+setup-alttab.sh
+.ssh/**
+{{ end }}
+
 # nvim is shared (LazyVim overrides apply on both) — never ignored.
 
 

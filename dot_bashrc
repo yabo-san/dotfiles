@@ -113,8 +113,14 @@ if ! shopt -oq posix; then
 fi
 # bash theme - partly inspired by https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/robbyrussell.zsh-theme
 __bash_prompt() {
+    # DevPod containers show "DEVPOD" instead of the OS username (\u = literal
+    # "vscode", the base devcontainer image's default user on every workspace --
+    # not useful for telling which project you're in). Detected via
+    # DEVPOD_WORKSPACE_ID, which DevPod injects into every container it creates.
     local userpart='`export XIT=$? \
-        && [ ! -z "${GITHUB_USER:-}" ] && echo -n "\[\033[0;32m\]@${GITHUB_USER:-} " || echo -n "\[\033[0;32m\]\u " \
+        && if [ ! -z "${DEVPOD_WORKSPACE_ID:-}" ]; then echo -n "\[\033[0;32m\]DEVPOD "; \
+           elif [ ! -z "${GITHUB_USER:-}" ]; then echo -n "\[\033[0;32m\]@${GITHUB_USER:-} "; \
+           else echo -n "\[\033[0;32m\]\u "; fi \
         && [ "$XIT" -ne "0" ] && echo -n "\[\033[1;31m\]➜" || echo -n "\[\033[0m\]➜"`'
     local gitbranch='`\
         if [ "$(git config --get devcontainers-theme.hide-status 2>/dev/null)" != 1 ] && [ "$(git config --get codespaces-theme.hide-status 2>/dev/null)" != 1 ]; then \
@@ -198,6 +204,8 @@ fi
 
 alias k='kubectl'
 alias kgp='kubectl get pods'
+alias kctx='kubectx'
+alias kns='kubens'
 if command -v kubectl > /dev/null ; then
   source <(kubectl completion bash)
   complete -F __start_kubectl k

@@ -157,6 +157,8 @@ if command -v yazi > /dev/null ; then
 fi
 alias k='kubectl'
 alias kgp='kubectl get pods'
+alias kctx='kubectx'
+alias kns='kubens'
 source <(kubectl completion zsh)
 compdef __start_kubectl k
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
