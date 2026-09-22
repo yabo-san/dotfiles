@@ -237,6 +237,29 @@ function od     { Set-Location "D:\OneDrive" }
 # hardcoding the path, so it survives the senio -> yabo account rename.
 function desktop { Set-Location -LiteralPath ([Environment]::GetFolderPath('Desktop')) }
 function ubu    { wsl ~ -d Ubuntu @args }   # drop into Ubuntu w/ your zsh dotfiles
+# devpod = your DevPod muscle memory, running Devsy (the maintained fork) underneath.
+#   devpod up           -> devsy workspace up . --ide none
+#   devpod ssh [name]   -> devsy workspace ssh <name, default: this folder> -q
+#   devpod stop|delete [name]   (name defaults to this folder too)
+#   devpod              -> list workspaces;   anything else passes to `devsy workspace`
+# Devsy names a workspace after its folder (D:\REPOS\mercury-workflows ->
+# mercury-workflows). -q hides Devsy's harmless "failed to send keepalive" and
+# port-forward log lines, which otherwise print on top of nvim.
+# History: 2026-08-18..09-20 a `devpod` function wrapped the real DevPod to route
+# around its Windows ssh bug (dssh). Devsy has no such bug; this is only a rename.
+function devpod {
+    $verb = $args[0]
+    $rest = @($args | Select-Object -Skip 1)
+    $here = (Split-Path -Leaf (Get-Location)).ToLower()
+    if (-not $verb) { devsy workspace list; return }
+    switch ($verb) {
+        'up'     { if ($rest.Count -eq 0) { $rest = @('.') }; devsy workspace up @rest --ide none }
+        'ssh'    { if ($rest.Count -eq 0) { $rest = @($here) }; devsy workspace ssh @rest -q }
+        'stop'   { if ($rest.Count -eq 0) { $rest = @($here) }; devsy workspace stop @rest }
+        'delete' { if ($rest.Count -eq 0) { $rest = @($here) }; devsy workspace delete @rest }
+        default  { devsy workspace @args }
+    }
+}
 
 # ~~~~~~~~~~~~~~~ Completions (dot_zshrc: fzf, kubectl) ~~~~~~~~~~~~~~~~~~~~~~~~
 # kubectl completion is the biggest startup cost (~246ms — a huge completion
