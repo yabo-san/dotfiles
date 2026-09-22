@@ -4,18 +4,18 @@
 
 .DESCRIPTION
   The CRT bar has to be targeted by GDI device name (\\.\DISPLAYn) because the
-  CRT has NO EDID — it is absent from WmiMonitorID entirely, so it has no
+  CRT has NO EDID - it is absent from WmiMonitorID entirely, so it has no
   friendly name to match on the way the LG and the Acer do.
 
   And GDI numbers DRIFT. Every display-config change renumbers them: a GPU
   disable/re-enable, a driver reset, a game switching modes, a RustDesk session
   attaching. This exact bar has already been DISPLAY3, then DISPLAY9, then
-  DISPLAY3 again. Each time it silently stops appearing — yasb does not warn
+  DISPLAY3 again. Each time it silently stops appearing - yasb does not warn
   about a screen that does not exist, the bar just never shows up.
 
   So stop hand-editing the number. This resolves the CRT by RESOLUTION (the only
   1024x768 display on this desk), writes that device name into the yasb config,
-  and reloads yasb — but only when it actually changed.
+  and reloads yasb - but only when it actually changed.
 
   Run it after any display upset, and from startup. Idempotent: a no-op when the
   config already points at the right device.
@@ -42,7 +42,7 @@ $crt = [System.Windows.Forms.Screen]::AllScreens |
 if (-not $crt) {
     # Not an error: the CRT is legitimately off or unplugged sometimes, and this
     # runs from startup. Say so and leave the config alone.
-    Write-Host "yasb-crt: no ${Width}x${Height} display attached — leaving config alone." -ForegroundColor DarkGray
+    Write-Host "yasb-crt: no ${Width}x${Height} display attached - leaving config alone." -ForegroundColor DarkGray
     exit 0
 }
 
@@ -53,9 +53,13 @@ if (-not (Test-Path $ConfigPath)) {
     exit 1
 }
 
-# The CRT bar is the ONLY screens: line naming a raw \\.\DISPLAY device — the
-# other bars match on friendly EDID names — so that is a safe anchor.
-$lines = Get-Content $ConfigPath
+# The CRT bar is the ONLY screens: line naming a raw \\.\DISPLAY device - the
+# other bars match on friendly EDID names - so that is a safe anchor.
+# Read and write as UTF-8 WITHOUT a BOM, explicitly. Windows PowerShell 5.1 (which
+# the logon shortcut uses) otherwise reads UTF-8 as Windows-1252 and writes the
+# mangled text back, garbling every icon and symbol in the yasb config.
+$utf8 = New-Object System.Text.UTF8Encoding $false
+$lines = [System.IO.File]::ReadAllLines($ConfigPath, $utf8)
 $idx = -1
 for ($i = 0; $i -lt $lines.Count; $i++) {
     if ($lines[$i] -match '^\s*screens:\s*\[\s*"\\\\\\\\\.\\\\DISPLAY\d+"\s*\]') { $idx = $i; break }
@@ -73,12 +77,12 @@ $yamlDevice = $device -replace '\\', '\\'
 $current = if ($lines[$idx] -match 'DISPLAY(\d+)') { "\\.\DISPLAY$($Matches[1])" } else { '?' }
 
 if ($current -eq $device) {
-    Write-Host "yasb-crt: already pointing at $device — nothing to do." -ForegroundColor DarkGray
+    Write-Host "yasb-crt: already pointing at $device - nothing to do." -ForegroundColor DarkGray
     exit 0
 }
 
 $indent  = ([regex]::Match($lines[$idx], '^\s*')).Value
-$newLine = "${indent}screens: [`"$yamlDevice`"]   # the 4:3 CRT — set by fix-crt-bar.ps1"
+$newLine = "${indent}screens: [`"$yamlDevice`"]   # the 4:3 CRT - set by fix-crt-bar.ps1"
 
 Write-Host "yasb-crt: CRT moved $current -> $device" -ForegroundColor Yellow
 
@@ -88,7 +92,7 @@ if ($WhatIfOnly) {
 }
 
 $lines[$idx] = $newLine
-Set-Content -Path $ConfigPath -Value $lines -Encoding UTF8
+[System.IO.File]::WriteAllLines($ConfigPath, $lines, $utf8)
 Write-Host "  config updated." -ForegroundColor Green
 
 # Reload so the bar comes back now rather than at next login.
@@ -97,19 +101,19 @@ if (Test-Path $yasbc) {
     & $yasbc reload | Out-Null
     Write-Host "  yasb reloaded." -ForegroundColor Green
 } else {
-    Write-Host "  yasbc not found — restart yasb manually." -ForegroundColor DarkYellow
+    Write-Host "  yasbc not found - restart yasb manually." -ForegroundColor DarkYellow
 }
 
 # The chezmoi source is the thing that survives a re-apply; if only the deployed
 # copy is fixed, the next `chezmoi apply` puts the stale number straight back.
 $src = "$env:USERPROFILE\.local\share\chezmoi\dot_config\yasb\config.yaml"
 if ((Test-Path $src) -and ($src -ne $ConfigPath)) {
-    $s = Get-Content $src
+    $s = [System.IO.File]::ReadAllLines($src, $utf8)
     for ($i = 0; $i -lt $s.Count; $i++) {
         if ($s[$i] -match '^\s*screens:\s*\[\s*"\\\\\\\\\.\\\\DISPLAY\d+"\s*\]') {
             $si = ([regex]::Match($s[$i], '^\s*')).Value
-            $s[$i] = "${si}screens: [`"$yamlDevice`"]   # the 4:3 CRT — set by fix-crt-bar.ps1"
-            Set-Content -Path $src -Value $s -Encoding UTF8
+            $s[$i] = "${si}screens: [`"$yamlDevice`"]   # the 4:3 CRT - set by fix-crt-bar.ps1"
+            [System.IO.File]::WriteAllLines($src, $s, $utf8)
             Write-Host "  chezmoi source updated too (so apply won't undo it)." -ForegroundColor Green
             break
         }
