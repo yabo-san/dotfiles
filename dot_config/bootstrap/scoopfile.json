@@ -599,13 +599,6 @@
     },
     {
       "Info": "",
-      "Source": "extras",
-      "Name": "vlc",
-      "Version": "3.0.23",
-      "Updated": "/Date(1787550818590)/"
-    },
-    {
-      "Info": "",
       "Source": "versions",
       "Name": "wezterm-nightly",
       "Version": "nightly-20260823",

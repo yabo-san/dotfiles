@@ -392,6 +392,9 @@
 				},
 				{
 					"PackageIdentifier" : "TheBrowserCompany.Arc"
+				},
+				{
+					"PackageIdentifier" : "Starpine.Screenbox"
 				}
 			],
 			"SourceDetails" : 
