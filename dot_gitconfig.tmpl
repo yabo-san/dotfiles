@@ -4,6 +4,10 @@
 [core]
 	editor = code --wait
 	pager = delta
+	# Never convert to CRLF on checkout. Git for Windows defaults to autocrlf=true,
+	# which rewrites shell scripts as CRLF and breaks them in Linux dev containers
+	# (a #!/bin/bash line ending in a hidden carriage return gives exit 127). "input" keeps LF on disk.
+	autocrlf = input
 # GitHub auth goes through the gh CLI. `gh` is resolved on PATH on every OS
 # (scoop shims on Windows, brew on mac). Do NOT hardcode a gh.exe path here:
 # the old one pointed at C:\Program Files\GitHub CLI, which does not exist
