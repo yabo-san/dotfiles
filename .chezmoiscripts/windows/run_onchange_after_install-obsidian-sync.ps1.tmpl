@@ -74,5 +74,5 @@ if ($LASTEXITCODE -ne 0) {
     if ($LASTEXITCODE -ne 0) { Write-Host '[obsidian-sync] deps still missing after install.' -ForegroundColor Red; exit 1 }
 }
 
-Write-Host '[obsidian-sync] ready — launch via Raycast "Obsidian".' -ForegroundColor Green
+Write-Host '[obsidian-sync] ready. The daemon starts at logon (obsidian-sync.lnk).' -ForegroundColor Green
 {{ end -}}
