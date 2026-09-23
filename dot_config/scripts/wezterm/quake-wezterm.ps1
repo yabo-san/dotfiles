@@ -45,6 +45,7 @@ public class Q {
     ex = (ex | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW;
     SetWindowLong(h, GWL_EXSTYLE, ex);
   }
+  [DllImport("user32.dll")] public static extern bool IsWindow(IntPtr h);
   public struct POINT { public int x, y; }
   public struct RECT { public int left, top, right, bottom; }
   public struct MONITORINFO { public int cbSize; public RECT rcMonitor; public RECT rcWork; public uint dwFlags; }
@@ -82,6 +83,11 @@ function Save-Height($key, $h) {
   ($d | ConvertTo-Json -Compress) | Set-Content -Path $stateFile -Force
 }
 
+# The window that was in front BEFORE the drop-down opened, so hiding can hand focus
+# back to it instead of letting Windows pick (usually the desktop). Same idea as the
+# Mac side, where Hammerspoon stores previousApp before activating Ghostty.
+$prevFile = Join-Path $env:LOCALAPPDATA "quake-wezterm-prev.txt"
+
 # monitor under the cursor
 $m  = [Q]::CursorMonitor()
 $mx = $m[0]; $my = $m[1]; $mw = $m[2]; $mh = $m[3]
@@ -100,9 +106,18 @@ if ($h -ne [IntPtr]::Zero) {
       if ($curH -gt 100) { Save-Height $monKey $curH }
     }
     [Q]::ShowWindow($h, 0) | Out-Null                # SW_HIDE
+    # hand focus back to whatever was in front before the drop-down opened
+    try {
+      $prev = [IntPtr][int64](Get-Content $prevFile -Raw -EA Stop).Trim()
+      if ($prev -ne [IntPtr]::Zero -and $prev -ne $h -and [Q]::IsWindow($prev)) {
+        [Q]::SetForegroundWindow($prev) | Out-Null
+      }
+    } catch {}
   } else {
     # SHOWING — this monitor's saved height, else the autosize default
     $qh = (Read-Heights)[$monKey]; if (-not $qh) { $qh = $default }
+    # remember who had focus, so the next toggle hands it back
+    if ($fg -ne [IntPtr]::Zero -and $fg -ne $h) { "$([int64]$fg)" | Set-Content -Path $prevFile -Force }
     [Q]::HideFromAltTab($h)                            # keep it out of Alt-Tab
     [Q]::MoveWindow($h, $mx, $qy, $mw, $qh, $true) | Out-Null
     [Q]::ShowWindow($h, 5) | Out-Null
