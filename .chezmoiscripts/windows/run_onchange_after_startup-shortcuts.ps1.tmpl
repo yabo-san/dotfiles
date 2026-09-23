@@ -71,6 +71,15 @@ $shortcuts = @(
         Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
         Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\obsidian\start-sync-daemon.ps1`""
         Why    = 'Obsidian local<->iCloud sync daemon'
+    },
+    @{
+        # N: (the thinkserver NAS) is mapped, but Windows reconnects mapped drives at
+        # logon before Tailscale is up, so it sat at "Unavailable" after reboots
+        # (five times by 2026-09-21). This waits for the NAS, then remounts.
+        Name   = 'mount-nas.lnk'
+        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
+        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\nas\mount-nas.ps1`""
+        Why    = 'wait for Tailscale, then mount N: (thinkserver NAS)'
     }
 )
 
