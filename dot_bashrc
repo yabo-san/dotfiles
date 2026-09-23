@@ -261,3 +261,23 @@ dssh() {
   # vscode-user environment is fully installed.
   docker exec -it -u vscode -w "/workspaces/$workspace" "$cid" bash
 }
+
+# devpod: the same wrapper as the PowerShell profile, so the verbs are identical
+# on both machines. Bare `devpod` lists workspaces; `up` defaults to the current
+# directory, everything else defaults to the current directory's NAME, which is
+# what devsy calls the workspace. Anything unrecognised is passed straight
+# through to `devsy workspace`.
+devpod() {
+  local verb="$1"
+  [ $# -gt 0 ] && shift
+  local here
+  here="$(basename "$PWD" | tr '[:upper:]' '[:lower:]')"
+  case "$verb" in
+    "")     devsy workspace list ;;
+    up)     [ $# -eq 0 ] && set -- "."     ; devsy workspace up "$@" --ide none ;;
+    ssh)    [ $# -eq 0 ] && set -- "$here" ; devsy workspace ssh "$@" -q ;;
+    stop)   [ $# -eq 0 ] && set -- "$here" ; devsy workspace stop "$@" ;;
+    delete) [ $# -eq 0 ] && set -- "$here" ; devsy workspace delete "$@" ;;
+    *)      devsy workspace "$verb" "$@" ;;
+  esac
+}
