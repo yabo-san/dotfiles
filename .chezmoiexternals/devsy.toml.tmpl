@@ -1,5 +1,5 @@
 {{/* Devsy CLI - devcontainer orchestrator (github.com/devsy-org/devsy), the maintained successor to DevPod. Runs on Windows too - no scoop equivalent, so chezmoi owns it everywhere. */}}
-{{ if ne .chezmoi.osRelease.id "nixos" -}}
+{{ if ne (get .chezmoi.osRelease "id") "nixos" -}}
 [".local/bin/devsy{{ if eq .chezmoi.os "windows" }}.exe{{ end }}"]
 type = "file"
 executable = true
