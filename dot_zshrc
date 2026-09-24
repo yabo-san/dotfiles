@@ -159,8 +159,10 @@ alias k='kubectl'
 alias kgp='kubectl get pods'
 alias kctx='kubectx'
 alias kns='kubens'
-source <(kubectl completion zsh)
-compdef __start_kubectl k
+if command -v kubectl > /dev/null ; then
+  source <(kubectl completion zsh)
+  compdef __start_kubectl k
+fi
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
 alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
 alias sb='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/sb'
