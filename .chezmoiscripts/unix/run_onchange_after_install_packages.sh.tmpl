@@ -1,8 +1,13 @@
-{{ if ne .chezmoi.os "windows" -}}
+{{ if and (ne .chezmoi.os "windows") (ne .chezmoi.osRelease.id "nixos") -}}
 #!/usr/bin/env bash
 # env, NOT /bin/bash: NixOS provides /bin/sh and /usr/bin/env but deliberately
 # no /bin/bash, so a hardcoded path fails exec with ENOENT there. Works
 # unchanged on macOS and the Ubuntu devcontainer.
+#
+# SKIPPED ENTIRELY ON NIXOS. mise ships a dynamically linked binary for generic
+# Linux, and NixOS has no FHS dynamic loader, so it installs and then dies with
+# "Could not start dynamically linked executable" (exit 127). Nix manages its
+# own toolchain anyway, so mise has nothing to do there.
 # packages hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 $HOME/.local/bin/mise trust $HOME/.config/mise/config.toml && $HOME/.local/bin/mise install
 
