@@ -54,7 +54,17 @@ sync:
   quiet_max_wait: 600
 
 logging:
-  console_level: "normal" # quiet | normal | verbose
+  # "quiet", NOT "normal". At "normal" the engine's idle ticker prints
+  # "No changes." with end="\r" every poll_interval seconds, forever. That is
+  # written for a console, where \r overwrites the line. Under the Startup
+  # launcher stdout is a REDIRECTED FILE, so nothing is overwritten: the log
+  # grows without bound and the handle eventually fails. On 2026-09-22 01:41
+  # that flush raised OSError [Errno 22] inside logger.idle(); the handler then
+  # tried to print the error and died the same way, killing the daemon. Nothing
+  # restarted it, so the vault stopped reaching iCloud for 44 hours (33 notes,
+  # two days of interview prep, all local-only). "quiet" suppresses the idle
+  # print; transfers and warnings still log.
+  console_level: "quiet" # quiet | normal | verbose
   shorter_paths: true
   max_display_length: 50
   # NOTE: retention is by FILE COUNT, not size (logger.py cleanup_old_logs), and

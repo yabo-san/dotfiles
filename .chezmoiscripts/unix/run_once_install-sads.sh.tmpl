@@ -1,6 +1,12 @@
-{{ if ne .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 # Install the SadServers CLI (sads) into ~/.local/bin.
+#
+# DARWIN ONLY, deliberately. This is a personal interview-drill tool, and the
+# old `ne windows` guard meant it downloaded a binary onto every non-Windows
+# host these dotfiles ever touched: injected client devcontainers, and other
+# people's servers. It has no business on either. The Linux branch below is
+# kept for the day this is gated on machine ownership rather than OS.
 # run_once: chezmoi executes this once (re-runs only if this script's contents change).
 set -eu
 
