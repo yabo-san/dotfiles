@@ -33,6 +33,7 @@ Brewfile
 # Scripts are NOT listed here: each one in .chezmoiscripts/<os>/ wraps itself
 # in an OS if-guard (template), and chezmoi skips a script that renders empty.
 {{ if ne .chezmoi.os "windows" }}
+.local/share/emulators/**
 .glzr/**
 .config/wezterm/**
 .config/yasb/**

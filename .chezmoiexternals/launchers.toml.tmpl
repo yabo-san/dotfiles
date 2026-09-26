@@ -7,7 +7,7 @@
   Borderless Gaming extension handles window placement for all of them. No
   launcher owns the catalog and none of them need to talk to each other.
 
-  WHY EXTERNALS RATHER THAN SCOOP: both ship PORTABLE builds, so there is no
+  WHY EXTERNALS RATHER THAN SCOOP: all three ship PORTABLE builds, so there is no
   installer to silence, no admin prompt, and no per-OS packaging to maintain.
   More importantly a GitHub release URL works identically on Linux, while a scoop
   manifest is Windows-only forever — and the whole point is that this repo can be
@@ -22,27 +22,36 @@
   To bump: change the version below, update the URL, run `chezmoi apply`.
 */}}
 
-{{- $ghlVersion := "v1.73" }}
-{{- $hydraVersion := "4.0.6" }}
+{{- $quiverVersion := "v3.4.5" }}
+{{- $ymirVersion := "v0.3.3" }}
 {{- $rohanVersion := "1.4.1" }}
 
 {{ if eq .chezmoi.os "windows" }}
-# ── GitHub Launcher ─────────────────────────────────────────────────────────
+# ── Quiver ──────────────────────────────────────────────────────────────────
 # Tracks PC ports / recompilations / decomp source ports straight from their
-# GitHub releases. Portable zip, so it just unpacks.
-[".local/share/launchers/github-launcher"]
+# GitHub releases, with a community catalogue of ~205. Replaces SirDiabo's
+# GithubLauncher (2026-09-25): Quiver is its maintained fork, and the old one was
+# installed here but never given a single app. Portable zip, so it just unpacks.
+[".local/share/launchers/quiver"]
     type = "archive"
-    url = "https://github.com/SirDiabo/GithubLauncher/releases/download/{{ $ghlVersion }}/GitHubLauncher-{{ $ghlVersion }}-Windows.zip"
+    url = "https://github.com/tgeorgiadis/quiver-launcher/releases/download/{{ $quiverVersion }}/QuiverLauncher-win-Portable.zip"
     exact = false
     stripComponents = 0
     refreshPeriod = "720h"
 
-# ── Hydra ───────────────────────────────────────────────────────────────────
-# Portable single exe — `type = "file"`, not "archive".
-[".local/share/launchers/hydra/hydralauncher.exe"]
-    type = "file"
-    executable = true
-    url = "https://github.com/hydralauncher/hydra/releases/download/v{{ $hydraVersion }}/hydralauncher-{{ $hydraVersion }}-portable.exe"
+# ── Ymir (emulator) ─────────────────────────────────────────────────────────
+# Sega Saturn, standalone. No scoop or winget package exists, and the libretro
+# core is an unofficial port whose builds expire, so the release zip it is.
+# Emulators get their own folder beside launchers/. AVX2 build (Ryzen 7 7800X3D,
+# checked 2026-09-25); use the SSE2 zip on a CPU without it. Files sit at the zip
+# root, hence stripComponents 0. exact = false keeps Ymir's profile folder
+# (settings, BIOS path, saves) across version bumps. Windows only: this block is
+# inside the windows guard, and Playnite's built-in Ymir profile runs ymir-sdl3.exe.
+[".local/share/emulators/ymir"]
+    type = "archive"
+    url = "https://github.com/ymir-emu/Ymir/releases/download/{{ $ymirVersion }}/ymir-windows-x86_64-AVX2-{{ $ymirVersion }}.zip"
+    exact = false
+    stripComponents = 0
     refreshPeriod = "720h"
 
 # ── RohanKar Launcher ───────────────────────────────────────────────────────
@@ -59,18 +68,7 @@
 {{ end }}
 
 {{ if eq .chezmoi.os "linux" }}
-[".local/share/launchers/github-launcher"]
-    type = "archive"
-    url = "https://github.com/SirDiabo/GithubLauncher/releases/download/{{ $ghlVersion }}/GitHubLauncher-{{ $ghlVersion }}-Linux-{{ if eq .chezmoi.arch "arm64" }}ARM64{{ else }}X64{{ end }}.zip"
-    exact = false
-    stripComponents = 0
-    refreshPeriod = "720h"
-
-[".local/share/launchers/hydra/hydralauncher.AppImage"]
-    type = "file"
-    executable = true
-    url = "https://github.com/hydralauncher/hydra/releases/download/v{{ $hydraVersion }}/hydralauncher-{{ $hydraVersion }}.AppImage"
-    refreshPeriod = "720h"
+# Quiver on Linux ships a Flatpak, not a zip; add it here when a Linux box needs it.
 
 {{ end }}
 
