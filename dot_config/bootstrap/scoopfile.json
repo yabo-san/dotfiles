@@ -624,6 +624,27 @@
       "Name": "zoxide",
       "Version": "0.10.0",
       "Updated": "/Date(1787545186008)/"
+    },
+    {
+      "Info": "",
+      "Source": "games",
+      "Name": "azahar",
+      "Version": "2126.1.2",
+      "Updated": "/Date(1787544960313)/"
+    },
+    {
+      "Info": "",
+      "Source": "games",
+      "Name": "melonds",
+      "Version": "1.1",
+      "Updated": "/Date(1787544960313)/"
+    },
+    {
+      "Info": "",
+      "Source": "games",
+      "Name": "vita3k",
+      "Version": "4099-095371f",
+      "Updated": "/Date(1787544960313)/"
     }
   ]
 }
