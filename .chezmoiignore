@@ -1,13 +1,13 @@
 setup
-# age private key — never deployed, never managed
+# age private key - never deployed, never managed
 .config/age/keys.txt
 # repo docs: stay in the repo for GitHub, never copied into ~
 README.md
-# entry script — fetched + run BEFORE chezmoi exists; never deployed to ~
+# entry script - fetched + run BEFORE chezmoi exists; never deployed to ~
 bootstrap.ps1
 bootstrap.sh
 
-# python bytecode — never deploy, never track
+# python bytecode - never deploy, never track
 **/__pycache__/**
 .config/scripts/hydra/node_modules/**
 .config/scripts/hydra/package-lock.json
@@ -45,9 +45,11 @@ Brewfile
 .config/obsidian/**
 .config/monitors.json
 .config/playnite/**
+.config/retroarch/**
+AppData/**
 .wslconfig
 {{ end }}
-# NOTE: .config/bat IS shared (mac + Windows) — the preferred bat style.
+# NOTE: .config/bat IS shared (mac + Windows) - the preferred bat style.
 
 # launchd agents are macOS-only (e.g. always-on backend services)
 {{ if ne .chezmoi.os "darwin" }}
@@ -69,7 +71,7 @@ Brewfile
 .ssh/**
 {{ end }}
 
-# nvim is shared (LazyVim overrides apply on both) — never ignored.
+# nvim is shared (LazyVim overrides apply on both) - never ignored.
 
 
 
