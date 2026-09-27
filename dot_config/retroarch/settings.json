@@ -1,0 +1,9 @@
+{
+  "retroarch.cfg": {
+    "aspect_ratio_index": "0",
+    "video_monitor_index": "3"
+  },
+  "retroarch-core-options.cfg": {
+    "pcsx2_renderer": "Software (SW)"
+  }
+}

@@ -1,0 +1,69 @@
+{{ if eq .chezmoi.os "windows" -}}
+#requires -Version 5.1
+# =============================================================================
+# run_after_retroarch-config.ps1: the CRT setup for Steam RetroArch
+# =============================================================================
+# ~/.config/retroarch holds what was decided, not what RetroArch last wrote:
+#   overlay/   per-core overrides and remaps, copied over Steam RetroArch as-is
+#              (PPSSPP on the ultrawide, mGBA core-provided aspect, the three
+#              M30 Mesen-S layouts)
+#   settings.json  single keys forced in retroarch.cfg and
+#              retroarch-core-options.cfg (4:3 on the CRT, LRPS2 software
+#              renderer)
+#
+# RetroArch rewrites both .cfg files on exit and Steam Cloud restores its own
+# copies, so a hand edit does not stick. run_after runs on every apply and puts
+# the keys back; a duplicated key is collapsed to one line, since RetroArch
+# reads the first occurrence.
+#
+# Skips while RetroArch is running (it would overwrite the change on exit).
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$src   = Join-Path $env:USERPROFILE '.config\retroarch'
+$steam = (Get-ItemProperty 'HKCU:\Software\Valve\Steam' -ErrorAction SilentlyContinue).SteamPath
+$ra    = if ($steam) { Join-Path ($steam -replace '/', '\') 'steamapps\common\RetroArch' }
+if (-not (Test-Path $src)) { return }
+if (-not $ra -or -not (Test-Path (Join-Path $ra 'retroarch.exe'))) {
+    Write-Host "[retroarch-config] Steam RetroArch not found - install it from Steam, then 'chezmoi apply'." -ForegroundColor Yellow
+    return
+}
+if (Get-Process retroarch -ErrorAction SilentlyContinue) {
+    Write-Host "[retroarch-config] RetroArch is running - close it and 'chezmoi apply' again." -ForegroundColor Yellow
+    return
+}
+
+$changed = 0
+$overlay = Join-Path $src 'overlay'
+if (Test-Path $overlay) {
+    foreach ($f in Get-ChildItem $overlay -Recurse -File) {
+        $dest = Join-Path $ra $f.FullName.Substring($overlay.Length + 1)
+        if ((Test-Path $dest) -and (Get-FileHash $dest).Hash -eq (Get-FileHash $f.FullName).Hash) { continue }
+        New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
+        Copy-Item $f.FullName $dest -Force
+        Write-Host "[retroarch-config] updated $($f.FullName.Substring($overlay.Length + 1))" -ForegroundColor Cyan
+        $changed++
+    }
+}
+
+$settings = Join-Path $src 'settings.json'
+if (Test-Path $settings) {
+    $want = Get-Content $settings -Raw | ConvertFrom-Json
+    foreach ($file in $want.PSObject.Properties) {
+        $path = Join-Path $ra $file.Name
+        $lines = [System.Collections.Generic.List[string]]@(if (Test-Path $path) { Get-Content $path })
+        $dirty = $false
+        foreach ($kv in $file.Value.PSObject.Properties) {
+            $line = '{0} = "{1}"' -f $kv.Name, $kv.Value
+            $hits = @(for ($i = 0; $i -lt $lines.Count; $i++) { if ($lines[$i] -match ('^\s*' + [regex]::Escape($kv.Name) + '\s*=')) { $i } })
+            if ($hits.Count -eq 1 -and $lines[$hits[0]] -eq $line) { continue }
+            for ($j = $hits.Count - 1; $j -ge 1; $j--) { $lines.RemoveAt($hits[$j]) }
+            if ($hits.Count -ge 1) { $lines[$hits[0]] = $line } else { $lines.Add($line) }
+            Write-Host "[retroarch-config] $($file.Name): $line" -ForegroundColor Cyan
+            $dirty = $true
+        }
+        if ($dirty) { Set-Content -Path $path -Value $lines -Encoding ASCII; $changed++ }
+    }
+}
+if ($changed -eq 0) { Write-Host "[retroarch-config] up to date." -ForegroundColor DarkGray }
+{{ end -}}
