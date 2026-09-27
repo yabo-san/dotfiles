@@ -1,0 +1,90 @@
+---
+runtime:
+  threads: ~
+  networkSecurity: safe
+release:
+  check: true
+manifest:
+  enable: true
+language: en-US
+theme: light
+roots:
+  - store: steam
+    path: "C:/Program Files (x86)/Steam"
+  - store: epic
+    path: "C:/Program Files (x86)/Epic Games"
+  - store: gogGalaxy
+    path: "C:/Program Files (x86)/GOG Galaxy/Games"
+  - store: uplay
+    path: "C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher"
+  - store: microsoft
+    path: "C:/Program Files/WindowsApps"
+  - store: ea
+    path: "C:/Program Files/EA Games"
+  - store: steam
+    path: "D:/games/steam games"
+  - store: steam
+    path: "F:/SteamLibrary"
+  - store: epic
+    path: "F:/EPIC GAMES"
+  - store: epic
+    path: "D:/games/Epic Games"
+  - store: epic
+    path: "C:/UE5"
+redirects: []
+backup:
+  path: "//100.99.35.21/NAS/games/misc/random/LUDUSAVI BACKUP"
+  ignoredGames: []
+  filter:
+    excludeStoreScreenshots: false
+    cloud:
+      exclude: true
+      epic: true
+      gog: true
+      origin: true
+      steam: true
+      uplay: true
+    ignoredPaths: []
+    ignoredRegistry: []
+  toggledPaths: {}
+  toggledRegistry: {}
+  sort:
+    key: status
+    reversed: false
+  retention:
+    full: 1
+    differential: 0
+  format:
+    chosen: simple
+    zip:
+      compression: deflate
+    compression:
+      deflate:
+        level: 6
+      bzip2:
+        level: 6
+      zstd:
+        level: 10
+  onlyConstructive: false
+restore:
+  path: "C:\\Users\\senio/ludusavi-backup"
+  ignoredGames: []
+  toggledPaths: {}
+  toggledRegistry: {}
+  sort:
+    key: status
+    reversed: false
+  reverseRedirects: false
+scan:
+  showDeselectedGames: true
+  showUnchangedGames: true
+  showUnscannedGames: true
+cloud:
+  remote: ~
+  path: ludusavi-backup
+  synchronize: true
+apps:
+  rclone:
+    path: ""
+    arguments: "--fast-list --ignore-checksum"
+customGames: []
