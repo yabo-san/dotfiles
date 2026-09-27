@@ -1,0 +1,43 @@
+{{ if eq .chezmoi.os "windows" -}}
+#requires -Version 5.1
+# =============================================================================
+# run_after_retroarch-cores.ps1: put the non-Steam cores into Steam RetroArch
+# =============================================================================
+# .chezmoiexternals/retroarch-cores.toml.tmpl downloads Brimir, SwanStation and
+# LRPS2 into ~/.local/share/retroarch-cores (chezmoi can only write under home).
+# This copies them into Steam RetroArch's cores/ and info/ folders.
+#
+# run_after, not run_onchange: it runs on every apply, which is what we want
+# because the nightly cores change without this script changing. It is cheap
+# and idempotent: a file is copied only when its hash differs.
+#
+# Skips (and says so) when RetroArch is running, since the DLL is locked, or
+# when Steam RetroArch is not installed. The next apply picks it up.
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$src = Join-Path $env:USERPROFILE '.local\share\retroarch-cores'
+if (-not (Test-Path $src)) { Write-Host "[retroarch-cores] nothing fetched yet." -ForegroundColor DarkGray; return }
+
+$steam = (Get-ItemProperty 'HKCU:\Software\Valve\Steam' -ErrorAction SilentlyContinue).SteamPath
+$ra = if ($steam) { Join-Path ($steam -replace '/', '\') 'steamapps\common\RetroArch' }
+if (-not $ra -or -not (Test-Path (Join-Path $ra 'retroarch.exe'))) {
+    Write-Host "[retroarch-cores] Steam RetroArch not found - install it from Steam, then 'chezmoi apply'." -ForegroundColor Yellow
+    return
+}
+if (Get-Process retroarch -ErrorAction SilentlyContinue) {
+    Write-Host "[retroarch-cores] RetroArch is running - close it and 'chezmoi apply' again." -ForegroundColor Yellow
+    return
+}
+
+$changed = 0
+foreach ($f in Get-ChildItem $src -Recurse -File -Include *_libretro.dll, *_libretro.info) {
+    $destDir = if ($f.Extension -eq '.dll') { Join-Path $ra 'cores' } else { Join-Path $ra 'info' }
+    $dest = Join-Path $destDir $f.Name
+    if ((Test-Path $dest) -and (Get-FileHash $dest).Hash -eq (Get-FileHash $f.FullName).Hash) { continue }
+    Copy-Item $f.FullName $dest -Force
+    Write-Host "[retroarch-cores] updated $($f.Name)" -ForegroundColor Cyan
+    $changed++
+}
+if ($changed -eq 0) { Write-Host "[retroarch-cores] Brimir, SwanStation, LRPS2 up to date." -ForegroundColor DarkGray }
+{{ end -}}

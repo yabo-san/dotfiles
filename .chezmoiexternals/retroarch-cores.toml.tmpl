@@ -1,0 +1,54 @@
+{{/*
+  retroarch-cores.toml: the RetroArch cores Steam does not sell.
+
+  Steam RetroArch gets almost every core as free DLC, and those stay Steam's
+  job: tick the DLC, Steam installs and updates it. Three cores the setup needs
+  are not on Steam, so a rebuilt PC would be missing them:
+
+    Brimir       Sega Saturn        (coredds/brimir GitHub release, pinned)
+    SwanStation  PlayStation        (libretro buildbot, nightly)
+    LRPS2        PlayStation 2      (libretro buildbot, nightly, file pcsx2_libretro)
+
+  chezmoi can only place files under the home directory, and the cores folder
+  lives in Steam's install directory. So the cores are fetched here into
+  ~/.local/share/retroarch-cores, and run_after_retroarch-cores.ps1 copies them
+  into Steam RetroArch's cores/ and info/ folders.
+
+  PINNING: Brimir is pinned like every other release here. The libretro buildbot
+  only publishes "latest" nightlies for these two, with no versioned URL to pin,
+  so they refresh on the refreshPeriod instead. That is the one deliberate
+  exception to "versions are pinned" in this repo.
+*/}}
+
+{{- $brimirVersion := "v0.5.4" }}
+
+{{ if eq .chezmoi.os "windows" }}
+[".local/share/retroarch-cores/brimir"]
+    type = "archive"
+    url = "https://github.com/coredds/brimir/releases/download/{{ $brimirVersion }}/brimir-{{ $brimirVersion }}-windows-x64.zip"
+    exact = true
+    stripComponents = 0
+    refreshPeriod = "720h"
+
+[".local/share/retroarch-cores/swanstation/swanstation_libretro.dll"]
+    type = "archive-file"
+    url = "https://buildbot.libretro.com/nightly/windows/x86_64/latest/swanstation_libretro.dll.zip"
+    path = "swanstation_libretro.dll"
+    refreshPeriod = "720h"
+
+[".local/share/retroarch-cores/swanstation/swanstation_libretro.info"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/libretro/libretro-core-info/master/swanstation_libretro.info"
+    refreshPeriod = "720h"
+
+[".local/share/retroarch-cores/lrps2/pcsx2_libretro.dll"]
+    type = "archive-file"
+    url = "https://buildbot.libretro.com/nightly/windows/x86_64/latest/pcsx2_libretro.dll.zip"
+    path = "pcsx2_libretro.dll"
+    refreshPeriod = "720h"
+
+[".local/share/retroarch-cores/lrps2/pcsx2_libretro.info"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/libretro/libretro-core-info/master/pcsx2_libretro.info"
+    refreshPeriod = "720h"
+{{ end }}
