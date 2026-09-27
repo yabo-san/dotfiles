@@ -1,0 +1,687 @@
+{
+  "emulators": [
+    {
+      "builtInConfigId": "azahar",
+      "name": "Azahar",
+      "installDir": "%USERPROFILE%\\scoop\\apps\\azahar\\current",
+      "builtinProfiles": [
+        "Default"
+      ],
+      "customProfiles": []
+    },
+    {
+      "builtInConfigId": "retroarch",
+      "name": "RetroArch",
+      "installDir": "%STEAM%\\steamapps\\common\\RetroArch",
+      "builtinProfiles": [
+        "BlastEm",
+        "FinalBurn Neo",
+        "Flycast",
+        "Mesen",
+        "Mesen-S",
+        "mGBA",
+        "SwanStation",
+        "Genesis Plus GX",
+        "Mupen64Plus-Next",
+        "Beetle PCE",
+        "PPSSPP",
+        "blueMSX"
+      ],
+      "customProfiles": [
+        {
+          "name": "Brimir (Saturn)",
+          "executable": "{EmulatorDir}\\retroarch.exe",
+          "arguments": "-L \".\\cores\\brimir_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "{EmulatorDir}",
+          "trackingMode": "Default",
+          "trackingPath": "",
+          "platforms": [
+            "sega_saturn"
+          ],
+          "imageExtensions": [
+            "cue",
+            "chd",
+            "iso",
+            "ccd",
+            "mds",
+            "m3u"
+          ]
+        },
+        {
+          "name": "LRPS2 (PS2)",
+          "executable": "{EmulatorDir}\\retroarch.exe",
+          "arguments": "-L \".\\cores\\pcsx2_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "{EmulatorDir}",
+          "trackingMode": "Default",
+          "trackingPath": "",
+          "platforms": [
+            "sony_playstation2"
+          ],
+          "imageExtensions": [
+            "iso",
+            "chd",
+            "cso",
+            "zso",
+            "cue",
+            "bin",
+            "m3u",
+            "gz",
+            "elf"
+          ]
+        },
+        {
+          "name": "BlastEm via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\blastem_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sega_genesis"
+          ],
+          "imageExtensions": [
+            "68k",
+            "7z",
+            "bin",
+            "gen",
+            "md",
+            "sgd",
+            "smd",
+            "zip"
+          ]
+        },
+        {
+          "name": "FinalBurn Neo via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\fbneo_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "arcade"
+          ],
+          "imageExtensions": [
+            "zip",
+            "7z"
+          ]
+        },
+        {
+          "name": "Flycast via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\flycast_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sega_dreamcast",
+            "arcade"
+          ],
+          "imageExtensions": [
+            "7z",
+            "bin",
+            "cdi",
+            "chd",
+            "cue",
+            "dat",
+            "elf",
+            "gdi",
+            "lst",
+            "m3u",
+            "zip"
+          ]
+        },
+        {
+          "name": "Mesen via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\mesen_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "nintendo_famicom_disk",
+            "nintendo_nes"
+          ],
+          "imageExtensions": [
+            "7z",
+            "fds",
+            "nes",
+            "unf",
+            "unif",
+            "zip"
+          ]
+        },
+        {
+          "name": "Mesen-S via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\mesen-s_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "nintendo_gameboy",
+            "nintendo_gameboycolor",
+            "nintendo_super_nes"
+          ],
+          "imageExtensions": [
+            "7z",
+            "bs",
+            "fig",
+            "gb",
+            "gbc",
+            "sfc",
+            "smc",
+            "swc",
+            "zip"
+          ]
+        },
+        {
+          "name": "mGBA via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\mgba_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "nintendo_gameboy",
+            "nintendo_gameboyadvance",
+            "nintendo_gameboycolor"
+          ],
+          "imageExtensions": [
+            "7z",
+            "gb",
+            "gba",
+            "gbc",
+            "zip"
+          ]
+        },
+        {
+          "name": "SwanStation via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\swanstation_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sony_playstation"
+          ],
+          "imageExtensions": [
+            "7z",
+            "bin",
+            "chd",
+            "cue",
+            "ecm",
+            "exe",
+            "img",
+            "iso",
+            "m3u",
+            "mds",
+            "pbp",
+            "psexe",
+            "psf",
+            "zip"
+          ]
+        },
+        {
+          "name": "Genesis Plus GX via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\genesis_plus_gx_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sega_cd",
+            "sega_gamegear",
+            "sega_genesis",
+            "sega_mastersystem"
+          ],
+          "imageExtensions": [
+            "68k",
+            "7z",
+            "bin",
+            "bms",
+            "chd",
+            "cue",
+            "gen",
+            "gg",
+            "iso",
+            "m3u",
+            "md",
+            "mdx",
+            "sg",
+            "sgd",
+            "smd",
+            "sms",
+            "zip"
+          ]
+        },
+        {
+          "name": "Mupen64Plus-Next via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\mupen64plus_next_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "nintendo_64"
+          ],
+          "imageExtensions": [
+            "7z",
+            "bin",
+            "n64",
+            "ndd",
+            "u1",
+            "v64",
+            "z64",
+            "zip"
+          ]
+        },
+        {
+          "name": "Beetle PCE via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\mednafen_pce_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "nec_supergrafx",
+            "nec_turbografx_16",
+            "nec_turbografx_cd"
+          ],
+          "imageExtensions": [
+            "7z",
+            "ccd",
+            "chd",
+            "cue",
+            "m3u",
+            "pce",
+            "sgx",
+            "toc",
+            "zip"
+          ]
+        },
+        {
+          "name": "PPSSPP via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\ppsspp_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sony_psp"
+          ],
+          "imageExtensions": [
+            "7z",
+            "chd",
+            "cso",
+            "elf",
+            "iso",
+            "pbp",
+            "prx",
+            "zip"
+          ]
+        },
+        {
+          "name": "blueMSX via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\bluemsx_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "microsoft_msx",
+            "microsoft_msx2"
+          ],
+          "imageExtensions": [
+            "7z",
+            "cas",
+            "col",
+            "dsk",
+            "m3u",
+            "mx1",
+            "mx2",
+            "ri",
+            "rom",
+            "sc",
+            "sf",
+            "sg",
+            "zip"
+          ]
+        },
+        {
+          "name": "Brimir (Saturn) via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\brimir_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sega_saturn"
+          ],
+          "imageExtensions": [
+            "cue",
+            "chd",
+            "iso",
+            "ccd",
+            "mds",
+            "m3u"
+          ]
+        },
+        {
+          "name": "LRPS2 (PS2) via Steam",
+          "executable": "%STEAM%\\steam.exe",
+          "arguments": "-applaunch 1118310 -L \"%STEAM%\\steamapps\\common\\RetroArch\\cores\\pcsx2_libretro.dll\" \"{ImagePath}\"",
+          "workingDirectory": "%STEAM%\\steamapps\\common\\RetroArch",
+          "trackingMode": "Directory",
+          "trackingPath": "%STEAM%\\steamapps\\common\\RetroArch",
+          "platforms": [
+            "sony_playstation2"
+          ],
+          "imageExtensions": [
+            "iso",
+            "chd",
+            "cso",
+            "zso",
+            "cue",
+            "bin",
+            "m3u",
+            "gz",
+            "elf"
+          ]
+        }
+      ]
+    },
+    {
+      "builtInConfigId": "vita3k",
+      "name": "Vita3K",
+      "installDir": "%USERPROFILE%\\scoop\\apps\\vita3k\\current",
+      "builtinProfiles": [
+        "Default"
+      ],
+      "customProfiles": []
+    },
+    {
+      "builtInConfigId": "melonds",
+      "name": "melonDS",
+      "installDir": "%USERPROFILE%\\scoop\\apps\\melonds\\current",
+      "builtinProfiles": [
+        "Default"
+      ],
+      "customProfiles": []
+    },
+    {
+      "builtInConfigId": "dolphin",
+      "name": "Dolphin",
+      "installDir": "%USERPROFILE%\\scoop\\apps\\dolphin-dev\\current",
+      "builtinProfiles": [
+        "Nintendo GameCube",
+        "Nintendo Wii"
+      ],
+      "customProfiles": []
+    },
+    {
+      "builtInConfigId": "ymir",
+      "name": "Saturn",
+      "installDir": "%USERPROFILE%\\.local\\share\\emulators\\ymir",
+      "builtinProfiles": [
+        "Default"
+      ],
+      "customProfiles": []
+    }
+  ],
+  "romm": {
+    "settings": {
+      "RomMHost": "https://rom.y4bo.com",
+      "KeepRomMSynced": true,
+      "MergeRevisions": true,
+      "KeepDeletedGames": false,
+      "SkipMissingFiles": true,
+      "ExcludeGenres": "",
+      "NotifyOnInstallComplete": true,
+      "Use7z": true
+    },
+    "mappings": [
+      {
+        "rommPlatformId": 2,
+        "emulator": "azahar",
+        "profileKind": "builtin",
+        "profile": "Default",
+        "destinationPath": "D:\\EMU\\NINTENDO\\3ds",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 3,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Flycast via Steam",
+        "destinationPath": "D:\\EMU\\sega\\dreamcast",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": true,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 4,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "mGBA via Steam",
+        "destinationPath": "D:\\EMU\\nintendo\\gb",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 5,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "mGBA via Steam",
+        "destinationPath": "D:\\EMU\\nintendo\\gba",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 6,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "mGBA via Steam",
+        "destinationPath": "D:\\EMU\\nintendo\\gbc",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 7,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "BlastEm via Steam",
+        "destinationPath": "D:\\EMU\\sega\\genesis",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 9,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "blueMSX via Steam",
+        "destinationPath": "D:\\EMU\\msx",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 10,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Mupen64Plus-Next via Steam",
+        "destinationPath": "D:\\EMU\\nintendo\\n64",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 11,
+        "emulator": "melonds",
+        "profileKind": "builtin",
+        "profile": "Default",
+        "destinationPath": "D:\\EMU\\NINTENDO\\nds",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 12,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Mesen via Steam",
+        "destinationPath": "D:\\EMU\\NINTENDO\\NES\\",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 13,
+        "emulator": "dolphin",
+        "profileKind": "builtin",
+        "profile": "Nintendo GameCube",
+        "destinationPath": "D:\\EMU\\NINTENDO\\gamecube",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 15,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Beetle PCE via Steam",
+        "destinationPath": "D:\\EMU\\nec\\pce",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 16,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Beetle PCE via Steam",
+        "destinationPath": "D:\\EMU\\nec\\pcecd",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": true,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 17,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "LRPS2 (PS2) via Steam",
+        "destinationPath": "D:\\EMU\\SONY\\PS2",
+        "enabled": true,
+        "autoExtract": false,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 19,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "PPSSPP via Steam",
+        "destinationPath": "D:\\EMU\\sony\\psp",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 20,
+        "emulator": "vita3k",
+        "profileKind": "builtin",
+        "profile": "Default",
+        "destinationPath": "D:\\EMU\\SONY\\vita",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 21,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "SwanStation via Steam",
+        "destinationPath": "D:\\EMU\\SONY\\PS1",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": true,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 24,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Brimir (Saturn) via Steam",
+        "destinationPath": "D:\\EMU\\sega\\saturn",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": true,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 25,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Genesis Plus GX via Steam",
+        "destinationPath": "D:\\EMU\\sega\\sms",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 26,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "Mesen-S via Steam",
+        "destinationPath": "D:\\EMU\\NINTENDO\\SNES\\",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 28,
+        "emulator": "retroarch",
+        "profileKind": "custom",
+        "profile": "FinalBurn Neo via Steam",
+        "destinationPath": "D:\\EMU\\arcade",
+        "enabled": true,
+        "autoExtract": false,
+        "useM3U": false,
+        "installFlat": false
+      },
+      {
+        "rommPlatformId": 29,
+        "emulator": "dolphin",
+        "profileKind": "builtin",
+        "profile": "Nintendo Wii",
+        "destinationPath": "D:\\EMU\\NINTENDO\\wii",
+        "enabled": true,
+        "autoExtract": true,
+        "useM3U": false,
+        "installFlat": false
+      }
+    ]
+  }
+}
