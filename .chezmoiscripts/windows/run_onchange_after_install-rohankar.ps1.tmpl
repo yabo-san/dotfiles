@@ -1,13 +1,12 @@
 {{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
 # =============================================================================
-# run_onchange_after_install-rohankar.ps1 — silent-install the RohanKar Launcher
+# run_onchange_after_install-rohankar.ps1 — silent-install y4bo (RohanKar fork)
 # =============================================================================
-# RohanKar is the odd one out among the launchers. GithubLauncher and Hydra both
-# ship PORTABLE builds, so .chezmoiexternals just unpacks them and it's done.
-# RohanKar ships an electron-builder NSIS INSTALLER ONLY - no portable variant -
-# so the external can only FETCH the setup exe. Something has to run it, and
-# chezmoi externals place files, they don't execute them. That's this.
+# y4bo ships an electron-builder NSIS INSTALLER ONLY - no portable variant - so
+# the external in launchers.toml.tmpl can only FETCH the setup exe. Something
+# has to run it, and chezmoi externals place files, they don't execute them.
+# That's this. It is the ONLY launcher chezmoi installs; y4bo installs the rest.
 #
 # electron-builder NSIS flags:
 #   /S      silent
@@ -16,7 +15,14 @@
 #           installs to the default location instead.
 #
 # Idempotent: skips entirely when the target version is already installed, so a
-# routine `chezmoi apply` doesn't re-run a 95 MB installer.
+# routine `chezmoi apply` doesn't re-run a 100 MB installer.
+#
+# The version check compares FileVersion EXACTLY (it carries the full
+# "1.6.0-fork.18"; ProductVersion is only "1.6.0.0"). The old check was
+# ProductVersion.StartsWith("1.4.1") against upstream's pin, which is how a
+# `chezmoi apply` on 2026-10-03 downgraded fork.18 to upstream 1.4.1 without a
+# word. A newer installed build (y4bo self-updates) is left alone, never rolled
+# back to the pin.
 #
 # Re-runs when the pinned version changes:
 #   {{ include ".chezmoiexternals/launchers.toml.tmpl" | sha256sum }}
@@ -27,49 +33,69 @@
 # the stubs were skipped, and chezmoi never tried again).
 $ErrorActionPreference = 'Stop'
 
-$version   = '1.4.1'
-$setup     = Join-Path $env:USERPROFILE '.local\share\launchers\_installers\rohankar-setup.exe'
+$version    = '1.6.0-fork.18'
+$setup      = Join-Path $env:USERPROFILE '.local\share\launchers\_installers\y4bo-setup.exe'
 $installDir = Join-Path $env:LOCALAPPDATA 'Programs\rohankar-launcher'
-$exeName   = 'RohanKar Launcher.exe'
 
 if (-not (Test-Path $setup)) {
-    Write-Host "[rohankar] installer not fetched yet - run 'chezmoi apply' again once the external downloads." -ForegroundColor Yellow
+    Write-Host "[y4bo] installer not fetched yet - run 'chezmoi apply' again once the external downloads." -ForegroundColor Yellow
     exit 1
 }
 
-# Already at this version? Nothing to do.
-$installed = Get-ChildItem $installDir -Filter '*.exe' -ErrorAction SilentlyContinue |
-             Where-Object { $_.Name -like '*RohanKar*' } | Select-Object -First 1
+function Get-InstalledLauncher {
+    # y4bo.exe on the fork; 'RohanKar Launcher.exe' if upstream is what is there.
+    Get-ChildItem $installDir -Filter '*.exe' -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -eq 'y4bo.exe' -or $_.Name -like '*RohanKar*' } |
+        Sort-Object { $_.Name -ne 'y4bo.exe' } | Select-Object -First 1
+}
+
+# Compare on the fork's own version line: "1.6.0-fork.18" -> 1.6.0 and 18.
+# Upstream builds have no "-fork.N" and lose to any fork build.
+function ConvertTo-ForkVersion([string]$v) {
+    if ($v -match '^(\d+\.\d+\.\d+)(?:-fork\.(\d+))?') {
+        return @{ Base = [version]$Matches[1]; Fork = $(if ($Matches[2]) { [int]$Matches[2] } else { -1 }) }
+    }
+    return @{ Base = [version]'0.0.0'; Fork = -1 }
+}
+
+$installed = Get-InstalledLauncher
 if ($installed) {
-    $have = $installed.VersionInfo.ProductVersion
-    if ($have -and $have.StartsWith($version)) {
-        Write-Host "[rohankar] $have already installed." -ForegroundColor DarkGray
+    $have = $installed.VersionInfo.FileVersion
+    if (-not $have) { $have = $installed.VersionInfo.ProductVersion }
+    if ($have -eq $version) {
+        Write-Host "[y4bo] $have already installed." -ForegroundColor DarkGray
         return
     }
-    Write-Host "[rohankar] installed $have, want $version - upgrading." -ForegroundColor Cyan
+    $h = ConvertTo-ForkVersion $have
+    $w = ConvertTo-ForkVersion $version
+    $newer = ($h.Base -gt $w.Base) -or ($h.Base -eq $w.Base -and $h.Fork -gt $w.Fork)
+    if ($newer -and $installed.Name -eq 'y4bo.exe') {
+        Write-Host "[y4bo] installed $have is newer than the pin $version (self-updated) - leaving it." -ForegroundColor DarkGray
+        return
+    }
+    Write-Host "[y4bo] installed $have ($($installed.Name)), want $version - installing the fork." -ForegroundColor Cyan
 }
 
 # The app must not be running or NSIS will fail or leave a half-written install.
-if (Get-Process -Name 'RohanKar*' -ErrorAction SilentlyContinue) {
-    Write-Host "[rohankar] RohanKar Launcher is running - close it and re-run 'chezmoi apply'." -ForegroundColor Yellow
+if (Get-Process -Name 'y4bo', 'RohanKar*' -ErrorAction SilentlyContinue) {
+    Write-Host "[y4bo] the launcher is running - close it and re-run 'chezmoi apply'." -ForegroundColor Yellow
     exit 1
 }
 
-Write-Host "[rohankar] installing $version silently to $installDir ..." -ForegroundColor Cyan
+Write-Host "[y4bo] installing $version silently to $installDir ..." -ForegroundColor Cyan
 # /D must be last and unquoted; passing the whole thing as a single argument
 # string avoids PowerShell re-quoting the path.
 $proc = Start-Process -FilePath $setup -ArgumentList "/S /D=$installDir" -PassThru -Wait
 if ($proc.ExitCode -ne 0) {
-    Write-Host "[rohankar] installer exited $($proc.ExitCode)" -ForegroundColor Red
+    Write-Host "[y4bo] installer exited $($proc.ExitCode)" -ForegroundColor Red
     exit 1
 }
 
-$now = Get-ChildItem $installDir -Filter '*.exe' -ErrorAction SilentlyContinue |
-       Where-Object { $_.Name -like '*RohanKar*' } | Select-Object -First 1
-if ($now) {
-    Write-Host "[rohankar] installed $($now.VersionInfo.ProductVersion) -> $($now.FullName)" -ForegroundColor Green
+$now = Get-InstalledLauncher
+if ($now -and $now.Name -eq 'y4bo.exe') {
+    Write-Host "[y4bo] installed $($now.VersionInfo.FileVersion) -> $($now.FullName)" -ForegroundColor Green
 } else {
-    Write-Host "[rohankar] installer reported success but no exe found in $installDir" -ForegroundColor Yellow
+    Write-Host "[y4bo] installer reported success but no y4bo.exe found in $installDir" -ForegroundColor Yellow
     exit 1
 }
 {{ end -}}

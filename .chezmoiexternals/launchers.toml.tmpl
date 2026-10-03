@@ -1,17 +1,18 @@
 {{/*
-  launchers.toml — game launchers installed declaratively from GitHub releases.
+  launchers.toml — the one game launcher chezmoi installs, plus one emulator.
 
-  THE MODEL: Playnite is the hub. These launchers are just fetchers — they know
-  how to find and update a class of games that Playnite doesn't. chezmoi installs
-  them, a thin Playnite extension per launcher surfaces its library, and the
-  Borderless Gaming extension handles window placement for all of them. No
-  launcher owns the catalog and none of them need to talk to each other.
+  THE MODEL (2026-10-03): Playnite is the hub and y4bo is the only launcher
+  chezmoi puts on the machine. Everything game-shaped that comes from a GitHub
+  release or an archive.org zip is installed BY y4bo, from its shelf, into
+  D:\games (the snesrev launcher included). chezmoi can download arbitrary
+  binaries from GitHub, but it can only place them; it has no idea what a
+  port is, where its data goes, or how to update it. y4bo does. So chezmoi
+  stops at "y4bo is installed" and the Playnite RohanKar extension reads
+  y4bo's export to surface the library.
 
-  WHY EXTERNALS RATHER THAN SCOOP: all three ship PORTABLE builds, so there is no
-  installer to silence, no admin prompt, and no per-OS packaging to maintain.
-  More importantly a GitHub release URL works identically on Linux, while a scoop
-  manifest is Windows-only forever — and the whole point is that this repo can be
-  ported.
+  Quiver used to be installed here too. Dropped 2026-10-03: y4bo's shelf
+  carries the curated ports and can opt in to the whole Quiver catalogue, so
+  two launchers for the same job was one too many.
 
   OS GUARDS LIVE HERE, not in .chezmoiignore. That file matches TARGET paths, so
   a `.chezmoiexternals/**` entry there is a no-op — externals run regardless.
@@ -19,26 +20,21 @@
 
   VERSIONS ARE PINNED on purpose (same as mise.toml.tmpl). "latest" would mean a
   silent upgrade on any `chezmoi apply`, which is the opposite of reproducible.
-  To bump: change the version below, update the URL, run `chezmoi apply`.
+  y4bo self-updates from its own release channel after the first install, so
+  this pin only matters for a fresh machine. To bump: change the version below,
+  run `chezmoi apply`.
+
+  NEVER point this at Kilted-Kraken/-RohanKar-Launcher (upstream). It did
+  until 2026-10-03, pinned at 1.4.1, and `chezmoi apply` silently installed
+  upstream over the fork (1.6.0-fork.18) because the install script only
+  compared version prefixes. Upstream has no shelf, no export, no Playnite
+  handshake.
 */}}
 
-{{- $quiverVersion := "v3.4.5" }}
 {{- $ymirVersion := "v0.3.3" }}
-{{- $rohanVersion := "1.4.1" }}
+{{- $y4boVersion := "1.6.0-fork.18" }}
 
 {{ if eq .chezmoi.os "windows" }}
-# ── Quiver ──────────────────────────────────────────────────────────────────
-# Tracks PC ports / recompilations / decomp source ports straight from their
-# GitHub releases, with a community catalogue of ~205. Replaces SirDiabo's
-# GithubLauncher (2026-09-25): Quiver is its maintained fork, and the old one was
-# installed here but never given a single app. Portable zip, so it just unpacks.
-[".local/share/launchers/quiver"]
-    type = "archive"
-    url = "https://github.com/tgeorgiadis/quiver-launcher/releases/download/{{ $quiverVersion }}/QuiverLauncher-win-Portable.zip"
-    exact = false
-    stripComponents = 0
-    refreshPeriod = "720h"
-
 # ── Ymir (emulator) ─────────────────────────────────────────────────────────
 # Sega Saturn, standalone. No scoop or winget package exists, and the libretro
 # core is an unofficial port whose builds expire, so the release zip it is.
@@ -54,23 +50,19 @@
     stripComponents = 0
     refreshPeriod = "720h"
 
-# ── RohanKar Launcher ───────────────────────────────────────────────────────
-# The odd one out: ships an electron-builder NSIS INSTALLER only, no portable
-# build. So we fetch the setup exe here and let
-# run_onchange_after_install-rohankar.ps1 silent-install it (/S /D=). Downloading
-# is idempotent; installing needs the separate script because chezmoi externals
-# can only place files, not run them.
-[".local/share/launchers/_installers/rohankar-setup.exe"]
+# ── y4bo (the RohanKar Launcher fork) ───────────────────────────────────────
+# Ships an electron-builder NSIS INSTALLER only, no portable build. So we fetch
+# the setup exe here and let run_onchange_after_install-rohankar.ps1
+# silent-install it (/S /D=). Downloading is idempotent; installing needs the
+# separate script because chezmoi externals can only place files, not run them.
+# Install dir stays Programs\rohankar-launcher so the Playnite extension's
+# default path and the export file location do not move.
+[".local/share/launchers/_installers/y4bo-setup.exe"]
     type = "file"
-    url = "https://github.com/Kilted-Kraken/-RohanKar-Launcher/releases/download/v{{ $rohanVersion }}/RohanKar-Launcher-Setup-{{ $rohanVersion }}.exe"
+    url = "https://github.com/yabo-san/RohanKar-Launcher/releases/download/v{{ $y4boVersion }}/y4bo-Setup-{{ $y4boVersion }}.exe"
     refreshPeriod = "720h"
 
 {{ end }}
 
-{{ if eq .chezmoi.os "linux" }}
-# Quiver on Linux ships a Flatpak, not a zip; add it here when a Linux box needs it.
-
-{{ end }}
-
-{{/* macOS: neither ships a darwin build, and there is no gaming setup on the
-     Mac anyway — nothing is emitted here on purpose. */}}
+{{/* Linux: y4bo has no Linux release yet; add it here when a Linux box needs it.
+     macOS: no gaming setup on the Mac, nothing is emitted here on purpose. */}}

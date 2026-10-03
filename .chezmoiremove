@@ -1,0 +1,10 @@
+# Targets chezmoi should delete on apply. Removing a source file does not remove its
+# deployed copy; this file does. One line per target, relative to ~.
+
+# Quiver was dropped from launchers.toml.tmpl on 2026-10-03 (y4bo supersedes it).
+# Its unpacked folder under .local/share/launchers/quiver is NOT listed: it holds an
+# installed app, and installs are never blanket-wiped. Delete it by hand when done.
+.config/scripts/raycast/launch-quiver.ps1
+
+# Upstream RohanKar installer fetched by the old external. The fork is y4bo-setup.exe.
+.local/share/launchers/_installers/rohankar-setup.exe
