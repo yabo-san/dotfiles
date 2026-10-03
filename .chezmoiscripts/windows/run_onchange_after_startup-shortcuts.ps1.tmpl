@@ -60,6 +60,14 @@ $shortcuts = @(
         Why    = 're-point the yasb CRT bar at whatever DISPLAYn the CRT is today'
     },
     @{
+        # Same disease, different file: RetroArch picks its screen by a position in
+        # the monitor enumeration. Resolved by resolution at every logon, like the bar.
+        Name   = 'retroarch-crt.lnk'
+        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
+        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\retroarch\bind-crt.ps1`""
+        Why    = 'point RetroArch video_monitor_index at whatever monitor the CRT is today'
+    },
+    @{
         # Obsidian on this machine opens the REPLICA at D:\obsidian\sb and never
         # touches the iCloud copy; this daemon is the bridge between the two.
         # It used to start only from the Raycast "Obsidian" command, so opening

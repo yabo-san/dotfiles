@@ -164,6 +164,16 @@ workspaces:
     keep_alive: true
     bind_to_monitor: 2 # ultrawide
   - name: "8"
+    display_name: "" # crt (tv)
+    # NOT keep_alive on purpose: when the game closes this workspace empties and
+    # goes away, and the CRT shows whatever it showed before (Playnite). With
+    # keep_alive it would stay as an empty screen in front of the launcher.
+    # The CRT. Anything that must play on it (RetroArch today) is moved here by a
+    # window rule, so it lands on the right screen no matter which monitor the
+    # app opened on. Monitor index is 0-based, left-to-right by x: 1 = the CRT at
+    # x=-1024 (see the note on workspace 2). GlazeWM's monitor order only shifts
+    # if something changes the primary display, which nothing does any more.
+    bind_to_monitor: 1 # CRT (1024x768)
   - name: "9"
   - name: "10"
   - name:
@@ -284,6 +294,14 @@ window_rules:
       - window_process: { regex: "Hotspot Shield" }
       - window_process: { equals: "deskflow" }
 
+  # --- Workspace 8: CRT — RetroArch, always ---
+  # RetroArch can only pick a screen by number (video_monitor_index), and Windows
+  # renumbers screens after a GPU reset or a replug, which is how it ended up on
+  # the ultrawide (2026-10-01). GlazeWM numbers by position instead, so moving
+  # the window to the CRT-bound workspace and filling that monitor is stable.
+  # RetroArch runs borderless windowed (video_windowed_fullscreen=true), so it is
+  # a normal window GlazeWM can move. set-fullscreen sizes it to the CRT's rect,
+  # 1024x768, which is the CRT's native mode: no scaling.
   # --- CLAW BACK ---
   # Steam renders through steamwebhelper and EVERY Steam surface shares the
   # `SDL_app` class — friends list, notification toasts, the login box — so the

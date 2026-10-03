@@ -71,6 +71,12 @@ Brewfile
 .ssh/**
 {{ end }}
 
+# .ssh/config is written by Devsy too (it appends "Host *.devsy" blocks for every
+# workspace), so chezmoi no longer owns it anywhere: managing it meant every
+# `chezmoi apply` stopped at a diff/overwrite prompt (2026-10-03). The source copy
+# stays as the reference; the live file is Devsy's plus hand edits.
+.ssh/config
+
 # nvim is shared (LazyVim overrides apply on both) - never ignored.
 
 
