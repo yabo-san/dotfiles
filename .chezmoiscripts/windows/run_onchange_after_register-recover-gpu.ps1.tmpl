@@ -1,0 +1,78 @@
+{{ if eq .chezmoi.os "windows" -}}
+#requires -Version 5.1
+# =============================================================================
+# run_onchange_after_register-recover-gpu.ps1 — startup task that revives the GPU
+# =============================================================================
+# After a hard freeze the RX 7900 GRE has come back DISABLED, leaving the LG and
+# the Acer dark and only the CRT lit (INC0044922). recover-gpu.ps1 fixes that; this
+# registers it as a startup task running as SYSTEM, so it runs before logon and the
+# CRT bind scripts at logon see all three monitors.
+#
+# Registering a SYSTEM task needs admin and `chezmoi apply` runs unelevated, so
+# this asks for ONE UAC prompt, and only when the task is missing or points at the
+# wrong script. A declined prompt exits 1 so chezmoi tries again next apply
+# (run_onchange records exit 0 as done forever).
+#
+# Re-runs when the recovery script changes:
+#   {{ include "dot_config/scripts/gpu/recover-gpu.ps1" | sha256sum }}
+# =============================================================================
+$ErrorActionPreference = 'Stop'
+
+$name   = 'recover-gpu'
+$script = Join-Path $env:USERPROFILE '.config\scripts\gpu\recover-gpu.ps1'
+$args_  = "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
+
+if (-not (Test-Path $script)) {
+    Write-Host "[recover-gpu] $script not deployed yet - run 'chezmoi apply' again." -ForegroundColor Yellow
+    exit 1
+}
+
+$receipt = Join-Path $env:LOCALAPPDATA 'recover-gpu\registered.txt'
+$want    = "SYSTEM|$args_"
+if ((Test-Path $receipt) -and ((Get-Content $receipt -Raw).Trim() -eq $want)) {
+    Write-Host "[recover-gpu] startup task already registered." -ForegroundColor DarkGray
+    return
+}
+New-Item -ItemType Directory -Force (Split-Path $receipt) | Out-Null
+Remove-Item $receipt -ErrorAction SilentlyContinue
+
+# The elevated half goes in a FILE and runs with -File. Passing it inline with
+# -Command through RunAs mangled the quotes and failed silently (2026-10-04).
+# It logs everything to the receipt folder so a failure is readable.
+$dir     = Split-Path $receipt
+$elevPs1 = Join-Path $dir 'register.ps1'
+$elevLog = Join-Path $dir 'register.log'
+@"
+`$ErrorActionPreference = 'Stop'
+Start-Transcript -Path '$elevLog' -Force | Out-Null
+try {
+    `$a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '$($args_ -replace "'", "''")'
+    `$t = New-ScheduledTaskTrigger -AtStartup
+    `$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
+    Register-ScheduledTask -TaskName '$name' -Action `$a -Trigger `$t -Settings `$s -User 'SYSTEM' -RunLevel Highest -Force | Out-Null
+    `$r = Get-ScheduledTask -TaskName '$name'
+    "registered: user=`$(`$r.Principal.UserId) args=`$(`$r.Actions[0].Arguments)"
+    if (`$r.Principal.UserId -match 'SYSTEM') { 'SYSTEM|' + `$r.Actions[0].Arguments | Set-Content -Encoding utf8 '$receipt' }
+} catch {
+    "FAILED: `$(`$_.Exception.Message)"
+    exit 1
+} finally { Stop-Transcript | Out-Null }
+"@ | Set-Content -Encoding utf8 $elevPs1
+
+Write-Host "[recover-gpu] registering the startup task - approve the UAC prompt." -ForegroundColor Cyan
+try {
+    $p = Start-Process powershell.exe -Verb RunAs -WindowStyle Hidden -PassThru -Wait `
+        -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$elevPs1`""
+} catch {
+    Write-Host "[recover-gpu] UAC declined - not registered. Next 'chezmoi apply' asks again." -ForegroundColor Yellow
+    exit 1
+}
+
+if ((Test-Path $receipt) -and ((Get-Content $receipt -Raw).Trim() -eq $want)) {
+    Write-Host "[recover-gpu] registered: runs at startup as SYSTEM." -ForegroundColor Green
+} else {
+    Write-Host "[recover-gpu] elevated step exited $($p.ExitCode) without a matching receipt. Its log:" -ForegroundColor Red
+    Get-Content $elevLog -ErrorAction SilentlyContinue | Select-String -NotMatch '^\*{5,}|^(Start|End) time|^(Username|RunAs User|Configuration Name|Machine|Host Application|Process ID|PSVersion|PSEdition|PSCompatibleVersions|BuildVersion|CLRVersion|WSManStackVersion|PSRemotingProtocolVersion|SerializationVersion|OS):' | ForEach-Object { Write-Host "    $_" }
+    exit 1
+}
+{{ end -}}
