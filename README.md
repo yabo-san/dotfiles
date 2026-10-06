@@ -33,6 +33,35 @@ leftovers are in `dot_config/bootstrap/windows-notes.txt`.
 
 Packages: scoop first, then winget. Manifests live in `dot_config/bootstrap/`.
 
+### Keyboard: who owns what
+
+Three things sit on the keyboard. They claim different keys and never see each other's.
+
+- **GlazeWM** owns the Win key (`Win+H/J/K/L` move, `Win+1..0` workspaces, `Win+Shift+…` send/move) and
+  `Alt+Q` (graceful close, Cmd+Q parity). Alt+Tab is deliberately unbound so the native switcher works.
+  `Win+L` is the exception: Windows reserves it for lock below any keyboard hook, so the lock action is
+  disabled in `windows-tweaks.reg` and Raycast runs `scripts/raycast/glaze-move-right.ps1` on it instead.
+  No Raycast, no move-right.
+- **AutoHotkey** (`scripts/wezterm/quake-hotkey.ahk`) owns only what nothing else can rebind, listed below.
+  Playnite kills it before a game and restarts it after (anti-cheat, raw input); the Raycast commands
+  `AHK Off` / `AHK On` are the manual version. GlazeWM keeps working with AHK dead.
+- **Everything else** lives in each app's own config (WezTerm, Zen, Obsidian hotkeys), never in AHK,
+  so nothing is double-bound.
+
+| Scope | Key | Does |
+|---|---|---|
+| everywhere | `` ` `` | toggle the WezTerm quake dropdown |
+| everywhere | ``Ctrl+` `` | type a literal backtick |
+| everywhere | `Win+W` | focus Zen wherever it is (other workspace, minimized), launch if not running |
+| not WezTerm / RustDesk | `Alt+C` `Alt+X` `Alt+V` `Alt+A` | copy / cut / paste / select all (Alt sits where mac's Cmd is) |
+| not WezTerm / RustDesk | `Alt+Z`, `Alt+Shift+Z` | undo / redo |
+| not WezTerm / RustDesk | `Alt+Shift+C/X/V/A` | passed through untouched (Zen copy-URL, addons, …) |
+| Obsidian only | `Alt+Y` `Alt+M` `Alt+I` `Alt+N` `Alt+T` | browse vault / move file / Templater Zettel / new tab / daily note |
+| Zen only | `Win+click` | Alt+click (split tab, Cmd+click parity) |
+
+WezTerm is excluded because it binds `Alt+C/V` itself; remapped to `Ctrl+C` it would be SIGINT, not copy.
+RustDesk is excluded so the remote machine gets the real keystrokes.
+
 ## macOS
 
 ```sh
