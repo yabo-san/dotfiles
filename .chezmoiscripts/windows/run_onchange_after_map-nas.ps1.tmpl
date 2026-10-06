@@ -1,0 +1,17 @@
+{{- /* The NAS as a drive letter, surviving reboots. The mapping used to be made by hand and was not
+     persistent, so the 2026-10-05 crash reboot took it with it; the Explorer "nas" shortcut pointed at
+     192.168.1.32, the LAN address from before the cluster moved. Tailscale's address is the one that
+     holds from anywhere. Idempotent: maps only when N: is missing or points elsewhere. */ -}}
+$remote = '\\100.99.35.21\NAS'
+$current = Get-SmbMapping -LocalPath 'N:' -ErrorAction SilentlyContinue
+if ($current -and $current.RemotePath -eq $remote -and $current.Status -eq 'OK') {
+  Write-Host "N: already $remote"
+  exit 0
+}
+if ($current) { Remove-SmbMapping -LocalPath 'N:' -Force -ErrorAction SilentlyContinue }
+try {
+  New-SmbMapping -LocalPath 'N:' -RemotePath $remote -Persistent $true -ErrorAction Stop | Out-Null
+  Write-Host "N: mapped to $remote (persistent)"
+} catch {
+  Write-Warning "could not map N: to ${remote}: $($_.Exception.Message) (is Tailscale up?)"
+}

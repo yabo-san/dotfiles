@@ -214,7 +214,12 @@ window_rules:
       - window_process: { equals: "7zFM" }
       - window_process: { equals: "explorer" }
         window_class: { equals: "CabinetWClass" }
+      # MAIN WINDOW ONLY, same disease as zen above (2026-10-05): process alone also
+      # tiled File Pilot's delete/overwrite confirmations (#32770) into ws1, so they
+      # opened behind other windows and each one had to be hunted down. The main
+      # window is class "File Pilot"; dialogs fall through to floating + centered.
       - window_process: { equals: "FPilot" }
+        window_class: { equals: "File Pilot" }
       - window_process: { equals: "EXCEL" }
         window_class: { equals: "XLMAIN" }
       - window_process: { equals: "WINWORD" }
