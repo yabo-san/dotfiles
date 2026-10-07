@@ -1,4 +1,21 @@
-# GlazeWM. Keys: dot_config/bootstrap/keyboard-map.md. Why things are the way they are: glazewm-notes.md.
+# GlazeWM. Every keybind and which program owns it: dot_config/bootstrap/keyboard-map.md
+#
+# HOW THIS FILE WORKS
+# 1. Deny by default. GlazeWM only manages apps named in window_rules; the catch-all at the bottom
+#    ignores everything else, so games and launchers are left alone (they used to get frozen at
+#    their tiny startup size). To add an app: put it in its workspace rule AND in the catch-all regex.
+#    Miss the second and it is silently ignored.
+# 2. Main window only. Matching by process alone also grabs the app's dialogs and drags them to its
+#    workspace, where they look like they vanished. A second field (class or title) on a match means
+#    "main window only"; dialogs float on the workspace you are on.
+#    Zen MozillaWindowClass | Explorer CabinetWClass (the desktop is also "explorer") | File Pilot
+#    "File Pilot" | Office XLMAIN/OpusApp/PPTFrameClass | Playnite and Steam by window title.
+# 3. Monitors count 0-based, left to right by position: 0 Acer, 1 CRT, 2 ultrawide. Check with
+#    `glazewm query monitors` after rearranging. Workspaces 1, 4, 5 and 7 share the ultrawide and only
+#    one shows at a time, so a window sent to a hidden one looks gone.
+# 4. Keys that look odd on purpose: Win+L goes through Raycast (Windows reserves it for lock);
+#    Alt+Tab is unbound so the native switcher works; Win+D jumps to empty workspace 0 and back.
+# 5. Playnite's pre-game script kills GlazeWM while a game runs and post-game restarts it.
 
 general:
   startup_commands: []
