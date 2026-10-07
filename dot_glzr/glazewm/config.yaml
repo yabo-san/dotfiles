@@ -156,6 +156,18 @@ window_rules:
       - window_process: { equals: "steamwebhelper" }
         window_title: { equals: "Steam" }
 
+  - commands: ["set-tiling", "move --workspace 5"] # play; launchers. Battle.net, EA, Ubisoft scoped to the main window by title
+    match:
+      - window_process: { equals: "Battle.net" }
+        window_title: { equals: "Battle.net" }
+      - window_process: { equals: "EADesktop" }
+        window_title: { equals: "EA" }
+      - window_process: { equals: "EpicGamesLauncher" } # one window, process is enough
+      - window_process: { equals: "GalaxyClient" } # one window
+      - window_process: { equals: "drop-app" } # Drop desktop client, one window
+      - window_process: { equals: "upc" }
+        window_title: { equals: "Ubisoft Connect" }
+
   - commands: ["set-tiling", "move --workspace 6"] # media
     match:
       - window_process: { equals: "fladder" }
@@ -181,7 +193,7 @@ window_rules:
         window_title: { regex: "[Pp]icture.in.[Pp]icture" }
       - window_title: { regex: "yabo-shader-hud" }
       # the catch-all: every process not named above
-      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk" }
+      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|^Battle[.]net$|^EADesktop$|^EpicGamesLauncher$|^GalaxyClient$|^upc$|^drop-app$" }
 
 binding_modes:
   - name: "resize" # no key enables this yet
