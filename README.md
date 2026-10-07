@@ -37,7 +37,7 @@ Packages: scoop first, then winget. Manifests live in `dot_config/bootstrap/`.
 
 Three things sit on the keyboard. They claim different keys and never see each other's.
 
-- **GlazeWM** owns the Win key (`Win+H/J/K/L` move, `Win+1..0` workspaces, `Win+Shift+…` send/move) and
+- **GlazeWM** owns the Win key (`Win+H/J/K/L` move, workspaces on a grid, `Win+1-4` / `Win+Q W R` / `Win+S F` / `Win+C`, `Win+Shift+…` send/move) and
   `Alt+Q` (graceful close, Cmd+Q parity). Alt+Tab is deliberately unbound so the native switcher works.
   `Win+L` is the exception: Windows reserves it for lock below any keyboard hook, so the lock action is
   disabled in `windows-tweaks.reg` and Raycast runs `scripts/raycast/glaze-move-right.ps1` on it instead.
@@ -52,7 +52,6 @@ Three things sit on the keyboard. They claim different keys and never see each o
 |---|---|---|
 | everywhere | `` ` `` | toggle the WezTerm quake dropdown |
 | everywhere | ``Ctrl+` `` | type a literal backtick |
-| everywhere | `Win+W` | focus Zen wherever it is (other workspace, minimized), launch if not running |
 | not WezTerm / RustDesk | `Alt+C` `Alt+X` `Alt+V` `Alt+A` | copy / cut / paste / select all (Alt sits where mac's Cmd is) |
 | not WezTerm / RustDesk | `Alt+Z`, `Alt+Shift+Z` | undo / redo |
 | not WezTerm / RustDesk | `Alt+Shift+C/X/V/A` | passed through untouched (Zen copy-URL, addons, …) |

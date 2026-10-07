@@ -38,15 +38,18 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+T` | toggle float / tile | GlazeWM |
 | `Win+M` | toggle fullscreen | GlazeWM |
 | `Win+D` | show desktop: flip to empty workspace 0, again to flip back | GlazeWM |
-| `Win+1` to `Win+9`, `Win+0` | focus workspace 1 to 9, 10 | GlazeWM |
-| `Win+Shift+1` to `9`, `0` | send window to workspace and follow | GlazeWM |
+| `Win+1` `2` `3` `4` | focus main, comms, music, dev | GlazeWM |
+| `Win+Q` `W` `R` | focus play (Playnite), utils and launchers, media | GlazeWM |
+| `Win+S` `F` | focus spare workspaces 9 and 10 | GlazeWM |
+| `Win+C` | focus the CRT workspace | GlazeWM |
+| `Win+5` to `Win+9`, `Win+0` | aliases for the same workspaces, so Windows never opens taskbar app N | GlazeWM |
+| `Win+Shift+` the same keys | send window there and follow. Not `Win+Shift+S`, which stays the snip | GlazeWM |
 | `Win+Tab` / `Win+Shift+Tab` | next / previous active workspace | GlazeWM |
 | `Win+Shift+H / J / K / L` | move whole workspace to monitor left / down / up / right | GlazeWM |
 | `Win+Shift+P` | pause all GlazeWM binds | GlazeWM |
-| `Win+Shift+R` | reload GlazeWM config | GlazeWM |
-| `Win+W` | focus Zen wherever it is, launch if not running. Free because Widgets is uninstalled | AHK |
-| `Win+click` in Zen | Alt+click, split tab (Cmd+click parity) | AHK |
+| `Win+Ctrl+R` | reload GlazeWM config. Reload drops every window onto the focused workspace on 3.10.1; restore placement after | GlazeWM |
 | `Win+E` | File Pilot, via the File Explorer CLSID override | registry |
+| `Win+click` in Zen | Alt+click, split tab (Cmd+click parity) | AHK |
 | `Win+Shift+S`, `PrtSc` | Snipping Tool | Windows |
 | `Win+P / V / G / A / .` | display / clipboard / Game Bar / quick settings / emoji, native | Windows |
 | `Win+I X N Q B O R` | disabled (`DisabledHotkeys=IXNQBOR`) | registry |
@@ -100,7 +103,7 @@ Raycast's own launcher hotkey is set in Raycast, not tracked.
 - `Alt+V`: AHK paste beats Zen split-vertical. Zen's `Alt+Shift+*` new-split still works.
 - `Alt+C`: AHK copy beats Zen compact-mode toggle.
 - `Win+L`: Windows lock beats everything unless `DisableLockWorkstation=1` is applied and relogged.
-- `Win+W`: Windows Widgets beats AHK unless the Widgets app is uninstalled.
+- `Win+W`: now the utils workspace. Free because the Widgets app is uninstalled; the old AHK "jump to Zen" bind is gone.
 
 ## Dead ends
 

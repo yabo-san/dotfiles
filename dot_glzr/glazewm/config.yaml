@@ -15,6 +15,7 @@
 #    one shows at a time, so a window sent to a hidden one looks gone.
 # 4. Keys that look odd on purpose: Win+L goes through Raycast (Windows reserves it for lock);
 #    Alt+Tab is unbound so the native switcher works; Win+D jumps to empty workspace 0 and back.
+#    Workspace keys follow a grid: 1 2 3 4 / Q W R / S D F / C. Reload is Win+Ctrl+R.
 # 5. Playnite's pre-game script kills GlazeWM while a game runs and post-game restarts it.
 
 general:
@@ -229,9 +230,10 @@ keybindings:
   - commands: ["wm-toggle-pause"]
     bindings: ["lwin+shift+p"]
   - commands: ["wm-reload-config"]
-    bindings: ["lwin+shift+r"]
+    bindings: ["lwin+ctrl+r"]
 
-  # go to workspace
+  # go to workspace. Grid: 1 2 3 4 / Q play, W utils, R media / S, F spare, D desktop / C crt.
+  # Numbers 5-0 stay as aliases so Windows never gets them for "open taskbar app N".
   - commands: ["focus --workspace 1"]
     bindings: ["lwin+1"]
   - commands: ["focus --workspace 2"]
@@ -241,21 +243,21 @@ keybindings:
   - commands: ["focus --workspace 4"]
     bindings: ["lwin+4"]
   - commands: ["focus --workspace 5"]
-    bindings: ["lwin+5"]
+    bindings: ["lwin+q", "lwin+5"]
   - commands: ["focus --workspace 6"]
-    bindings: ["lwin+6"]
+    bindings: ["lwin+r", "lwin+6"]
   - commands: ["focus --workspace 7"]
-    bindings: ["lwin+7"]
+    bindings: ["lwin+w", "lwin+7"]
   - commands: ["focus --workspace 8"]
-    bindings: ["lwin+8"]
+    bindings: ["lwin+c", "lwin+8"]
   - commands: ["focus --workspace 9"]
-    bindings: ["lwin+9"]
+    bindings: ["lwin+s", "lwin+9"]
   - commands: ["focus --workspace 0"] # show desktop
     bindings: ["lwin+d"]
   - commands: ["focus --workspace 10"]
-    bindings: ["lwin+0"]
+    bindings: ["lwin+f", "lwin+0"]
 
-  # send window to workspace
+  # send window to workspace. No Win+Shift+S: that stays the snip.
   - commands: ["move --workspace 1", "focus --workspace 1"]
     bindings: ["lwin+shift+1"]
   - commands: ["move --workspace 2", "focus --workspace 2"]
@@ -265,17 +267,17 @@ keybindings:
   - commands: ["move --workspace 4", "focus --workspace 4"]
     bindings: ["lwin+shift+4"]
   - commands: ["move --workspace 5", "focus --workspace 5"]
-    bindings: ["lwin+shift+5"]
+    bindings: ["lwin+shift+q", "lwin+shift+5"]
   - commands: ["move --workspace 6", "focus --workspace 6"]
-    bindings: ["lwin+shift+6"]
+    bindings: ["lwin+shift+r", "lwin+shift+6"]
   - commands: ["move --workspace 7", "focus --workspace 7"]
-    bindings: ["lwin+shift+7"]
+    bindings: ["lwin+shift+w", "lwin+shift+7"]
   - commands: ["move --workspace 8", "focus --workspace 8"]
-    bindings: ["lwin+shift+8"]
+    bindings: ["lwin+shift+c", "lwin+shift+8"]
   - commands: ["move --workspace 9", "focus --workspace 9"]
     bindings: ["lwin+shift+9"]
   - commands: ["move --workspace 10", "focus --workspace 10"]
-    bindings: ["lwin+shift+0"]
+    bindings: ["lwin+shift+f", "lwin+shift+0"]
 
   # move whole workspace to a monitor
   - commands: ["move-workspace --direction left"]

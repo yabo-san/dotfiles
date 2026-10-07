@@ -162,7 +162,7 @@ shortcuts (Zen, Obsidian) live in each app's own config or a #HotIf WinActive bl
 ** ON ANY AMD MACHINE: turn OFF all AMD Radeon Software hotkeys ** (Radeon Software -> Settings ->
 Hotkeys). Radeon grabs Alt+Z (overlay), Alt+R, Ctrl+Shift+U etc. GLOBALLY, BEFORE AHK sees them ->
 the remaps silently fail and the Radeon panel flashes. With them off: Alt+Z=undo, Zen's Alt+R=reload
-all work, Ctrl+Shift+U is freed. (Win+W = focus Zen browser / launch if not running, via this AHK.)
+all work, Ctrl+Shift+U is freed.
 
 --- Open-Shell mechanism (confirmed via source) ---
 Live settings = registry HKCU\Software\OpenShell (auto-applied by openshell-settings.reg).
