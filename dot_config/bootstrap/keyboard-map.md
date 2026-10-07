@@ -11,7 +11,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | Owner | Where | Tracked? |
 |---|---|---|
 | Windows registry | `dot_config/bootstrap/windows-tweaks.reg.tmpl` | yes |
-| AutoHotkey | `dot_config/scripts/wezterm/quake-hotkey.ahk` (autostart via `quake-hotkey.lnk`) | yes |
+| AutoHotkey | `dot_config/scripts/hotkeys.ahk` (autostart via `hotkeys.lnk`) | yes |
 | GlazeWM | `dot_glzr/glazewm/config.yaml`, `keybindings:` section | yes |
 | Raycast | Raycast's own SQLite index. Scripts in `dot_config/scripts/raycast/`, hotkeys set by hand | scripts yes, keys no |
 | WezTerm | `dot_config/wezterm/wezterm.lua`, `config.keys` | yes |
@@ -37,10 +37,10 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+L` | move window right, via Raycast → `glaze-move-right.ps1`. Needs `DisableLockWorkstation` | Raycast + registry |
 | `Win+T` | toggle float / tile | GlazeWM |
 | `Win+M` | toggle fullscreen | GlazeWM |
-| `Win+D` | show desktop on every screen, again to bring back exactly what it hid (`scripts/glazewm/show-desktop.ps1`) | AHK |
+| `Win+D` | show desktop on every screen, again to bring back exactly what it hid | AHK |
 | `Win+1` `2` `3` `4` | focus main, comms, music, dev | GlazeWM |
 | `Win+Q` `W` | focus play (Playnite), utils and launchers | GlazeWM |
-| `Win+S` | Cider drop-down: show over the screen under the mouse, again to hide (`scripts/dropdown/dropdown.ps1`) | AHK |
+| `Win+S` | Cider drop-down: show over the screen under the mouse, again to hide | AHK |
 | `Win+C` | focus the CRT workspace | GlazeWM |
 | `Win+5` to `Win+9`, `Win+0` | aliases for the same workspaces; 6, 9 and 10 are number-only spares. Also keeps Windows from opening taskbar app N | GlazeWM |
 | `Win+Shift+` the same keys | send window there and follow. Not `Win+Shift+S`, which stays the snip | GlazeWM |

@@ -9,7 +9,7 @@
 # can't track one usefully. It can generate them, though — which is the same
 # trick used for Playnite's global scripts.
 #
-# This is not cosmetic: quake-hotkey.lnk went missing on the main machine and
+# This is not cosmetic: the AutoHotkey shortcut (then quake-hotkey.lnk) went missing on the main machine and
 # AutoHotkey silently stopped autostarting. A missing shortcut fails quiet.
 #
 # Idempotent: rewrites a shortcut only when its target/args drift. Skips any
@@ -38,10 +38,10 @@ $shortcuts = @(
     },
     @{
         # scoop 'current' junction, so this survives AutoHotkey upgrades.
-        Name   = 'quake-hotkey.lnk'
+        Name   = 'hotkeys.lnk'
         Target = "$env:USERPROFILE\scoop\apps\autohotkey\current\v2\AutoHotkey64.exe"
-        Args   = "`"$env:USERPROFILE\.config\scripts\wezterm\quake-hotkey.ahk`""
-        Why    = 'backtick WezTerm dropdown, Alt remaps, Win+Shift+S -> ShareX'
+        Args   = "`"$env:USERPROFILE\.config\scripts\hotkeys.ahk`""
+        Why    = 'all AutoHotkey bindings: drop-downs, Win+D, Alt remaps'
     },
     @{
         Name   = 'MEGAsync.lnk'
@@ -92,6 +92,13 @@ $shortcuts = @(
 )
 
 $shell   = New-Object -ComObject WScript.Shell
+# Retired shortcuts. quake-hotkey.lnk launched the old AHK file; left in place it would start a
+# second AutoHotkey next to hotkeys.ahk and every key would be bound twice.
+foreach ($old in @('quake-hotkey.lnk')) {
+    $p = Join-Path $startup $old
+    if (Test-Path $p) { Remove-Item $p -Force; Write-Host "[startup] removed retired $old" -ForegroundColor Green }
+}
+
 $made    = @()
 $skipped = @()
 

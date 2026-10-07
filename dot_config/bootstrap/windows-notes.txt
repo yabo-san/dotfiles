@@ -133,7 +133,7 @@ Reinstall on a fresh box (the old setup had UNINSTALLED it):
 Registry (now in windows-tweaks.reg): PrintScreenKeyForSnippingEnabled=1 and
 PrintScreenKeyForSnippingTool=1 put PrtSc back on the snip overlay. The old setup
 set Enabled=0 to free PrtSc for ShareX -- do NOT re-add that.
-Do NOT bind #+s in quake-hotkey.ahk: AHK swallows Win+Shift+S before Windows snip
+Do NOT bind #+s in hotkeys.ahk: AHK swallows Win+Shift+S before Windows snip
 sees it, which is exactly how ShareX used to win the key.
 
 --- PowerShell modules must live OFF OneDrive ---
@@ -151,12 +151,12 @@ These .lnk files live in %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
 (binary shortcuts, not chezmoi-tracked — recreate them):
   - GlazeWM.lnk        -> C:\Program Files\glzr.io\GlazeWM\GlazeWM.exe
   - YASB.lnk           -> C:\Program Files\Yasb\yasb.exe  (else the bar wont start on boot)
-  - quake-hotkey.lnk   -> AutoHotkey64.exe ~\.config\scripts\wezterm\quake-hotkey.ahk
+  - hotkeys.lnk        -> AutoHotkey64.exe ~\.config\scripts\hotkeys.ahk
   - MEGAsync.lnk       -> (MEGAsync)
 (Screenshots need no autostart now that it's the native Snipping Tool.)
 
 --- Alt-remaps (mac-style) + AMD dependency (REQUIRED bootstrap step on AMD) ---
-quake-hotkey.ahk remaps Alt+C/X/V/A -> Ctrl (copy/cut/paste/select-all) and Alt+Z -> Ctrl+Z (undo),
+hotkeys.ahk remaps Alt+C/X/V/A -> Ctrl (copy/cut/paste/select-all) and Alt+Z -> Ctrl+Z (undo),
 mac-style (Alt sits where Cmd is). Scoped OUT of WezTerm + RustDesk (they need raw Ctrl). Per-app
 shortcuts (Zen, Obsidian) live in each app's own config or a #HotIf WinActive block.
 ** ON ANY AMD MACHINE: turn OFF all AMD Radeon Software hotkeys ** (Radeon Software -> Settings ->

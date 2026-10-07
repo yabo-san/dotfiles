@@ -42,7 +42,7 @@ Three things sit on the keyboard. They claim different keys and never see each o
   `Win+L` is the exception: Windows reserves it for lock below any keyboard hook, so the lock action is
   disabled in `windows-tweaks.reg` and Raycast runs `scripts/raycast/glaze-move-right.ps1` on it instead.
   No Raycast, no move-right.
-- **AutoHotkey** (`scripts/wezterm/quake-hotkey.ahk`) owns only what nothing else can rebind, listed below.
+- **AutoHotkey** (`scripts/hotkeys.ahk`) owns only what nothing else can rebind, listed below.
   Playnite kills it before a game and restarts it after (anti-cheat, raw input); the Raycast commands
   `AHK Off` / `AHK On` are the manual version. GlazeWM keeps working with AHK dead.
 - **Everything else** lives in each app's own config (WezTerm, Zen, Obsidian hotkeys), never in AHK,

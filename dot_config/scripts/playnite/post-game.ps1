@@ -4,7 +4,7 @@
 
   Puts back what pre-game.ps1 took away.
 
-  1. AutoHotkey (quake-hotkey.ahk: backtick WezTerm dropdown, mac-style Alt
+  1. AutoHotkey (hotkeys.ahk: backtick WezTerm dropdown, mac-style Alt
      remaps, Win+Shift+S -> ShareX).
 
   2. GlazeWM. It is killed before a game so it cannot fight over the game's
@@ -28,7 +28,7 @@ $ErrorActionPreference = 'Continue'
 
 try {
     $exe = "$env:USERPROFILE\scoop\apps\autohotkey\current\v2\AutoHotkey64.exe"
-    $ahk = "$env:USERPROFILE\.config\scripts\wezterm\quake-hotkey.ahk"
+    $ahk = "$env:USERPROFILE\.config\scripts\hotkeys.ahk"
     if ((Test-Path $exe) -and -not (Get-Process AutoHotkey* -ErrorAction SilentlyContinue)) {
         Start-Process $exe -ArgumentList "`"$ahk`""
     }
