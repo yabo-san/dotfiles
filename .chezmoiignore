@@ -43,7 +43,6 @@ Brewfile
 .config/bootstrap/**
 .config/fastfetch/**
 .config/obsidian/**
-.config/monitors.json
 .config/playnite/**
 .config/retroarch/**
 AppData/**

@@ -71,7 +71,7 @@ bars:
     # CRT has NO EDID (absent from WmiMonitorID entirely), so there is no friendly
     # name to use — a GDI name is the only handle yasb accepts for it.
     # If the CRT bar vanishes again: glazewm query monitors  -> find the 1024x768
-    # entry -> put its deviceName here. See dot_config/monitors.json.
+    # entry -> put its deviceName here (fix-crt-bar.ps1 does this for you).
     screens: ["\\\\.\\DISPLAY3"]   # the 4:3 CRT - set by fix-crt-bar.ps1
     class_name: "yasb-bar"
     alignment:
