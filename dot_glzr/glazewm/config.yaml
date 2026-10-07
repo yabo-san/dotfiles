@@ -106,7 +106,7 @@ workspaces:
   - name: "8"
     display_name: "" # crt; not keep_alive so Playnite shows through when empty
     bind_to_monitor: 1
-  - name: "9"
+  - name: "9" # launchers (not keep_alive: off the bar when empty)
   - name: "10"
   - name: "0" # show-desktop scratch, always empty
 
@@ -151,22 +151,13 @@ window_rules:
       - window_process: { equals: "Playnite" }
         window_title: { equals: "Playnite" }
 
-  - commands: ["set-tiling", "move --workspace 5"] # play; Steam's main window tiles
+  - commands: ["set-tiling", "move --workspace 9"] # launchers; 5 stays Playnite's alone
     match:
-      - window_process: { equals: "steamwebhelper" }
+      - window_process: { equals: "steamwebhelper" } # every Steam surface is SDL_app; main one by title
         window_title: { equals: "Steam" }
-
-  - commands: ["set-tiling", "move --workspace 5"] # play; launchers. Battle.net, EA, Ubisoft scoped to the main window by title
-    match:
-      - window_process: { equals: "Battle.net" }
+      - window_process: { equals: "Battle.net" } # has child windows; main one by title
         window_title: { equals: "Battle.net" }
-      - window_process: { equals: "EADesktop" }
-        window_title: { equals: "EA" }
-      - window_process: { equals: "EpicGamesLauncher" } # one window, process is enough
-      - window_process: { equals: "GalaxyClient" } # one window
-      - window_process: { equals: "drop-app" } # Drop desktop client, one window
-      - window_process: { equals: "upc" }
-        window_title: { equals: "Ubisoft Connect" }
+      - window_process: { regex: "^(EADesktop|EpicGamesLauncher|GalaxyClient|upc|drop-app)$" } # single-window launchers
 
   - commands: ["set-tiling", "move --workspace 6"] # media
     match:
