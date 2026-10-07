@@ -30,6 +30,8 @@
                             one import does both. Their run-at-logon state is in windows-tweaks.reg.
    One app, one source. RetroArch is in neither list on purpose: the CRT setup targets
    Steam RetroArch (installed through Steam), and a scoop or winget copy is a second, unwired one.
+   7-Zip is winget (right-click menu). Scoop still installs its own 7zip the first time it has an
+   archive to unpack; that copy is scoop's tool, not a second listing.
  Unix commands: hand-rolled in unix-aliases.ps1. SIDESTEP = `scoop install
    uutils-coreutils` for real GNU cp/mv/rm/etc. (can shadow PS built-ins).
 

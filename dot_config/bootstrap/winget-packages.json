@@ -7,6 +7,9 @@
 			"Packages" : 
 			[
 				{
+					"PackageIdentifier" : "7zip.7zip"
+				},
+				{
 					"PackageIdentifier" : "CPUID.CPU-Z.MSI"
 				},
 				{
