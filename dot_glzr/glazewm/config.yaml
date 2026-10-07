@@ -15,7 +15,7 @@
 #    one shows at a time, so a window sent to a hidden one looks gone.
 # 4. Keys that look odd on purpose: Win+L goes through Raycast (Windows reserves it for lock);
 #    Alt+Tab is unbound so the native switcher works; Win+D is Windows' own show-desktop (every screen).
-#    Workspace keys follow a grid: 1 2 3 4 / Q W / D F / C. Reload is Win+Shift+R.
+#    Workspace keys follow a grid: 1 2 3 4 / Q W / C. Win+S is the Cider drop-down. Reload is Win+Shift+R.
 # 5. Playnite's pre-game script kills GlazeWM while a game runs and post-game restarts it.
 
 general:
@@ -86,7 +86,7 @@ workspaces:
     keep_alive: true
     bind_to_monitor: 0
   - name: "3"
-    display_name: "" # music
+    display_name: "" # music and media (Cider is the Win+S drop-down)
     keep_alive: true
     bind_to_monitor: 0
   - name: "4"
@@ -98,7 +98,7 @@ workspaces:
     keep_alive: true
     bind_to_monitor: 2
   - name: "6"
-    display_name: "" # media
+    display_name: "" # spare (media moved to 3)
     keep_alive: true
   - name: "7"
     display_name: "" # utils and game launchers
@@ -137,9 +137,9 @@ window_rules:
     match:
       - window_process: { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
 
-  - commands: ["set-tiling", "move --workspace 3"] # music
+  - commands: ["set-tiling", "move --workspace 3"] # music and media
     match:
-      - window_process: { regex: "Cider|[sS]potify|SoulseekQt" }
+      - window_process: { regex: "[sS]potify|SoulseekQt" } # Cider is a Win+S drop-down, not tiled
 
   - commands: ["set-tiling", "move --workspace 4"] # gamedev
     match:
@@ -162,7 +162,7 @@ window_rules:
       - window_process: { equals: "SocialClubHelper" } # Rockstar; the helper also draws login and overlay windows
         window_title: { equals: "Rockstar Games Launcher" }
 
-  - commands: ["set-tiling", "move --workspace 6"] # media
+  - commands: ["set-tiling", "move --workspace 3"] # media shares music
     match:
       - window_process: { equals: "fladder" }
       - window_process: { regex: "vlc|FreeTube" }
@@ -187,7 +187,7 @@ window_rules:
         window_title: { regex: "[Pp]icture.in.[Pp]icture" }
       - window_title: { regex: "yabo-shader-hud" }
       # the catch-all: every process not named above
-      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|^Battle[.]net$|^EADesktop$|^EpicGamesLauncher$|^GalaxyClient$|^upc$|^drop-app$|^SocialClubHelper$" }
+      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|^Battle[.]net$|^EADesktop$|^EpicGamesLauncher$|^GalaxyClient$|^upc$|^drop-app$|^SocialClubHelper$" }
 
 binding_modes:
   - name: "resize" # no key enables this yet
@@ -229,10 +229,11 @@ keybindings:
   # wm control
   - commands: ["wm-toggle-pause"]
     bindings: ["lwin+shift+p"]
-  - commands: ["wm-reload-config"]
+  # reload via a script: 3.10.1 drops every window onto the focused workspace on reload; the script puts them back
+  - commands: ["shell-exec pwsh -NoProfile -WindowStyle Hidden -File %USERPROFILE%\\.config\\scripts\\glazewm\\safe-reload.ps1"]
     bindings: ["lwin+shift+r"]
 
-  # go to workspace. Grid: 1 2 3 4 / Q play, W utils / F media / C crt. 9 and 0 (workspace 10) are number-only spares.
+  # go to workspace. Grid: 1 2 3 4 / Q play, W utils / C crt. 6, 9 and 0 (workspace 10) are number-only spares.
   # Numbers 5-0 stay as aliases so Windows never gets them for "open taskbar app N".
   - commands: ["focus --workspace 1"]
     bindings: ["lwin+1"]
@@ -245,7 +246,7 @@ keybindings:
   - commands: ["focus --workspace 5"]
     bindings: ["lwin+q", "lwin+5"]
   - commands: ["focus --workspace 6"]
-    bindings: ["lwin+f", "lwin+6"]
+    bindings: ["lwin+6"]
   - commands: ["focus --workspace 7"]
     bindings: ["lwin+w", "lwin+7"]
   - commands: ["focus --workspace 8"]
@@ -267,7 +268,7 @@ keybindings:
   - commands: ["move --workspace 5", "focus --workspace 5"]
     bindings: ["lwin+shift+q", "lwin+shift+5"]
   - commands: ["move --workspace 6", "focus --workspace 6"]
-    bindings: ["lwin+shift+f", "lwin+shift+6"]
+    bindings: ["lwin+shift+6"]
   - commands: ["move --workspace 7", "focus --workspace 7"]
     bindings: ["lwin+shift+w", "lwin+shift+7"]
   - commands: ["move --workspace 8", "focus --workspace 8"]

@@ -37,17 +37,17 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+L` | move window right, via Raycast → `glaze-move-right.ps1`. Needs `DisableLockWorkstation` | Raycast + registry |
 | `Win+T` | toggle float / tile | GlazeWM |
 | `Win+M` | toggle fullscreen | GlazeWM |
-| `Win+D` | show desktop on every screen, again to bring it all back (Windows' own; GlazeWM restores the tiling) | Windows |
+| `Win+D` | show desktop on every screen, again to bring back exactly what it hid (`scripts/glazewm/show-desktop.ps1`) | AHK |
 | `Win+1` `2` `3` `4` | focus main, comms, music, dev | GlazeWM |
 | `Win+Q` `W` | focus play (Playnite), utils and launchers | GlazeWM |
-| `Win+F` | focus media | GlazeWM |
+| `Win+S` | Cider drop-down: show over the screen under the mouse, again to hide (`scripts/dropdown/dropdown.ps1`) | AHK |
 | `Win+C` | focus the CRT workspace | GlazeWM |
-| `Win+5` to `Win+9`, `Win+0` | aliases for the same workspaces; 9 and 10 are number-only spares. Also keeps Windows from opening taskbar app N | GlazeWM |
+| `Win+5` to `Win+9`, `Win+0` | aliases for the same workspaces; 6, 9 and 10 are number-only spares. Also keeps Windows from opening taskbar app N | GlazeWM |
 | `Win+Shift+` the same keys | send window there and follow. Not `Win+Shift+S`, which stays the snip | GlazeWM |
 | `Win+Tab` / `Win+Shift+Tab` | next / previous active workspace | GlazeWM |
 | `Win+Shift+H / J / K / L` | move whole workspace to monitor left / down / up / right | GlazeWM |
 | `Win+Shift+P` | pause all GlazeWM binds | GlazeWM |
-| `Win+Shift+R` | reload GlazeWM config. On 3.10.1 reload drops every window onto the focused workspace; restore placement after | GlazeWM |
+| `Win+Shift+R` | reload GlazeWM config through `scripts/glazewm/safe-reload.ps1`, which puts back windows the reload moves (3.10.1 drops them all onto the focused workspace) | GlazeWM |
 | `Win+E` | File Pilot, via the File Explorer CLSID override | registry |
 | `Win+click` in Zen | Alt+click, split tab (Cmd+click parity) | AHK |
 | `Win+Shift+S`, `PrtSc` | Snipping Tool | Windows |

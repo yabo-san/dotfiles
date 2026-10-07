@@ -26,6 +26,20 @@ vkC0::
 ; (ShareX removed 2026-09-17). Anything AHK binds to #+s swallows the key before
 ; Windows snip sees it, so leave it alone.
 
+; Win+D -> show desktop on every screen; press again to bring it all back (scripts/glazewm/show-desktop.ps1).
+; Windows' own Win+D cannot toggle back under GlazeWM. While a game runs AHK is off and Win+D is Windows' again.
+#d::
+{
+    Run('pwsh -NoProfile -WindowStyle Hidden -File "' . EnvGet("USERPROFILE") . '\.config\scripts\glazewm\show-desktop.ps1"', , "Hide")
+}
+
+; Win+S -> Cider as a drop-down (scripts/dropdown/dropdown.ps1). Run, never wait: a blocking call here
+; is what wedged AHK in June's Proton attempt. Win+Shift+S is untouched (the snip).
+#s::
+{
+    Run('pwsh -NoProfile -WindowStyle Hidden -File "' . EnvGet("USERPROFILE") . '\.config\scripts\dropdown\dropdown.ps1" -Name cider -Process Cider -ClassPrefix "HwndWrapper[Cider" -Launch "shell:AppsFolder\27554FireDevElijahKlauman.CiderEA_270bejk4xgzqp!App"', , "Hide")
+}
+
 ; ── Mac-style copy/cut/paste on Alt ──────────────────────────────────────────
 ; On a Windows keyboard ALT sits where mac's Cmd is, so Alt+C/X/V == Cmd+C/X/V.
 ; Scoped OUT of WezTerm: the terminal binds Alt+C/V itself (wezterm.lua), else
