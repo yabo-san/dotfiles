@@ -624,6 +624,13 @@
       "Name": "vita3k",
       "Version": "4099-095371f",
       "Updated": "/Date(1787544960313)/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "nicotine-plus",
+      "Version": "3.3.11",
+      "Updated": "/Date(1791331200000)/"
     }
   ]
 }

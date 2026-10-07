@@ -139,7 +139,7 @@ window_rules:
 
   - commands: ["set-tiling", "move --workspace 3"] # music and media
     match:
-      - window_process: { regex: "[sS]potify|SoulseekQt" } # Cider is a Win+S drop-down, not tiled
+      - window_process: { regex: "[sS]potify|Nicotine[+]" } # Cider is a Win+S drop-down, not tiled
 
   - commands: ["set-tiling", "move --workspace 4"] # gamedev
     match:
@@ -187,7 +187,7 @@ window_rules:
         window_title: { regex: "[Pp]icture.in.[Pp]icture" }
       - window_title: { regex: "yabo-shader-hud" }
       # the catch-all: every process not named above
-      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|^Battle[.]net$|^EADesktop$|^EpicGamesLauncher$|^GalaxyClient$|^upc$|^drop-app$|^SocialClubHelper$" }
+      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|[sS]potify|Nicotine[+]|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk|^Battle[.]net$|^EADesktop$|^EpicGamesLauncher$|^GalaxyClient$|^upc$|^drop-app$|^SocialClubHelper$" }
 
 binding_modes:
   - name: "resize" # no key enables this yet
