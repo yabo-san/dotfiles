@@ -37,7 +37,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+L` | move window right, via Raycast → `glaze-move-right.ps1`. Needs `DisableLockWorkstation` | Raycast + registry |
 | `Win+T` | toggle float / tile | GlazeWM |
 | `Win+M` | toggle fullscreen | GlazeWM |
-| `Win+D` | show desktop: flip to empty workspace 0, again to flip back | GlazeWM |
+| `Win+D` | show desktop on every screen, again to bring it all back (Windows' own; GlazeWM restores the tiling) | Windows |
 | `Win+1` `2` `3` `4` | focus main, comms, music, dev | GlazeWM |
 | `Win+Q` `W` | focus play (Playnite), utils and launchers | GlazeWM |
 | `Win+F` | focus media | GlazeWM |

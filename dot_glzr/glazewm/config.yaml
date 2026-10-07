@@ -14,7 +14,7 @@
 #    `glazewm query monitors` after rearranging. Workspaces 1, 4, 5 and 7 share the ultrawide and only
 #    one shows at a time, so a window sent to a hidden one looks gone.
 # 4. Keys that look odd on purpose: Win+L goes through Raycast (Windows reserves it for lock);
-#    Alt+Tab is unbound so the native switcher works; Win+D jumps to empty workspace 0 and back.
+#    Alt+Tab is unbound so the native switcher works; Win+D is Windows' own show-desktop (every screen).
 #    Workspace keys follow a grid: 1 2 3 4 / Q W / D F / C. Reload is Win+Shift+R.
 # 5. Playnite's pre-game script kills GlazeWM while a game runs and post-game restarts it.
 
@@ -23,7 +23,7 @@ general:
   shutdown_commands: []
   config_reload_commands: []
   focus_follows_cursor: false
-  toggle_workspace_on_refocus: true # Win+D twice flips back
+  toggle_workspace_on_refocus: true # pressing the current workspace's key flips back to the last one
   cursor_jump:
     enabled: true
     trigger: "monitor_focus"
@@ -109,7 +109,7 @@ workspaces:
     bind_to_monitor: 1
   - name: "9"
   - name: "10"
-  - name: "0" # show-desktop scratch, always empty
+  - name: "0" # unused and unbound; removing it makes wm-reload-config fail on 3.10.1
 
 # Deny by default: only processes named here are managed; the catch-all at the bottom ignores the rest.
 # Adding an app means adding it to its rule AND to the catch-all regex.
@@ -232,7 +232,7 @@ keybindings:
   - commands: ["wm-reload-config"]
     bindings: ["lwin+shift+r"]
 
-  # go to workspace. Grid: 1 2 3 4 / Q play, W utils / D desktop, F media / C crt. 9 and 0 are number-only spares.
+  # go to workspace. Grid: 1 2 3 4 / Q play, W utils / F media / C crt. 9 and 0 (workspace 10) are number-only spares.
   # Numbers 5-0 stay as aliases so Windows never gets them for "open taskbar app N".
   - commands: ["focus --workspace 1"]
     bindings: ["lwin+1"]
@@ -252,8 +252,6 @@ keybindings:
     bindings: ["lwin+c", "lwin+8"]
   - commands: ["focus --workspace 9"]
     bindings: ["lwin+9"]
-  - commands: ["focus --workspace 0"] # show desktop
-    bindings: ["lwin+d"]
   - commands: ["focus --workspace 10"]
     bindings: ["lwin+0"]
 

@@ -37,7 +37,7 @@ Packages: scoop first, then winget. Manifests live in `dot_config/bootstrap/`.
 
 Three things sit on the keyboard. They claim different keys and never see each other's.
 
-- **GlazeWM** owns the Win key (`Win+H/J/K/L` move, workspaces on a grid, `Win+1-4` / `Win+Q W` / `Win+D F` / `Win+C`, `Win+Shift+…` send/move) and
+- **GlazeWM** owns the Win key (`Win+H/J/K/L` move, workspaces on a grid, `Win+1-4` / `Win+Q W` / `Win+F` / `Win+C`, `Win+Shift+…` send/move) and
   `Alt+Q` (graceful close, Cmd+Q parity). Alt+Tab is deliberately unbound so the native switcher works.
   `Win+L` is the exception: Windows reserves it for lock below any keyboard hook, so the lock action is
   disabled in `windows-tweaks.reg` and Raycast runs `scripts/raycast/glaze-move-right.ps1` on it instead.
