@@ -26,7 +26,9 @@
  Manifests (auto-captured, in this folder):
    scoopfile.json        -> scoop import
    winget-packages.json  -> winget import. Store apps live in its "msstore" source block
-                            (Raycast 9PFXXSHC64H3, OBS, Plex, Hotspot Shield); one import does both.
+                            (Raycast, EarTrumpet, iCloud, OBS, Plex, Hotspot Shield); one import does both.
+                            NOT importable: Cider is the Early Access build, a sideloaded MSIX from
+                            cider.sh (Store ID 9PL8WPH0QK9M is the public build). Install it by hand.
  Unix commands: hand-rolled in unix-aliases.ps1. SIDESTEP = `scoop install
    uutils-coreutils` for real GNU cp/mv/rm/etc. (can shadow PS built-ins).
 
