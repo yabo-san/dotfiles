@@ -16,9 +16,6 @@
 					"PackageIdentifier" : "CPUID.CPU-Z.MSI"
 				},
 				{
-					"PackageIdentifier" : "voidtools.Everything"
-				},
-				{
 					"PackageIdentifier" : "Git.Git"
 				},
 				{
@@ -416,6 +413,9 @@
 				},
 				{
 					"PackageIdentifier" : "XPDNLRV08ZCH53"
+				},
+				{
+					"PackageIdentifier" : "9PFXXSHC64H3"
 				}
 			],
 			"SourceDetails" : 

@@ -25,9 +25,8 @@
  Browse apps:  scoopsearch.app  ·  winstall.app  ·  community.chocolatey.org
  Manifests (auto-captured, in this folder):
    scoopfile.json        -> scoop import
-   winget-packages.json  -> winget import
-   msstore-apps.md        (Store IDs: Cider 9PL8WPH0QK9M, iCloud 9PKTQ5699M62,
-                           EarTrumpet 9NBLGGH516XP, TranslucentTB 9PF4KZ2VN4W9)
+   winget-packages.json  -> winget import. Store apps live in its "msstore" source block
+                            (Raycast 9PFXXSHC64H3, OBS, Plex, Hotspot Shield); one import does both.
  Unix commands: hand-rolled in unix-aliases.ps1. SIDESTEP = `scoop install
    uutils-coreutils` for real GNU cp/mv/rm/etc. (can shadow PS built-ins).
 
@@ -35,7 +34,7 @@
  1. Log into Microsoft, set the account name to "yabo" (-> C:\Users\yabo).
  2. Install scoop, add buckets (extras, games, nerd-fonts, nonportable).
  3. scoop import scoopfile.json   +   winget import winget-packages.json
- 4. MS Store apps: install the IDs in msstore-apps.md (--source msstore).
+ 4. (Store apps come in with step 3's winget import.)
  5. chezmoi init --apply yabo-san/dotfiles
  6. Apply windows-tweaks.reg (lock-disable, classic context menu, taskbar).
  7. MANUAL (can't script): auto-hide taskbar (Settings), point Raycast at its
