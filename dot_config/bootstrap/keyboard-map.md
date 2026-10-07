@@ -1,80 +1,118 @@
-# ⌨️ Keyboard map — the one keybind reference
+# Keyboard map — every bind and WHERE it is defined
 
-**Principle:** on Windows, **Alt sits where mac's Cmd is**. AHK puts the OS clipboard family on Alt;
-each app's own config (or an AHK `#HotIf` block) carries the rest — so Windows ≈ the Mac.
-Sources: `scripts/wezterm/quake-hotkey.ahk` (AHK) · `~/.glzr/glazewm/config.yaml` (WM) ·
-`~/.config/wezterm/` · Zen/Obsidian configs · `windows-tweaks.reg` (the Win+ disables).
+**Principle:** Alt sits where the Mac's Cmd is. AHK owns only the OS clipboard family on Alt; everything
+else lives in the owning app's config. Win is GlazeWM's modifier. Nothing is bound in two places on purpose.
 
----
+**Hook order when two owners claim a combo:** Windows (lock, Win+E object) → AutoHotkey → GlazeWM → the app.
+Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen closes the window.
 
-## AHK — global (everywhere except WezTerm + RustDesk)
-| Key | Action |
+## Owners and their files
+
+| Owner | Where | Tracked? |
+|---|---|---|
+| Windows registry | `dot_config/bootstrap/windows-tweaks.reg.tmpl` | yes |
+| AutoHotkey | `dot_config/scripts/wezterm/quake-hotkey.ahk` (autostart via `quake-hotkey.lnk`) | yes |
+| GlazeWM | `dot_glzr/glazewm/config.yaml`, `keybindings:` section | yes |
+| Raycast | Raycast's own SQLite index. Scripts in `dot_config/scripts/raycast/`, hotkeys set by hand | scripts yes, keys no |
+| WezTerm | `dot_config/wezterm/wezterm.lua`, `config.keys` | yes |
+| Zen | `dot_config/bootstrap/zen-keyboard-shortcuts.json`, pushed by `setup-zen.ps1` | yes, manual apply |
+| Obsidian | AHK `#HotIf WinActive("ahk_exe Obsidian.exe")` block. `hotkeys.json` is iCloud-synced and untouched | yes (via AHK) |
+| Open-Shell | `openshell-settings.reg.tmpl`: `WinKey=Nothing`, `ShiftWin=Nothing`. No key. Opened by the Raycast "Classic Start Menu" script | yes |
+| YASB | no keyboard binds, mouse callbacks only (`dot_config/yasb/config.yaml`) | yes |
+| Playnite | `scripts/playnite/` kills AHK on game launch, restarts after. Not keys | yes |
+
+## Master index, by key
+
+| Key | Does | Owner |
+|---|---|---|
+| `` ` `` | toggle WezTerm quake dropdown | AHK |
+| `` Ctrl+` `` | type a literal backtick | AHK |
+| `Alt+C / X / V / A` | copy / cut / paste / select all (not in WezTerm or RustDesk) | AHK |
+| `Alt+Z` / `Alt+Shift+Z` | undo / redo (not in WezTerm or RustDesk) | AHK |
+| `Alt+Shift+C / X / V / A` | passed through to the app (Zen copy-URL, addons) | AHK |
+| `Alt+Q` | close focused window (graceful, Cmd+Q parity) | GlazeWM |
+| `Alt+Tab` | native Windows switcher, deliberately unbound | Windows |
+| `Alt+F4` | native, untouched | Windows |
+| `Win+H / J / K` | move window left / down / up | GlazeWM |
+| `Win+L` | move window right, via Raycast → `glaze-move-right.ps1`. Needs `DisableLockWorkstation` | Raycast + registry |
+| `Win+T` | toggle float / tile | GlazeWM |
+| `Win+M` | toggle fullscreen | GlazeWM |
+| `Win+D` | show desktop: flip to empty workspace 0, again to flip back | GlazeWM |
+| `Win+1` to `Win+9`, `Win+0` | focus workspace 1 to 9, 10 | GlazeWM |
+| `Win+Shift+1` to `9`, `0` | send window to workspace and follow | GlazeWM |
+| `Win+Tab` / `Win+Shift+Tab` | next / previous active workspace | GlazeWM |
+| `Win+Shift+H / J / K / L` | move whole workspace to monitor left / down / up / right | GlazeWM |
+| `Win+Shift+P` | pause all GlazeWM binds | GlazeWM |
+| `Win+Shift+R` | reload GlazeWM config | GlazeWM |
+| `Win+W` | focus Zen wherever it is, launch if not running. Free because Widgets is uninstalled | AHK |
+| `Win+click` in Zen | Alt+click, split tab (Cmd+click parity) | AHK |
+| `Win+E` | File Pilot, via the File Explorer CLSID override | registry |
+| `Win+Shift+S`, `PrtSc` | Snipping Tool | Windows |
+| `Win+P / V / G / A / .` | display / clipboard / Game Bar / quick settings / emoji, native | Windows |
+| `Win+I X N Q B O R` | disabled (`DisabledHotkeys=IXNQBOR`) | registry |
+| `Win+C` | dead, Copilot off | registry |
+| `Win+K`, `Win+H` | native cast / dictation never fire, GlazeWM eats them | GlazeWM |
+| `Alt+Y / M / I / N / T` in Obsidian | browse vault / move file / Templater Zettel / new tab / daily note | AHK |
+
+## WezTerm (only while WezTerm is focused)
+
+| Key | Does |
 |---|---|
-| `Alt+C / X / V / A` | copy / cut / paste / select-all (mac Cmd parity) |
-| `Alt+Z` / `Alt+Shift+Z` | undo / redo |
-| `Alt+Shift+C/X/V/A` | pass through to the app (e.g. Zen copy-URL) |
-| `` ` `` (backtick) | WezTerm quake dropdown toggle |
-| `` Ctrl+` `` | type a literal backtick |
-
-**Obsidian only (when focused)** — Alt-ified via AHK, NOT its config (it's iCloud-synced → Mac-safe):
-`Alt+Y` browse-vault · `Alt+M` move-file · `Alt+I` Templater Zettel · `Alt+N` new-tab · `Alt+T` daily-note
-
----
-
-## Windows keys
-**Disabled** (`DisabledHotkeys=IXNQBOR`, relog to activate): `Win+ I X N Q B O R`
-(Settings/power-menu/notifications/search×2/taskbar-focus/orientation/Run — all covered by Raycast / Open-Shell / YASB)
-**Removed:** `Win+C` (Copilot off) · `Win+W` (Widgets app uninstalled)
-**Already inert** (GlazeWM eats `lwin+k`/`lwin+h`): `Win+K` (cast) · `Win+H` (dictation)
-**Kept:** `Win+E` files · `Win+P` display · `Win+V` clipboard · `Win+G` Game Bar · `Win+A` quick-settings · `Win+.` emoji
-**Rebound:** `Win+L` → GlazeWM move-window-right (Raycast bridge)
-**Native:** `Win+Shift+S` → Snipping Tool region · `PrtSc` → Snipping Tool overlay
-
----
-
-## GlazeWM (`lwin` = Win)
-| Key | Action |
-|---|---|
-| `lwin+h / j / k` | move window left / down / up |
-| `Win+L` | move window **right** (Raycast → glaze bridge; Windows reserves plain lwin+l) |
-| `lwin+1`–`9` | focus workspace 1–9 |
-| `lwin+0` | focus workspace 10 |
-| `lwin+d` | **show desktop** — flip to empty workspace `0` (wallpaper + icons); tap again = flip back |
-| `lwin+shift+1`–`9`, `lwin+shift+0` | send window to workspace 1–9 / 10 |
-| `lwin+shift+h / j / k / l` | move whole workspace to monitor left / down / up / right |
-| `lwin+t` | toggle float ↔ tile |
-| `lwin+m` | toggle fullscreen |
-| `lwin+shift+p` | pause all WM binds (safety) |
-| `lwin+shift+r` | reload glaze config |
-
-_Note: a `resize` binding-mode is defined (h/j/k/l/arrows = ±2%, Esc/Enter exits) but has **no trigger key** — add an `wm-enable-binding-mode --name resize` bind if you want it._
-
----
-
-## WezTerm
-| Key | Action |
-|---|---|
-| `` ` `` | quake dropdown (via AHK) |
-| `Ctrl+B` | leader |
-| `Ctrl+C` | interrupt (SIGINT — never copy) |
-| `Alt+C` / `Ctrl+Shift+C` | copy (guarded — empty copy won't flush clipboard) |
-| `Alt+V` / `Ctrl+V` / `Ctrl+Shift+V` | paste |
+| `Ctrl+C` | interrupt, never copy. No binding, passes to the shell |
+| `Alt+C`, `Ctrl+Shift+C` | copy selection, never flushes clipboard on empty |
+| `Alt+V`, `Ctrl+V`, `Ctrl+Shift+V` | paste |
 | `Alt+T` | new tab |
-| `Ctrl+B` then `U` | new WSL (Ubuntu) tab |
+| `Ctrl+B` | leader, 1 s timeout |
+| leader `\` or `%` | split right |
+| leader `-` or `"` | split down |
+| leader `H / J / K / L` | pane focus |
+| leader `C` / `N` / `P` | new tab / next / previous |
+| leader `U` | new WSL Ubuntu tab |
 
----
+AHK's Alt remaps are scoped OUT of WezTerm, so these are WezTerm's own.
 
-## Apps
-- **Zen** — all command shortcuts Alt-ified (Cmd-parity); private window = `Alt+Shift+N`; reload = `Alt+R` (works now AMD hotkeys are off).
-- **Obsidian** — see the AHK Obsidian block above; vim mode is ON (Obsidian hotkeys override vim's Ctrl-keys).
-- **Snipping Tool** — `Win+Shift+S` region · `PrtSc` opens the same overlay. Native, nothing to autostart (ShareX removed 2026-09-17).
-- **Playnite** — global Pre/PostScript kills AHK on game launch (raw input, anti-cheat safe) and relaunches it after. Manual toggle = Raycast **"AHK Off" / "AHK On"**.
+## Zen (only while Zen is focused), the ones that matter
 
----
+Everything is Alt-ified for Cmd parity. Full list is the JSON, 88 Alt binds. Notable:
 
-## ⚠️ Required on AMD
-Turn OFF **all AMD Radeon Software hotkeys** (Settings → Hotkeys) — Radeon grabs `Alt+Z`, `Alt+R`,
-`Ctrl+Shift+U` globally before AHK, silently breaking the remaps. (See `windows-notes.txt`.)
+| Key | Does |
+|---|---|
+| `Alt+T` / `Alt+W` / `Alt+N` | new tab / close tab / new window |
+| `Alt+1` to `Alt+9` | select tab |
+| `Alt+L` | focus URL bar |
+| `Alt+R` / `Alt+Shift+R` | reload / reload skip cache (works since AMD hotkeys are off) |
+| `Alt+F` / `Alt+G` | find / find again |
+| `Alt+Shift+N` | private window |
+| `Alt+Shift+C` | copy URL (passes through AHK) |
+| `Alt+E` / `Alt+Q` | Zen workspace forward / backward. **Alt+Q never fires, GlazeWM eats it (close)** |
+| `Alt+H` / `Alt+V` / `Alt+G` | split view horizontal / vertical / grid. **Alt+V never fires, AHK eats it (paste)** |
+| `Alt+C / X / V / A / Z` | mapped in Zen too, but AHK rewrites them to Ctrl first. Copy, cut, paste, select all, undo |
+
+## Raycast script commands (no default keys, assign in Raycast)
+
+`AHK On`, `AHK Off`, `Classic Start Menu`, `Glaze Move Right` (this one is bound to Win+L), `Window Solo`,
+`Bind CRT`, `Label Monitor`, `Reconnect NAS`, `Restore Playnite Curation`, `Crysis Sandbox 2 Editor` ×2.
+Raycast's own launcher hotkey is set in Raycast, not tracked.
+
+## Known collisions (all intentional or accepted)
+
+- `Alt+Q`: GlazeWM close beats Zen workspace-backward. Use `Alt+E` in Zen, or rebind Zen.
+- `Alt+V`: AHK paste beats Zen split-vertical. Zen's `Alt+Shift+*` new-split still works.
+- `Alt+C`: AHK copy beats Zen compact-mode toggle.
+- `Win+L`: Windows lock beats everything unless `DisableLockWorkstation=1` is applied and relogged.
+- `Win+W`: Windows Widgets beats AHK unless the Widgets app is uninstalled.
+
+## Dead ends
+
+- GlazeWM has a `resize` binding mode defined but no key enables it. Add `wm-enable-binding-mode --name resize` if wanted.
+- No GlazeWM focus-direction keys. Focus is by mouse.
+- README says Open-Shell is on Shift+Win. It is not; both Open-Shell key settings are "Nothing".
+
+## Required on AMD
+
+Turn OFF all Radeon Software hotkeys (Settings → Hotkeys). Radeon grabs `Alt+Z`, `Alt+R`, `Ctrl+Shift+U`
+globally before AHK and silently breaks the remaps.
 
 ## Mac parity
-`aerospace.toml` mirrors this glaze keymap; Karabiner (Caps dual-role: tap=Esc, hold=command) is still TODO.
+
+`aerospace.toml` mirrors the GlazeWM map. Karabiner Caps dual-role (tap Esc, hold Cmd) is still TODO.
