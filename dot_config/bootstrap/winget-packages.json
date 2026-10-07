@@ -316,9 +316,6 @@
 					"PackageIdentifier" : "karlstav.cava"
 				},
 				{
-					"PackageIdentifier" : "CharlesMilette.TranslucentTB"
-				},
-				{
 					"PackageIdentifier" : "M2Team.NanaZip"
 				},
 				{
@@ -422,6 +419,12 @@
 				},
 				{
 					"PackageIdentifier" : "9PKTQ5699M62"
+				},
+				{
+					"PackageIdentifier" : "9PL8WPH0QK9M"
+				},
+				{
+					"PackageIdentifier" : "9PF4KZ2VN4W9"
 				}
 			],
 			"SourceDetails" : 

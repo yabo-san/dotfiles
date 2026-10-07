@@ -57,6 +57,19 @@ Windows Registry Editor Version 5.00
 @="\"{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\AppData\\Local\\Voidstar\\FilePilot\\FPilot.exe\" \"%1\""
 "DelegateExecute"=""
 
+; --- Store apps that start at logon. A Store app cannot use the Run key; its manifest declares a
+;     StartupTask and Windows keeps the on/off here: State 2 = enabled, 0 = disabled. Package family
+;     names are fixed per app. Import after winget import so the packages exist. ---
+[HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\28017CharlesMilette.TranslucentTB_v826wp6bftszj\TranslucentTB]
+"State"=dword:00000002
+"UserEnabledStartupOnce"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\40459File-New-Project.EarTrumpet_1sdd7yawvg6ne\EarTrumpet]
+"State"=dword:00000002
+
+[HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Raycast.Raycast_qypenmj9wpt2a\LaunchRaycastOnStartup]
+"State"=dword:00000002
+
 ; --- Disable Copilot (inerts Win+C, removes its taskbar button). Win+G/Game Bar left ON. ---
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsCopilot]
 "TurnOffWindowsCopilot"=dword:00000001
