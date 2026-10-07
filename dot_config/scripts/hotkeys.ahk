@@ -15,6 +15,7 @@
 
 ; Physical pixels on every monitor, so mixed scaling (ultrawide, Acer, CRT) never mis-sizes a drop-down.
 DllCall("SetThreadDpiAwarenessContext", "ptr", -4, "ptr")
+SetWinDelay 0                                                   ; default 100 ms after every Win* call made hiding lag
 
 global BAR_HEIGHT := 34                                         ; yasb bar; drop-downs open below it
 global SIZES_FILE := EnvGet("LOCALAPPDATA") "\dropdown\sizes.ini"
