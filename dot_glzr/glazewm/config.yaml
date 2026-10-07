@@ -1,85 +1,39 @@
+# GlazeWM. Keys: dot_config/bootstrap/keyboard-map.md. Why things are the way they are: glazewm-notes.md.
+
 general:
-  # Commands to run when the WM has started. This is useful for running a
-  # script or launching another application.
   startup_commands: []
-
-  # Commands to run just before the WM is shutdown.
   shutdown_commands: []
-
-  # Commands to run after the WM config is reloaded.
   config_reload_commands: []
-
-  # Whether to automatically focus windows underneath the cursor.
   focus_follows_cursor: false
-
-  # Whether to switch back and forth between the previously focused
-  # workspace when focusing the current workspace.
-  toggle_workspace_on_refocus: true # tapping the workspace key you're already on flips back -> makes lwin+d a true show-desktop toggle
-
+  toggle_workspace_on_refocus: true # Win+D twice flips back
   cursor_jump:
-    # Whether to automatically move the cursor on the specified trigger.
     enabled: true
-
-    # Trigger for cursor jump:
-    # - 'monitor_focus': Jump when focus changes between monitors.
-    # - 'window_focus': Jump when focus changes between windows.
     trigger: "monitor_focus"
-
-  # How windows should be hidden when switching workspaces.
-  # - 'cloak': Recommended. Hides windows with no animation.
-  # - 'hide': Legacy method (v3.5 and earlier) that has a brief animation,
-  # but has stability issues with some apps.
   hide_method: "cloak"
-
-  # Affects which windows get shown in the native Windows taskbar. Has no
-  # effect if `hide_method: 'hide'`.
-  # - 'true': Show all windows (regardless of workspace).
-  # - 'false': Only show windows from the currently shown workspaces.
   show_all_in_taskbar: false
 
 gaps:
-  # Whether to scale the gaps with the DPI of the monitor.
   scale_with_dpi: true
-
-  # Gap between adjacent windows.
   inner_gap: "10px"
-
-  # Gap between windows and the screen edge.
   outer_gap:
-    top: "40px"
+    top: "40px" # yasb bar
     right: "10px"
     bottom: "10px"
     left: "10px"
 
 window_effects:
-  # Visual effects to apply to the focused window.
   focused_window:
-    # Highlight the window with a colored border.
-    # ** Exclusive to Windows 11 due to API limitations.
     border:
       enabled: true
       color: "#8dbcff"
-
-    # Remove the title bar from the window's frame. Note that this can
-    # cause rendering issues for some applications.
     hide_title_bar:
       enabled: false
-
-    # Change the corner style of the window's frame.
-    # ** Exclusive to Windows 11 due to API limitations.
     corner_style:
       enabled: false
-      # Allowed values: 'square', 'rounded', 'small_rounded'.
       style: "square"
-
-    # Change the transparency of the window.
     transparency:
       enabled: false
-      # Can be something like '95%' or '0.95' for slightly transparent windows.
-      # '0' or '0%' is fully transparent (and, by consequence, unfocusable).
       opacity: "95%"
-
-  # Visual effects to apply to non-focused windows.
   other_windows:
     border:
       enabled: true
@@ -94,130 +48,63 @@ window_effects:
       opacity: "0%"
 
 window_behavior:
-  # New windows are created in this state whenever possible.
-  # Allowed values: 'tiling', 'floating'.
-  #
-  # DEFAULT TILING — everything tiles unless explicitly floated or ignored below.
-  # Games are all fullscreen special cases so they float via the deny rules.
-  # Use lwin+t to toggle any edge-case window manually.
-  initial_state: "floating"
-
-  # Sets the default options for when a new window is created. This also
-  # changes the defaults for when the state change commands, like
-  # `set-floating`, are used without any flags.
+  initial_state: "floating" # rules below decide what tiles
   state_defaults:
     floating:
-      # Whether to center floating windows by default.
       centered: true
-
-      # Whether to show floating windows as always on top.
       shown_on_top: false
-
     fullscreen:
-      # Maximize the window if possible. If the window doesn't have a
-      # maximize button, then it'll be fullscreen'ed normally instead.
       maximized: false
-
-      # Whether to show fullscreen windows as always on top.
       shown_on_top: false
 
+# bind_to_monitor is 0-based, left to right: 0 Acer, 1 CRT, 2 ultrawide. Check: glazewm query monitors
 workspaces:
-  # 7-BUCKET LAYOUT (2026-06-06) — consolidated from 10 buckets.
-  # display_name carries a purpose ICON (Font Awesome glyphs in Hack NF).
   - name: "1"
-    display_name: "" # main (home)
+    display_name: "" # main
     keep_alive: true
-    # The main productivity workspace - it belongs on the ultrawide.
-    # It had NO binding, which is why it drifted onto the CRT twice on
-    # 2026-07-31 and had to be moved back by hand. An unbound workspace lands
-    # wherever it is activated and never self-corrects; a bound one re-homes
-    # itself on activation, which also lets it recover by itself after a game
-    # solos a monitor and pushes it off.
-    bind_to_monitor: 2 # LG ultrawide (GSM772B) - 0-based, left-to-right
+    bind_to_monitor: 2
   - name: "2"
-    display_name: "" # comms (comments)
+    display_name: "" # comms
     keep_alive: true
-    # bind_to_monitor is a 0-BASED index, ordered LEFT-TO-RIGHT by x-coordinate
-    # (glazewm dispatcher.rs sorted_displays). Live order here is:
-    #   0 = Acer XG270HU (ACR0414)   1 = CRT (1024x768)   2 = LG ultrawide (GSM772B)
-    # This said 1 and was therefore homing comms onto the CRT. Confirm after any
-    # monitor rearrangement with:  glazewm query monitors
-    bind_to_monitor: 0 # Acer (XG270HU, ACR0414)
+    bind_to_monitor: 0
   - name: "3"
-    display_name: "" # music (note)
+    display_name: "" # music
     keep_alive: true
-    bind_to_monitor: 0 # Acer (see note on workspace 2 — 0-based, left-to-right)
+    bind_to_monitor: 0
   - name: "4"
-    display_name: "" # gamedev (paintbrush)
+    display_name: "" # gamedev
     keep_alive: true
-    bind_to_monitor: 2 # ultrawide
+    bind_to_monitor: 2
   - name: "5"
-    display_name: "" # play (gamepad)
+    display_name: "" # play
     keep_alive: true
-    bind_to_monitor: 2 # ultrawide
+    bind_to_monitor: 2
   - name: "6"
-    display_name: "" # media (film)
+    display_name: "" # media
     keep_alive: true
-
   - name: "7"
-    display_name: "" # utils (wrench)
+    display_name: "" # utils
     keep_alive: true
-    bind_to_monitor: 2 # ultrawide
+    bind_to_monitor: 2
   - name: "8"
-    display_name: "" # crt (tv)
-    # NOT keep_alive on purpose: when the game closes this workspace empties and
-    # goes away, and the CRT shows whatever it showed before (Playnite). With
-    # keep_alive it would stay as an empty screen in front of the launcher.
-    # The CRT. Anything that must play on it (RetroArch today) is moved here by a
-    # window rule, so it lands on the right screen no matter which monitor the
-    # app opened on. Monitor index is 0-based, left-to-right by x: 1 = the CRT at
-    # x=-1024 (see the note on workspace 2). GlazeWM's monitor order only shifts
-    # if something changes the primary display, which nothing does any more.
-    bind_to_monitor: 1 # CRT (1024x768)
+    display_name: "" # crt; not keep_alive so Playnite shows through when empty
+    bind_to_monitor: 1
   - name: "9"
   - name: "10"
-  - name:
-      "0" # SHOW-DESKTOP scratch: nothing homes here, so it's always empty = wallpaper +
-      # desktop icons. lwin+d flips to it; lwin+d again flips back (toggle_workspace_on_refocus).
+  - name: "0" # show-desktop scratch, always empty
 
+# Deny by default: only processes named here are managed; the catch-all at the bottom ignores the rest.
+# Adding an app means adding it to its rule AND to the catch-all regex.
+# A second field (class or title) means "main window only": dialogs fall through and float.
 window_rules:
-  # =====================================================================
-  # DENY-BY-DEFAULT (2026-08-12) — GlazeWM manages ONLY the processes named
-  # in the rules below. A catch-all `ignore` at the bottom of this section
-  # matches every other process, so unknown windows (games, launchers,
-  # anything new) get ZERO window management: no border, no workspace, no
-  # floating-size snapshot. This replaced the old allowlist-tiling +
-  # floating-default + per-game ignore-list model — the floating snapshot
-  # (manage_window.rs:189-209) kept pinning game windows at their init size
-  # (Dishonored's 160x120, Dishonored 2's splash), and the per-game ignore
-  # list needed a new entry for every broken title. To manage a new app,
-  # add its process to a rule below AND to the catch-all's allowlist regex.
-
-  # --- Workspace 1: MAIN (ultrawide) ---
-  - commands: ["set-tiling", "move --workspace 1"]
+  - commands: ["set-tiling", "move --workspace 1"] # main
     match:
       - window_process: { regex: "Proton Mail" }
-      # MAIN WINDOW ONLY. Process alone also matched Zen's DIALOGS (download
-      # prompt, Save As, permission popups) — every one is process `zen` — so
-      # they were tiled AND teleported to ws1. Off ws1 that reads as "the window
-      # vanished", and since they're modal, Zen looks frozen with no visible
-      # cause. GlazeWM only auto-skips owned windows with NO title bar
-      # (manage_window.rs check_is_manageable: `has_owner_window() &&
-      # !has_window_style(WS_CAPTION)`), and a real dialog has one, so it gets
-      # managed and the rules run on it. There is no is-dialog match key —
-      # WindowMatchConfig is only process/class/title — so scope by class:
-      # ONLY the main window is MozillaWindowClass. Dialogs (MozillaDialogClass,
-      # or #32770 for a native Save As) now match nothing, fall through to
-      # initial_state floating + centered, and land on the CURRENT workspace.
       - window_process: { regex: "zen" }
         window_class: { equals: "MozillaWindowClass" }
       - window_process: { equals: "7zFM" }
       - window_process: { equals: "explorer" }
         window_class: { equals: "CabinetWClass" }
-      # MAIN WINDOW ONLY, same disease as zen above (2026-10-05): process alone also
-      # tiled File Pilot's delete/overwrite confirmations (#32770) into ws1, so they
-      # opened behind other windows and each one had to be hunted down. The main
-      # window is class "File Pilot"; dialogs fall through to floating + centered.
       - window_process: { equals: "FPilot" }
         window_class: { equals: "File Pilot" }
       - window_process: { equals: "EXCEL" }
@@ -226,70 +113,38 @@ window_rules:
         window_class: { equals: "OpusApp" }
       - window_process: { equals: "POWERPNT" }
         window_class: { equals: "PPTFrameClass" }
-
-      # Obsidian belongs on MAIN, same as the Mac: FlashSpace profile "Default",
-      # workspace "main", display "LG HDR WQHD" -- which is this ultrawide.
-      # It was in NO rule at all, so the catch-all below ignored it, and an
-      # ignored window is never cloaked on a workspace switch: it has no
-      # workspace to be hidden with, so it hung over ALL of them permanently.
-      # Electron, so every Obsidian window is Chrome_WidgetWin_1 and class
-      # cannot separate a popped-out note from the main window (the trick used
-      # for zen above). Match the process alone -- popouts are real editor
-      # windows and tiling them is correct.
       - window_process: { equals: "Obsidian" }
 
-  # --- Workspace 2: COMMS (Acer) ---
-  - commands: ["set-tiling", "move --workspace 2"]
+  - commands: ["set-tiling", "move --workspace 2"] # comms
     match:
-      - window_process:
-          { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
+      - window_process: { regex: "DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper" }
 
-  # --- Workspace 3: MUSIC (Acer) ---
-  - commands: ["set-tiling", "move --workspace 3"]
+  - commands: ["set-tiling", "move --workspace 3"] # music
     match:
       - window_process: { regex: "Cider|[sS]potify|SoulseekQt" }
 
-  # --- Workspace 4: GAMEDEV (ultrawide) ---
-  - commands: ["set-tiling", "move --workspace 4"]
+  - commands: ["set-tiling", "move --workspace 4"] # gamedev
     match:
-      - window_process:
-          {
-            regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit",
-          }
-      - window_process:
-          {
-            regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus",
-          }
+      - window_process: { regex: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit" }
+      - window_process: { regex: "Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus" }
       - window_process: { regex: "Claude|LM Studio" }
 
-  # --- Workspace 5: PLAY — Playnite floats (popups/dialogs must not tile) ---
-  # MAIN WINDOW ONLY, by TITLE. Not tiling the popups was only half the fix:
-  # `move --workspace 5` still applied to them, and ws1 and ws5 are BOTH bound
-  # to monitor 2, so a Settings popup landed on a workspace hidden behind
-  # whatever the ultrawide was showing.
-  #
-  # Class is useless here — Playnite is WPF, so every window is
-  # HwndWrapper[Playnite.DesktopApp;;<GUID>] with a GUID that changes each
-  # launch. Title is exact and stable instead: Title="Playnite" appears in
-  # exactly two files upstream, Desktop and Fullscreen MainWindow.xaml. Every
-  # dialog uses a localized resource or a binding, so none can collide.
-  #
-  # One rule covers both app modes: GlazeWM's process_name splits the exe on
-  # '.' and keeps the FIRST segment (native_window.rs), so both
-  # Playnite.DesktopApp.exe and Playnite.FullscreenApp.exe report "Playnite".
-  - commands: ["move --workspace 5"]
+  - commands: ["move --workspace 5"] # play; Playnite floats
     match:
       - window_process: { equals: "Playnite" }
         window_title: { equals: "Playnite" }
 
-  # --- Workspace 6: MEDIA — Fladder (fullscreen wherever) ---
-  - commands: ["set-tiling", "move --workspace 6"]
+  - commands: ["set-tiling", "move --workspace 5"] # play; Steam's main window tiles
+    match:
+      - window_process: { equals: "steamwebhelper" }
+        window_title: { equals: "Steam" }
+
+  - commands: ["set-tiling", "move --workspace 6"] # media
     match:
       - window_process: { equals: "fladder" }
       - window_process: { regex: "vlc|FreeTube" }
 
-  # --- Workspace 7: UTILS ---
-  - commands: ["set-tiling", "move --workspace 7"]
+  - commands: ["set-tiling", "move --workspace 7"] # utils
     match:
       - window_process: { equals: "logioptionsplus" }
       - window_process: { equals: "SystemSettings" }
@@ -298,65 +153,21 @@ window_rules:
       - window_process: { equals: "SystemInformer" }
       - window_process: { regex: "Hotspot Shield" }
       - window_process: { equals: "deskflow" }
-
-  # --- Workspace 8: CRT — RetroArch, always ---
-  # RetroArch can only pick a screen by number (video_monitor_index), and Windows
-  # renumbers screens after a GPU reset or a replug, which is how it ended up on
-  # the ultrawide (2026-10-01). GlazeWM numbers by position instead, so moving
-  # the window to the CRT-bound workspace and filling that monitor is stable.
-  # RetroArch runs borderless windowed (video_windowed_fullscreen=true), so it is
-  # a normal window GlazeWM can move. set-fullscreen sizes it to the CRT's rect,
-  # 1024x768, which is the CRT's native mode: no scaling.
-  # --- CLAW BACK ---
-  # Steam renders through steamwebhelper and EVERY Steam surface shares the
-  # `SDL_app` class — friends list, notification toasts, the login box — so the
-  # class cannot tell them apart. The title can: the main client is the one
-  # titled exactly "Steam". It tiles onto ws5; every other Steam surface
-  # floats via initial_state (steam/steamwebhelper are on the allowlist).
-  - commands: ["set-tiling", "move --workspace 5"]
-    match:
-      - window_process: { equals: "steamwebhelper" }
-        window_title: { equals: "Steam" }
-
-  # RustDesk is the same class of thing as deskflow — remote input/control — so
-  # it lives in UTILS. Flutter app, one window class for both the ID panel and
-  # any remote session, so the process alone is a safe match.
-  - commands: ["set-tiling", "move --workspace 7"]
-    match:
       - window_process: { equals: "rustdesk" }
 
-  # =====================================================================
-  # CATCH-ALL IGNORE — the deny half of the model. Any process NOT named in a
-  # rule above is ignored outright: no border, no workspace, and — critically —
-  # no floating-size snapshot (manage_window.rs:189-209), which is what kept
-  # pinning game windows at their init size (Dishonored at 160x120, Dishonored
-  # 2's splash, BorderlessGaming at 146x32). This replaces the old per-game
-  # ignore list; it also covers every title/class-matched game rule that was
-  # here (UnrealWindow, Zion, CSD3DWND, Crysis, TheDarkMod, ...) because none
-  # of those processes are allowlisted. When adding a managed app to a rule
-  # above, ALSO add its process to this regex or it will be ignored.
-  # =====================================================================
   - commands: ["ignore"]
     match:
-      # Carve-outs for windows that SHARE an allowlisted process, so the
-      # catch-all below can't see them. Browser PiP (zen/Arc/Firefox PiP would
-      # otherwise tile onto ws1 with the main window) and the launcher's
-      # shader HUD overlay.
+      # windows that share an allowlisted process
       - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
         window_class: { regex: "Chrome_WidgetWin_1|MozillaDialogClass" }
       - window_process: { equals: "Arc" }
         window_title: { regex: "[Pp]icture.in.[Pp]icture" }
       - window_title: { regex: "yabo-shader-hud" }
-
-      # The catch-all itself: process matches NONE of the allowlist above.
-      - window_process:
-          {
-            not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk",
-          }
+      # the catch-all: every process not named above
+      - window_process: { not_regex: "Proton Mail|zen|7zFM|explorer|FPilot|EXCEL|WINWORD|POWERPNT|DiscordPTB|Discord|Vesktop|Slack|Teams|Telegram|Beeper|Cider|[sS]potify|SoulseekQt|Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit|Aseprite|paintdotnet|blender|HxD|[Gg]odot|Tiled|LDtk|GameMaker|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus|Claude|LM Studio|Obsidian|Playnite|fladder|vlc|FreeTube|logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield|deskflow|steamwebhelper|rustdesk" }
 
 binding_modes:
-  # When enabled, the focused window can be resized via arrow keys or HJKL.
-  - name: "resize"
+  - name: "resize" # no key enables this yet
     keybindings:
       - commands: ["resize --width -2%"]
         bindings: ["h", "left"]
@@ -366,64 +177,39 @@ binding_modes:
         bindings: ["k", "up"]
       - commands: ["resize --height -2%"]
         bindings: ["j", "down"]
-      # Press enter/escape to return to default keybindings.
       - commands: ["wm-disable-binding-mode --name resize"]
         bindings: ["escape", "enter"]
 
 keybindings:
-  # MOVE FOCUSED WINDOW — vim hjkl.
-  #   left/up/down = lwin+h/k/j (native GlazeWM).
-  #   RIGHT has NO native bind here: Windows reserves Win+L (lock) at the
-  #   winlogon level, below keyboard hooks, so GlazeWM can never receive plain
-  #   lwin+l. Move-window-right is handled ENTIRELY by the Raycast bridge:
-  #   Win+L -> Raycast -> glaze-move-right.ps1 -> `move --direction right`.
-  #   (See WIN-L-BRIDGE.md.) We freed lwin+shift+l for move-WORKSPACE-right
-  #   below, so it intentionally does NOT move the window anymore.
-  #   ⚠️ If Raycast isn't running, there is no move-window-right. Fallback:
-  #   focus the right neighbor + move, or relaunch Raycast.
+  # move window; right is Win+L via Raycast (glaze-move-right.ps1), Windows reserves it
   - commands: ["move --direction left"]
     bindings: ["lwin+h"]
   - commands: ["move --direction up"]
     bindings: ["lwin+k"]
   - commands: ["move --direction down"]
     bindings: ["lwin+j"]
-  # move-window-right: via Raycast Win+L bridge only (see comment above).
 
-  # ── WINDOW STATE ──────────────────────────────────────────────────────
-  - commands: ["toggle-tiling"] # float <-> tile toggle
+  # window state
+  - commands: ["toggle-tiling"]
     bindings: ["lwin+t"]
   - commands: ["toggle-fullscreen"]
     bindings: ["lwin+m"]
-
-  # ── CLOSE WINDOW (Cmd+Q parity — Alt sits where mac's Cmd is) ──────────
-  # Graceful WM_CLOSE of the focused window (the app's own close path; can
-  # prompt to save). NOT an Alt+F4 keystroke remap — Alt+F4 stays native.
   - commands: ["close"]
     bindings: ["alt+q"]
 
-  # ── CYCLE WORKSPACES (freed up native Alt+Tab) ─────────────────────────
-  # Alt+Tab/Alt+Shift+Tab are intentionally left UNBOUND here so GlazeWM's
-  # keyboard hook never claims them — that's what let Windows' native
-  # Alt+Tab window switcher through again (the way Cmd+Tab-style app
-  # switching works on macOS). GlazeWM's hook always wins the race for any
-  # combo it has a binding on, so as long as alt+tab appeared anywhere in
-  # this file, native Alt+Tab was permanently overridden, no exceptions.
-  # Workspace cycling moved to lwin+tab / lwin+shift+tab instead.
+  # workspace cycle; Alt+Tab left unbound for the native switcher
   - commands: ["focus --next-active-workspace"]
     bindings: ["lwin+tab"]
   - commands: ["focus --prev-active-workspace"]
     bindings: ["lwin+shift+tab"]
 
-  # ── WM CONTROL ────────────────────────────────────────────────────────
-  - commands: ["wm-toggle-pause"] # freeze all binds (safety)
+  # wm control
+  - commands: ["wm-toggle-pause"]
     bindings: ["lwin+shift+p"]
-  - commands: ["wm-reload-config"] # after editing this file
+  - commands: ["wm-reload-config"]
     bindings: ["lwin+shift+r"]
 
-  # NOTE: WezTerm quake dropdown is bound via AutoHotkey (quake-hotkey.ahk),
-  # NOT GlazeWM — AHK owns the backtick key (bare ` toggles, ctrl+` = literal).
-
-  # ── GO TO WORKSPACE (1-7 named, 8-10 overflow) ─────────────────────────
+  # go to workspace
   - commands: ["focus --workspace 1"]
     bindings: ["lwin+1"]
   - commands: ["focus --workspace 2"]
@@ -442,16 +228,12 @@ keybindings:
     bindings: ["lwin+8"]
   - commands: ["focus --workspace 9"]
     bindings: ["lwin+9"]
-  # SHOW DESKTOP (what native Win+D can't do under tiling): flip to the empty '0' workspace =
-  # wallpaper + desktop icons; lwin+d again flips back (toggle_workspace_on_refocus).
-  - commands: ["focus --workspace 0"]
+  - commands: ["focus --workspace 0"] # show desktop
     bindings: ["lwin+d"]
   - commands: ["focus --workspace 10"]
     bindings: ["lwin+0"]
-  # (Removed the old lwin+d->ws9 show-desktop attempt — ws9 is a real overflow workspace that can
-  #  hold windows, so it wasn't reliably "empty". Replaced above by the dedicated empty '0' workspace.)
 
-  # ── SEND WINDOW TO WORKSPACE (1-10) ───────────────────────────────────
+  # send window to workspace
   - commands: ["move --workspace 1", "focus --workspace 1"]
     bindings: ["lwin+shift+1"]
   - commands: ["move --workspace 2", "focus --workspace 2"]
@@ -473,10 +255,7 @@ keybindings:
   - commands: ["move --workspace 10", "focus --workspace 10"]
     bindings: ["lwin+shift+0"]
 
-  # ── MOVE WHOLE WORKSPACE TO A MONITOR — vim hjkl on lwin+shift ───────
-  # No collision: send-window uses lwin+shift+NUMBERS, this uses LETTERS.
-  # Move-window-right (lwin+shift+l would clash) lives on the Raycast Win+L
-  # bridge instead, freeing shift+l for move-workspace-right here.
+  # move whole workspace to a monitor
   - commands: ["move-workspace --direction left"]
     bindings: ["lwin+shift+h"]
   - commands: ["move-workspace --direction down"]
