@@ -7,12 +7,6 @@
 			"Packages" : 
 			[
 				{
-					"PackageIdentifier" : "FreeTube.FreeTube"
-				},
-				{
-					"PackageIdentifier" : "7zip.7zip"
-				},
-				{
 					"PackageIdentifier" : "CPUID.CPU-Z.MSI"
 				},
 				{
@@ -22,9 +16,6 @@
 					"PackageIdentifier" : "Docker.DockerDesktop"
 				},
 				{
-					"PackageIdentifier" : "REALiX.HWiNFO"
-				},
-				{
 					"PackageIdentifier" : "MHNexus.HxD"
 				},
 				{
@@ -32,9 +23,6 @@
 				},
 				{
 					"PackageIdentifier" : "Microsoft.OneDrive"
-				},
-				{
-					"PackageIdentifier" : "Libretro.RetroArch"
 				},
 				{
 					"PackageIdentifier" : "OpenTTD.OpenTTD"
@@ -82,9 +70,6 @@
 					"PackageIdentifier" : "Logitech.GHUB"
 				},
 				{
-					"PackageIdentifier" : "Deskflow.Deskflow"
-				},
-				{
 					"PackageIdentifier" : "Microsoft.CLRTypesSQLServer.2019"
 				},
 				{
@@ -107,9 +92,6 @@
 				},
 				{
 					"PackageIdentifier" : "ViGEm.ViGEmBus"
-				},
-				{
-					"PackageIdentifier" : "BlenderFoundation.Blender"
 				},
 				{
 					"PackageIdentifier" : "PlayStation.PlayStationAccessories"
@@ -146,9 +128,6 @@
 				},
 				{
 					"PackageIdentifier" : "Mega.MEGASync"
-				},
-				{
-					"PackageIdentifier" : "MoritzBunkus.MKVToolNix"
 				},
 				{
 					"PackageIdentifier" : "Microsoft.Edge"
@@ -271,9 +250,6 @@
 					"PackageIdentifier" : "HydraLauncher.Hydra"
 				},
 				{
-					"PackageIdentifier" : "AutoHotkey.AutoHotkey"
-				},
-				{
 					"PackageIdentifier" : "Voidstar.FilePilot"
 				},
 				{
@@ -296,12 +272,6 @@
 				},
 				{
 					"PackageIdentifier" : "AppWork.JDownloader"
-				},
-				{
-					"PackageIdentifier" : "mtkennerly.ludusavi"
-				},
-				{
-					"PackageIdentifier" : "Proton.ProtonMail"
 				},
 				{
 					"PackageIdentifier" : "Roblox.Roblox"

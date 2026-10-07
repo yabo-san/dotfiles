@@ -424,13 +424,6 @@
     },
     {
       "Info": "",
-      "Source": "nonportable",
-      "Name": "open-shell-np",
-      "Version": "4.4.198",
-      "Updated": "/Date(1780581889654)/"
-    },
-    {
-      "Info": "",
       "Source": "C:\\Users\\senio\\scoop\\buckets\\main\\bucket\\opencode.json",
       "Name": "opencode",
       "Version": "1.18.21",
@@ -477,13 +470,6 @@
       "Name": "python",
       "Version": "3.14.6",
       "Updated": "/Date(1785489391841)/"
-    },
-    {
-      "Info": "",
-      "Source": "extras",
-      "Name": "retroarch",
-      "Version": "1.22.2",
-      "Updated": "/Date(1787550806723)/"
     },
     {
       "Info": "",

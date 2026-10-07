@@ -28,6 +28,8 @@
    winget-packages.json  -> winget import. Store apps live in its "msstore" source block
                             (Raycast, EarTrumpet, iCloud, Cider, TranslucentTB, OBS, Plex, Hotspot Shield);
                             one import does both. Their run-at-logon state is in windows-tweaks.reg.
+   One app, one source. RetroArch is in neither list on purpose: the CRT setup targets
+   Steam RetroArch (installed through Steam), and a scoop or winget copy is a second, unwired one.
  Unix commands: hand-rolled in unix-aliases.ps1. SIDESTEP = `scoop install
    uutils-coreutils` for real GNU cp/mv/rm/etc. (can shadow PS built-ins).
 
