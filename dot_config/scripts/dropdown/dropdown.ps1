@@ -107,7 +107,10 @@ if ($isShown) {
   $r = New-Object DD+RECT
   if ([DD]::GetWindowRect($win, [ref]$r)) {
     $cw = $r.right - $r.left; $ch = $r.bottom - $r.top
-    if ($cw -gt 300 -and $ch -gt 200) { $sizes[$monKey] = @($cw, $ch); ($sizes | ConvertTo-Json -Compress) | Set-Content $sizeFile -Force }
+    # only remember a size you chose: an app that reopened at its own full-screen size is not a choice
+    if ($cw -gt 300 -and $ch -gt 200 -and $cw -lt 0.9 * $mw -and $ch -lt 0.9 * $mh) {
+      $sizes[$monKey] = @($cw, $ch); ($sizes | ConvertTo-Json -Compress) | Set-Content $sizeFile -Force
+    }
   }
   [DD]::ShowWindow($win, 0) | Out-Null                       # SW_HIDE
   try {
