@@ -19,7 +19,9 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | Obsidian | AHK `#HotIf WinActive("ahk_exe Obsidian.exe")` block. `hotkeys.json` is iCloud-synced and untouched | yes (via AHK) |
 | Open-Shell | `openshell-settings.reg.tmpl`: `WinKey=Nothing`, `ShiftWin=Nothing`. No key. Opened by the Raycast "Classic Start Menu" script | yes |
 | YASB | no keyboard binds, mouse callbacks only (`dot_config/yasb/config.yaml`) | yes |
-| Playnite | `scripts/playnite/` kills AHK on game launch, restarts after. Not keys | yes |
+| Playnite | `scripts/playnite/` kills AHK on game launch, restarts after. Global hotkey Alt+Shift+G (set in Playnite) | yes |
+| Zed | `AppData/Roaming/Zed/keymap.json` (Windows only; the Mac's Zed uses Cmd natively) | yes |
+| File Pilot | `AppData/Roaming/Voidstar/FilePilot/FPilot-Config.json`, `Hotkeys` | yes, apply with File Pilot closed |
 
 ## Master index, by key
 
@@ -90,6 +92,44 @@ Everything is Alt-ified for Cmd parity. Full list is the JSON, 88 Alt binds. Not
 | `Alt+E` / `Alt+Q` | Zen workspace forward / backward. **Alt+Q never fires, GlazeWM eats it (close)** |
 | `Alt+H` / `Alt+V` / `Alt+G` | split view horizontal / vertical / grid. **Alt+V never fires, AHK eats it (paste)** |
 | `Alt+C / X / V / A / Z` | mapped in Zen too, but AHK rewrites them to Ctrl first. Copy, cut, paste, select all, undo |
+
+## Zed (Windows), Alt as Cmd
+
+Zed's Ctrl shortcuts moved to Alt. Copy, cut, paste, select all and undo come from AHK.
+
+| key | does |
+| --- | --- |
+| `Alt+Shift+P` | command palette |
+| `Alt+P` | open a file |
+| `Alt+S` / `Alt+W` | save / close tab |
+| `Alt+F` / `Alt+Shift+F` | find in file / search the project |
+| `Alt+/` / `Alt+D` | comment line / select next match |
+| `Alt+B` / `Alt+J` / `Alt+Shift+E` | left sidebar / bottom panel / file tree |
+| `Alt+,` | settings |
+
+## File Pilot (only while File Pilot is focused), Finder parity
+
+Alt replaces Ctrl for these (no Ctrl twins), except copy, cut, paste and select all, which AHK turns Alt into. Its single-key binds stay: `/` filter, `Y` copy, `I` rename, Space inspector.
+
+| key | does |
+| --- | --- |
+| `Alt+T` / `Alt+W` / `Alt+Shift+T` | new tab / close tab / reopen tab |
+| `Alt+1` to `Alt+9` | select tab (same as Zen) |
+| `Alt+N` / `Alt+Shift+N` | new window / new folder |
+| `Alt+F` / `Alt+Shift+F` | filter the quick-access sidebar / search everywhere (filter this folder: `/`) |
+| `Ctrl+F` / `Ctrl+T` | filter the quick-access sidebar (same as `Alt+F`) / file types popup |
+| `H` `J` `K` `L`, `G G`, `Shift+G` | vim navigation (`CharacterKeyAction: TriggerHotkey`, so letters run hotkeys and `/` starts a search) |
+| `Alt+I` / `Alt+Enter` | get info |
+| `Alt+Backspace` | move to Recycle Bin |
+| `Alt+Left` / `Alt+Right`, `Alt+Up` | back / forward / parent folder |
+| `Alt+L` | type a path (same as Zen's address bar) |
+| `Alt+P` / `Alt+Shift+P` | go to a folder / command palette (same as Zed) |
+| `Alt+B` / `Alt+,` | quick access sidebar / settings |
+| `Alt+Shift+C` | copy the path |
+| `Alt+H` | show or hide hidden files |
+| `Alt+D` | duplicate the selection (Finder's Cmd+D) |
+
+Given up from File Pilot's defaults: `Alt+D` no longer opens the path bar; use `Alt+L`.
 
 ## Raycast script commands (no default keys, assign in Raycast)
 

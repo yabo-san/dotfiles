@@ -51,10 +51,10 @@ Windows Registry Editor Version 5.00
 "XDG_CONFIG_HOME"="{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.config"
 
 ; --- Win+E opens File Pilot instead of Explorer. This is the per-user override of the "File Explorer"
-;     shell object that Win+E launches; File Pilot's "replace Explorer" option writes it. The empty
+;     shell object that Win+E launches; File Pilot's "replace Explorer" option writes it. File Pilot is a winget portable install (winget-packages.json); its folder keeps this path across upgrades. The empty
 ;     DelegateExecute is what stops Explorer from claiming the verb itself. Not a GlazeWM/AHK bind. ---
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}\shell\opennewwindow\command]
-@="\"{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\AppData\\Local\\Voidstar\\FilePilot\\FPilot.exe\" \"%1\""
+@="\"{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Voidstar.FilePilot_Microsoft.Winget.Source_8wekyb3d8bbwe\\FPilot.exe\" \"%1\""
 "DelegateExecute"=""
 
 ; --- Store apps that start at logon. A Store app cannot use the Run key; its manifest declares a
