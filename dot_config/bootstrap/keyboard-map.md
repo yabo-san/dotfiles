@@ -33,6 +33,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Alt+Z` / `Alt+Shift+Z` | undo / redo (not in WezTerm or RustDesk) | AHK |
 | `Alt+Shift+C / X / V / A` | passed through to the app (Zen copy-URL, addons) | AHK |
 | `Alt+Q` | close focused window (graceful, Cmd+Q parity) | GlazeWM |
+| `Alt+Space` | Raycast launcher (set in Raycast) | Raycast |
 | `Alt+Tab` | native Windows switcher, deliberately unbound | Windows |
 | `Alt+F4` | native, untouched | Windows |
 | `Win+H / J / K` | move window left / down / up | GlazeWM |
@@ -44,16 +45,18 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+Q` `W` | focus play (Playnite), utils and launchers | GlazeWM |
 | `Win+S` | Cider drop-down: show over the screen under the mouse, again to hide | AHK |
 | `Win+C` | focus the CRT workspace | GlazeWM |
-| `Win+5` to `Win+9`, `Win+0` | aliases for the same workspaces; 6, 9 and 10 are number-only spares. Also keeps Windows from opening taskbar app N | GlazeWM |
+| `Win+F` `V` `A` | focus spare workspaces 6, 9 and 10. Takes them from Feedback Hub, clipboard history and quick settings | GlazeWM |
+| `Win+5` to `Win+9`, `Win+0` | number aliases for Q, F, W, C, V and A, kept as a fallback. Also keeps Windows from opening taskbar app N | GlazeWM |
 | `Win+Shift+` the same keys | send window there and follow. Not `Win+Shift+S`, which stays the snip | GlazeWM |
 | `Win+Tab` / `Win+Shift+Tab` | next / previous active workspace | GlazeWM |
 | `Win+Shift+H / J / K / L` | move whole workspace to monitor left / down / up / right | GlazeWM |
 | `Win+Shift+P` | pause all GlazeWM binds | GlazeWM |
-| `Win+Shift+R` | reload GlazeWM config through `scripts/glazewm/safe-reload.ps1`, which puts back windows the reload moves (3.10.1 drops them all onto the focused workspace) | GlazeWM |
+| `Win+R` | reload GlazeWM config through `scripts/glazewm/safe-reload.ps1`, which puts back windows the reload moves (3.10.1 drops them all onto the focused workspace) | GlazeWM |
+| `Win+Shift+R` | redraw: re-apply the layout to every window without reloading | GlazeWM |
 | `Win+E` | File Pilot, via the File Explorer CLSID override | registry |
 | `Win+click` in Zen | Alt+click, split tab (Cmd+click parity) | AHK |
 | `Win+Shift+S`, `PrtSc` | Snipping Tool | Windows |
-| `Win+P / V / G / A / .` | display / clipboard / Game Bar / quick settings / emoji, native | Windows |
+| `Win+P / G / Z / .` | display / Game Bar / snap layouts / emoji, native | Windows |
 | `Win+I X N Q B O R` | disabled (`DisabledHotkeys=IXNQBOR`) | registry |
 | `Win+C` | dead, Copilot off | registry |
 | `Win+K`, `Win+H` | native cast / dictation never fire, GlazeWM eats them | GlazeWM |

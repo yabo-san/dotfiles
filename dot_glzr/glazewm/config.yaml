@@ -231,9 +231,12 @@ keybindings:
     bindings: ["lwin+shift+p"]
   # reload via a script: 3.10.1 drops every window onto the focused workspace on reload; the script puts them back
   - commands: ["shell-exec pwsh -NoProfile -WindowStyle Hidden -File %USERPROFILE%\\.config\\scripts\\glazewm\\safe-reload.ps1"]
+    bindings: ["lwin+r"]
+  # redraw: re-applies the layout to every window, without reloading the config
+  - commands: ["wm-redraw"]
     bindings: ["lwin+shift+r"]
 
-  # go to workspace. Grid: 1 2 3 4 / Q play, W utils / C crt. 6, 9 and 0 (workspace 10) are number-only spares.
+  # go to workspace. Grid: 1 2 3 4 / Q play, W utils / C crt. F, V and A are the spares 6, 9 and 10; the numbers stay as a fallback.
   # Numbers 5-0 stay as aliases so Windows never gets them for "open taskbar app N".
   - commands: ["focus --workspace 1"]
     bindings: ["lwin+1"]
@@ -246,15 +249,15 @@ keybindings:
   - commands: ["focus --workspace 5"]
     bindings: ["lwin+q", "lwin+5"]
   - commands: ["focus --workspace 6"]
-    bindings: ["lwin+6"]
+    bindings: ["lwin+f", "lwin+6"]
   - commands: ["focus --workspace 7"]
     bindings: ["lwin+w", "lwin+7"]
   - commands: ["focus --workspace 8"]
     bindings: ["lwin+c", "lwin+8"]
   - commands: ["focus --workspace 9"]
-    bindings: ["lwin+9"]
+    bindings: ["lwin+v", "lwin+9"]
   - commands: ["focus --workspace 10"]
-    bindings: ["lwin+0"]
+    bindings: ["lwin+a", "lwin+0"]
 
   # send window to workspace. No Win+Shift+S: that stays the snip.
   - commands: ["move --workspace 1", "focus --workspace 1"]
@@ -268,15 +271,15 @@ keybindings:
   - commands: ["move --workspace 5", "focus --workspace 5"]
     bindings: ["lwin+shift+q", "lwin+shift+5"]
   - commands: ["move --workspace 6", "focus --workspace 6"]
-    bindings: ["lwin+shift+6"]
+    bindings: ["lwin+shift+f", "lwin+shift+6"]
   - commands: ["move --workspace 7", "focus --workspace 7"]
     bindings: ["lwin+shift+w", "lwin+shift+7"]
   - commands: ["move --workspace 8", "focus --workspace 8"]
     bindings: ["lwin+shift+c", "lwin+shift+8"]
   - commands: ["move --workspace 9", "focus --workspace 9"]
-    bindings: ["lwin+shift+9"]
+    bindings: ["lwin+shift+v", "lwin+shift+9"]
   - commands: ["move --workspace 10", "focus --workspace 10"]
-    bindings: ["lwin+shift+0"]
+    bindings: ["lwin+shift+a", "lwin+shift+0"]
 
   # move whole workspace to a monitor
   - commands: ["move-workspace --direction left"]
