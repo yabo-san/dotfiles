@@ -1,23 +1,8 @@
 {{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
-# =============================================================================
-# run_onchange_after_startup-shortcuts.ps1 — generate the Startup folder .lnk files
-# =============================================================================
-# These four shortcuts are what actually bring the rice up at logon. They were
-# a manual bootstrap step (windows-notes.txt "Autostart apps — recreate on
-# bootstrap") because a .lnk is a binary blob holding absolute paths, so chezmoi
-# can't track one usefully. It can generate them, though — which is the same
-# trick used for Playnite's global scripts.
-#
-# This is not cosmetic: the AutoHotkey shortcut (then quake-hotkey.lnk) went missing on the main machine and
-# AutoHotkey silently stopped autostarting. A missing shortcut fails quiet.
-#
-# Idempotent: rewrites a shortcut only when its target/args drift. Skips any
-# whose target isn't installed yet, so it's safe to run mid-bootstrap and again
-# afterwards.
-#
-# {{ .chezmoi.os }} — re-runs if the OS context changes
-# =============================================================================
+# chezmoi apply: generates the Startup folder shortcuts that bring the desktop up at logon.
+# Rewrites a shortcut only when its target or args drift, and skips any target not installed yet.
+# {{ .chezmoi.os }}: re-runs if the OS context changes
 $ErrorActionPreference = 'Stop'
 
 $startup = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup'
@@ -50,40 +35,29 @@ $shortcuts = @(
         Why    = 'file sync'
     },
     @{
-        # The CRT has no EDID, so its yasb bar is targeted by GDI device name —
-        # and that number drifts on every display upset, silently taking the bar
-        # with it. Re-resolve it at logon. Windows Powershell rather than pwsh:
-        # always present, and -NoProfile keeps it out of the profile bridge.
+        # The CRT's GDI device number drifts after display resets; re-resolve it at logon.
+        # Windows PowerShell with -NoProfile: always present and skips the profile bridge.
         Name   = 'yasb-crt-bar.lnk'
         Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
         Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\yasb\fix-crt-bar.ps1`""
         Why    = 're-point the yasb CRT bar at whatever DISPLAYn the CRT is today'
     },
     @{
-        # Same disease, different file: RetroArch picks its screen by a position in
-        # the monitor enumeration. Resolved by resolution at every logon, like the bar.
+        # RetroArch picks its screen by enumeration index, which drifts. Resolved by resolution at logon.
         Name   = 'retroarch-crt.lnk'
         Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
         Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\retroarch\bind-crt.ps1`""
         Why    = 'point RetroArch video_monitor_index at whatever monitor the CRT is today'
     },
     @{
-        # Obsidian on this machine opens the REPLICA at D:\obsidian\sb and never
-        # touches the iCloud copy; this daemon is the bridge between the two.
-        # It used to start only from the Raycast "Obsidian" command, so opening
-        # the vault any other way synced nothing -- silently, for five weeks.
-        # Sync is a machine service, so it belongs at logon. The wrapper script
-        # does the venv/config guards and feeds stdin (upstream calls input()
-        # before the engine starts); it no-ops if the daemon is already up.
+        # Wrapper script guards venv/config, feeds stdin, and no-ops if the daemon is already up.
         Name   = 'obsidian-sync.lnk'
         Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
         Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\obsidian\start-sync-daemon.ps1`""
         Why    = 'Obsidian local<->iCloud sync daemon'
     },
     @{
-        # N: (the thinkserver NAS) is mapped, but Windows reconnects mapped drives at
-        # logon before Tailscale is up, so it sat at "Unavailable" after reboots
-        # (five times by 2026-09-21). This waits for the NAS, then remounts.
+        # Windows reconnects mapped drives before Tailscale is up, so N: stays Unavailable. This waits, then remounts.
         Name   = 'mount-nas.lnk'
         Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
         Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\nas\mount-nas.ps1`""
@@ -92,8 +66,7 @@ $shortcuts = @(
 )
 
 $shell   = New-Object -ComObject WScript.Shell
-# Retired shortcuts. quake-hotkey.lnk launched the old AHK file; left in place it would start a
-# second AutoHotkey next to hotkeys.ahk and every key would be bound twice.
+# Retired: quake-hotkey.lnk would start a second AutoHotkey and bind every key twice.
 foreach ($old in @('quake-hotkey.lnk')) {
     $p = Join-Path $startup $old
     if (Test-Path $p) { Remove-Item $p -Force; Write-Host "[startup] removed retired $old" -ForegroundColor Green }

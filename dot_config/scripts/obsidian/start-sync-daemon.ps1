@@ -1,59 +1,6 @@
 #requires -Version 5.1
-# =============================================================================
-# start-sync-daemon.ps1 — bring up the Obsidian local<->iCloud sync daemon
-# =============================================================================
-# Run at LOGON from a Startup shortcut (see run_onchange_after_startup-shortcuts.ps1).
-# Idempotent and safe to run by hand: if the daemon is already up it does nothing.
-#
-# WHY THIS EXISTS AS ITS OWN SCRIPT: this logic used to live inside the Raycast
-# "Obsidian" command, so sync only started if the vault was opened THAT ONE WAY.
-# Open Obsidian from the taskbar, the Start menu, an obsidian:// link or a
-# pinned tile and nothing synced -- silently. Sync is a machine service, not a
-# side effect of one launcher, so it now starts at logon and Obsidian is opened
-# however you like.
-#
-# THE ARCHITECTURE IT SERVES: Obsidian on this machine opens ONLY the replica at
-# D:\obsidian\sb. It never touches D:\iCloudDrive\iCloud~md~obsidian\sb. This
-# daemon is the bridge between them, so the iCloud vault (the Mac/iPhone source
-# of truth) is never edited by Windows directly.
-#
-# Five faults killed the previous arrangements (five weeks silent, then three
-# days dead); each guard below is one of them:
-#
-#   1. VENV, NOT THE SCOOP PYTHON. `python` is in scoopfile.json, so a `scoop
-#      update` replaces the install dir and takes site-packages with it -- which
-#      happened on 2026-07-31 (pyyaml, watchdog, colorama, aiofiles all gone;
-#      the daemon then died at `import yaml`). A venv in the tool's own repo is
-#      immune. run_onchange_after_install-obsidian-sync.ps1 creates it.
-#
-#   2. STDIN IS FED. DuplicateScanner.scan_and_clean() runs at __main__.py:31,
-#      BEFORE the engine is built and outside any try, and calls input() guarded
-#      only against KeyboardInterrupt -- not EOFError. With no stdin that is an
-#      uncaught exception, so ANY conflict/duplicate/.tmp file in the three
-#      vaults makes the daemon unstartable. "n" declines the destructive
-#      cleanup; conflicts are reported below instead of blind-deleted.
-#
-#   3. FAILURES ARE VISIBLE. pythonw with redirected streams means no console
-#      flash, but stderr lands in a file, the process is re-checked a beat
-#      later, and anything wrong is written to a breadcrumb the next run and
-#      `obsidian-sync-status` both read. A logon task that fails quietly is how
-#      you lose five weeks.
-#
-#   4. CONFIG COMES FROM CHEZMOI (~/.config/obsidian/sync-config.yaml), not the
-#      tool's checkout, so `git pull` upstream cannot clobber it.
-#
-#   5. STDOUT IS UTF-8. Every transfer logs an arrow icon (logger.py's push/pull
-#      icons are literally "↑"/"↓"), and pythonw under -RedirectStandardOutput
-#      gives CPython a pipe, which it encodes with the ANSI codepage (cp1252)
-#      unless told otherwise. cp1252 cannot encode ↑, so print() raised
-#      UnicodeEncodeError inside sync_file -- BEFORE the copy ran -- and every
-#      push AND pull died as "[ERROR] Error syncing ... 'charmap' codec can't
-#      encode character '\u2191'". 535 hits in the log; from 2026-08-18 20:19
-#      to 2026-08-21 nothing propagated in either direction. The earlier
-#      instances that worked had inherited a UTF-8 environment by luck; this
-#      pins it. PYTHONIOENCODING retunes stdio only -- open() semantics,
-#      i.e. how note files themselves are read/written, are untouched.
-# =============================================================================
+# Starts the Obsidian local<->iCloud sync daemon. Run at logon by a Startup shortcut; safe to rerun.
+# Uses the repo venv (scoop updates wipe site-packages) and the chezmoi-managed config. Failures go to daemon-status.txt.
 $ErrorActionPreference = 'Stop'
 
 $repo    = 'D:\REPOS\obsidian-icloud-windows-sync'
@@ -70,18 +17,8 @@ function Note($msg, $colour = 'Gray') {
     } catch { }   # never let the breadcrumb take the daemon down with it
 }
 
-# ── already running? ────────────────────────────────────────────────────────
-# CommandLine, not process name: the venv pythonw.exe is a shim that re-execs
-# the base interpreter, so one daemon shows up as TWO pythonw processes (parent
-# + child). Matching on the module name counts the pair as one.
-#
-# Get-CimInstance, NOT Get-Process: the .CommandLine property on a Process
-# object only exists in PowerShell 7+. This runs under Windows PowerShell 5.1
-# (that is what the Startup shortcut launches, same as the yasb bar fix), where
-# the property is silently absent -- so the filter matched nothing, the guard
-# fell through, and every logon would have started a SECOND daemon on top of
-# the first. Two writers on the same three vaults is the worst failure this
-# whole arrangement can have. Win32_Process exposes CommandLine on both.
+# Match on CommandLine: the venv pythonw shim shows up as two processes. Get-CimInstance because
+# Process.CommandLine does not exist in PowerShell 5.1, and a missed match would start a second daemon.
 $running = @(Get-CimInstance Win32_Process -Filter "Name='pythonw.exe' OR Name='python.exe'" -ErrorAction SilentlyContinue |
     Where-Object { $_.CommandLine -like '*obsidian_sync*' })
 
@@ -98,14 +35,11 @@ $stamp  = Get-Date -Format 'yyyyMMdd-HHmmss'
 $outLog = Join-Path $logDir "launcher-$stamp.out.log"
 $errLog = Join-Path $logDir "launcher-$stamp.err.log"
 
-# Decline the duplicate-cleanup prompt (fault 2 above). Per-run filename: the
-# live daemon holds its stdin file open for its whole life, so a fixed name
-# makes this line throw ("used by another process") the moment anything else
-# tries to start one.
+# Answer "n" to the duplicate-cleanup input() prompt, which crashes on EOF. Per-run file: the live daemon keeps its stdin open.
 $stdin = Join-Path $env:TEMP "obsidian-sync-stdin-$stamp.txt"
 Set-Content -LiteralPath $stdin -Value 'n' -Encoding ascii
 
-# Fault 5: pin stdio to UTF-8 for the child (Start-Process inherits this env).
+# pythonw writes to a pipe in cp1252, which cannot encode the log's arrow icons and breaks every sync.
 $env:PYTHONIOENCODING = 'utf-8'
 
 $p = Start-Process -FilePath $py `
@@ -127,8 +61,7 @@ if ($p.HasExited) {
 
 Note "sync: running (pid $($p.Id)), log $outLog" 'Green'
 
-# Conflict artifacts don't stop the daemon, but they mean the two sides diverged
-# -- worth surfacing rather than silently accumulating.
+# Conflict files do not stop the daemon but mean the two sides diverged, so report them.
 $conflicts = @()
 foreach ($d in 'D:\obsidian\sb', 'D:\iCloudDrive\iCloud~md~obsidian\sb') {
     $conflicts += Get-ChildItem $d -Recurse -File -Filter '*_CONFLICT_*' -ErrorAction SilentlyContinue

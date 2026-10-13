@@ -1,31 +1,9 @@
 {{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
-# =============================================================================
-# run_onchange_after_powershell-profile-bridge.ps1
-# Point PowerShell's real $PROFILE at the chezmoi-managed one.
-# =============================================================================
-# PowerShell only ever loads profiles from fixed paths under Documents. chezmoi
-# deploys to ~/.config/powershell/, which PowerShell does not look at — so
-# without a bridge the tracked profile is DEAD WEIGHT and every edit to it does
-# nothing.
-#
-# That is not hypothetical: on 2026-07-31 the live profile was found to be an
-# untracked copy under OneDrive dated 2026-06-04, drifted for two months. It had
-# `dormin` but not `cc`/`cca`, because those were added to the chezmoi copy that
-# nothing loads.
-#
-# Documents is usually OneDrive-redirected on this machine, so the path is
-# RESOLVED at runtime rather than hardcoded.
-#
-# The bridge is one line and never changes; all real content stays in chezmoi.
-#
-# chezmoi hash so this re-runs when the tracked profile changes:
+# chezmoi apply: writes a one-line $PROFILE under Documents that loads the chezmoi-managed profile.
+# PowerShell only reads profiles from Documents (often OneDrive-redirected, so resolved at runtime). Re-runs when the profile changes:
 #   {{ include "dot_config/powershell/Microsoft.PowerShell_profile.ps1" | sha256sum }}
-# =============================================================================
-# A skip that means "not done, try later" MUST exit non-zero. chezmoi records a
-# run_onchange script that exits 0 as done and never retries it, so a plain
-# `return` there silently drops the work (found 2026-09-20: Playnite was open,
-# the stubs were skipped, and chezmoi never tried again).
+# A skip must exit non-zero: chezmoi marks a run_onchange script that exits 0 as done and never retries.
 $ErrorActionPreference = 'Stop'
 
 $target = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PowerShell\profile.ps1'
@@ -53,8 +31,7 @@ if ((Test-Path $target) -and ((Get-Content $target -Raw) -eq $bridge)) {
     return
 }
 
-# The existing file may be a real (drifted) profile, not a bridge. Keep it —
-# it is untracked, so a backup is the only copy that will exist.
+# The existing file may be an untracked real profile, so back it up once.
 if (Test-Path $target) {
     $backup = "$target.bak-yabo"
     if (-not (Test-Path $backup)) {

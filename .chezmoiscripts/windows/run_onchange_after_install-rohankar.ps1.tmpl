@@ -1,36 +1,10 @@
 {{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
-# =============================================================================
-# run_onchange_after_install-rohankar.ps1 — silent-install y4bo (RohanKar fork)
-# =============================================================================
-# y4bo ships an electron-builder NSIS INSTALLER ONLY - no portable variant - so
-# the external in launchers.toml.tmpl can only FETCH the setup exe. Something
-# has to run it, and chezmoi externals place files, they don't execute them.
-# That's this. It is the ONLY launcher chezmoi installs; y4bo installs the rest.
-#
-# electron-builder NSIS flags:
-#   /S      silent
-#   /D=path install directory. MUST be last on the line and MUST NOT be quoted -
-#           that is an NSIS requirement, not a style choice. A quoted /D silently
-#           installs to the default location instead.
-#
-# Idempotent: skips entirely when the target version is already installed, so a
-# routine `chezmoi apply` doesn't re-run a 100 MB installer.
-#
-# The version check compares FileVersion EXACTLY (it carries the full
-# "1.6.0-fork.18"; ProductVersion is only "1.6.0.0"). The old check was
-# ProductVersion.StartsWith("1.4.1") against upstream's pin, which is how a
-# `chezmoi apply` on 2026-10-03 downgraded fork.18 to upstream 1.4.1 without a
-# word. A newer installed build (y4bo self-updates) is left alone, never rolled
-# back to the pin.
-#
-# Re-runs when the pinned version changes:
+# chezmoi apply: silently runs the y4bo (RohanKar fork) NSIS installer that the launchers external fetched.
+# Skips when the pinned version, or a newer self-updated one, is already installed. Matches on FileVersion,
+# since ProductVersion drops the -fork.N suffix. Re-runs when the pin changes:
 #   {{ include ".chezmoiexternals/launchers.toml.tmpl" | sha256sum }}
-# =============================================================================
-# A skip that means "not done, try later" MUST exit non-zero. chezmoi records a
-# run_onchange script that exits 0 as done and never retries it, so a plain
-# `return` there silently drops the work (found 2026-09-20: Playnite was open,
-# the stubs were skipped, and chezmoi never tried again).
+# A skip must exit non-zero: chezmoi marks a run_onchange script that exits 0 as done and never retries.
 $ErrorActionPreference = 'Stop'
 
 $version    = '1.6.0-fork.18'
@@ -49,8 +23,7 @@ function Get-InstalledLauncher {
         Sort-Object { $_.Name -ne 'y4bo.exe' } | Select-Object -First 1
 }
 
-# Compare on the fork's own version line: "1.6.0-fork.18" -> 1.6.0 and 18.
-# Upstream builds have no "-fork.N" and lose to any fork build.
+# "1.6.0-fork.18" -> 1.6.0 and 18. Upstream builds have no -fork.N and lose to any fork build.
 function ConvertTo-ForkVersion([string]$v) {
     if ($v -match '^(\d+\.\d+\.\d+)(?:-fork\.(\d+))?') {
         return @{ Base = [version]$Matches[1]; Fork = $(if ($Matches[2]) { [int]$Matches[2] } else { -1 }) }
@@ -83,8 +56,7 @@ if (Get-Process -Name 'y4bo', 'RohanKar*' -ErrorAction SilentlyContinue) {
 }
 
 Write-Host "[y4bo] installing $version silently to $installDir ..." -ForegroundColor Cyan
-# /D must be last and unquoted; passing the whole thing as a single argument
-# string avoids PowerShell re-quoting the path.
+# NSIS needs /D last and unquoted, or it silently installs to the default path. One string stops PowerShell re-quoting it.
 $proc = Start-Process -FilePath $setup -ArgumentList "/S /D=$installDir" -PassThru -Wait
 if ($proc.ExitCode -ne 0) {
     Write-Host "[y4bo] installer exited $($proc.ExitCode)" -ForegroundColor Red

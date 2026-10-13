@@ -1,28 +1,5 @@
-<#
-.SYNOPSIS
-  Re-point yasb's CRT bar at whatever GDI device the CRT currently is.
-
-.DESCRIPTION
-  The CRT bar has to be targeted by GDI device name (\\.\DISPLAYn) because the
-  CRT has NO EDID - it is absent from WmiMonitorID entirely, so it has no
-  friendly name to match on the way the LG and the Acer do.
-
-  And GDI numbers DRIFT. Every display-config change renumbers them: a GPU
-  disable/re-enable, a driver reset, a game switching modes, a RustDesk session
-  attaching. This exact bar has already been DISPLAY3, then DISPLAY9, then
-  DISPLAY3 again. Each time it silently stops appearing - yasb does not warn
-  about a screen that does not exist, the bar just never shows up.
-
-  So stop hand-editing the number. This resolves the CRT by RESOLUTION (the only
-  1024x768 display on this desk), writes that device name into the yasb config,
-  and reloads yasb - but only when it actually changed.
-
-  Run it after any display upset, and from startup. Idempotent: a no-op when the
-  config already points at the right device.
-
-.PARAMETER Width / Height
-  How the CRT is identified. Change these if the CRT is ever replaced.
-#>
+# Points yasb's CRT bar at the CRT's current DISPLAYn device and reloads yasb. Run at logon by a Startup shortcut.
+# The CRT has no EDID, so it is found by resolution, and GDI display numbers change after any display reset.
 [CmdletBinding()]
 param(
     [int]$Width = 1024,
@@ -40,8 +17,7 @@ $crt = [System.Windows.Forms.Screen]::AllScreens |
     Select-Object -First 1
 
 if (-not $crt) {
-    # Not an error: the CRT is legitimately off or unplugged sometimes, and this
-    # runs from startup. Say so and leave the config alone.
+    # Not an error: the CRT is sometimes off, and this runs at logon.
     Write-Host "yasb-crt: no ${Width}x${Height} display attached - leaving config alone." -ForegroundColor DarkGray
     exit 0
 }
@@ -53,11 +29,8 @@ if (-not (Test-Path $ConfigPath)) {
     exit 1
 }
 
-# The CRT bar is the ONLY screens: line naming a raw \\.\DISPLAY device - the
-# other bars match on friendly EDID names - so that is a safe anchor.
-# Read and write as UTF-8 WITHOUT a BOM, explicitly. Windows PowerShell 5.1 (which
-# the logon shortcut uses) otherwise reads UTF-8 as Windows-1252 and writes the
-# mangled text back, garbling every icon and symbol in the yasb config.
+# The CRT bar is the only screens: line with a raw DISPLAYn device name; the other bars use EDID names.
+# Explicit UTF-8 without BOM: Windows PowerShell 5.1 would otherwise read it as Windows-1252 and garble the icons.
 $utf8 = New-Object System.Text.UTF8Encoding $false
 $lines = [System.IO.File]::ReadAllLines($ConfigPath, $utf8)
 $idx = -1
@@ -71,8 +44,7 @@ if ($idx -lt 0) {
     exit 1
 }
 
-# YAML double-quoted: every backslash is doubled, so \\.\DISPLAY3 is written
-# \\\\.\\DISPLAY3 in the file.
+# YAML double-quoted strings double every backslash.
 $yamlDevice = $device -replace '\\', '\\'
 $current = if ($lines[$idx] -match 'DISPLAY(\d+)') { "\\.\DISPLAY$($Matches[1])" } else { '?' }
 
@@ -104,8 +76,7 @@ if (Test-Path $yasbc) {
     Write-Host "  yasbc not found - restart yasb manually." -ForegroundColor DarkYellow
 }
 
-# The chezmoi source is the thing that survives a re-apply; if only the deployed
-# copy is fixed, the next `chezmoi apply` puts the stale number straight back.
+# Fix the chezmoi source too, or the next apply puts the stale number back.
 $src = "$env:USERPROFILE\.local\share\chezmoi\dot_config\yasb\config.yaml"
 if ((Test-Path $src) -and ($src -ne $ConfigPath)) {
     $s = [System.IO.File]::ReadAllLines($src, $utf8)
