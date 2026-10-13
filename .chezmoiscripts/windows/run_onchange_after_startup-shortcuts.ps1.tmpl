@@ -55,16 +55,16 @@ $shortcuts = @(
         # with it. Re-resolve it at logon. Windows Powershell rather than pwsh:
         # always present, and -NoProfile keeps it out of the profile bridge.
         Name   = 'yasb-crt-bar.lnk'
-        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
-        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\yasb\fix-crt-bar.ps1`""
+        Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
+        Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\yasb\fix-crt-bar.ps1`""
         Why    = 're-point the yasb CRT bar at whatever DISPLAYn the CRT is today'
     },
     @{
         # Same disease, different file: RetroArch picks its screen by a position in
         # the monitor enumeration. Resolved by resolution at every logon, like the bar.
         Name   = 'retroarch-crt.lnk'
-        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
-        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\retroarch\bind-crt.ps1`""
+        Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
+        Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\retroarch\bind-crt.ps1`""
         Why    = 'point RetroArch video_monitor_index at whatever monitor the CRT is today'
     },
     @{
@@ -76,8 +76,8 @@ $shortcuts = @(
         # does the venv/config guards and feeds stdin (upstream calls input()
         # before the engine starts); it no-ops if the daemon is already up.
         Name   = 'obsidian-sync.lnk'
-        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
-        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\obsidian\start-sync-daemon.ps1`""
+        Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
+        Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\obsidian\start-sync-daemon.ps1`""
         Why    = 'Obsidian local<->iCloud sync daemon'
     },
     @{
@@ -85,8 +85,8 @@ $shortcuts = @(
         # logon before Tailscale is up, so it sat at "Unavailable" after reboots
         # (five times by 2026-09-21). This waits for the NAS, then remounts.
         Name   = 'mount-nas.lnk'
-        Target = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
-        Args   = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\nas\mount-nas.ps1`""
+        Target = "$env:SystemRoot\System32\conhost.exe"   # --headless: no console flash at logon
+        Args   = "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$env:USERPROFILE\.config\scripts\nas\mount-nas.ps1`""
         Why    = 'wait for Tailscale, then mount N: (thinkserver NAS)'
     }
 )
