@@ -96,19 +96,30 @@ Dropdown(name, exe, classPrefix, launch, layout) {
         ; SHOW: remember who had focus, keep it out of Alt+Tab and the taskbar, drop it down
         if (fg && fg != hwnd)
             prevFocus[name] := fg
-        WinSetExStyle "+0x80", hwnd                             ; WS_EX_TOOLWINDOW
-        WinSetExStyle "-0x40000", hwnd                          ; not WS_EX_APPWINDOW
-        if WinGetMinMax(hwnd) = -1
-            WinRestore hwnd
-        WinMove x, y, w, h, hwnd
-        WinShow hwnd
-        WinActivate hwnd
-        ; crossing to a monitor with different scaling makes the app resize itself after our move
-        Loop 5 {
-            Sleep 25
-            if WinExist(hwnd)
-                WinMove x, y, w, h, hwnd
+        try DropdownShow(hwnd, x, y, w, h)
+        catch TargetError {
+            ; the window closed between finding it and showing it (Cider swaps windows as it
+            ; starts); look once more for the one that replaced it
+            Sleep 250
+            if hwnd := DropdownFind(exe, classPrefix)
+                try DropdownShow(hwnd, x, y, w, h)
         }
+    }
+}
+
+DropdownShow(hwnd, x, y, w, h) {
+    WinSetExStyle "+0x80", hwnd                                 ; WS_EX_TOOLWINDOW
+    WinSetExStyle "-0x40000", hwnd                              ; not WS_EX_APPWINDOW
+    if WinGetMinMax(hwnd) = -1
+        WinRestore hwnd
+    WinMove x, y, w, h, hwnd
+    WinShow hwnd
+    WinActivate hwnd
+    ; crossing to a monitor with different scaling makes the app resize itself after our move
+    Loop 5 {
+        Sleep 25
+        if WinExist(hwnd)
+            WinMove x, y, w, h, hwnd
     }
 }
 
@@ -123,8 +134,10 @@ DropdownFind(exe, classPrefix) {
         if DllCall("GetWindow", "ptr", hwnd, "uint", 4, "ptr")  ; GW_OWNER: skip owned popups
             continue
         WinGetPos , , &w, &h, hwnd
-        if (w * h > bestArea)
-            best := hwnd, bestArea := w * h
+        ; a minimized window reports 160x28; it is still the drop-down (Win+D minimizes it), so count it
+        area := WinGetMinMax(hwnd) = -1 ? 200 * 200 : w * h
+        if (area > bestArea)
+            best := hwnd, bestArea := area
     }
     return bestArea >= 200 * 200 ? best : 0
 }
