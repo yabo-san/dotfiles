@@ -24,9 +24,12 @@ flowchart TD
 
 ## 1. GlazeWM is opt-in
 
-It only manages apps named in its allowlist (`dot_glzr/glazewm/config.yaml`); a catch-all ignores
-everything else. Games, installers and unknown windows are never tiled, so they never get frozen or
-dragged. Cost: every new app you want tiled needs two lines, its workspace rule and the allowlist.
+It only manages apps in `.chezmoidata/glazewm.yaml`; everything else is ignored. Games, installers and
+unknown windows are never tiled, so they never get frozen or dragged.
+
+**To tile a new app:** open it, run Raycast "Add App to Workspace", pick the workspace, then pick the app from
+the list. Reopen the app. By hand instead: add a `p:` line under the workspace in `.chezmoidata/glazewm.yaml`,
+`chezmoi apply`, Win+R.
 
 ## 2. The registry takes keys back from Windows
 

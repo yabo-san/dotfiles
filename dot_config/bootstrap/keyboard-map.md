@@ -12,7 +12,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 |---|---|---|
 | Windows registry | `dot_config/bootstrap/windows-tweaks.reg.tmpl` | yes |
 | AutoHotkey | `dot_config/scripts/hotkeys.ahk` (autostart via `hotkeys.lnk`) | yes |
-| GlazeWM | `dot_glzr/glazewm/config.yaml`, `keybindings:` section | yes |
+| GlazeWM | `dot_glzr/glazewm/config.yaml.tmpl` (keys), `.chezmoidata/glazewm.yaml` (which app goes where) | yes |
 | Raycast | Raycast's own SQLite index. Scripts in `dot_config/scripts/raycast/`, hotkeys set by hand | scripts yes, keys no |
 | WezTerm | `dot_config/wezterm/wezterm.lua`, `config.keys` | yes |
 | Zen | `dot_config/bootstrap/zen-keyboard-shortcuts.json`, pushed by `setup-zen.ps1` | yes, manual apply |
@@ -34,7 +34,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Alt+Shift+C / X / V / A` | passed through to the app (Zen copy-URL, addons) | AHK |
 | `Alt+Q` | close focused window (graceful, Cmd+Q parity) | GlazeWM |
 | `Alt+Space` | Raycast launcher (set in Raycast) | Raycast |
-| `Alt+Tab` | native Windows switcher, deliberately unbound | Windows |
+| `Alt+Tab` | Windows' own switcher, untouched | Windows |
 | `Ctrl+Space` | Playnite search anywhere (global, set in Playnite). Takes the key from editors' "show completions" | Playnite |
 | `Alt+F4` | native, untouched | Windows |
 | `Win+H / J / K` | move window left / down / up | GlazeWM |
@@ -49,7 +49,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+F` `V` `A` | focus spare workspaces 6, 9 and 10. Takes them from Feedback Hub, clipboard history and quick settings | GlazeWM |
 | `Win+5` to `Win+9`, `Win+0` | number aliases for Q, F, W, C, V and A, kept as a fallback. Also keeps Windows from opening taskbar app N | GlazeWM |
 | `Win+Shift+` the same keys | send window there and follow. Not `Win+Shift+S`, which stays the snip | GlazeWM |
-| `Win+Tab` / `Win+Shift+Tab` | next / previous active workspace | GlazeWM |
+| `Win+Tab` / `Win+Shift+Tab` | next / previous window on any workspace, the mouse follows (`scripts/glazewm/cycle-window.ps1`) | GlazeWM |
 | `Win+Shift+H / J / K / L` | move whole workspace to monitor left / down / up / right | GlazeWM |
 | `Win+Shift+P` | pause all GlazeWM binds | GlazeWM |
 | `Win+R` | reload GlazeWM config through `scripts/glazewm/safe-reload.ps1`, which puts back windows the reload moves (3.10.1 drops them all onto the focused workspace) | GlazeWM |

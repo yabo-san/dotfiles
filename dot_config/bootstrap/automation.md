@@ -36,11 +36,13 @@ Playnite's global scripts (planted by `run_onchange_after_playnite-scripts`).
 | how | runs | does |
 | --- | --- | --- |
 | Win+R | `scripts/glazewm/safe-reload.ps1` | reloads GlazeWM and puts windows back |
+| Win+Tab / Win+Shift+Tab | `scripts/glazewm/cycle-window.ps1` | next / previous window on any workspace; the mouse follows |
 | Raycast "Bind CRT" | `scripts/raycast/bind-crt.ps1` | runs both CRT scripts after a display change |
 | Raycast "Reconnect NAS" | `scripts/raycast/reconnect-nas.ps1` | remounts N: |
 | Raycast "AHK On" / "AHK Off" | `scripts/raycast/ahk-on.ps1`, `ahk-off.ps1` | hotkeys on or off |
 | Win+L (Raycast "Glaze Move Right") | `scripts/raycast/glaze-move-right.ps1` | moves the window right |
 | Raycast "Classic Start Menu" | `scripts/raycast/classic-start-menu.ps1` | opens Open-Shell |
+| Raycast "Add App to Workspace" | `scripts/raycast/add-app-to-workspace.ps1` | pick a workspace, then a running app from a list (apps already tiled are hidden); adds it to `.chezmoidata/glazewm.yaml`, applies, reloads |
 | Raycast "Crysis Sandbox 2 Editor" | `scripts/raycast/launch-crysis-editor.ps1` | Crysis 1 editor through c1-launcher |
 | by hand | `scripts/playnite/export-emulation.ps1` / `apply-emulation.ps1` | emulator profiles and RomM mappings in and out of `playnite/emulation.json` |
 
