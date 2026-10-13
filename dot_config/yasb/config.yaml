@@ -87,6 +87,7 @@ bars:
     window_flags:
       always_on_top: false
       windows_app_bar: false
+      auto_hide: true   # hidden until the mouse reaches the top of the CRT, so Wallpaper Engine has the whole screen
     dimensions:
       width: "100%"
       height: 32
