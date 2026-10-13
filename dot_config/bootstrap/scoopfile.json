@@ -467,6 +467,13 @@
     {
       "Info": "",
       "Source": "main",
+      "Name": "pipx",
+      "Version": "1.17.13",
+      "Updated": "/Date(1791763200000)/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
       "Name": "ripgrep",
       "Version": "15.2.0",
       "Updated": "/Date(1787545123600)/"
