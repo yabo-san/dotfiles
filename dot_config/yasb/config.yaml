@@ -1,5 +1,5 @@
-# This is default and very simple configuration file for Yasb. 
-# For more information about configuration options, please visit the Wiki https://github.com/amnweb/yasb/wiki
+# YASB, the top bars. Options: https://github.com/amnweb/yasb/wiki
+# Two bars: primary-bar on the ultrawide and the Acer, crt-bar on the CRT.
 watch_stylesheet: true
 watch_config: true
 debug: false
@@ -51,27 +51,18 @@ bars:
         "systray",
         "cava",
         "media",
-        # "weather",  # DISABLED: needs weatherapi.com api_key + location (see disabled weather block below)
         "microphone",
         "volume",
         "cpu",
         "memory",
         "notifications",
-        #"wallpapers",
         "power_menu"
         ]
-  # ---- CRT bar: minimal bar for the tiny 4:3 1024x768 display ----
-  # Only essentials so it doesn't get crammed. No systray here (tray lives
-  # on the big monitors), no cava/media/cpu/memory clutter.
+  # the CRT (1024x768): essentials only, the tray stays on the big monitors
   crt-bar:
     enabled: true
-    # ⚠️ GDI NAME — DRIFTS. Was DISPLAY3; the GPU disable/re-enable on 2026-07-31
-    # renumbered everything to DISPLAY7/8/9 and this bar silently stopped appearing.
-    # primary-bar above is immune because it matches EDID friendly names, but the
-    # CRT has NO EDID (absent from WmiMonitorID entirely), so there is no friendly
-    # name to use — a GDI name is the only handle yasb accepts for it.
-    # If the CRT bar vanishes again: glazewm query monitors  -> find the 1024x768
-    # entry -> put its deviceName here (fix-crt-bar.ps1 does this for you).
+    # The CRT has no EDID, so it is matched by GDI name, and that number changes after display
+    # resets. fix-crt-bar.ps1 rewrites this line at login and from Raycast "Bind CRT".
     screens: ["\\\\.\\DISPLAY3"]   # the 4:3 CRT - set by fix-crt-bar.ps1
     class_name: "yasb-bar"
     alignment:
@@ -163,68 +154,6 @@ widgets:
       timezones: []
       callbacks:
         on_left: "toggle_calendar"
-  # ===========================================================================
-  # WEATHER WIDGET - DISABLED (2026-05-29)
-  # Disabled because it failed yasb v1.9.1 validation on every startup, which
-  # caused the whole widget to be dropped ("API key or location is missing").
-  # TO RE-ENABLE:
-  #   1. Get a free API key from https://www.weatherapi.com/
-  #   2. Fill in api_key: and location: below (location e.g. "USA Los Angeles 90006" or just a city).
-  #   3. The two icon keys snowyIcyDay/snowyIcyNight are NO LONGER permitted in
-  #      v1.9.1 ("Extra inputs are not permitted") and have been removed below.
-  #      Do not re-add them.
-  #   4. Uncomment this whole block (remove the leading "# " from each line).
-  #   5. Re-add "weather", to the bar's right: widgets list above.
-  # ---------------------------------------------------------------------------
-  # weather:
-  #   type: "yasb.weather.WeatherWidget"
-  #   options:
-  #     label: "<span>{icon}</span> {temp}"
-  #     label_alt: "{location}: Min {min_temp}, Max {max_temp}, Humidity {humidity}"
-  #     api_key:  # Get your free API key from https://www.weatherapi.com/
-  #     update_interval: 600
-  #     hide_decimal: true
-  #     location:  # You can use "USA Los Angeles 90006" {COUNTRY CITY ZIP_CODE}, or just city.
-  #     callbacks:
-  #       on_left: "toggle_card"
-  #     icons:
-  #       sunnyDay: "\ue30d"
-  #       clearNight: "\ue32b"
-  #       cloudyDay: "\ue312"
-  #       cloudyNight: "\ue311"
-  #       rainyDay: "\ue308"
-  #       rainyNight: "\ue333"
-  #       # snowyIcyDay / snowyIcyNight removed: not permitted in yasb v1.9.1
-  #       blizzardDay: "\udb83\udf36"
-  #       blizzardNight: "\udb83\udf36"
-  #       foggyDay: "\ue303"
-  #       foggyNight: "\ue346"
-  #       thunderstormDay: "\ue30f"
-  #       thunderstormNight: "\ue338"
-  #       default: "\uebaa"
-  #     weather_card:
-  #       blur: True
-  #       round_corners: True
-  #       round_corners_type: "normal"
-  #       border_color: "System"
-  #       alignment: "right"
-  #       direction: "down"
-  #       icon_size: 64
-  #       show_hourly_forecast: True # Set to False to disable hourly forecast
-  #       time_format: "12h" # can be 12h or 24h
-  #       hourly_point_spacing: 76
-  #       hourly_icon_size: 32 # better to set 16, 32 or 64 for better quality
-  #       icon_smoothing: true # should be true for smoother icon or false for sharper icon if using 16, 32 or 64 for hourly_icon_size
-  #       temp_line_width: 2 # can be 0 to hide the temperature line
-  #       current_line_color: "#8EAEE8"
-  #       current_line_width: 1 # can be 0 to hide the current hour line
-  #       current_line_style: "dot"
-  #     label_shadow:
-  #       enabled: true
-  #       color: "black"
-  #       radius: 3
-  #       offset: [ 1, 1 ]
-  # ===========================================================================
   volume:
     type: "yasb.volume.VolumeWidget"
     options:
@@ -376,24 +305,19 @@ widgets:
   glazewm_workspaces:
     type: "glazewm.workspaces.GlazewmWorkspacesWidget"
     options:
-      # Offline behavior (matching komorebi's label_offline and hide_if_offline)
       offline_label: "GlazeWM Offline"
       hide_if_offline: true
       
-      # Show the workspace's display_name (icon + name baked into GlazeWM config).
-      # {display_name} falls back to {name} (the number) for unnamed 5-10.
+      # display_name falls back to the number for workspaces without an icon
       populated_label: "{display_name}"
       empty_label: "{display_name}"
       active_populated_label: "{display_name}"
       active_empty_label: "{display_name}"
       
-      # Workspace management (matching komorebi's hide_empty_workspaces)
       hide_empty_workspaces: false
       
-      # Server connection
       glazewm_server_uri: "ws://localhost:6123"
       
-      # Additional GlazeWM-specific options (keeping defaults)
       enable_scroll_switching: true
       reverse_scroll_direction: true
       container_padding:
