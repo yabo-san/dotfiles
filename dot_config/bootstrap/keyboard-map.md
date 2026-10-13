@@ -19,7 +19,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | Obsidian | AHK `#HotIf WinActive("ahk_exe Obsidian.exe")` block. `hotkeys.json` is iCloud-synced and untouched | yes (via AHK) |
 | Open-Shell | `openshell-settings.reg.tmpl`: `WinKey=Nothing`, `ShiftWin=Nothing`. No key. Opened by the Raycast "Classic Start Menu" script | yes |
 | YASB | no keyboard binds, mouse callbacks only (`dot_config/yasb/config.yaml`) | yes |
-| Playnite | `scripts/playnite/` kills AHK on game launch, restarts after. Global hotkey Alt+Shift+G (set in Playnite) | yes |
+| Playnite | `scripts/playnite/` kills AHK on game launch, restarts after. Global hotkey Ctrl+Space = search anywhere (set in Playnite, 2026-10-13) | yes |
 | Zed | `AppData/Roaming/Zed/keymap.json` (Windows only; the Mac's Zed uses Cmd natively) | yes |
 | File Pilot | `AppData/Roaming/Voidstar/FilePilot/FPilot-Config.json`, `Hotkeys` | yes, apply with File Pilot closed |
 
@@ -35,6 +35,7 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Alt+Q` | close focused window (graceful, Cmd+Q parity) | GlazeWM |
 | `Alt+Space` | Raycast launcher (set in Raycast) | Raycast |
 | `Alt+Tab` | native Windows switcher, deliberately unbound | Windows |
+| `Ctrl+Space` | Playnite search anywhere (global, set in Playnite). Takes the key from editors' "show completions" | Playnite |
 | `Alt+F4` | native, untouched | Windows |
 | `Win+H / J / K` | move window left / down / up | GlazeWM |
 | `Win+L` | move window right, via Raycast → `glaze-move-right.ps1`. Needs `DisableLockWorkstation` | Raycast + registry |
@@ -58,7 +59,6 @@ Earlier wins. That is why Win+L never reaches GlazeWM and why Alt+Q in Zen close
 | `Win+Shift+S`, `PrtSc` | Snipping Tool | Windows |
 | `Win+P / G / Z / .` | display / Game Bar / snap layouts / emoji, native | Windows |
 | `Win+I X N Q B O R` | disabled (`DisabledHotkeys=IXNQBOR`) | registry |
-| `Win+C` | dead, Copilot off | registry |
 | `Win+K`, `Win+H` | native cast / dictation never fire, GlazeWM eats them | GlazeWM |
 | `Alt+Y / M / I / N / T` in Obsidian | browse vault / move file / Templater Zettel / new tab / daily note | AHK |
 
@@ -88,7 +88,7 @@ Everything is Alt-ified for Cmd parity. Full list is the JSON, 88 Alt binds. Not
 | `Alt+T` / `Alt+W` / `Alt+N` | new tab / close tab / new window |
 | `Alt+1` to `Alt+9` | select tab |
 | `Alt+L` | focus URL bar |
-| `Alt+R` / `Alt+Shift+R` | reload / reload skip cache (works since AMD hotkeys are off) |
+| `Alt+Shift+R` / `F5` | reload skip cache / reload (`Alt+R` is the AMD overlay, see below) |
 | `Alt+F` / `Alt+G` | find / find again |
 | `Alt+Shift+N` | private window |
 | `Alt+Shift+C` | copy URL (passes through AHK) |
@@ -136,8 +136,8 @@ Given up from File Pilot's defaults: `Alt+D` no longer opens the path bar; use `
 
 ## Raycast script commands (no default keys, assign in Raycast)
 
-`AHK On`, `AHK Off`, `Classic Start Menu`, `Glaze Move Right` (this one is bound to Win+L), `Window Solo`,
-`Bind CRT`, `Label Monitor`, `Reconnect NAS`, `Restore Playnite Curation`, `Crysis Sandbox 2 Editor` ×2.
+`AHK On`, `AHK Off`, `Classic Start Menu`, `Glaze Move Right` (this one is bound to Win+L), `Bind CRT`,
+`Reconnect NAS`, `Crysis Sandbox 2 Editor`. One file each in `scripts/raycast/`.
 Raycast's own launcher hotkey is set in Raycast, not tracked.
 
 ## Known collisions (all intentional or accepted)
@@ -152,13 +152,15 @@ Raycast's own launcher hotkey is set in Raycast, not tracked.
 
 - GlazeWM has a `resize` binding mode defined but no key enables it. Add `wm-enable-binding-mode --name resize` if wanted.
 - No GlazeWM focus-direction keys. Focus is by mouse.
-- README says Open-Shell is on Shift+Win. It is not; both Open-Shell key settings are "Nothing".
 
 ## Required on AMD
 
-Turn OFF all Radeon Software hotkeys (Settings → Hotkeys). Radeon grabs `Alt+Z`, `Alt+R`, `Ctrl+Shift+U`
-globally before AHK and silently breaks the remaps.
+Turn OFF every Radeon Software hotkey (Settings → Hotkeys) except **Show Overlay = `Alt+R`**. Radeon grabs its keys
+globally before AHK and silently breaks the remaps. Raycast command hotkeys are global too: when a key is
+dead, check `%LOCALAPPDATA%\Raycast\Logs` (it logs every hotkey it registers) before blaming AMD.
 
 ## Mac parity
 
-`aerospace.toml` mirrors the GlazeWM map. Karabiner Caps dual-role (tap Esc, hold Cmd) is still TODO.
+`aerospace.toml` uses the same key positions with Mac contents: Option where Windows uses Win, Cmd where
+Windows uses Alt (the keys sit in the same place on each keyboard). The Mac does not game, so 5, 7 and 8 have
+no game contents there. Port still pending (TWR0011245 part C). Karabiner Caps dual-role (tap Esc, hold Cmd) is still TODO.

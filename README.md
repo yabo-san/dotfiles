@@ -8,6 +8,10 @@ Heavily based on [rio/dotfiles](https://github.com/rio/dotfiles).
 
 ## Windows
 
+How it fits together (opt-in GlazeWM, registry key grabs, AHK Mac keys, games through Playnite): `dot_config/bootstrap/how-it-works.md`.
+Keys: `dot_config/bootstrap/keyboard-map.md`. What runs by itself (boot task, login shortcuts, Playnite hooks,
+chezmoi scripts) and what starts it: `dot_config/bootstrap/automation.md`.
+
 One command, in a **normal (not elevated)** PowerShell window. Scoop refuses to install as admin.
 
 ```powershell
@@ -27,7 +31,7 @@ leftovers are in `dot_config/bootstrap/windows-notes.txt`.
 | Status bar | YASB |
 | Terminal | WezTerm, with an AutoHotkey quake drop-down on `` ` `` |
 | Shell | PowerShell 7, a port of `dot_zshrc` |
-| Launcher | Raycast, Open-Shell classic menu on Shift+Win |
+| Launcher | Raycast; the Open-Shell classic menu has no key, it opens from the Raycast "Classic Start Menu" command |
 | Files | File Pilot, yazi |
 | Screenshots | Snipping Tool (Win+Shift+S) |
 
@@ -52,6 +56,8 @@ Three things sit on the keyboard. They claim different keys and never see each o
 |---|---|---|
 | everywhere | `` ` `` | toggle the WezTerm quake dropdown |
 | everywhere | ``Ctrl+` `` | type a literal backtick |
+| everywhere | `Win+S` | toggle the Cider drop-down |
+| everywhere | `Win+D` | show desktop on every screen, again to bring back what it hid |
 | not WezTerm / RustDesk | `Alt+C` `Alt+X` `Alt+V` `Alt+A` | copy / cut / paste / select all (Alt sits where mac's Cmd is) |
 | not WezTerm / RustDesk | `Alt+Z`, `Alt+Shift+Z` | undo / redo |
 | not WezTerm / RustDesk | `Alt+Shift+C/X/V/A` | passed through untouched (Zen copy-URL, addons, …) |

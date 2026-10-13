@@ -6,9 +6,9 @@
 ------------------------------------------------------------------- THE STACK --
  WM .......... GlazeWM (opt-in tiling)   ~/.glzr/glazewm/config.yaml
  Bar ......... YASB (taskbar auto-hidden) ~/.config/yasb/{config.yaml,styles.css}
- Terminal .... WezTerm + AHK quake (`)    ~/.config/wezterm/  + scripts/wezterm/
+ Terminal .... WezTerm + AHK quake (`)    ~/.config/wezterm/  + scripts/hotkeys.ahk
  Shell ....... PowerShell (zsh parity)    ~/.config/powershell/{profile,unix-aliases}.ps1
- Files ....... yazi (y) · File Pilot (GUI) · Win+E (Explorer)
+ Files ....... yazi (y) · File Pilot (GUI) · Win+E (File Pilot)
  Git ......... lazygit (lg) + delta       ~/.config/lazygit/ + ~/.gitconfig
  Launcher .... Raycast (+ Win+L bridge, see below)
  Prompt ...... native Pure-style (fast); starship reserved for WSL
