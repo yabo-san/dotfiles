@@ -1,0 +1,61 @@
+# GlazeWM's allowlist. dot_glzr/glazewm/config.yaml.tmpl builds the workspace rules AND the
+# "ignore everything else" rule from this list, so an app is added in one place.
+# p: the process name as a regex, anchored for you (^...$). Check names with `glazewm query windows`.
+# class / title / titleRegex: main window only; the app's dialogs float where you are.
+# float: true keeps the app floating on its workspace instead of tiling it.
+glazewm:
+  rules:
+    - ws: "1"
+      note: main
+      apps:
+        - p: "Proton Mail"
+        - p: "zen"
+          class: "MozillaWindowClass"
+        - p: "7zFM"
+        - p: "explorer"
+          class: "CabinetWClass"
+        - p: "FPilot"
+          class: "File Pilot"
+        - p: "EXCEL"
+          class: "XLMAIN"
+        - p: "WINWORD"
+          class: "OpusApp"
+        - p: "POWERPNT"
+          class: "PPTFrameClass"
+        - p: "Obsidian"
+    - ws: "2"
+      note: comms
+      apps:
+        - p: "DiscordPTB|Discord|Vesktop|Slack|ms-teams|Teams|Telegram|Beeper"
+    - ws: "3"
+      note: music and media (Cider is the Win+S drop-down, not tiled)
+      apps:
+        - p: "[sS]potify|Nicotine.*|fladder|vlc|FreeTube"
+    - ws: "4"
+      note: dev and gamedev
+      apps:
+        - p: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit"
+        - p: "Aseprite|paintdotnet|blender|HxD|[Gg]odot.*|Tiled|LDtk|GameMaker.*|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus.*"
+        - p: "Claude|LM Studio"
+        - p: "EditorLauncher"
+          titleRegex: "Sandbox 2"
+    - ws: "5"
+      note: play
+      apps:
+        - p: "Playnite[.]DesktopApp"
+          title: "Playnite"
+        - p: "flightcore"
+    - ws: "7"
+      note: utilities and game launchers
+      apps:
+        - p: "steamwebhelper"
+          title: "Steam"
+        - p: "Battle[.]net"
+          title: "Battle.net"
+        - p: "EADesktop|EpicGamesLauncher|GalaxyClient|upc|drop-app"
+        - p: "SocialClubHelper"
+          title: "Rockstar Games Launcher"
+        - p: "logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield.*|deskflow|rustdesk"
+  # never offered by Raycast "Add App to Workspace" (system and background apps, drop-downs);
+  # GlazeWM ignores them like any other unlisted app
+  pickerSkip: "Raycast|Raycast[.]UIAccess|explorer|TextInputHost|ApplicationFrameHost|yasb|glazewm|XboxPcApp|XboxPcTray|GameBar|XboxGameBarWidgets|Cider|wezterm-gui|EarTrumpet|SecurityHealthSystray|PhoneExperienceHost|RadeonSoftware|lghub.*|logioptionsplus_.*|MEGAsync|OneDrive|Playnite[.]BrowserProcess|msiexec|setup.*|.*[Ii]nstaller.*"
