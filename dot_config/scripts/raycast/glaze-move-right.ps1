@@ -1,7 +1,5 @@
 # Raycast Script Command (Windows / PowerShell)
-# Bridges a Raycast hotkey -> GlazeWM CLI, for keys GlazeWM's own keyboard
-# hook can't capture (e.g. plain Win+L). Bind this to lwin+l in Raycast to
-# get move-right on the key GlazeWM refuses to bind.
+# Raycast hotkey -> GlazeWM CLI, for keys GlazeWM's hook can't capture. Bind to lwin+l in Raycast.
 
 # @raycast.schemaVersion 1
 # @raycast.title Glaze Move Right

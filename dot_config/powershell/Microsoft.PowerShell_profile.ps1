@@ -1,92 +1,61 @@
-# PowerShell profile — full parity port of dot_zshrc for Windows.
-# Chezmoi-tracked; deployed to $PROFILE.CurrentUserAllHosts.
-# Mirrors: vi-mode, EDITOR=nvim, lsd/bat aliases, completions, Pure-style
-# prompt (starship), and the dot_zshrc alias set. Mac-only paths adapted to D:\.
+# PowerShell profile: Windows port of dot_zshrc, deployed to $PROFILE.CurrentUserAllHosts.
 
-# --- ensure scoop shims on PATH (nvim, lsd, bat, fzf, lazygit, kubectl...) ---
 $scoopShims = "$env:USERPROFILE\scoop\shims"
 if ((Test-Path $scoopShims) -and ($env:Path -notlike "*$scoopShims*")) {
     $env:Path = "$scoopShims;$env:Path"
 }
 
-# --- load PS modules from a LOCAL path, NOT OneDrive ---
-# Documents is OneDrive-redirected, so modules there get sync-LOCKED (PSFzf threw
-# 0x80070020 "file in use"). Prepend a local module dir so imports never touch
-# OneDrive. (Modules moved to $env:LOCALAPPDATA\PowerShell\Modules.)
+# Modules load from LOCALAPPDATA, not OneDrive-redirected Documents, where sync locks them (PSFzf 0x80070020).
 $localModules = "$env:LOCALAPPDATA\PowerShell\Modules"
 if ($env:PSModulePath -notlike "*$localModules*") {
     $env:PSModulePath = "$localModules;$env:PSModulePath"
 }
 
-# ~~~~~~~~~~~~~~~ Vi mode (dot_zshrc: bindkey -v, KEYTIMEOUT=1) ~~~~~~~~~~~~~~~
 Set-PSReadLineOption -EditMode Vi
-Set-PSReadLineOption -ViModeIndicator Cursor      # block/beam cursor shows mode
+Set-PSReadLineOption -ViModeIndicator Cursor
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
-# history hints — only in a real interactive terminal (skips redirected shells)
+# try: fails in redirected (non-interactive) shells.
 try { Set-PSReadLineOption -PredictionSource History -ErrorAction Stop } catch {}
 
-# ~~~~~~~~~~~~~~~ Environment (dot_zshrc: EDITOR/VISUAL=nvim, LANG) ~~~~~~~~~~~~
 if (Get-Command nvim -ErrorAction SilentlyContinue) {
     $env:EDITOR = "nvim"; $env:VISUAL = "nvim"
 }
 $env:LANG = "en_US.UTF-8"
 
-# XDG: make Windows respect ~/.config like Linux/mac. Many tools (lazygit,
-# fastfetch, etc.) then read from ~/.config instead of %LOCALAPPDATA% — so the
-# SAME config files work across all 3 OSes. Big linuxify win.
+# XDG: tools read the same ~/.config files as on Linux/mac.
 $env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
 $env:XDG_DATA_HOME   = "$env:USERPROFILE\.local\share"
 $env:XDG_CACHE_HOME  = "$env:USERPROFILE\.cache"
-# bat looks at the scoop app dir by default — point it at our tracked config
-# (so `cat`=bat never pages and uses our style). Without this it hangs on long files.
+# Point bat at the tracked config; without it `cat`=bat pages and hangs on long files.
 $env:BAT_CONFIG_PATH = "$env:USERPROFILE\.config\bat\config"
 
-# ~~~~~~~~~~~~~~~ Shell trio: zoxide + atuin + fzf ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Both init scripts are slow to GENERATE (zoxide ~225ms, atuin ~500ms) but the
-# output is static — so CACHE the init script and source the cache (refresh
-# weekly). Same trick as kubectl. Keeps startup snappy.
+# zoxide/atuin init is slow to generate but static: cache it, refresh weekly.
 function Initialize-CachedInit($cmd, $cmdArgs, $cacheName) {
     $cache = Join-Path $env:LOCALAPPDATA $cacheName
     if ((-not (Test-Path $cache)) -or ((Get-Item $cache).LastWriteTime -lt (Get-Date).AddDays(-7))) {
         # $cmdArgs, NOT $args: $args is an automatic variable, a param by that name arrives empty.
-        # Only write the cache if the tool actually printed something.
         $out = & $cmd @cmdArgs 2>$null | Out-String
         if ($out.Trim()) { Set-Content $cache $out -Encoding utf8 }
     }
     if ((Get-Item $cache -EA SilentlyContinue).Length -gt 0) { . $cache }
 }
-# zoxide: smart cd. --cmd cd makes `cd` ITSELF frecency-aware: `cd repos` jumps
-# to D:\repos from anywhere, `cd ~/x` still works literally, `cdi` = interactive.
+# zoxide: --cmd cd makes `cd` itself frecency-aware; `cdi` = interactive.
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Initialize-CachedInit 'zoxide' @('init','powershell','--cmd','cd') 'zoxide-init.ps1'
 }
-# atuin: magic shell history — Ctrl+R full-screen fuzzy search, synced across
-# machines. (~200ms init cost; you opted to keep it in PowerShell too.)
-# Needs PSReadLine loaded first (done above). Cached init like the others.
+# atuin: Ctrl+R history. Needs PSReadLine loaded first.
 if (Get-Command atuin -ErrorAction SilentlyContinue) {
     Initialize-CachedInit 'atuin' @('init','powershell') 'atuin-init.ps1'
 }
-# fzf via PSFzf: Ctrl+T = fuzzy file insert, Alt+C = fuzzy cd.
-# (Ctrl+R is left to atuin above — its history search wins.)
+# PSFzf: Ctrl+T file insert, Alt+C cd. Ctrl+R is left to atuin.
 if (Get-Module PSFzf -ListAvailable -ErrorAction SilentlyContinue) {
     Import-Module PSFzf -ErrorAction SilentlyContinue
-    # only bind the file + cd choords; do NOT take Ctrl+R (atuin owns it)
     Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -ErrorAction SilentlyContinue
     Set-PSReadLineKeyHandler -Key 'Alt+c' -ScriptBlock { Invoke-FuzzySetLocation } -ErrorAction SilentlyContinue
 }
 
-# ~~~~~~~~~~~~~~~ brew — unified package manager (child of 3 OSes) ~~~~~~~~~~~~~
-# One command everywhere: real Homebrew on macOS, brew-on-Linux in WSL, and on
-# Windows THIS wrapper masquerades as brew over scoop+winget+choco.
-# Priority: scoop (per-user, NO UAC — the default that "just works") -> winget
-# community -> winget MS STORE (Cider/iCloud/EarTrumpet) -> choco (empty AUR-tier
-# fallback, kept). NOTE: scoop never prompts UAC; winget/choco prompt for apps
-# that install system-wide (unavoidable for those). scoop is preferred for exactly
-# this reason. choco uses the `sudo` (gsudo) shim only when actually hit.
-#   brew install <pkg>   (or bare `brew <pkg>`)   first manager that has it wins
-#   brew search <pkg>    search ALL three
-#   brew upgrade         upgrade everything across all three
-#   brew uninstall <pkg> remove (tries each)
+# brew: one command on every OS; here it tries scoop -> winget -> MS Store -> choco, first hit wins.
+# scoop first because it never prompts UAC.
 function brew {
     $op = $args[0]; $pkg = $args[1]
     switch -Regex ($op) {
@@ -108,14 +77,13 @@ function brew {
             return
         }
         default {  # install <pkg...>, or bare `brew <pkg...>` (multi-word ok)
-            # join ALL args after the verb so `brew install proton mail` works
+            # join all args so `brew install proton mail` works
             $rest = if ($op -eq 'install') { $args[1..($args.Count-1)] } else { $args }
             $target = ($rest -join ' ').Trim()
             if (-not $target) { Write-Host "usage: brew install <pkg> | search <pkg> | upgrade | uninstall <pkg>"; return }
             Write-Host "trying scoop..." -ForegroundColor Cyan
             scoop install $target; if ($?) { return }
-            # winget: NO --id -e (that needs an exact ID). Plain query = fuzzy match
-            # on id/name/moniker, so names like "proton mail" resolve.
+            # No --id -e: a plain query fuzzy-matches, so names like "proton mail" resolve.
             Write-Host "scoop miss -> winget (community)..." -ForegroundColor Blue
             winget install $target --source winget --accept-package-agreements --accept-source-agreements
             if ($?) { return }
@@ -129,21 +97,15 @@ function brew {
 }
 
 
-# ~~~~~~~~~~~~~~~ Modern CLI replacements (the Linux daily-driver pack) ~~~~~~~~
-# btop=htop, dust=du, duf=df, procs=ps, gdu=disk usage, tldr=man examples,
-# delta=git diffs. Installed via scoop; aliased to their classic names where safe.
-function top    { btop @args }       # gorgeous system monitor
-function du     { dust @args }       # visual disk tree
-function df     { duf @args }        # pretty disk free
-# `ps` is a built-in ALIAS (-> Get-Process) that shadows a function — remove it
-# first so our procs mapping actually wins (same fix as cat/ls).
+function top    { btop @args }
+function du     { dust @args }
+function df     { duf @args }
+# `ps` is a built-in alias that shadows functions; remove it first.
 Remove-Alias ps -Force -ErrorAction SilentlyContinue
 Remove-Item Alias:ps -Force -ErrorAction SilentlyContinue
-function ps     { procs @args }      # modern process list
-# tldr + delta + gdu used by their own names. delta is wired as git pager below.
+function ps     { procs @args }
 
-# yazi — terminal file manager (the "terminal Finder"). `y` opens it, and on
-# quit your shell cd's to wherever you browsed (the killer feature).
+# yazi: on quit the shell cd's to where you browsed.
 function y {
     $tmp = [System.IO.Path]::GetTempFileName()
     yazi $args --cwd-file="$tmp"
@@ -152,40 +114,32 @@ function y {
     Remove-Item -Path $tmp -EA SilentlyContinue
 }
 
-# ~~~~~~~~~~~~~~~ fetch / greeting ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ff  { fastfetch @args }
 function neofetch { fastfetch @args }
-# Greet on a top-level interactive shell, but NOT in the quake dropdown or
-# nested shells (keeps quake instant). $env:WT_SESSION-style guard via depth.
+# No greeting in the quake dropdown, so it opens instantly.
 if ($Host.Name -eq 'ConsoleHost' -and -not $env:QUAKE_TERM -and (Get-Command fastfetch -EA SilentlyContinue)) {
     fastfetch
 }
 
-# ~~~~~~~~~~~~~~~ Unix/mac muscle-memory commands (separate file) ~~~~~~~~~~~~~~
-# open, touch, which, pbcopy/pbpaste, export, sudo, mkcd, reload — the "this unix
-# command doesn't exist on Windows" gap-fillers. Add new reflexes there.
+# Unix muscle-memory gap-fillers (open, touch, which, pbcopy, sudo, ...).
 $unixAliases = "$env:USERPROFILE\.config\powershell\unix-aliases.ps1"
 if (Test-Path $unixAliases) { . $unixAliases }
 
-# ~~~~~~~~~~~~~~~ Aliases (ported from dot_zshrc) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function v   { nvim @args }
 function gp  { git pull @args }
 function gs  { git status @args }
 function lg  { lazygit @args }
-# k / kgp: kubectl shortcuts. NOTE: `k` is defined later (lazy-loads completion).
+# `k` is defined further down (lazy-loads completion).
 function kgp { kubectl get pods @args }
 
-# cat -> bat. PowerShell's built-in `cat` ALIAS (-> Get-Content) shadows a
-# function of the same name, so remove it first (same fix as `ls` below).
+# The built-in `cat` alias shadows functions; remove it first.
 if (Get-Command bat -ErrorAction SilentlyContinue) {
     Remove-Alias cat -Force -ErrorAction SilentlyContinue
     Remove-Item Alias:cat -Force -ErrorAction SilentlyContinue
     function cat { bat @args }
 }
 
-# ls -> lsd suite (dot_zshrc: ls/ll/la/lla/lt)
-# PowerShell ships a built-in `ls` ALIAS for Get-ChildItem that shadows our
-# function — remove it first so our lsd function actually runs.
+# The built-in `ls` alias shadows functions; remove it first.
 if (Get-Command lsd -ErrorAction SilentlyContinue) {
     Remove-Alias ls -Force -ErrorAction SilentlyContinue
     Remove-Item Alias:ls -Force -ErrorAction SilentlyContinue
@@ -196,57 +150,32 @@ if (Get-Command lsd -ErrorAction SilentlyContinue) {
     function lt  { lsd --icon always --tree @args }
 }
 
-# lastmod (dot_zshrc find → PS)
 function lastmod {
     Get-ChildItem -Recurse -File | Where-Object { $_.FullName -notmatch '\\\.' } |
         Sort-Object LastWriteTime | Format-Table LastWriteTime, FullName -AutoSize
 }
 
-# dormin — opencode. Default model is ollama (local :11434; the Mac hits the
-# tailscale-bound server on yabohome). Nothing to auto-start — ollama is a daemon.
+# dormin: opencode, default model ollama (the Mac uses the tailscale-bound server on yabohome).
 function dormin {
-    if ($args.Count -eq 0) { opencode }               # open the TUI
-    else { opencode run --auto @args }                # one-shot query, auto-approve permissions
+    if ($args.Count -eq 0) { opencode }
+    else { opencode run --auto @args }
 }
 
-# cc — Claude Code, resumed, no permission prompts.
-# Conversations are scoped to the directory you launch from, so `claude -c` only
-# finds a session started in that same dir. This jumps HOME first, because that
-# is where the long-running desktop/rice conversation lives — the one that knows
-# about GlazeWM, Playnite, the pagefile, all of it. For a per-project session
-# just run `claude -c` directly inside that repo.
-#   cc     resume it
-#   cca    same, elevated (device manager / registry / scheduled-task work)
-# NOTE: don't run the quake terminal elevated to get this. AutoHotkey runs at
-# medium integrity and UIPI blocks its hotkeys over an admin window, so backtick
-# stops working. Elevate the one command instead.
+# cc: Claude Code resumed from HOME, where the long-running rice session lives (sessions are per-directory).
+# cca: elevated. Never elevate the quake terminal instead: UIPI blocks AHK hotkeys over admin windows.
 function cc  { Push-Location $HOME; try { claude -c --dangerously-skip-permissions @args } finally { Pop-Location } }
 function cca { Push-Location $HOME; try { gsudo claude -c --dangerously-skip-permissions @args } finally { Pop-Location } }
 
-# --- machine-specific dir jumps (mac iCloud paths → Windows D:\) ---
 function icloud { Set-Location "D:\iCloudDrive" }
-# sb = the vault you EDIT. Obsidian on this machine opens the replica at
-# D:\obsidian\sb and the python daemon bridges it to iCloud; editing the
-# iCloud copy directly is what the whole arrangement exists to prevent.
-# `sbi` is there for inspecting the other side -- look, do not edit.
+# sb = the replica you edit; the daemon bridges it to iCloud. sbi = the iCloud side, look only.
 function sb     { Set-Location "D:\obsidian\sb" }
 function sbi    { Set-Location "D:\iCloudDrive\iCloud~md~obsidian\sb" }
 function od     { Set-Location "D:\OneDrive" }
-# desktop = the REAL desktop (the one you see, OneDrive-redirected), not the
-# stale ~\Desktop folder. Asks Windows for the known folder instead of
-# hardcoding the path, so it survives the senio -> yabo account rename.
+# desktop: asks Windows for the real (OneDrive-redirected) Desktop instead of hardcoding the path.
 function desktop { Set-Location -LiteralPath ([Environment]::GetFolderPath('Desktop')) }
-function ubu    { wsl ~ -d Ubuntu @args }   # drop into Ubuntu w/ your zsh dotfiles
-# devpod = your DevPod muscle memory, running Devsy (the maintained fork) underneath.
-#   devpod up           -> devsy workspace up . --ide none
-#   devpod ssh [name]   -> devsy workspace ssh <name, default: this folder> -q
-#   devpod stop|delete [name]   (name defaults to this folder too)
-#   devpod              -> list workspaces;   anything else passes to `devsy workspace`
-# Devsy names a workspace after its folder (D:\REPOS\mercury-workflows ->
-# mercury-workflows). -q hides Devsy's harmless "failed to send keepalive" and
-# port-forward log lines, which otherwise print on top of nvim.
-# History: 2026-08-18..09-20 a `devpod` function wrapped the real DevPod to route
-# around its Windows ssh bug (dssh). Devsy has no such bug; this is only a rename.
+function ubu    { wsl ~ -d Ubuntu @args }
+# devpod: DevPod muscle memory over Devsy. Names default to this folder, which is how Devsy names workspaces.
+# -q hides Devsy's harmless keepalive/port-forward log lines that print on top of nvim.
 function devpod {
     $verb = $args[0]
     $rest = @($args | Select-Object -Skip 1)
@@ -261,10 +190,7 @@ function devpod {
     }
 }
 
-# ~~~~~~~~~~~~~~~ Completions (dot_zshrc: fzf, kubectl) ~~~~~~~~~~~~~~~~~~~~~~~~
-# kubectl completion is the biggest startup cost (~246ms — a huge completion
-# scriptblock). LAZY-LOAD it: don't register at launch; load on first use of
-# k/kubectl. Saves ~250ms per shell; you only pay it once, only if you use k8s.
+# kubectl completion costs ~250ms, so it loads on the first `k` call.
 function global:Initialize-KubectlCompletion {
     $kcache = "$env:LOCALAPPDATA\kubectl-completion.ps1"
     if (-not (Test-Path $kcache) -or (Get-Item $kcache).LastWriteTime -lt (Get-Date).AddDays(-7)) {
@@ -273,39 +199,24 @@ function global:Initialize-KubectlCompletion {
     . $kcache
     Remove-Item function:k -ErrorAction SilentlyContinue   # drop the bootstrap wrapper
 }
-# first `k` or `kubectl` call wires up completion, then runs the command
 function k {
     Initialize-KubectlCompletion
     kubectl @args
 }
-# (PSFzf is loaded once in the trio section above — no duplicate here. The old
-#  block also grabbed Ctrl+R, which fights atuin; removed.)
 
-# ~~~~~~~~~~~~~~~ Prompt — native Pure-style (dot_zshrc used `prompt pure`) ~~~
-# In-process, ~5ms (vs ~220ms for starship). Catppuccin Mocha colors.
-# Format:  yabo  <dir>  <git-branch>  ❯
-# git branch only shows inside a repo (one cheap `git branch` call there).
-$script:c = @{          # Catppuccin Mocha
+# Native Pure-style prompt: ~5ms in-process vs ~220ms for starship. Catppuccin Mocha.
+$script:c = @{
     cyan='38;2;148;226;213'; blue='38;2;137;180;250'
     mauve='38;2;203;166;247'; red='38;2;243;139;168'; grey='38;2;108;112;134'
 }
 function prompt {
     $e = [char]27
     $loc = $PWD.Path.Replace($HOME, '~')
-    # git branch (only if inside a repo — fast, no status porcelain)
     $branch = ''
     $g = git symbolic-ref --short HEAD 2>$null
     if ($g) { $branch = "$e[$($c.mauve)m $g$e[0m " }
-    # vi-mode aware prompt char: ❯ insert (mauve), ❮ normal (green)... PSReadLine
-    # ViModeIndicator=Cursor handles the cursor; we keep a clean mauve ❯.
     "$e[$($c.cyan)myabo$e[0m " +
     "$e[$($c.blue)m$loc$e[0m " +
     $branch +
     "$e[$($c.mauve)m❯$e[0m "
 }
-
-# (Removed the DevPod ssh workaround -- the `dssh` function + `devpod` shadow.
-#  DevPod's bare `devpod ssh` had a Windows tunnel bug that forced a docker-exec
-#  shim; Devsy (the maintained fork) replaced DevPod and its `devsy workspace ssh`
-#  works natively on Windows, so none of the workaround is needed. Devsy is
-#  installed via .chezmoiexternals/devsy.toml.tmpl.)

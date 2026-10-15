@@ -1,19 +1,7 @@
 {{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
-# =============================================================================
-# run_after_retroarch-cores.ps1: put the non-Steam cores into Steam RetroArch
-# =============================================================================
-# .chezmoiexternals/retroarch-cores.toml.tmpl downloads Brimir, SwanStation and
-# LRPS2 into ~/.local/share/retroarch-cores (chezmoi can only write under home).
-# This copies them into Steam RetroArch's cores/ and info/ folders.
-#
-# run_after, not run_onchange: it runs on every apply, which is what we want
-# because the nightly cores change without this script changing. It is cheap
-# and idempotent: a file is copied only when its hash differs.
-#
-# Skips (and says so) when RetroArch is running, since the DLL is locked, or
-# when Steam RetroArch is not installed. The next apply picks it up.
-# =============================================================================
+# chezmoi apply: copies the non-Steam cores the retroarch-cores external fetched into Steam RetroArch.
+# run_after, not run_onchange: the nightly cores change without this script changing. Copies only on hash change.
 $ErrorActionPreference = 'Stop'
 
 $src = Join-Path $env:USERPROFILE '.local\share\retroarch-cores'

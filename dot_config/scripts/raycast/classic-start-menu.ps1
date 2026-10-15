@@ -6,15 +6,8 @@
 # @raycast.icon 🪟
 # @raycast.description Open the Open-Shell classic start menu, focused
 
-# Opens Open-Shell's classic menu WITHOUT a keypress — posts its registered IPC
-# message to the taskbar (the mechanism Open-Shell uses internally; see
-# StartMenuDLL.cpp). Then FORCES the menu window to the foreground so:
-#   - arrow keys + Enter work (menu has keyboard focus), and
-#   - Esc / click-away close it (Open-Shell closes on WM_ACTIVATE/WA_INACTIVE,
-#     which only fires if the menu was the active window).
-# SetForegroundWindow alone is blocked by Windows' foreground lock, so we use the
-# AttachThreadInput trick (attach to the current foreground thread first).
-#   MSG_OPEN = 2 (open)  ·  MSG_TOGGLE = 0 (open/close)
+# Posts Open-Shell's registered IPC message to the taskbar (see StartMenuDLL.cpp), then forces the menu to the
+# foreground so keys work and Esc/click-away close it. AttachThreadInput gets past Windows' foreground lock.
 $sig = @"
 [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern uint RegisterWindowMessage(string s);
 [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern System.IntPtr FindWindow(string c, string n);
@@ -31,7 +24,6 @@ $msg  = $t::RegisterWindowMessage("OpenShellMenu.StartMenuMsg")
 $tray = $t::FindWindow("Shell_TrayWnd", $null)
 [void]$t::PostMessage($tray, $msg, [IntPtr]2, [IntPtr]0)  # MSG_OPEN
 
-# wait for the menu window, then force-focus it
 $menu = [IntPtr]::Zero
 for ($i = 0; $i -lt 25 -and $menu -eq [IntPtr]::Zero; $i++) {
     Start-Sleep -Milliseconds 20

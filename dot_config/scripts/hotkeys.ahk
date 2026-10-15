@@ -1,13 +1,6 @@
 ; hotkeys.ahk: every AutoHotkey binding on this machine, AutoHotkey v2.
 ; One process on purpose: AHK Off / AHK On (Raycast) and Playnite's pre/post-game scripts stop and start
 ; exactly this file. Keys here must never also be bound in GlazeWM: AHK sees keys first and would win.
-;
-;   `            WezTerm drop-down (top of the screen under the mouse)
-;   Ctrl+`       type a literal backtick
-;   Win+S        Cider drop-down (centred)
-;   Win+D        show desktop on every screen; again to bring back exactly what it hid
-;   Alt+C/X/V/A/Z  Mac-style copy/cut/paste/select-all/undo (not in WezTerm or RustDesk)
-;   Obsidian Alt keys, Zen Win+click
 ; Win+Shift+S is deliberately NOT bound: it is the snip, and AHK would swallow it before Windows.
 
 #Requires AutoHotkey v2.0
@@ -21,15 +14,13 @@ global BAR_HEIGHT := 34                                         ; yasb bar; drop
 global SIZES_FILE := EnvGet("LOCALAPPDATA") "\dropdown\sizes.ini"
 DirCreate(EnvGet("LOCALAPPDATA") "\dropdown")
 
-; ── Drop-downs ──────────────────────────────────────────────────────────────────────────────────
-; Done in-process: the old PowerShell versions took 850 to 1,100 ms a press (PowerShell start-up
-; plus compiling their helper code every time). These take a few milliseconds.
+; In-process: the old PowerShell versions took about a second a press; these take milliseconds.
 ; The app must be ignored by GlazeWM, or GlazeWM pulls it back into a tile.
 
 vkC0::Dropdown("terminal", "wezterm-gui.exe", "quake-term"
     , '"' EnvGet("USERPROFILE") '\scoop\shims\wezterm-gui.exe" start --class quake-term', "top")
 
-^vkC0::SendText("``")                                           ; Ctrl+` types a real backtick
+^vkC0::SendText("``")
 
 #s::Dropdown("cider", "Cider.exe", "HwndWrapper[Cider"
     , "shell:AppsFolder\27554FireDevElijahKlauman.CiderEA_270bejk4xgzqp!App", "center")
@@ -39,7 +30,6 @@ Dropdown(name, exe, classPrefix, launch, layout) {
     DetectHiddenWindows true
     hwnd := DropdownFind(exe, classPrefix)
 
-    ; geometry for the monitor under the mouse
     CoordMode "Mouse", "Screen"
     MouseGetPos &mx, &my
     l := 0, t := 0, r := A_ScreenWidth, b := A_ScreenHeight
@@ -142,7 +132,6 @@ DropdownFind(exe, classPrefix) {
     return bestArea >= 200 * 200 ? best : 0
 }
 
-; ── Win+D: show desktop on every screen ─────────────────────────────────────────────────────────
 ; Windows' own Win+D cannot toggle back under GlazeWM (minimizing makes GlazeWM move focus, and
 ; Windows forgets it was in show-desktop mode). This minimizes what is on screen and remembers it.
 ; While a game runs AHK is off and Win+D is Windows' again.
@@ -183,16 +172,17 @@ ShowDesktop() {
         WinMinimize h
 }
 
-; ── Mac-style copy/cut/paste on Alt ─────────────────────────────────────────────────────────────
 ; ALT sits where the Mac's Cmd is. Scoped out of WezTerm (it binds Alt+C/V itself; Alt+C -> Ctrl+C
 ; would be SIGINT) and RustDesk (the remote machine needs the real keys). Alt+Tab and Alt+F4 untouched.
 #HotIf !WinActive("ahk_exe wezterm-gui.exe") and !WinActive("ahk_exe RustDesk.exe")
-!c::^c
-!x::^x
-!v::^v
-!a::^a
-!z::^z   ; Alt+Shift+Z -> Ctrl+Shift+Z = redo, via the implicit *
-; The remaps above fire with extra modifiers too, which would hijack Alt+Shift+C/X/V/A (Zen's
+; Sent by virtual-key code, not as remaps: with CapsLock on, a remap's letter could arrive shifted.
+!c::Send("^{vk43}")
+!x::Send("^{vk58}")
+!v::Send("^{vk56}")
+!a::Send("^{vk41}")
+!z::Send("^{vk5A}")
+!+z::Send("^+{vk5A}")   ; redo
+; Alt+Shift+C/X/V/A must not be caught here either, or it would hijack Alt+Shift+C/X/V/A (Zen's
 ; copy-URL, addons). Pass the Shift variants straight through (~ = don't suppress):
 ~!+c::return
 ~!+x::return
@@ -202,7 +192,7 @@ ShowDesktop() {
 ; bound twice (Zen's zen-keyboard-shortcuts.json is Alt-ified).
 #HotIf
 
-; ── Obsidian: Mac parity (Alt = Cmd) ────────────────────────────────────────────────────────────
+; Obsidian, Alt = Cmd.
 ; Here and not in Obsidian's hotkeys.json, which iCloud-syncs to the Mac and would break Cmd there.
 #HotIf WinActive("ahk_exe Obsidian.exe")
 !y::^y   ; quick-explorer: browse vault
@@ -212,7 +202,7 @@ ShowDesktop() {
 !t::^t   ; daily note
 #HotIf
 
-; ── Zen: Win+click -> Alt+click (split tab, Mac Cmd+click parity) ───────────────────────────────
+; Zen: Win+click -> Alt+click (split tab, Mac Cmd+click parity).
 #HotIf WinActive("ahk_exe zen.exe")
 #LButton::
 {

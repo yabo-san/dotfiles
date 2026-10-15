@@ -1,8 +1,5 @@
 # Raycast Script Command (Windows / PowerShell)
-# Kill the AHK remap process (mac-style Alt copy/undo + Win+W quake + ShareX +
-# Obsidian Alt-ify) so a game gets RAW native input (anti-cheat safe). This is the
-# same thing Playnite's global PreScript does on every game launch — here for manual
-# access (e.g. a game launched OUTSIDE Playnite).
+# Kill AHK so a game gets raw input (anti-cheat safe), as Playnite's PreScript does; for games launched outside it.
 
 # @raycast.schemaVersion 1
 # @raycast.title AHK Off (game mode)

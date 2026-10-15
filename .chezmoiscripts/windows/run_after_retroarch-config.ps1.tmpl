@@ -1,23 +1,8 @@
 {{ if eq .chezmoi.os "windows" -}}
 #requires -Version 5.1
-# =============================================================================
-# run_after_retroarch-config.ps1: the CRT setup for Steam RetroArch
-# =============================================================================
-# ~/.config/retroarch holds what was decided, not what RetroArch last wrote:
-#   overlay/   per-core overrides and remaps, copied over Steam RetroArch as-is
-#              (PPSSPP on the ultrawide, mGBA core-provided aspect, the three
-#              M30 Mesen-S layouts)
-#   settings.json  single keys forced in retroarch.cfg and
-#              retroarch-core-options.cfg (4:3 on the CRT, LRPS2 software
-#              renderer)
-#
-# RetroArch rewrites both .cfg files on exit and Steam Cloud restores its own
-# copies, so a hand edit does not stick. run_after runs on every apply and puts
-# the keys back; a duplicated key is collapsed to one line, since RetroArch
-# reads the first occurrence.
-#
-# Skips while RetroArch is running (it would overwrite the change on exit).
-# =============================================================================
+# chezmoi apply: forces the decided CRT setup (overlay/ files, settings.json keys) onto Steam RetroArch.
+# Every apply, because RetroArch rewrites its .cfg on exit and Steam Cloud restores its copies. Duplicate keys
+# collapse to one line, since RetroArch reads the first. Skips while RetroArch runs (it would overwrite on exit).
 $ErrorActionPreference = 'Stop'
 
 $src   = Join-Path $env:USERPROFILE '.config\retroarch'

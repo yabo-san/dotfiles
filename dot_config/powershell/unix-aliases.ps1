@@ -1,14 +1,9 @@
-# unix-aliases.ps1 — Unix/mac muscle-memory commands that PowerShell lacks.
-# Sourced by Microsoft.PowerShell_profile.ps1. Add reflexes here as you hit them.
-# (zsh-port aliases like v/gp/gs/ls/cat live in the main profile; THIS file is
-#  specifically the "the unix command doesn't exist on Windows" gap-fillers.)
+# unix-aliases.ps1: Unix/mac commands PowerShell lacks, sourced by the profile. zsh-port aliases live there.
 
-# open — mac `open`: file→default app, dir→file manager, url→browser, none→cwd
 function open {
     if ($args.Count -eq 0) { Invoke-Item . } else { Invoke-Item @args }
 }
 
-# touch — create empty file (or update timestamp if it exists)
 function touch {
     foreach ($f in $args) {
         if (Test-Path $f) { (Get-Item $f).LastWriteTime = Get-Date }
@@ -16,37 +11,26 @@ function touch {
     }
 }
 
-# which — show the path/source of a command (like unix `which`)
 function which { (Get-Command $args[0] -ErrorAction SilentlyContinue).Source }
 
-# pbcopy / pbpaste — mac clipboard. `echo hi | pbcopy`, `pbpaste`
 function pbcopy  { $input | Set-Clipboard }
 function pbpaste { Get-Clipboard }
 
-# export NAME=value — unix env var setting (sets for this session)
 function export {
     foreach ($a in $args) {
         if ($a -match '^([^=]+)=(.*)$') { Set-Item "env:$($Matches[1])" $Matches[2] }
     }
 }
 
-# sudo — map to gsudo (sudo-for-Windows). `sudo <cmd>`
 if (Get-Command gsudo -ErrorAction SilentlyContinue) {
     function sudo { gsudo @args }
 }
 
-# mkcd — mkdir + cd into it (common unix one-liner)
 function mkcd { param($d) New-Item -ItemType Directory -Force -Path $d | Out-Null; Set-Location $d }
 
-# reload — re-source the profile (like `source ~/.zshrc`)
-# NOTE: bare $PROFILE is CurrentUserCurrentHost (Documents\PowerShell\Microsoft.
-# PowerShell_profile.ps1) -- the profile-bridge script only wires up
-# CurrentUserAllHosts (Documents\PowerShell\profile.ps1) to redirect to the real
-# chezmoi-tracked config. Different slots; bare $PROFILE was never valid here.
-# Source the real tracked file directly instead of trusting profile indirection.
+# reload: sources the tracked file directly; bare $PROFILE is CurrentUserCurrentHost, not the slot the bridge wires up.
 function reload { . "$env:USERPROFILE\.config\powershell\Microsoft.PowerShell_profile.ps1" }
 
-# head — first N lines. `head file`, `head -n 5 file`, `head -5 file`, `... | head`
 function head {
     $n = 10; $files = @()
     for ($i = 0; $i -lt $args.Count; $i++) {
@@ -58,7 +42,6 @@ function head {
     else { $input | Select-Object -First $n }
 }
 
-# tail — last N lines. `tail file`, `tail -n 5 file`, `tail -f file` (follow)
 function tail {
     $n = 10; $follow = $false; $files = @()
     for ($i = 0; $i -lt $args.Count; $i++) {
@@ -73,7 +56,6 @@ function tail {
     } else { $input | Select-Object -Last $n }
 }
 
-# wc — count. `wc -l file` (lines), `-w` (words), `-c` (chars), `... | wc -l`
 function wc {
     $mode = $null; $files = @()
     foreach ($a in $args) {
@@ -88,25 +70,12 @@ function wc {
     switch ($mode) { 'l' { $lines } 'w' { $words } 'c' { $chars } default { "$lines $words $chars" } }
 }
 
-# grep → ripgrep. rg's flags mostly superset grep; recursive + gitignore-aware.
 if (Get-Command rg -ErrorAction SilentlyContinue) { function grep { rg @args } }
 
-# find → fd. CRITICAL: Windows find.exe is a *content* search (reads every file),
-# which HYDRATES OneDrive cloud-only files (downloads them, fills the disk). fd
-# matches by NAME only — never reads content — so it can't trigger downloads.
-# This both gives unix-find behavior AND stops the OneDrive hydration problem.
+# find -> fd: Windows find.exe reads file contents, which hydrates OneDrive cloud-only files; fd matches names only.
 if (Get-Command fd -ErrorAction SilentlyContinue) { function find { fd @args } }
 
-# wget → curl-based download (real wget isn't installed). `wget <url>` saves the
-# file to cwd, like wget's default. For full wget, `scoop install wget`.
+# wget -> curl (real wget isn't installed).
 function wget { curl -L -O @args }
 
-# ─────────────────────────────────────────────────────────────────────────────
-# NOTE: for FULL real GNU coreutils (proper `rm -rf`, `cp -a`, `ls --color`, the
-# exact unix flag set), install uutils-coreutils:  scoop install uutils-coreutils
-# It's a Rust reimplementation of GNU coreutils. We did NOT install it because it
-# can shadow PowerShell's built-in cp/mv/rm aliases and surprise scripts that
-# expect PowerShell semantics. These hand-written functions cover the common gaps
-# (head/tail/wc/touch/which/open) without that risk. If you want the real thing,
-# install it and these functions can be removed.
-# ─────────────────────────────────────────────────────────────────────────────
+# uutils-coreutils is deliberately not installed: it shadows PowerShell's cp/mv/rm and surprises scripts.

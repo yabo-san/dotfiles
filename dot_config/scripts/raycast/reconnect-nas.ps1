@@ -1,8 +1,6 @@
 # Raycast Script Command (Windows / PowerShell)
-# Drop the stale SMB session to the NAS and map N: again. Windows does not retry the
-# drive when Tailscale comes back, so this is the manual "get it back" step. No
-# detection on purpose: run it when N: is dead. Credentials come from the cmdkey
-# entry for thinkserver.tail811b23.ts.net (one-time: cmdkey /add:<host> /user:yabo /pass).
+# Drops the stale SMB session and remaps N:; Windows doesn't retry the drive when Tailscale comes back.
+# Credentials: one-time cmdkey /add:thinkserver.tail811b23.ts.net /user:yabo /pass.
 
 # @raycast.schemaVersion 1
 # @raycast.title Reconnect NAS

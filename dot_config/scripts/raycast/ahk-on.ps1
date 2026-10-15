@@ -1,7 +1,5 @@
 # Raycast Script Command (Windows / PowerShell)
-# Relaunch hotkeys.ahk: drop-downs (backtick terminal, Win+S Cider), Win+D, Alt copy/paste,
-# Obsidian keys. Same thing Playnite's global PostScript
-# does after a game exits — here for manual access (e.g. AHK died, or you killed it).
+# Relaunch hotkeys.ahk, as Playnite's PostScript does after a game; for when AHK died or was killed.
 
 # @raycast.schemaVersion 1
 # @raycast.title AHK On
@@ -14,6 +12,6 @@
 
 $ahk    = "$env:USERPROFILE\scoop\apps\autohotkey\current\v2\AutoHotkey64.exe"
 $script = "$env:USERPROFILE\.config\scripts\hotkeys.ahk"
-Get-Process AutoHotkey* -ErrorAction SilentlyContinue | Stop-Process -Force   # avoid duplicates
+Get-Process AutoHotkey* -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Milliseconds 300
 & $ahk $script

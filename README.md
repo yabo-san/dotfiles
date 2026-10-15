@@ -1,92 +1,114 @@
 # dotfiles
 
-One repo for Windows, macOS and Linux dev containers, managed by [chezmoi](https://www.chezmoi.io/).
-Each OS only gets its own files (gated in `.chezmoiignore`), and tools with no package are pulled
-as pinned releases (`.chezmoiexternals/`).
+My personal dotfiles, managed with [chezmoi](https://www.chezmoi.io/), for one setup across three places. Based on
+[rio/dotfiles](https://github.com/rio/dotfiles). It works out of the box with:
 
-Heavily based on [rio/dotfiles](https://github.com/rio/dotfiles).
+- **Windows**: a de-Windowsed desktop (tiling, a status bar, Mac-style keys), installed by scoop and winget
+- **macOS**: Homebrew plus mise
+- **Linux dev containers**: [Devsy](https://github.com/devsy-org/devsy), VS Code Dev Containers, Zed, GitHub Codespaces
 
-## Windows
+Each OS only gets its own files (gated in `.chezmoiignore`). Tools with no package are pulled as pinned releases.
 
-How it fits together (opt-in GlazeWM, registry key grabs, AHK Mac keys, games through Playnite): `dot_config/bootstrap/how-it-works.md`.
-Keys: `dot_config/bootstrap/keyboard-map.md`. What runs by itself (boot task, login shortcuts, Playnite hooks,
-chezmoi scripts) and what starts it: `dot_config/bootstrap/automation.md`.
+---
 
-One command, in a **normal (not elevated)** PowerShell window. Scoop refuses to install as admin.
+## Repository Structure
+
+```
+├── .chezmoidata/          # data the templates read (glazewm.yaml: which app lives on which workspace)
+├── .chezmoiexternals/     # pinned downloads: devsy, mise, neovim, launchers, RetroArch cores
+├── .chezmoiignore         # what each OS does NOT get
+├── .chezmoiscripts/       # hooks per OS: windows/, darwin/, unix/ (packages, shortcuts, NAS, Playnite)
+├── AppData/               # Windows app configs that live in %APPDATA% (FilePilot, Zed, ...)
+├── dot_config/            # XDG configs: nvim, wezterm, ghostty, mise, starship, yasb, powershell, scripts
+│   └── bootstrap/         # Windows: package lists, registry tweaks, how-it-works, keyboard map, automation
+├── dot_glzr/              # GlazeWM (config.yaml.tmpl, generated from .chezmoidata/glazewm.yaml)
+├── dot_hammerspoon/       # macOS quake toggle
+├── dot_*                  # bashrc, zshrc, gitconfig, tmux, wslconfig
+├── private_dot_ssh/       # SSH config (never applied on Linux)
+├── Brewfile               # macOS packages
+├── bootstrap.ps1          # Windows one-liner
+├── bootstrap.sh           # Linux / dev container one-liner
+└── setup                  # zsh + pure prompt, inherited from rio
+```
+
+---
+
+## Usage
+
+### 1. Windows
+
+In a **normal (not elevated)** PowerShell window; scoop refuses to install as admin:
 
 ```powershell
 irm https://raw.githubusercontent.com/yabo-san/dotfiles/main/bootstrap.ps1 | iex
 ```
 
-It installs scoop, then git and chezmoi, then runs `chezmoi init --apply yabo-san/dotfiles`,
-imports the scoop and winget package lists, and applies the registry tweaks. The manual
-leftovers are in `dot_config/bootstrap/windows-notes.txt`.
+This will:
+- install scoop, then git and chezmoi
+- run `chezmoi init --apply yabo-san/dotfiles`
+- import the scoop and winget package lists and apply the registry tweaks
 
-> **Never tested on a clean Windows install.** Built incrementally on a live machine and
-> captured into the repo. Expect gaps the first time it runs end to end.
+The leftovers that need a human are in `dot_config/bootstrap/windows-notes.txt`.
 
-| Layer | Tool |
-|-------|------|
-| Window manager | GlazeWM |
-| Status bar | YASB |
-| Terminal | WezTerm, with an AutoHotkey quake drop-down on `` ` `` |
-| Shell | PowerShell 7, a port of `dot_zshrc` |
-| Launcher | Raycast; the Open-Shell classic menu has no key, it opens from the Raycast "Classic Start Menu" command |
-| Files | File Pilot, yazi |
-| Screenshots | Snipping Tool (Win+Shift+S) |
+> **Never tested on a clean Windows install.** Built on a live machine and captured into the repo.
 
-Packages: scoop first, then winget. Manifests live in `dot_config/bootstrap/`.
-
-### Keyboard: who owns what
-
-Three things sit on the keyboard. They claim different keys and never see each other's.
-
-- **GlazeWM** owns the Win key (`Win+H/J/K/L` move, workspaces on a grid, `Win+1-4` / `Win+Q W` / `Win+C`, `Win+Shift+…` send/move) and
-  `Alt+Q` (graceful close, Cmd+Q parity). Alt+Tab is Windows' own switcher; Win+Tab cycles windows through GlazeWM.
-  `Win+L` is the exception: Windows reserves it for lock below any keyboard hook, so the lock action is
-  disabled in `windows-tweaks.reg` and Raycast runs `scripts/raycast/glaze-move-right.ps1` on it instead.
-  No Raycast, no move-right.
-- **AutoHotkey** (`scripts/hotkeys.ahk`) owns only what nothing else can rebind, listed below.
-  Playnite kills it before a game and restarts it after (anti-cheat, raw input); the Raycast commands
-  `AHK Off` / `AHK On` are the manual version. GlazeWM keeps working with AHK dead.
-- **Everything else** lives in each app's own config (WezTerm, Zen, Obsidian hotkeys), never in AHK,
-  so nothing is double-bound.
-
-| Scope | Key | Does |
-|---|---|---|
-| everywhere | `` ` `` | toggle the WezTerm quake dropdown |
-| everywhere | ``Ctrl+` `` | type a literal backtick |
-| everywhere | `Win+S` | toggle the Cider drop-down |
-| everywhere | `Win+D` | show desktop on every screen, again to bring back what it hid |
-| not WezTerm / RustDesk | `Alt+C` `Alt+X` `Alt+V` `Alt+A` | copy / cut / paste / select all (Alt sits where mac's Cmd is) |
-| not WezTerm / RustDesk | `Alt+Z`, `Alt+Shift+Z` | undo / redo |
-| not WezTerm / RustDesk | `Alt+Shift+C/X/V/A` | passed through untouched (Zen copy-URL, addons, …) |
-| Obsidian only | `Alt+Y` `Alt+M` `Alt+I` `Alt+N` `Alt+T` | browse vault / move file / Templater Zettel / new tab / daily note |
-| Zen only | `Win+click` | Alt+click (split tab, Cmd+click parity) |
-
-WezTerm is excluded because it binds `Alt+C/V` itself; remapped to `Ctrl+C` it would be SIGINT, not copy.
-RustDesk is excluded so the remote machine gets the real keystrokes.
-
-## macOS
+### 2. macOS
 
 ```sh
-# 1. homebrew: https://brew.sh
-# 2. mise, from its own installer, NOT homebrew: https://mise.jdx.dev/getting-started.html
+# homebrew: https://brew.sh, then mise from its own installer (not homebrew): https://mise.jdx.dev
 brew bundle
 chezmoi init --apply yabo-san
 ```
 
-Terminal is Ghostty; the backtick quake toggle is Hammerspoon (`dot_hammerspoon/init.lua`).
-If mise did not install everything:
-`~/.local/bin/mise trust ~/.config/mise/config.toml && ~/.local/bin/mise install`
+### 3. Linux and dev containers
 
-## Linux (dev containers)
+`bootstrap.sh` installs chezmoi and applies the repo in one step. Point Devsy's or Codespaces' dotfiles option at this
+repo and every container gets the same shell. Linux gets a trimmed dev shell and never gets `.ssh/`.
 
-`bootstrap.sh` installs chezmoi and applies the repo in one step, for Devsy's dotfiles option or
-any fresh box. Linux gets a trimmed dev shell and never gets `.ssh/`.
+### 4. Day to day
+
+- `chezmoi apply`: apply the repo to the machine
+- `chezmoi update`: pull and apply
+- `chezmoi re-add <file>`: an app changed its own config, bring it back into the repo
+
+---
+
+## Highlights
+
+| | Windows | macOS |
+| --- | --- | --- |
+| Window manager | GlazeWM, opt-in: only listed apps tile | AeroSpace |
+| Bar | YASB | |
+| Terminal | WezTerm, quake drop-down on `` ` `` (AutoHotkey) | Ghostty, quake on `` ` `` (Hammerspoon) |
+| Shell | PowerShell 7, a port of the zshrc | zsh |
+| Launcher | Raycast | Raycast |
+| Files | File Pilot, yazi | |
+| Keys | Alt sits where Cmd is: Alt+C/V/X/Z, Alt+Q quits | native |
+
+Everywhere: Neovim (LazyVim), starship, mise for tools, lazygit, bat.
+
+How the Windows side fits together: `dot_config/bootstrap/how-it-works.md`. Every key: `dot_config/bootstrap/keyboard-map.md`.
+What runs by itself and what starts it: `dot_config/bootstrap/automation.md`.
+
+---
+
+## Customization
+
+- **Put an app on a workspace**: Raycast "Add App to Workspace" (pick the window, the workspace, tile or float), or
+  add a line to `.chezmoidata/glazewm.yaml` and `chezmoi apply`
+- **Add a package**: `dot_config/bootstrap/scoopfile.json` or `winget-packages.json` (Windows), `Brewfile` (macOS),
+  `dot_config/mise/config.toml` (CLI tools everywhere)
+- **Add a pinned download**: `.chezmoiexternals/`
+- **Add a hook**: `.chezmoiscripts/<os>/`
+
+---
 
 ## TODO
 
 - run the Windows bootstrap on a clean install
 - back up the Raycast config
 - a PowerShell helper for Devsy port forwarding
+
+## License
+
+Provided as-is for personal use and inspiration. Use at your own risk.

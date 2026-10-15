@@ -1,14 +1,6 @@
 #!/usr/bin/env sh
-# setup-constructor.sh — cross-platform GMEdit-Constructor installer (macOS + Windows).
-#
-# Does exactly "what we did to set up Constructor": clone (or update) the Constructor
-# plugin into GMEdit's user-data plugins folder, which differs per OS. GMEdit itself
-# comes from itch.io (or the Playnite extension on Windows) — not handled here.
-#
-#   macOS:    sh setup-constructor.sh
-#   Windows:  sh setup-constructor.sh   (via git-bash — ships with git)
-#   This is THE single cross-platform setup. (The GMEdit binary + Start Menu
-#   shortcuts are handled by Playnite/itch, so no separate Windows script is needed.)
+# setup-constructor.sh: clones or updates GMEdit-Constructor into GMEdit's per-OS plugins folder.
+# GMEdit itself comes from itch.io. Run with sh on macOS, or git-bash on Windows.
 set -eu
 
 case "$(uname -s)" in
@@ -16,9 +8,7 @@ case "$(uname -s)" in
   *)       PLUGINS="${APPDATA:-$HOME/AppData/Roaming}/AceGM/GMEdit/plugins" ;;  # Windows
 esac
 
-# macOS: apps downloaded outside the App Store (itch.io GMEdit) get a Gatekeeper
-# quarantine xattr that blocks launch ("damaged / unidentified developer"). Strip it
-# from GMEdit.app wherever it landed so it'll actually open.
+# macOS: strip the Gatekeeper quarantine xattr from the itch.io GMEdit.app, or it won't launch.
 if [ "$(uname -s)" = "Darwin" ]; then
   for app in /Applications/GMEdit.app "$HOME/Applications/GMEdit.app" "$HOME/Downloads/GMEdit.app"; do
     if [ -d "$app" ]; then

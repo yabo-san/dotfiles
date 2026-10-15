@@ -37,6 +37,7 @@ glazewm:
         - p: "Code|Cursor|devenv|[Zz]ed|neovide|pycharm64|rider64|GMEdit"
         - p: "Aseprite|paintdotnet|blender|HxD|[Gg]odot.*|Tiled|LDtk|GameMaker.*|microStudio|pico8|picotron|[Vv]oxatron|GB.?Studio|gb-studio|TrenchBroom|picocad|MagicaVoxel|[Ss]olarus.*"
         - p: "Claude|LM Studio"
+        - p: "Dash" # Dash.App.exe; GlazeWM cuts at the first dot
         - p: "EditorLauncher"
           titleRegex: "Sandbox 2"
     - ws: "5"
@@ -45,9 +46,6 @@ glazewm:
         - p: "Playnite" # GlazeWM cuts the process name at the first dot
           title: "Playnite"
         - p: "flightcore"
-    - ws: "7"
-      note: utilities and game launchers
-      apps:
         - p: "steamwebhelper"
           title: "Steam"
         - p: "Battle" # same: Battle.net.exe reads as Battle
@@ -55,6 +53,9 @@ glazewm:
         - p: "EADesktop|EpicGamesLauncher|GalaxyClient|upc|drop-app"
         - p: "SocialClubHelper"
           title: "Rockstar Games Launcher"
+    - ws: "7"
+      note: utilities
+      apps:
         - p: "logioptionsplus|SystemSettings|Taskmgr|regedit|SystemInformer|Hotspot Shield.*|deskflow|rustdesk"
   # never offered by Raycast "Add App to Workspace" (system and background apps, drop-downs);
   # GlazeWM ignores them like any other unlisted app

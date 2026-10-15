@@ -1,19 +1,11 @@
 #requires -Version 5.1
-# setup-zen.ps1 — track Zen browser keyboard shortcuts in the dotfiles.
-# Zen stores ALL shortcuts (incl your private-window override) in one file,
-# zen-keyboard-shortcuts.json, inside its profile — but the profile has a random ID
-# (%APPDATA%\zen\Profiles\<random>.Default (release)\), so we keep a tracked copy here
-# and sync it in/out, resolving the profile path at runtime.
-#
-#   pwsh setup-zen.ps1            -> RESTORE: copy the tracked JSON into the Zen profile
-#                                   (run with Zen CLOSED — it reads shortcuts at startup)
-#   pwsh setup-zen.ps1 -Snapshot -> copy the profile JSON back HERE after you change
-#                                   shortcuts in Zen's UI (then: chezmoi add + commit)
+# setup-zen.ps1: keeps Zen's zen-keyboard-shortcuts.json tracked; the profile dir has a random ID, resolved at runtime.
+#   pwsh setup-zen.ps1            restore into the profile (Zen closed: it reads shortcuts at startup)
+#   pwsh setup-zen.ps1 -Snapshot  copy the profile file back here after changing shortcuts in Zen
 param([switch]$Snapshot)
 $ErrorActionPreference = 'Continue'
 $tracked = Join-Path $PSScriptRoot 'zen-keyboard-shortcuts.json'
 
-# find the Zen profile (prefer the *.Default* release profile; fall back to first)
 $root = Join-Path $env:APPDATA 'zen\Profiles'
 $prof = Get-ChildItem $root -Directory -EA SilentlyContinue | Where-Object { $_.Name -match '\.Default' } | Select-Object -First 1
 if (-not $prof) { $prof = Get-ChildItem $root -Directory -EA SilentlyContinue | Select-Object -First 1 }

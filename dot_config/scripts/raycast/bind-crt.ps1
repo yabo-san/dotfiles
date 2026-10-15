@@ -1,8 +1,6 @@
 # Raycast Script Command (Windows / PowerShell)
-# "Bind CRT": after a display upset (adapter replug, GPU reset, primary flip) Windows renumbers
-# the monitors and two things point at the old number: the yasb bar on the CRT and RetroArch's
-# video_monitor_index. Each has its own script; both run at logon. This runs both now.
-# Idempotent, prints what changed, touches no display setting.
+# After a display upset Windows renumbers monitors; reruns the yasb CRT bar and RetroArch monitor-index fixes.
+# Idempotent, touches no display setting.
 
 # @raycast.schemaVersion 1
 # @raycast.title Bind CRT

@@ -1,31 +1,21 @@
 Windows Registry Editor Version 5.00
 
-; ============================================================================
-; windows-tweaks.reg — reproduces the registry state the setup depends on.
-; Double-click on a fresh machine, then restart Explorer. See WINDOWS-REGISTRY.md.
-; ============================================================================
+; windows-tweaks.reg: registry state the setup depends on. Import, then restart Explorer. See WINDOWS-REGISTRY.md.
 
-; --- Free Win+L from the lock action (so Raycast can bridge it) ---
+; Free Win+L from the lock action so Raycast can bridge it.
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System]
 "DisableLockWorkstation"=dword:00000001
 
-; --- Taskbar on all monitors ---
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 "MMTaskbarEnabled"=dword:00000001
 
-; NOTE: taskbar AUTO-HIDE is a binary blob in StuckRects3 and can't be set
-; cleanly here — toggle it in Settings (see WINDOWS-REGISTRY.md step 1).
-;
-; NOTE: EnableAutoTray intentionally NOT set (we don't use the Windows tray).
+; Taskbar auto-hide is a StuckRects3 blob and can't be set here: toggle it in Settings.
 
-; Classic (Win10) right-click context menu on Win11 — replaces the Windhawk mod
-; (Windhawk was uninstalled; it crashed File Pilot via DLL injection)
+; Classic right-click menu. Replaces the Windhawk mod, which crashed File Pilot via DLL injection.
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32]
 @=""
 
-; Notifications: keep the Windows backend ON (so YASB's notification widget can
-; read them) but turn OFF toast popups, so YASB's bell is the ONLY surface.
-; (Do NOT set DisableNotificationCenter — it kills the backend YASB reads.)
+; Toasts off, notification backend on (YASB's bell reads it). Never set DisableNotificationCenter.
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications]
 "ToastEnabled"=dword:00000000
 
@@ -33,33 +23,23 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe]
 "Debugger"="{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\scoop\\apps\\systeminformer\\current\\SystemInformer.exe"
 
-; (IrfanView image-default experiment removed — it broke File Explorer/File Pilot
-;  thumbnails. Images use the Windows default viewer, which keeps native previews.)
-
-; Screenshots = native Snipping Tool (ShareX removed 2026-09-17). PrtSc opens the
-; snip overlay; Win+Shift+S is the built-in binding. Nothing to autostart.
+; PrtSc opens the native Snipping Tool overlay.
 [HKEY_CURRENT_USER\Control Panel\Keyboard]
 "PrintScreenKeyForSnippingEnabled"=dword:00000001
 "PrintScreenKeyForSnippingTool"=dword:00000001
 
-; --- XDG_CONFIG_HOME system-wide: makes Windows behave Unix-like for config PATHS, so XDG-aware
-;     apps (nvim, bat, ...) read ~/.config — exactly where the dotfiles deploy. Templated so it
-;     survives the yabo reset. Needs a relog to take effect. (nvim also wants ~/.config/nvim to
-;     exist — on this machine it's a junction to %LOCALAPPDATA%\nvim; the LazyVim external should
-;     populate it on a fresh box once it's un-broken.)
+; XDG_CONFIG_HOME system-wide so XDG-aware apps read ~/.config. Needs a relog.
 [HKEY_CURRENT_USER\Environment]
 "XDG_CONFIG_HOME"="{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\.config"
 
-; --- Win+E opens File Pilot instead of Explorer. This is the per-user override of the "File Explorer"
-;     shell object that Win+E launches; File Pilot's "replace Explorer" option writes it. File Pilot is a winget portable install (winget-packages.json); its folder keeps this path across upgrades. The empty
-;     DelegateExecute is what stops Explorer from claiming the verb itself. Not a GlazeWM/AHK bind. ---
+; Win+E opens File Pilot: per-user override of the File Explorer shell object. The empty
+; DelegateExecute stops Explorer from claiming the verb itself.
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{52205fd8-5dfb-447d-801a-d0b52f2e83e1}\shell\opennewwindow\command]
 @="\"{{ .chezmoi.homeDir | replace "/" "\\\\" }}\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Voidstar.FilePilot_Microsoft.Winget.Source_8wekyb3d8bbwe\\FPilot.exe\" \"%1\""
 "DelegateExecute"=""
 
-; --- Store apps that start at logon. A Store app cannot use the Run key; its manifest declares a
-;     StartupTask and Windows keeps the on/off here: State 2 = enabled, 0 = disabled. Package family
-;     names are fixed per app. Import after winget import so the packages exist. ---
+; Store apps at logon can't use the Run key; their StartupTask State lives here (2 = on).
+; Import after winget import so the packages exist.
 [HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\28017CharlesMilette.TranslucentTB_v826wp6bftszj\TranslucentTB]
 "State"=dword:00000002
 "UserEnabledStartupOnce"=dword:00000001
@@ -70,20 +50,14 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Raycast.Raycast_qypenmj9wpt2a\LaunchRaycastOnStartup]
 "State"=dword:00000002
 
-; --- Disable Copilot (inerts Win+C, removes its taskbar button). Win+G/Game Bar left ON. ---
+; Disable Copilot (inerts Win+C, removes its taskbar button).
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsCopilot]
 "TurnOffWindowsCopilot"=dword:00000001
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 "ShowCopilotButton"=dword:00000000
-; Disabled Win+<key> combos — all redundant (Raycast / Open-Shell / YASB cover them):
-;   I=Settings  X=power-menu  N=notifications(YASB)  Q=search(Raycast)  B=taskbar-focus
-; NOT disabled: S. Disabling Win+S also kills Win+Shift+S (Snipping Tool), because
-; the block applies to the Win+<letter> combo regardless of Shift. Removed 2026-09-17.
-;   O=orientation  R=Run (Raycast runs commands/apps)
-; (Win+K=cast and Win+H=dictation are already dead — GlazeWM eats lwin+k / lwin+h.)
-; Kept: Win+A quick-settings, Win+E/P/V/G/D + glaze's h/j/k/t/m/d/1-9. (lwin+shift+r=glaze reload, unaffected.)
-; DisabledHotkeys = the letters; needs an Explorer restart / relogin to take effect.
+; Disabled Win+<key> combos (Raycast / Open-Shell / YASB cover them). Not S: blocking it also kills
+; Win+Shift+S. Needs an Explorer restart or relogin.
 "DisabledHotkeys"="IXNQBOR"
 
-; --- Widgets (Win+W) is removed at the app level, not here: Get-AppxPackage *WebExperience* | Remove-AppxPackage ---
+; Widgets (Win+W) is removed at the app level: Get-AppxPackage *WebExperience* | Remove-AppxPackage

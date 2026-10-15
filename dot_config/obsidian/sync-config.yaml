@@ -1,17 +1,5 @@
-# =============================================================================
-# sync-config.yaml — obsidian-icloud-windows-sync configuration
-# =============================================================================
-# Deployed to ~/.config/obsidian/sync-config.yaml and passed to the daemon by
-# .config/scripts/obsidian/start-sync-daemon.ps1, which the obsidian-sync.lnk
-# Startup shortcut runs at logon.
-#
-# WHY IT LIVES HERE AND NOT IN THE TOOL'S REPO: upstream's README says to copy
-# config.yaml -> my-config.yaml inside the clone, which leaves it untracked and
-# one `git pull` away from being clobbered. Keeping it in chezmoi decouples our
-# settings from the upstream checkout entirely.
-#
-# Windows-only: `.config/obsidian/**` is already gated in .chezmoiignore.
-# =============================================================================
+# obsidian-icloud-windows-sync config, passed to the daemon by start-sync-daemon.ps1.
+# Kept in chezmoi, not the clone, where upstream's untracked my-config.yaml is one git pull from clobbered.
 
 paths:
   local_vault: "D:\\obsidian\\sb"
@@ -22,55 +10,27 @@ paths:
 sync:
   run_continuously: true
 
-  # MUST be false against iCloud for Windows 15.9. icloud_status.py classifies
-  # a file as CLOUD_ONLY when `is_reparse and not is_pinned`, but this iCloud
-  # build marks EVERY file as a cloud-filter placeholder whether or not the
-  # data is resident -- all 514 .md here carry ReparsePoint and none are Pinned.
-  # So every file reads as CLOUD_ONLY even at on_disk == logical, is_safe()
-  # returns False, and wait_until_uploaded() -- an unbounded `while True` in
-  # this version -- never exits. Observed 2026-08-17: all 54 pending pulls
-  # queued, then sat at "Still waiting for iCloud (247s elapsed)" having copied
-  # nothing. Only Offline / RecallOnDataAccess actually mean dehydrated.
-  #
-  # Turning the check off is safe here: a genuinely unavailable file raises on
-  # read and copy_to_disk logs FAILED and re-raises, so that file's worker
-  # errors out loudly instead of hanging. It cannot write a truncated file.
+  # Must be false on iCloud for Windows 15.9: every file is a reparse placeholder, so all read as CLOUD_ONLY
+  # and wait_until_uploaded() spins forever. Safe off: an unavailable file fails loudly on read, never truncates.
   check_icloud_status: false
 
   poll_interval: 2
-  # Both raised well above upstream defaults (3 / 8). iCloud on Windows serves
-  # every file through the cloud-filter driver, so mtime/size keep moving while
-  # a file hydrates; acting too early is what manufactures phantom conflicts.
+  # Raised above upstream (3 / 8): mtime/size keep moving while iCloud hydrates, which makes phantom conflicts.
   stability_window: 5
   stabilize_wait: 60
   tiny_threshold: 8
-  # Quiet-period debounce (yabo-san fork). A file is synced only after it has
-  # stopped changing in BOTH vaults for this many seconds. Obsidian autosaves
-  # every ~2s while typing; upstream pushed each save to iCloud (34 pushes of one
-  # note in 2.5 min on 2026-09-01), and iCloud answered by forking the note into
-  # "node pools(1).md", "node pools 2..6.md" and then deleting the original.
-  # stability_window is NOT a debounce (flat sleep, never re-checks) -- this is.
+  # Quiet-period debounce (yabo-san fork): sync only after a file stops changing in both vaults this long.
+  # Obsidian autosaves every ~2s; pushing each save made iCloud fork the note into copies (2026-09-01).
   quiet_period: 20
   quiet_max_wait: 600
 
 logging:
-  # "quiet", NOT "normal". At "normal" the engine's idle ticker prints
-  # "No changes." with end="\r" every poll_interval seconds, forever. That is
-  # written for a console, where \r overwrites the line. Under the Startup
-  # launcher stdout is a REDIRECTED FILE, so nothing is overwritten: the log
-  # grows without bound and the handle eventually fails. On 2026-09-22 01:41
-  # that flush raised OSError [Errno 22] inside logger.idle(); the handler then
-  # tried to print the error and died the same way, killing the daemon. Nothing
-  # restarted it, so the vault stopped reaching iCloud for 44 hours (33 notes,
-  # two days of interview prep, all local-only). "quiet" suppresses the idle
-  # print; transfers and warnings still log.
+  # "quiet", not "normal": the idle "No changes." ticker grows the redirected log forever and killed
+  # the daemon on 2026-09-22 (OSError 22). Transfers and warnings still log.
   console_level: "quiet" # quiet | normal | verbose
   shorter_paths: true
   max_display_length: 50
-  # NOTE: retention is by FILE COUNT, not size (logger.py cleanup_old_logs), and
-  # there is no rotation within a run. One runaway loop wrote a single 186MB log
-  # and the dir reached 361MB. The ignore rules below are the actual defence;
-  # this number only caps how many runs are kept.
+  # Retention is by file count, not size, with no in-run rotation; the ignore rules are the real defence.
   log_retention: 10
 
 ignore:
@@ -81,25 +41,11 @@ ignore:
     - ".obsidian/workspace*.json"
     - ".obsidian/plugins/*/data.json"
 
-    # ── plugin CODE ─────────────────────────────────────────────────────────
-    # The runaway loop that killed the daemon on 2026-07-08. The tool writes
-    # atomically (tmp -> os.replace), and that replace fires `deleted` +
-    # `moved_to` on the real path, which it then re-queues and re-syncs, ad
-    # infinitum. `.tmp` is filtered by should_sync_rel; the final path is not.
-    # Patterns go through fnmatch, whose `*` spans separators, so one line
-    # covers every plugin. Cost: plugins installed on the Mac won't appear here
-    # automatically — install them per-device.
+    # Plugin code: the atomic tmp -> os.replace write re-queued itself forever (2026-07-08). fnmatch * spans
+    # separators, so this covers every plugin. Cost: install plugins per device.
     - ".obsidian/plugins/*"
 
-    # NOTE (2026-08-17): "1 Input/course/Mischa - Kubernetes Fundamentals.md"
-    # was quarantined here while its CloudKit asset (840F28ED-...) was corrupt --
-    # iCloud staged the bytes fine but the Windows cloud-filter driver refused
-    # the write with 0x8007017C ERROR_CLOUD_FILE_INVALID_REQUEST, and
-    # wait_until_uploaded() is an unbounded `while True` in this version, so its
-    # worker would have spun at 2 polls/sec forever. The record is gone and the
-    # note has been rebuilt, so the entry is removed. If a single file ever wedges
-    # like that again, quarantining it here is the stopgap -- but remember the
-    # daemon then ignores it completely, including pushing a local copy UP.
+    # A wedged file can be quarantined here as a stopgap, but the daemon then ignores it in both directions.
   dirs:
     - ".trash"
     - ".fseventsd"
