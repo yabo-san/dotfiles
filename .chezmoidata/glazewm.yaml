@@ -42,7 +42,7 @@ glazewm:
     - ws: "5"
       note: play
       apps:
-        - p: "Playnite[.]DesktopApp"
+        - p: "Playnite" # GlazeWM cuts the process name at the first dot
           title: "Playnite"
         - p: "flightcore"
     - ws: "7"
@@ -50,7 +50,7 @@ glazewm:
       apps:
         - p: "steamwebhelper"
           title: "Steam"
-        - p: "Battle[.]net"
+        - p: "Battle" # same: Battle.net.exe reads as Battle
           title: "Battle.net"
         - p: "EADesktop|EpicGamesLauncher|GalaxyClient|upc|drop-app"
         - p: "SocialClubHelper"
