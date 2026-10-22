@@ -22,7 +22,7 @@ vkC0::Dropdown("terminal", "wezterm-gui.exe", "quake-term"
 
 ^vkC0::SendText("``")
 
-#s::Dropdown("cider", "Cider.exe", "HwndWrapper[Cider"
+$#s::Dropdown("cider", "Cider.exe", "HwndWrapper[Cider"
     , "shell:AppsFolder\27554FireDevElijahKlauman.CiderEA_270bejk4xgzqp!App", "center")
 
 Dropdown(name, exe, classPrefix, launch, layout) {
