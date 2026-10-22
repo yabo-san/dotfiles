@@ -132,6 +132,10 @@ DropdownFind(exe, classPrefix) {
     return bestArea >= 200 * 200 ? best : 0
 }
 
+; Win+E opens File Pilot. The registry override in windows-tweaks.reg stopped working after the
+; October 2026 Windows updates (Win+E opened nothing), so AHK owns the key now.
+#e::Run(EnvGet("LOCALAPPDATA") "\Microsoft\WinGet\Packages\Voidstar.FilePilot_Microsoft.Winget.Source_8wekyb3d8bbwe\FPilot.exe")
+
 ; Windows' own Win+D cannot toggle back under GlazeWM (minimizing makes GlazeWM move focus, and
 ; Windows forgets it was in show-desktop mode). This minimizes what is on screen and remembers it.
 ; While a game runs AHK is off and Win+D is Windows' again.
